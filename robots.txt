@@ -1,4 +1,30 @@
+# 모든 검색엔진 크롤러 허용
 User-agent: *
+Allow: /
+
+# AI 검색/어시스턴트 크롤러 명시 허용 (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Yeti
 Allow: /
 
 Sitemap: https://bmaker.kr/sitemap.xml
