@@ -183,6 +183,14 @@ header{
 .apply-msg{margin-top:14px;font-size:.9rem;text-align:center;display:none}
 .apply-msg.ok{display:block;color:var(--kakao)}
 .apply-msg.err{display:block;color:#FF9B9B}
+/* 전송이 실패했을 때의 탈출구. 폼이 죽어도 리드가 증발하지 않도록
+   카카오·전화를 실패 메시지 안에 바로 붙여 노출한다. */
+.apply-fallback{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+@media(max-width:420px){.apply-fallback{grid-template-columns:1fr}}
+.apply-fallback a{display:flex;align-items:center;justify-content:center;gap:6px;
+  font-weight:700;font-size:.92rem;border-radius:10px;padding:13px 10px;text-decoration:none}
+.apply-fallback .fb-kakao{background:var(--kakao);color:#191600}
+.apply-fallback .fb-tel{border:1px solid rgba(198,208,228,.35);color:#C6D0E4}
 .apply-note{margin-top:14px;font-size:.8rem;color:#8895AF;text-align:center}
 
 /* ===== 콘텐츠(블로그·인스타) ===== */
@@ -958,8 +966,24 @@ if (leadForm) leadForm.addEventListener('submit', async (e) => {
     msg.textContent = '접수됐습니다. 영업일 기준 하루 안에 연락드리겠습니다.';
     leadForm.reset();
   } catch(err) {
+    // 폼이 죽는 원인은 여러 가지(Resend 장애, Function 오류, 네트워크)지만
+    // 방문자 입장에서는 다 똑같이 "안 됨"이다. 문구로만 안내하면 대부분
+    // 그냥 이탈하므로, 누를 수 있는 대체 경로를 실패 화면에 바로 띄운다.
     msg.className = 'apply-msg err';
-    msg.textContent = '전송에 실패했습니다. 카카오톡 또는 전화(1666-2425)로 연락 주세요.';
+    msg.textContent = '전송에 실패했습니다. 아래로 바로 연락 주세요.';
+    const fb = document.createElement('div');
+    fb.className = 'apply-fallback';
+    const kakao = document.createElement('a');
+    kakao.className = 'fb-kakao';
+    kakao.href = 'https://pf.kakao.com/_GKuxfn/chat';
+    kakao.target = '_blank'; kakao.rel = 'noopener';
+    kakao.textContent = '💬 카카오톡 상담';
+    const tel = document.createElement('a');
+    tel.className = 'fb-tel';
+    tel.href = 'tel:1666-2425';
+    tel.textContent = '📞 1666-2425';
+    fb.append(kakao, tel);
+    msg.appendChild(fb);
   }
   btn.disabled = false; btn.textContent = '무료 진단 신청하기';
 });
