@@ -1,12 +1,11 @@
 {
   "blog": [
-    {"title": "BLOG_POST_TITLE_1 — 실제 블로그 글 제목으로 교체", "url": "https://blog.naver.com/YOUR_BLOG_ID/POST_1", "date": "2026.08", "desc": "글 요약 한 줄"},
-    {"title": "BLOG_POST_TITLE_2", "url": "https://blog.naver.com/YOUR_BLOG_ID/POST_2", "date": "2026.08", "desc": "글 요약 한 줄"},
-    {"title": "BLOG_POST_TITLE_3", "url": "https://blog.naver.com/YOUR_BLOG_ID/POST_3", "date": "2026.07", "desc": "글 요약 한 줄"}
+    {"title": "정책자금과 정부지원금, 뭐가 다른가요?", "url": "https://blog.naver.com/bmaker_kr/224385083989", "date": "2026.08", "desc": "빌리는 돈과 안 갚는 돈, 헷갈리면 손해 보는 차이"},
+    {"title": "정책자금 브로커, 이 3가지 말하면 사기입니다", "url": "https://blog.naver.com/bmaker_kr/224385678598", "date": "2026.08", "desc": "선불 수수료·100% 보장·기관 사칭 — 거르는 기준"},
+    {"title": "정책자금 직접대출과 대리대출, 뭐가 다른가요", "url": "https://blog.naver.com/bmaker_kr/224387361868", "date": "2026.08", "desc": "공단이 직접 주느냐, 은행을 거치느냐의 차이"}
   ],
   "instagram": [
-    {"url": "https://www.instagram.com/p/POST_CODE_1/"},
-    {"url": "https://www.instagram.com/p/POST_CODE_2/"},
-    {"url": "https://www.instagram.com/p/POST_CODE_3/"}
+    {"url": "https://www.instagram.com/p/DcP1ejOk-qS/"},
+    {"url": "https://www.instagram.com/reel/DcYuyQOTCOM/"}
   ]
 }
