@@ -924,6 +924,10 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
 //    소진으로 폐기됐다. 교차 출처 요청이라 codedaum 쪽에서 이 도메인을
 //    Access-Control-Allow-Origin 으로 허용해 두었다.
 const LEAD_WEBHOOK = "https://codedaum.pages.dev/api/lead";
+// 동의 체크박스가 링크하는 privacy.html 의 시행일. codedaum 진단 페이지들은
+// 자기 정책 날짜(v1.0-2026-08-02)를 쓰므로 그 값을 그대로 가져오면 안 된다.
+// privacy.html 을 개정하면 이 값도 함께 올린다.
+const CONSENT_VERSION = "v1.0-2026-08-20";
 const leadForm = document.getElementById('leadForm');
 if (leadForm) leadForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -941,6 +945,7 @@ if (leadForm) leadForm.addEventListener('submit', async (e) => {
     diagnosis: { industry: industry, memo: memo },
     consent_privacy: document.getElementById('lf-consent').checked,
     consent_marketing: false,
+    consent_version: CONSENT_VERSION,
     website: document.getElementById('lf-website').value,
     source: 'bmaker.kr 홈페이지 간편신청',
     submitted_at: new Date().toISOString()
