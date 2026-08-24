@@ -161,6 +161,62 @@ header{
 .btn-insta{background:var(--navy);color:#fff}
 .btn-insta:hover{box-shadow:0 6px 20px rgba(14,27,51,.25)}
 
+
+/* ===== 간편 신청 폼 ===== */
+.apply{background:var(--navy);color:#fff;padding:80px 0}
+.apply .sec-label{color:var(--kakao)}
+.apply h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:12px}
+.apply .sub{color:#AAB6CE;margin-bottom:36px;font-size:.95rem}
+.apply-form{max-width:520px;background:var(--navy-soft);border:1px solid rgba(198,208,228,.15);border-radius:16px;padding:34px 30px}
+.apply-form label{display:block;font-size:.85rem;font-weight:600;color:#C6D0E4;margin:16px 0 6px}
+.apply-form label:first-child{margin-top:0}
+.apply-form input,.apply-form select,.apply-form textarea{
+  width:100%;padding:13px 14px;border-radius:10px;border:1px solid rgba(198,208,228,.25);
+  background:#0B1730;color:#fff;font-size:1rem;font-family:inherit;
+}
+.apply-form input::placeholder,.apply-form textarea::placeholder{color:#5A6478}
+.apply-form input:focus,.apply-form select:focus,.apply-form textarea:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+.consent{display:flex;gap:8px;align-items:flex-start;margin-top:18px;font-size:.8rem;color:#8895AF}
+.consent input{width:auto;margin-top:3px}
+.consent a{color:#C6D0E4;text-decoration:underline}
+.apply-form .btn{width:100%;justify-content:center;margin-top:20px;font-size:1.05rem;padding:16px}
+.apply-msg{margin-top:14px;font-size:.9rem;text-align:center;display:none}
+.apply-msg.ok{display:block;color:var(--kakao)}
+.apply-msg.err{display:block;color:#FF9B9B}
+.apply-note{margin-top:14px;font-size:.8rem;color:#8895AF;text-align:center}
+
+/* ===== 콘텐츠(블로그·인스타) ===== */
+.media-sec{padding:80px 0;background:var(--paper);border-top:1px solid var(--line)}
+.media-sec h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:14px}
+.media-sec .sub{color:var(--ink-soft);margin-bottom:40px}
+.blog-list{display:grid;gap:12px;margin-bottom:52px}
+.blog-item{display:flex;justify-content:space-between;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 24px;transition:border-color .2s ease}
+.blog-item:hover{border-color:var(--blue)}
+.blog-item .bt{font-weight:600}
+.blog-item .bd{font-size:.85rem;color:var(--ink-soft);margin-top:3px}
+.blog-item .date{font-size:.8rem;color:var(--ink-soft);white-space:nowrap}
+@media(max-width:600px){.blog-item{flex-direction:column;align-items:flex-start;gap:6px}}
+.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.insta-grid{grid-template-columns:1fr}}
+.insta-grid .instagram-media{margin:0 auto!important;min-width:0!important;max-width:100%!important}
+.media-more{display:inline-block;margin-top:20px;font-weight:700;color:var(--blue-deep);font-size:.92rem}
+.media-more:hover{text-decoration:underline}
+
+/* ===== 모바일 고정 CTA 바 ===== */
+.sticky-cta{display:none}
+@media(max-width:860px){
+  .sticky-cta{
+    display:grid;grid-template-columns:56px 1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:200;
+    background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  }
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:.9rem;border-radius:10px;padding:13px 8px}
+  .sc-tel{border:1px solid var(--line);color:var(--blue-deep)}
+  .sc-kakao{background:var(--kakao);color:#191600}
+  .sc-apply{background:var(--blue);color:#fff}
+  body{padding-bottom:76px}
+}
+
 /* ===== 승인사례 ===== */
 .cases{padding:88px 0 72px;background:var(--paper);border-top:1px solid var(--line)}
 .cases h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:14px}
@@ -388,6 +444,7 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
       <div class="hero-cta-row">
         <a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">무료로 가능성 진단받기</a>
         <a class="btn btn-tel" href="tel:1666-2425">📞 1666-2425 전화하기</a>
+        <a class="btn btn-ghost" href="https://codedaum.pages.dev/diagnosis/" target="_blank" rel="noopener">📋 1분 온라인 자가진단</a>
       </div>
       <p class="hero-note"><b>상담은 무료, 착수금은 없습니다.</b></p>
     </div>
@@ -662,25 +719,14 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
   </div>
 </section>
 
-<!-- 정책자금 뉴스: 새 소식이 있을 때 항목을 추가/교체하세요. 네이버 블로그 글 링크를 연결하면 SEO에도 좋습니다. -->
-<section class="news" id="news">
+<section class="media-sec" id="news">
   <div class="wrap">
-    <p class="sec-label">정책자금 뉴스</p>
-    <h2 class="serif">놓치면 아까운 소식들</h2>
-    <div class="news-list">
-      <a class="news-item" href="#">
-        <span class="t">2026년 하반기 소상공인 정책자금, 접수 전 확인해야 할 변경 사항</span>
-        <span class="d">2026.08</span>
-      </a>
-      <a class="news-item" href="#">
-        <span class="t">중진공 직접대출 vs 보증부 대출, 우리 회사에 맞는 쪽은?</span>
-        <span class="d">2026.07</span>
-      </a>
-      <a class="news-item" href="#">
-        <span class="t">"100% 승인 보장" 광고, 왜 걸러야 하는지 알려드립니다</span>
-        <span class="d">2026.07</span>
-      </a>
-    </div>
+    <p class="sec-label">콘텐츠</p>
+    <h2 class="serif">블로그와 인스타그램에서 <br class="pc">매주 정책자금 소식을 전합니다</h2>
+    <p class="sub">글과 게시물은 새로 올라올 때마다 이 자리에 자동으로 갱신됩니다.</p>
+    <div class="blog-list" id="blogList"></div>
+    <div class="insta-grid" id="instaGrid"></div>
+    <a class="media-more" href="https://www.instagram.com/bmaker_kr/" target="_blank" rel="noopener">인스타그램에서 더 보기 →</a>
   </div>
 </section>
 
@@ -786,6 +832,30 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
   </div>
 </section>
 
+
+<section class="apply" id="apply">
+  <div class="wrap">
+    <p class="sec-label">간편 신청</p>
+    <h2 class="serif">이름과 연락처만 남겨주세요.<br>진단 후 저희가 먼저 연락드립니다.</h2>
+    <p class="sub">통화가 부담스러우시면 여기에 남겨주세요. 영업일 기준 하루 안에 연락드립니다.</p>
+    <form class="apply-form" id="leadForm">
+      <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+      <label for="lf-name">성함 (필수)</label>
+      <input id="lf-name" name="name" type="text" placeholder="홍길동" required autocomplete="name">
+      <label for="lf-phone">연락처 (필수)</label>
+      <input id="lf-phone" name="phone" type="tel" placeholder="010-0000-0000" required autocomplete="tel">
+      <label for="lf-biz">업종 (선택)</label>
+      <input id="lf-biz" name="industry" type="text" placeholder="예: 음식점, 제조업, 도소매">
+      <label for="lf-memo">궁금하신 내용 (선택)</label>
+      <textarea id="lf-memo" name="memo" rows="3" placeholder="예: 운전자금 5천만원 정도 필요합니다"></textarea>
+      <label class="consent"><input type="checkbox" id="lf-consent" required> <span>개인정보 수집·이용에 동의합니다. 상담 목적으로만 사용됩니다. <a href="privacy.html" target="_blank">자세히</a></span></label>
+      <button type="submit" class="btn btn-kakao">무료 진단 신청하기</button>
+      <p class="apply-msg" id="applyMsg"></p>
+      <p class="apply-note">착수금 없음 · 성과 시에만 보수 · 전국 비대면 가능</p>
+    </form>
+  </div>
+</section>
+
 <section class="final-cta" id="contact">
   <div class="wrap">
     <p class="sec-label">문의하기</p>
@@ -799,6 +869,13 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
 </section>
 
 </main>
+
+
+<div class="sticky-cta" role="navigation" aria-label="빠른 상담">
+  <a class="sc-tel" href="tel:1666-2425" aria-label="전화 상담">📞</a>
+  <a class="sc-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카톡 상담</a>
+  <a class="sc-apply" href="#apply">무료 진단 신청</a>
+</div>
 
 <footer>
   <div class="wrap">
@@ -842,6 +919,75 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
   navLinks.classList.remove('open');
   menuBtn.setAttribute('aria-expanded','false');
 }));
+
+// ── 간편 신청 폼 → codedaum Pages Function (/api/lead). n8n 웹훅은 실행 쿼터
+//    소진으로 폐기됐다. 교차 출처 요청이라 codedaum 쪽에서 이 도메인을
+//    Access-Control-Allow-Origin 으로 허용해 두었다.
+const LEAD_WEBHOOK = "https://codedaum.pages.dev/api/lead";
+const leadForm = document.getElementById('leadForm');
+if (leadForm) leadForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById('applyMsg');
+  const btn = leadForm.querySelector('button[type=submit]');
+  // 필드 이름은 /api/lead 가 읽는 스키마를 따른다. industry/memo 를 그대로 보내면
+  // 서버가 읽지 않아 운영자 메일에서 통째로 빠지므로 answers_text 로 합쳐서 보낸다.
+  const industry = document.getElementById('lf-biz').value.trim();
+  const memo = document.getElementById('lf-memo').value.trim();
+  const data = {
+    service: 'pfm', service_name: '정책자금',
+    name: document.getElementById('lf-name').value.trim(),
+    phone: document.getElementById('lf-phone').value.trim(),
+    answers_text: ['업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
+    diagnosis: { industry: industry, memo: memo },
+    consent_privacy: document.getElementById('lf-consent').checked,
+    consent_marketing: false,
+    website: document.getElementById('lf-website').value,
+    source: 'bmaker.kr 홈페이지 간편신청',
+    submitted_at: new Date().toISOString()
+  };
+  btn.disabled = true; btn.textContent = '전송 중...';
+  try {
+    const r = await fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data) });
+    if (!r.ok) throw new Error(r.status);
+    msg.className = 'apply-msg ok';
+    msg.textContent = '접수됐습니다. 영업일 기준 하루 안에 연락드리겠습니다.';
+    leadForm.reset();
+  } catch(err) {
+    msg.className = 'apply-msg err';
+    msg.textContent = '전송에 실패했습니다. 카카오톡 또는 전화(1666-2425)로 연락 주세요.';
+  }
+  btn.disabled = false; btn.textContent = '무료 진단 신청하기';
+});
+
+// ── 블로그·인스타 피드 렌더링 (data/feed.json)
+fetch('data/feed.json').then(r=>r.json()).then(feed=>{
+  const bl = document.getElementById('blogList');
+  if (bl && feed.blog) {
+    feed.blog.filter(p=>!p.title.includes('BLOG_POST')).slice(0,5).forEach(p=>{
+      const a = document.createElement('a');
+      a.className = 'blog-item'; a.href = p.url; a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = '<span><span class="bt"></span><br><span class="bd"></span></span><span class="date"></span>';
+      a.querySelector('.bt').textContent = p.title;
+      a.querySelector('.bd').textContent = p.desc || '';
+      a.querySelector('.date').textContent = p.date || '';
+      bl.appendChild(a);
+    });
+  }
+  const ig = document.getElementById('instaGrid');
+  const posts = (feed.instagram||[]).filter(p=>!p.url.includes('POST_CODE'));
+  if (ig && posts.length) {
+    posts.slice(0,3).forEach(p=>{
+      const bq = document.createElement('blockquote');
+      bq.className = 'instagram-media';
+      bq.setAttribute('data-instgrm-permalink', p.url);
+      bq.setAttribute('data-instgrm-version', '14');
+      ig.appendChild(bq);
+    });
+    const s = document.createElement('script');
+    s.async = true; s.src = 'https://www.instagram.com/embed.js';
+    document.body.appendChild(s);
+  }
+}).catch(()=>{});
 </script>
 
 </body>

@@ -1,0 +1,12 @@
+{
+  "blog": [
+    {"title": "BLOG_POST_TITLE_1 — 실제 블로그 글 제목으로 교체", "url": "https://blog.naver.com/YOUR_BLOG_ID/POST_1", "date": "2026.08", "desc": "글 요약 한 줄"},
+    {"title": "BLOG_POST_TITLE_2", "url": "https://blog.naver.com/YOUR_BLOG_ID/POST_2", "date": "2026.08", "desc": "글 요약 한 줄"},
+    {"title": "BLOG_POST_TITLE_3", "url": "https://blog.naver.com/YOUR_BLOG_ID/POST_3", "date": "2026.07", "desc": "글 요약 한 줄"}
+  ],
+  "instagram": [
+    {"url": "https://www.instagram.com/p/POST_CODE_1/"},
+    {"url": "https://www.instagram.com/p/POST_CODE_2/"},
+    {"url": "https://www.instagram.com/p/POST_CODE_3/"}
+  ]
+}
