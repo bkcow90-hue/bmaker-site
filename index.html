@@ -204,9 +204,14 @@ header{
 .blog-item .bd{font-size:.85rem;color:var(--ink-soft);margin-top:3px}
 .blog-item .date{font-size:.8rem;color:var(--ink-soft);white-space:nowrap}
 @media(max-width:600px){.blog-item{flex-direction:column;align-items:flex-start;gap:6px}}
-.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:760px){.insta-grid{grid-template-columns:1fr}}
-.insta-grid .instagram-media{margin:0 auto!important;min-width:0!important;max-width:100%!important}
+/* 게시물(1:1~4:5)과 릴(9:16)은 세로 비율이 달라 한 줄에 섞이면 높이가
+   제각각이다. stretch 로 높이를 맞추면 임베드가 눌리므로 각자 자기 높이를
+   쓰게 두고 위만 정렬한다. min-width:0 은 인스타그램 임베드가 요구하는
+   최소 폭(326px)을 무시해 내용을 찌그러뜨리므로 쓰지 않는다.
+   min(326px,100%) 는 뷰포트가 326px 보다 좁을 때의 가로 넘침을 막는다. */
+.insta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(326px,100%),1fr));
+  gap:16px;align-items:start;justify-items:center}
+.insta-grid .instagram-media{margin:0!important;max-width:100%!important}
 .media-more{display:inline-block;margin-top:20px;font-weight:700;color:var(--blue-deep);font-size:.92rem}
 .media-more:hover{text-decoration:underline}
 
