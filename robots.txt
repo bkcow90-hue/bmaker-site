@@ -1,5 +1,6 @@
 # 모든 검색엔진 크롤러 허용
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 # AI 검색/어시스턴트 크롤러 명시 허용 (GEO)
@@ -13,6 +14,9 @@ User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
 Allow: /
 
 User-agent: Claude-User
