@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비즈니스 메이커 | 소상공인·중소기업 정책자금 진단</title>
-<meta name="description" content="빈말하지 않는 정책자금 진단. 착수금 없이, 지금 상태로 될지 안 될지부터 솔직하게 말씀드리고 아직 안 되는 상태라면 되는 상태로 만드는 준비까지 함께합니다. 서울 강서구.">
+<meta name="description" content="소상공인·중소기업의 조건을 검토해 가능한 정책자금과 준비 순서를 정확하게 진단합니다. 영업 12년, 연 250개 기업 진행, 착수금 없이 전국 비대면 상담.">
 <meta name="keywords" content="정책자금, 정책자금 진단, 소상공인 정책자금, 중소기업 정책자금, 소진공, 중진공, 신용보증, 벤처기업인증, 이노비즈, 메인비즈, 기업부설연구소, ISO 인증, 비즈니스 메이커">
 <meta name="naver-site-verification" content="333e26fa418a2636110efaf8c743f337dc55f638">
 <meta property="og:type" content="website">
 <meta property="og:title" content="비즈니스 메이커 | 정책자금 진단">
-<meta property="og:description" content="빈말하지 않는 정책자금 진단. 안 되는 상태는 되는 상태로 만들면 됩니다.">
+<meta property="og:description" content="가능한 정책자금과 준비할 순서를 정확하게 진단합니다. 착수금 없이 전국 비대면 상담.">
 <meta property="og:url" content="https://bmaker.kr">
 <meta property="og:locale" content="ko_KR">
 <link rel="canonical" href="https://bmaker.kr">
@@ -118,7 +118,7 @@ header{
 .hero h1{
   font-size:clamp(1.9rem,4.6vw,3.1rem);line-height:1.35;font-weight:700;letter-spacing:-.01em;max-width:760px;
 }
-/* 형광펜(밑줄 그라데이션) 대신 글자색으로 강조한다. 굵기는 h1 의 700 을 그대로 물려받는다. */
+/* 핵심 문구는 장식적인 형광펜 대신 절제된 색상으로 강조한다. */
 .hero h1 .under{
   color:var(--kakao);
 }
@@ -237,7 +237,7 @@ header{
     padding:10px 12px calc(10px + env(safe-area-inset-bottom));
   }
   .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:.9rem;border-radius:10px;padding:13px 8px}
-  /* 히어로 버튼과 같은 색/같은 라벨이어야 둘이 한 개의 행동으로 읽힌다. */
+  /* 같은 예약 행동이지만 화면을 가리지 않도록 하단 바는 차분한 네이비로 둔다. */
   .sc-apply{background:var(--kakao);color:#191600}
   body{padding-bottom:76px}
 }
@@ -433,6 +433,161 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
   .faq-item .body{padding:0 18px 18px}
   .final-cta .btn{width:100%;justify-content:center;margin:0 0 10px}
 }
+
+/* ===== 신뢰형 금융·법무 컨설팅 리디자인 ===== */
+:root{
+  --navy:#10213D;
+  --navy-soft:#182D50;
+  --blue:#315EAE;
+  --blue-deep:#234780;
+  --paper:#F5F7FA;
+  --line:#DCE2EA;
+  --ink:#172033;
+  --ink-soft:#586579;
+}
+body{line-height:1.68;letter-spacing:-.012em}
+.wrap{max-width:1120px;padding-left:28px;padding-right:28px}
+.serif{letter-spacing:-.035em}
+
+header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
+.nav{height:70px}
+.logo-img{height:28px}
+.nav-links{gap:22px;font-size:.86rem}
+.nav-cta{background:var(--navy);color:#fff;border:1px solid var(--navy);border-radius:6px;padding:9px 16px}
+.nav-cta:hover{box-shadow:0 5px 16px rgba(16,33,61,.16)}
+.nav-tel{border-radius:6px;color:var(--navy);background:#fff}
+.menu-btn{border-radius:6px}
+
+.hero{padding:82px 0 74px;background:linear-gradient(135deg,#0D1C34 0%,#132A4C 68%,#18345B 100%)}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(90deg,#000,transparent 82%)}
+.hero::after{right:-160px;top:-180px;width:560px;height:560px;background:radial-gradient(circle,rgba(86,126,196,.22),transparent 68%)}
+.hero-grid{grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:64px}
+.hero .eyebrow{border:0;border-left:2px solid #7897CC;border-radius:0;padding:2px 0 2px 12px;margin-bottom:24px;color:#B8C7E0;font-size:.82rem;letter-spacing:.045em}
+.hero h1{font-size:clamp(2.15rem,4.8vw,3.45rem);line-height:1.3;font-weight:700;max-width:760px}
+.hero h1 .under{color:#DCE7FA;border-bottom:2px solid #7191C8;padding-bottom:2px}
+.hero p.lead{max-width:680px;margin-top:24px;color:#C4D0E2;font-size:1.06rem}
+.hero-cta-row{margin-top:32px}
+.btn{border-radius:7px;padding:14px 24px;letter-spacing:-.02em}
+.btn-primary{background:var(--blue);color:#fff;border:1px solid var(--blue)}
+.btn-primary:hover{background:#3868BC;box-shadow:0 8px 24px rgba(49,94,174,.28)}
+.hero .btn-primary{background:#fff;color:var(--navy);border-color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.14)}
+.hero .btn-primary:hover{background:#F2F5FA;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.hero-note{margin-top:14px;color:#AFC0DA;font-size:.86rem}
+.hero-note b{color:#D9E3F2;font-weight:500}
+.hero-trust{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:34px;border-top:1px solid rgba(213,225,243,.18);border-bottom:1px solid rgba(213,225,243,.18)}
+.hero-trust li{padding:17px 14px;border-right:1px solid rgba(213,225,243,.16)}
+.hero-trust li:first-child{padding-left:0}
+.hero-trust li:last-child{border-right:0}
+.hero-trust strong{display:block;color:#fff;font-size:.95rem;font-weight:700}
+.hero-trust span{display:block;margin-top:2px;color:#96A9C6;font-size:.73rem;white-space:nowrap}
+
+.ceo-card{max-width:350px;margin-left:auto;padding:13px;border:1px solid rgba(214,225,242,.2);border-radius:10px;background:rgba(255,255,255,.055);box-shadow:0 24px 55px rgba(0,0,0,.18)}
+.ceo-card img{aspect-ratio:4/3;object-fit:cover;object-position:center 20%;border-radius:6px}
+.ceo-card .cap{margin-top:14px;padding:0 5px 3px}
+.ceo-card .cap .name{font-family:'Noto Serif KR',serif;font-size:1.02rem}
+.ceo-card .cap .role{color:#AFBDD2}
+.ceo-card .cap .quote{border-top:1px solid rgba(214,225,242,.16);margin-top:12px;padding-top:12px;color:#D3DDEC;font-size:.84rem;line-height:1.65}
+.ceo-card .cap .quote::before,.ceo-card .cap .quote::after{color:#8CA6D2}
+
+.about,.services,.straight,.process,.cases,.experts,.media-sec,.faq{padding-top:84px;padding-bottom:84px}
+.about-grid{grid-template-columns:1.15fr .85fr;gap:72px}
+.about h2,.services h2,.straight h2,.process h2,.cases h2,.experts h2,.media-sec h2,.faq h2{line-height:1.42}
+.sec-label{color:var(--blue-deep);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.principle-card{border:1px solid var(--line);border-top:3px solid var(--navy);background:#fff;padding:8px 26px;box-shadow:0 14px 38px rgba(30,49,79,.07)}
+.principle{display:grid;grid-template-columns:38px 1fr;gap:14px;padding:20px 0;border-bottom:1px solid var(--line)}
+.principle:last-child{border-bottom:0}
+.principle .num{font-family:'Noto Serif KR',serif;color:var(--blue);font-size:.88rem;font-weight:700}
+.principle strong{display:block;color:var(--navy);font-size:.98rem}
+.principle span{display:block;margin-top:4px;color:var(--ink-soft);font-size:.84rem}
+
+.svc,.talk,.step,.case,.exp,.faq-item{border-radius:8px}
+.svc,.talk,.exp{box-shadow:none}
+.svc:hover,.exp:hover{box-shadow:0 12px 30px rgba(30,49,79,.07);transform:translateY(-2px)}
+.svc .tag{border-radius:4px;background:#EDF2F9;color:var(--blue-deep)}
+.svc-more{color:var(--blue-deep)}
+.straight{background:#F5F7FA}
+.talk{background:#fff;border:1px solid var(--line);border-left:3px solid #8098BE}
+.talk.no{border-left:3px solid var(--navy)}
+.process{background:#10213D}
+.step{border-radius:7px;background:#172D4F;border-color:rgba(211,222,239,.13)}
+.step .num{font-family:Pretendard,sans-serif;color:#91A9CE;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase}
+
+.event{padding:54px 0}
+.event-banner{border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:7px;background:#fff;padding:32px 36px}
+.event-banner .label{background:transparent;color:var(--blue-deep);padding:0;border-radius:0}
+.btn-insta{border-radius:6px}
+
+.case-marquee{overflow:visible;margin:0;padding:0}
+.case-marquee::before,.case-marquee::after{display:none}
+.case-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;width:auto;padding:0;animation:none;transform:none!important}
+.case{width:auto;border-radius:7px;padding:25px 23px}
+.case[aria-hidden="true"]{display:none}
+.case .biz{color:var(--blue-deep)}
+.case .amt{color:var(--blue-deep)}
+
+.exp .icon{width:38px;height:38px;border-radius:6px;background:#EDF2F9;color:var(--blue-deep);font-family:'Noto Serif KR',serif;font-size:.78rem;font-weight:700}
+.experts h2 .hl{background:none;color:var(--blue-deep)}
+.exp-banner{border-radius:8px;background:#10213D}
+.exp-banner .label{color:#9CB2D4}
+
+.apply{background:#10213D;padding:84px 0}
+.apply .sec-label{color:#AFC1DD}
+.apply-form{border-radius:8px;background:#172D4F;border-color:rgba(211,222,239,.16);box-shadow:0 20px 50px rgba(0,0,0,.15)}
+.apply-form input,.apply-form select,.apply-form textarea,.time-opt{border-radius:6px;background:#0F213C}
+.time-opt[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.apply-msg.ok{color:#BFD1EE}
+.final-cta{padding:88px 0}
+.faq-item{box-shadow:none}
+
+@media(max-width:1024px){
+  .nav-links{top:70px}
+  .hero-grid{gap:40px}
+  .hero-trust{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-trust li:nth-child(2){border-right:0}
+  .hero-trust li:nth-child(-n+2){border-bottom:1px solid rgba(213,225,243,.16)}
+  .case-track{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:860px){
+  .nav{height:60px}
+  .nav-links{top:60px}
+  .logo{font-size:1rem}
+  .logo-img{height:27px}
+  .nav-cta{font-size:.82rem;padding:8px 12px}
+  .hero{padding:54px 0 44px}
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero h1{font-size:clamp(2rem,8.5vw,2.6rem)}
+  .ceo-card{max-width:none;width:100%;display:grid;grid-template-columns:120px 1fr;gap:14px;margin:0;padding:10px}
+  .ceo-card img{width:120px;height:100%;min-height:145px;aspect-ratio:auto;object-position:center 18%}
+  .ceo-card .cap{margin:0;padding:10px 10px 8px 0;align-self:center}
+  .about-grid{grid-template-columns:1fr;gap:38px}
+  .sticky-cta{padding:8px 14px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96)}
+  .sticky-cta a{max-width:520px;width:100%;margin:0 auto;border-radius:6px;padding:12px 8px}
+  .sc-apply{background:var(--navy);color:#fff;box-shadow:0 6px 20px rgba(16,33,61,.16)}
+  body{padding-bottom:68px}
+}
+@media(max-width:680px){
+  .wrap{padding-left:20px;padding-right:20px}
+  .hero{padding:46px 0 38px}
+  .hero .eyebrow{margin-bottom:20px}
+  .hero h1{font-size:1.92rem;line-height:1.34}
+  .hero p.lead{font-size:.96rem;margin-top:18px}
+  .hero-cta-row{margin-top:24px}
+  .hero-note{margin-top:11px}
+  .hero-trust{margin-top:26px}
+  .hero-trust li{padding:13px 10px}
+  .hero-trust li:nth-child(odd){padding-left:0}
+  .hero-trust span{white-space:normal;font-size:.69rem}
+  .ceo-card{grid-template-columns:104px 1fr}
+  .ceo-card img{width:104px;min-height:132px}
+  .ceo-card .cap .quote{font-size:.78rem;line-height:1.55}
+  .about,.services,.straight,.process,.cases,.experts,.media-sec,.faq{padding-top:62px;padding-bottom:62px}
+  .principle-card{padding:4px 20px}
+  .case-track{grid-template-columns:1fr;gap:12px}
+  .event-banner{padding:26px 22px}
+  .apply{padding:64px 0}
+  .apply-form{padding:28px 22px}
+  .final-cta{padding:64px 0}
+}
 </style>
 </head>
 <body>
@@ -451,7 +606,7 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
       <a href="#contact">문의하기</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-tel" href="tel:1666-2425">📞 1666-2425</a>
+      <a class="nav-tel" href="tel:1666-2425">1666-2425</a>
       <a class="nav-cta" href="https://pf.kakao.com/_GKuxfn/chat" data-cta-location="header" target="_blank" rel="noopener">카톡 상담</a>
       <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false">☰</button>
     </div>
@@ -463,15 +618,21 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow">소상공인 · 중소기업 정책자금 진단</span>
-      <h1 class="serif">다 되는 것처럼<br>말씀드리지 <span class="under">않습니다.</span></h1>
-      <p class="lead">대신, 될 수 있는 방법을 함께 찾겠습니다.</p>
+      <span class="eyebrow">정책자금 · 기업인증 전문 진단</span>
+      <h1 class="serif">가능한 자금과<br>준비할 순서를 <span class="under">정확하게 진단합니다.</span></h1>
+      <p class="lead">무조건 된다는 말 대신, 현재 조건에서 가능한 방법과 준비해야 할 순서를 근거 있게 말씀드립니다.</p>
       <!-- 첫 화면은 CTA 하나만. 전화/카톡/자가진단 경로는 사라진 게 아니라
            아래(#apply 자가진단 링크, #contact 전화/카톡)로 내려보냈다. -->
       <div class="hero-cta-row">
-        <a class="btn btn-kakao" href="#apply">무료 진단 예약하기</a>
+        <a class="btn btn-primary" href="#apply">무료 진단 예약</a>
       </div>
-      <p class="hero-note"><b>상담은 무료, 착수금은 없습니다.</b></p>
+      <p class="hero-note"><b>초기 상담은 무료이며, 착수금 없이 진행합니다.</b></p>
+      <ul class="hero-trust" aria-label="비즈니스 메이커 신뢰 지표">
+        <li><strong>영업 12년</strong><span>기업상담 경력</span></li>
+        <li><strong>연 250개 기업</strong><span>자금·인증 업무 진행</span></li>
+        <li><strong>착수금 없음</strong><span>성과 발생 후 보수</span></li>
+        <li><strong>전국 비대면</strong><span>상담·서류 진행</span></li>
+      </ul>
     </div>
     <div class="ceo-card">
       <img src="assets/ceo.png" alt="비즈니스 메이커 대표 김상표" width="720" height="720">
@@ -488,16 +649,14 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
   <div class="wrap about-grid">
     <div>
       <p class="sec-label">기업소개</p>
-      <h2 class="serif">영업 12년, 빈말 못 하는 사람이 <br class="pc">만든 진단 회사</h2>
-      <p>비즈니스 메이커는 소상공인·중소기업 정책자금 진단 회사입니다. <br class="pc">화려한 말보다 되는 것과 안 되는 것을 정확히 구분해서 <br class="pc">말씀드리는 것을 원칙으로 합니다.</p>
-      <p>정책자금은 정보의 차이가 결과의 차이로 이어지는 분야입니다. <br class="pc">매년 250개 기업과 자금·인증 업무를 진행하며, <br class="pc">자금 매칭부터 서류, 접수, 실행, 그리고 거절 시의 <br class="pc">재도전 설계까지 대표가 직접 관리합니다.</p>
-      <p>다만 모든 신청을 받지는 않습니다. <br class="pc">진단에서 가능성이 확인된 기업만 진행합니다 — <br class="pc">착수금 없이 성과로만 보수를 받는 구조라, <br class="pc">안 될 일을 맡을 수 없기 때문입니다.</p>
+      <h2 class="serif">자금을 찾기 전에,<br class="pc">기업의 조건부터 정확히 봅니다.</h2>
+      <p>비즈니스 메이커는 소상공인·중소기업의 정책자금과 기업인증을 진단합니다. 업종, 매출, 업력, 신용과 재무 상태를 먼저 검토한 뒤 실제로 신청할 수 있는 제도만 선별합니다.</p>
+      <p>자금 매칭부터 서류, 접수와 심사 대응, 실행 이후의 다음 단계까지 대표가 직접 관리합니다. 지금 어렵다면 이유와 보완 순서를 설명하고, 가능성이 확인된 업무만 맡습니다.</p>
     </div>
-    <div class="about-facts">
-      <div class="fact"><p class="k">연 250개 기업</p><p class="v">영업일마다 1곳과 진행</p></div>
-      <div class="fact"><p class="k">영업 12년</p><p class="v">대표가 직접 상담·관리</p></div>
-      <div class="fact"><p class="k">전국 대응</p><p class="v">비대면 상담·서류 진행</p></div>
-      <div class="fact"><p class="k">착수금 0원</p><p class="v">성과가 났을 때만 보수</p></div>
+    <div class="principle-card" aria-label="업무 원칙">
+      <div class="principle"><span class="num">01</span><p><strong>가능성부터 진단</strong><span>신청 전에 조건과 제외 사유를 먼저 확인합니다.</span></p></div>
+      <div class="principle"><span class="num">02</span><p><strong>대표가 전 과정 관리</strong><span>상담부터 실행까지 담당자가 바뀌지 않습니다.</span></p></div>
+      <div class="principle"><span class="num">03</span><p><strong>성과가 난 뒤 보수</strong><span>착수금 없이 결과를 기준으로 보수를 받습니다.</span></p></div>
     </div>
   </div>
 </section>
@@ -608,7 +767,7 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
   <div class="wrap">
     <div class="event-banner reveal">
       <div>
-        <span class="label">EVENT</span>
+        <span class="label">무료 자료</span>
         <h3 class="serif">인스타그램 팔로우하면 <br class="pc">「정책자금 자가진단 가이드북」을 무료로 드립니다</h3>
         <p>내 업종·매출·신용 조건으로 어떤 자금을 검토할 수 있는지 <br class="pc">스스로 확인해보는 체크리스트형 가이드북입니다. <br class="pc">팔로우 후 DM으로 "가이드북"이라고 보내주시면 바로 보내드립니다.</p>
       </div>
@@ -710,25 +869,25 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
     <p class="sub">기업의 문제를 자금 하나의 시선으로만 보지 않습니다. <br class="pc">세무, 노무, 특허, 법률 — 필요한 순간 각 분야 전문가와 함께 해결합니다.</p>
     <div class="exp-grid">
       <div class="exp reveal">
-        <div class="icon">🧾</div>
+        <div class="icon" aria-hidden="true">세무</div>
         <p class="who">세무사</p>
         <h3>세무회계</h3>
         <p>기장 · 세무조정 · 절세</p>
       </div>
       <div class="exp reveal">
-        <div class="icon">👥</div>
+        <div class="icon" aria-hidden="true">노무</div>
         <p class="who">노무사</p>
         <h3>인사노무</h3>
         <p>노무관리 · 노동분쟁</p>
       </div>
       <div class="exp reveal">
-        <div class="icon">💡</div>
+        <div class="icon" aria-hidden="true">특허</div>
         <p class="who">변리사</p>
         <h3>지식재산</h3>
         <p>특허 · 상표 · IP전략</p>
       </div>
       <div class="exp reveal">
-        <div class="icon">📄</div>
+        <div class="icon" aria-hidden="true">법무</div>
         <p class="who">변호사</p>
         <h3>법률자문</h3>
         <p>계약 · 법인 · 기업법무</p>
@@ -881,7 +1040,7 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
       <label for="lf-memo">궁금하신 내용 (선택)</label>
       <textarea id="lf-memo" name="memo" rows="3" placeholder="예: 운전자금 5천만원 정도 필요합니다"></textarea>
       <label class="consent"><input type="checkbox" id="lf-consent" required> <span>개인정보 수집·이용에 동의합니다. 상담 목적으로만 사용됩니다. <a href="privacy.html" target="_blank">자세히</a></span></label>
-      <button type="submit" class="btn btn-kakao">무료 진단 예약하기</button>
+      <button type="submit" class="btn btn-primary">무료 진단 예약하기</button>
       <p class="apply-msg" id="applyMsg"></p>
       <p class="apply-note">착수금 없음 · 성과 시에만 보수 · 전국 비대면 가능</p>
       <p class="apply-selfcheck"><a href="https://codedaum.pages.dev/diagnosis/" target="_blank" rel="noopener">직접 확인해보고 싶으시면 → 1분 온라인 자가진단</a></p>
@@ -896,7 +1055,7 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
     <p>전화·문자(010-8648-8928)·카카오톡, 편한 방법으로 사업자등록증 하나만 <br class="pc">보내주시면 진단이 시작됩니다. 지금 어떤 상황이든 괜찮습니다. <br class="pc">어렵다면 어렵다고, 준비가 필요하면 뭐가 필요한지 그대로 말씀드립니다.</p>
     <div class="hero-cta-row" style="justify-content:center">
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" data-cta-location="contact" target="_blank" rel="noopener">카카오톡 무료 상담하기</a>
-      <a class="btn btn-tel on-white" href="tel:1666-2425">📞 1666-2425</a>
+      <a class="btn btn-tel on-white" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
 </section>
@@ -905,7 +1064,7 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
 
 
 <div class="sticky-cta" role="navigation" aria-label="무료 진단 예약">
-  <a class="sc-apply" href="#apply">무료 진단 예약하기</a>
+  <a class="sc-apply" href="#apply">무료 진단 예약</a>
 </div>
 
 <footer>
