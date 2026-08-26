@@ -192,6 +192,18 @@ header{
 .apply-fallback .fb-kakao{background:var(--kakao);color:#191600}
 .apply-fallback .fb-tel{border:1px solid rgba(198,208,228,.35);color:#C6D0E4}
 .apply-note{margin-top:14px;font-size:.8rem;color:#8895AF;text-align:center}
+.apply-selfcheck{margin-top:10px;text-align:center;font-size:.82rem}
+.apply-selfcheck a{color:#8895AF;text-decoration:underline}
+.apply-selfcheck a:hover{color:#C6D0E4}
+/* 통화 희망 시간대. select 대신 버튼으로 둔 건 선택지가 셋뿐이고
+   모바일에서 탭 한 번에 끝나야 "예약"처럼 읽히기 때문이다. */
+.field-label{font-size:.85rem;font-weight:600;color:#C6D0E4;margin:16px 0 6px}
+.time-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.time-opt{padding:12px 6px;border-radius:10px;border:1px solid rgba(198,208,228,.25);
+  background:#0B1730;color:#C6D0E4;font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer}
+.time-opt:hover{border-color:rgba(198,208,228,.5)}
+.time-opt[aria-pressed="true"]{background:var(--kakao);border-color:var(--kakao);color:#191600}
+@media(max-width:420px){.time-opts{grid-template-columns:1fr}}
 
 /* ===== 콘텐츠(블로그·인스타) ===== */
 .media-sec{padding:80px 0;background:var(--paper);border-top:1px solid var(--line)}
@@ -219,14 +231,13 @@ header{
 .sticky-cta{display:none}
 @media(max-width:860px){
   .sticky-cta{
-    display:grid;grid-template-columns:56px 1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:200;
+    display:grid;grid-template-columns:1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:200;
     background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);
     padding:10px 12px calc(10px + env(safe-area-inset-bottom));
   }
   .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:.9rem;border-radius:10px;padding:13px 8px}
-  .sc-tel{border:1px solid var(--line);color:var(--blue-deep)}
-  .sc-kakao{background:var(--kakao);color:#191600}
-  .sc-apply{background:var(--blue);color:#fff}
+  /* 히어로 버튼과 같은 색/같은 라벨이어야 둘이 한 개의 행동으로 읽힌다. */
+  .sc-apply{background:var(--kakao);color:#191600}
   body{padding-bottom:76px}
 }
 
@@ -452,12 +463,12 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">소상공인 · 중소기업 정책자금 진단</span>
-      <h1 class="serif">정책자금,<br>다 되는 것처럼 말하지 <span class="under">않습니다.</span></h1>
-      <p class="lead">현재 상태의 가능 여부부터 솔직하게 말씀드리고 <br class="pc">아직 안 되는 상태라면 <br class="pc">되는 상태로 만드는 준비까지 함께 설계합니다.</p>
+      <h1 class="serif">다 되는 것처럼<br>말씀드리지 <span class="under">않습니다.</span></h1>
+      <p class="lead">대신, 될 수 있는 방법을 함께 찾겠습니다.</p>
+      <!-- 첫 화면은 CTA 하나만. 전화/카톡/자가진단 경로는 사라진 게 아니라
+           아래(#apply 자가진단 링크, #contact 전화/카톡)로 내려보냈다. -->
       <div class="hero-cta-row">
-        <a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">무료로 가능성 진단받기</a>
-        <a class="btn btn-tel" href="tel:1666-2425">📞 1666-2425 전화하기</a>
-        <a class="btn btn-ghost" href="https://codedaum.pages.dev/diagnosis/" target="_blank" rel="noopener">📋 1분 온라인 자가진단</a>
+        <a class="btn btn-kakao" href="#apply">무료 진단 예약하기</a>
       </div>
       <p class="hero-note"><b>상담은 무료, 착수금은 없습니다.</b></p>
     </div>
@@ -850,8 +861,8 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
 <section class="apply" id="apply">
   <div class="wrap">
     <p class="sec-label">간편 신청</p>
-    <h2 class="serif">이름과 연락처만 남겨주세요.<br>진단 후 저희가 먼저 연락드립니다.</h2>
-    <p class="sub">통화가 부담스러우시면 여기에 남겨주세요. 영업일 기준 하루 안에 연락드립니다.</p>
+    <h2 class="serif">편한 시간을 정해두세요.<br>그 시간에 저희가 전화드립니다.</h2>
+    <p class="sub">지금 통화하실 필요 없습니다. 예약만 해두시면 정하신 시간대에 연락드립니다.</p>
     <form class="apply-form" id="leadForm">
       <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
       <label for="lf-name">성함 (필수)</label>
@@ -860,12 +871,19 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
       <input id="lf-phone" name="phone" type="tel" placeholder="010-0000-0000" required autocomplete="tel">
       <label for="lf-biz">업종 (선택)</label>
       <input id="lf-biz" name="industry" type="text" placeholder="예: 음식점, 제조업, 도소매">
+      <p class="field-label" id="lf-time-label">통화 편한 시간대 (선택)</p>
+      <div class="time-opts" role="group" aria-labelledby="lf-time-label" id="lf-time">
+        <button type="button" class="time-opt" aria-pressed="false">오전 (9~12시)</button>
+        <button type="button" class="time-opt" aria-pressed="false">오후 (12~6시)</button>
+        <button type="button" class="time-opt" aria-pressed="false">아무 때나</button>
+      </div>
       <label for="lf-memo">궁금하신 내용 (선택)</label>
       <textarea id="lf-memo" name="memo" rows="3" placeholder="예: 운전자금 5천만원 정도 필요합니다"></textarea>
       <label class="consent"><input type="checkbox" id="lf-consent" required> <span>개인정보 수집·이용에 동의합니다. 상담 목적으로만 사용됩니다. <a href="privacy.html" target="_blank">자세히</a></span></label>
-      <button type="submit" class="btn btn-kakao">무료 진단 신청하기</button>
+      <button type="submit" class="btn btn-kakao">무료 진단 예약하기</button>
       <p class="apply-msg" id="applyMsg"></p>
       <p class="apply-note">착수금 없음 · 성과 시에만 보수 · 전국 비대면 가능</p>
+      <p class="apply-selfcheck"><a href="https://codedaum.pages.dev/diagnosis/" target="_blank" rel="noopener">직접 확인해보고 싶으시면 → 1분 온라인 자가진단</a></p>
     </form>
   </div>
 </section>
@@ -885,10 +903,8 @@ footer .legal{margin-top:28px;padding-top:22px;border-top:1px solid rgba(198,208
 </main>
 
 
-<div class="sticky-cta" role="navigation" aria-label="빠른 상담">
-  <a class="sc-tel" href="tel:1666-2425" aria-label="전화 상담">📞</a>
-  <a class="sc-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카톡 상담</a>
-  <a class="sc-apply" href="#apply">무료 진단 신청</a>
+<div class="sticky-cta" role="navigation" aria-label="무료 진단 예약">
+  <a class="sc-apply" href="#apply">무료 진단 예약하기</a>
 </div>
 
 <footer>
@@ -942,6 +958,17 @@ const LEAD_WEBHOOK = "https://codedaum.pages.dev/api/lead";
 // 자기 정책 날짜(v1.0-2026-08-02)를 쓰므로 그 값을 그대로 가져오면 안 된다.
 // privacy.html 을 개정하면 이 값도 함께 올린다.
 const CONSENT_VERSION = "v1.0-2026-08-20";
+
+// 통화 희망 시간대 선택(단일 선택, 같은 버튼을 다시 누르면 해제).
+let selectedTime = '';
+const timeOpts = Array.from(document.querySelectorAll('#lf-time .time-opt'));
+function clearTime(){ selectedTime = ''; timeOpts.forEach(b => b.setAttribute('aria-pressed','false')); }
+timeOpts.forEach(b => b.addEventListener('click', () => {
+  const on = b.getAttribute('aria-pressed') === 'true';
+  clearTime();
+  if (!on){ selectedTime = b.textContent.trim(); b.setAttribute('aria-pressed','true'); }
+}));
+
 const leadForm = document.getElementById('leadForm');
 if (leadForm) leadForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -951,12 +978,16 @@ if (leadForm) leadForm.addEventListener('submit', async (e) => {
   // 서버가 읽지 않아 운영자 메일에서 통째로 빠지므로 answers_text 로 합쳐서 보낸다.
   const industry = document.getElementById('lf-biz').value.trim();
   const memo = document.getElementById('lf-memo').value.trim();
+  // 시간대는 선택 항목이라 미선택이 기본값이다. 빈 값을 그대로 보내면 운영자 메일에서
+  // 항목이 통째로 빠져 예약으로 안 읽히므로, 미선택은 '아무 때나'로 채워 보낸다.
+  const preferredTime = selectedTime || '아무 때나';
   const data = {
     service: 'pfm', service_name: '정책자금',
     name: document.getElementById('lf-name').value.trim(),
     phone: document.getElementById('lf-phone').value.trim(),
-    answers_text: ['업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
-    diagnosis: { industry: industry, memo: memo },
+    preferred_time: preferredTime,
+    answers_text: ['[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
+    diagnosis: { '통화 희망 시간': preferredTime, industry: industry, memo: memo },
     consent_privacy: document.getElementById('lf-consent').checked,
     consent_marketing: false,
     consent_version: CONSENT_VERSION,
@@ -969,8 +1000,9 @@ if (leadForm) leadForm.addEventListener('submit', async (e) => {
     const r = await fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data) });
     if (!r.ok) throw new Error(r.status);
     msg.className = 'apply-msg ok';
-    msg.textContent = '접수됐습니다. 영업일 기준 하루 안에 연락드리겠습니다.';
+    msg.textContent = '예약됐습니다. 정하신 시간대에 전화드리겠습니다.';
     leadForm.reset();
+    clearTime();
   } catch(err) {
     // 폼이 죽는 원인은 여러 가지(Resend 장애, Function 오류, 네트워크)지만
     // 방문자 입장에서는 다 똑같이 "안 됨"이다. 문구로만 안내하면 대부분
@@ -991,7 +1023,7 @@ if (leadForm) leadForm.addEventListener('submit', async (e) => {
     fb.append(kakao, tel);
     msg.appendChild(fb);
   }
-  btn.disabled = false; btn.textContent = '무료 진단 신청하기';
+  btn.disabled = false; btn.textContent = '무료 진단 예약하기';
 });
 
 // ── 블로그·인스타 피드 렌더링 (data/feed.json)
