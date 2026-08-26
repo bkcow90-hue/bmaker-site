@@ -31,12 +31,45 @@ class HomePageParser(HTMLParser):
                 break
 
 
+class HeroHeadingParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self._inside_heading = False
+        self.lines = [""]
+
+    def handle_starttag(self, tag, attrs):
+        attributes = dict(attrs)
+        if tag == "h1" and "serif" in attributes.get("class", "").split():
+            self._inside_heading = True
+        elif tag == "br" and self._inside_heading:
+            self.lines.append("")
+
+    def handle_data(self, data):
+        if self._inside_heading:
+            self.lines[-1] += data
+
+    def handle_endtag(self, tag):
+        if tag == "h1" and self._inside_heading:
+            self._inside_heading = False
+            self.lines = [" ".join(line.split()) for line in self.lines]
+
+
 class HomepageExperienceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        index = (ROOT / "index.html").read_text(encoding="utf-8")
         parser = HomePageParser()
-        parser.feed((ROOT / "index.html").read_text(encoding="utf-8"))
+        parser.feed(index)
         cls.elements = parser.elements
+        heading_parser = HeroHeadingParser()
+        heading_parser.feed(index)
+        cls.hero_heading_lines = heading_parser.lines
+
+    def test_hero_heading_has_three_intentional_lines(self):
+        self.assertEqual(
+            self.hero_heading_lines,
+            ["가능한 자금과", "준비할 순서를", "정확하게 진단합니다."],
+        )
 
     def test_first_screen_exposes_four_concrete_trust_signals(self):
         trust_lists = [
@@ -75,6 +108,27 @@ class HomepageExperienceTests(unittest.TestCase):
 
         self.assertEqual(len(case_lists), 1)
         self.assertEqual(case_lists[0]["attrs"].get("aria-label"), "승인사례 목록")
+
+    def test_news_hides_instagram_while_guidebook_event_remains_visible(self):
+        instagram_grid = next(
+            element
+            for element in self.elements
+            if element["attrs"].get("id") == "instaGrid"
+        )
+        instagram_more = next(
+            element
+            for element in self.elements
+            if "media-more" in element["attrs"].get("class", "").split()
+        )
+        guidebook_event = next(
+            element
+            for element in self.elements
+            if "event-banner" in element["attrs"].get("class", "").split()
+        )
+
+        self.assertIn("hidden", instagram_grid["attrs"])
+        self.assertIn("hidden", instagram_more["attrs"])
+        self.assertNotIn("hidden", guidebook_event["attrs"])
 
 
 if __name__ == "__main__":

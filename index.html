@@ -227,6 +227,7 @@ header{
 .insta-grid .instagram-media{margin:0!important;max-width:100%!important}
 .media-more{display:inline-block;margin-top:20px;font-weight:700;color:var(--blue-deep);font-size:.92rem}
 .media-more:hover{text-decoration:underline}
+.media-sec [hidden]{display:none!important}
 
 /* ===== 모바일 고정 CTA 바 ===== */
 .sticky-cta{display:none}
@@ -619,7 +620,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">정책자금 · 기업인증 전문 진단</span>
-      <h1 class="serif">가능한 자금과<br>준비할 순서를 <span class="under">정확하게 진단합니다.</span></h1>
+      <h1 class="serif">가능한 자금과<br>준비할 순서를<br><span class="under">정확하게 진단합니다.</span></h1>
       <p class="lead">무조건 된다는 말 대신, 현재 조건에서 가능한 방법과 준비해야 할 순서를 근거 있게 말씀드립니다.</p>
       <!-- 첫 화면은 CTA 하나만. 전화/카톡/자가진단 경로는 사라진 게 아니라
            아래(#apply 자가진단 링크, #contact 전화/카톡)로 내려보냈다. -->
@@ -910,8 +911,8 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
     <h2 class="serif">블로그와 인스타그램에서 <br class="pc">매주 정책자금 소식을 전합니다</h2>
     <p class="sub">글과 게시물은 새로 올라올 때마다 이 자리에 자동으로 갱신됩니다.</p>
     <div class="blog-list" id="blogList"></div>
-    <div class="insta-grid" id="instaGrid"></div>
-    <a class="media-more" href="https://www.instagram.com/bmaker_kr/" target="_blank" rel="noopener">인스타그램에서 더 보기 →</a>
+    <div class="insta-grid" id="instaGrid" hidden></div>
+    <a class="media-more" href="https://www.instagram.com/bmaker_kr/" target="_blank" rel="noopener" hidden>인스타그램에서 더 보기 →</a>
   </div>
 </section>
 
