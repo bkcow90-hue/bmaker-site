@@ -482,7 +482,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
 .hero-trust span{display:block;margin-top:2px;color:#96A9C6;font-size:.73rem;white-space:nowrap}
 
 .ceo-card{max-width:350px;margin-left:auto;padding:13px;border:1px solid rgba(214,225,242,.2);border-radius:10px;background:rgba(255,255,255,.055);box-shadow:0 24px 55px rgba(0,0,0,.18)}
-.ceo-card img{aspect-ratio:4/3;object-fit:cover;object-position:center 20%;border-radius:6px}
+.ceo-card img{height:auto;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:6px}
 .ceo-card .cap{margin-top:14px;padding:0 5px 3px}
 .ceo-card .cap .name{font-family:'Noto Serif KR',serif;font-size:1.02rem}
 .ceo-card .cap .role{color:#AFBDD2}
@@ -557,7 +557,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
   .hero-grid{grid-template-columns:1fr;gap:30px}
   .hero h1{font-size:clamp(2rem,8.5vw,2.6rem)}
   .ceo-card{max-width:none;width:100%;display:grid;grid-template-columns:120px 1fr;gap:14px;margin:0;padding:10px}
-  .ceo-card img{width:120px;height:100%;min-height:145px;aspect-ratio:auto;object-position:center 18%}
+  .ceo-card img{width:120px;height:auto;min-height:0;aspect-ratio:1/1;object-fit:contain;object-position:center;align-self:center}
   .ceo-card .cap{margin:0;padding:10px 10px 8px 0;align-self:center}
   .about-grid{grid-template-columns:1fr;gap:38px}
   .sticky-cta{padding:8px 14px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96)}
@@ -578,7 +578,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
   .hero-trust li:nth-child(odd){padding-left:0}
   .hero-trust span{white-space:normal;font-size:.69rem}
   .ceo-card{grid-template-columns:104px 1fr}
-  .ceo-card img{width:104px;min-height:132px}
+  .ceo-card img{width:104px;min-height:0}
   .ceo-card .cap .quote{font-size:.78rem;line-height:1.55}
   .about,.services,.straight,.process,.cases,.experts,.media-sec,.faq{padding-top:62px;padding-bottom:62px}
   .principle-card{padding:4px 20px}
@@ -782,7 +782,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
     <p class="sec-label">승인사례</p>
     <h2 class="serif">실제로 이렇게 진행됐습니다</h2>
     <p class="sub">모두 비즈니스 메이커가 실제로 진행한 사례입니다. <br class="pc">고객사 정보 보호를 위해 업종과 자금 내용만 공개하며, 금리와 조건은 각 실행 시점 기준입니다.</p>
-    <div class="case-marquee" aria-label="승인사례 목록 (자동으로 흐르는 카드, 마우스를 올리면 멈춥니다)">
+    <div class="case-marquee" aria-label="승인사례 목록">
       <div class="case-track">
       <div class="case">
         <p class="biz">기술기업 · 법인</p>

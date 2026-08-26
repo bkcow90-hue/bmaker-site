@@ -66,6 +66,16 @@ class HomepageExperienceTests(unittest.TestCase):
             with self.subTest(tag=action["tag"], classes=classes):
                 self.assertNotIn("btn-kakao", classes)
 
+    def test_case_results_are_announced_as_a_static_list(self):
+        case_lists = [
+            element
+            for element in self.elements
+            if "case-marquee" in element["attrs"].get("class", "").split()
+        ]
+
+        self.assertEqual(len(case_lists), 1)
+        self.assertEqual(case_lists[0]["attrs"].get("aria-label"), "승인사례 목록")
+
 
 if __name__ == "__main__":
     unittest.main()
