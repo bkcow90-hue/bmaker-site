@@ -56,7 +56,11 @@ def test_redirects_has_no_catch_all():
     for src, dst, code in rules:
         assert src != "/*", "_redirects 에 캐치올(/*) 금지"
         assert src.lstrip("/").split("/")[0] not in SLUGS, f"_redirects 가 실존 페이지 {src} 를 가로챔"
-        assert code == "301"
+        # 302/307 임시 리다이렉트는 SEO 평가가 안 넘어가므로 금지
+        if src == dst:                      # 자기참조(예: /404.html 폴백 제외)는 200 허용
+            assert code == "200", f"자기참조 규칙은 200 이어야: {src}"
+        else:                               # 실제 리다이렉트는 영구만(임시 302/307 금지)
+            assert code in ("301", "308"), f"영구 리다이렉트(301/308)만 허용: {src} → {code}"
 
 
 def test_404_page_is_noindex_and_uses_absolute_paths():
