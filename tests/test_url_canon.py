@@ -1,0 +1,66 @@
+"""정본 URL 규약(B안) 회귀 테스트.
+
+Cloudflare Pages는 foo.html 을 /foo 로 서빙하고 /foo.html 은 /foo 로 308 리다이렉트한다.
+따라서 canonical·sitemap·og:url·내부 링크·llms.txt 는 전부 확장자 없는 주소여야 한다.
+(.html 정본은 2026-08 GSC '리디렉션 오류' → 하위 페이지 색인 0 을 만들었다.)
+"""
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html"]
+SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy"]
+
+
+def _read(name: str) -> str:
+    return (ROOT / name).read_text(encoding="utf-8")
+
+
+def test_no_html_extension_in_absolute_urls():
+    """canonical / og:url / JSON-LD / sitemap / llms.txt 에 .html 주소가 없어야 한다."""
+    bad = re.compile(r"https://bmaker\.kr/[A-Za-z0-9_-]+\.html")
+    for name in PAGES + ["sitemap.xml", "llms.txt"]:
+        assert not bad.search(_read(name)), f"{name}: .html 절대주소 잔존"
+
+
+def test_internal_links_are_root_absolute():
+    """페이지 간 링크는 /slug 형태(루트 절대경로)여야 한다 — 상대경로·.html 금지."""
+    rel_or_html = re.compile(r'href="(?:' + "|".join(SLUGS) + r')(?:\.html)?"|href="index\.html"')
+    for name in PAGES:
+        assert not rel_or_html.search(_read(name)), f"{name}: 상대경로 또는 .html 내부링크 잔존"
+
+
+def test_every_page_has_single_consistent_canonical():
+    expected = {
+        "index.html": "https://bmaker.kr/",
+        "privacy.html": "https://bmaker.kr/privacy",
+        **{f"{s}.html": f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"},
+    }
+    for name, url in expected.items():
+        html = _read(name)
+        canon = re.findall(r'<link rel="canonical" href="([^"]+)">', html)
+        assert canon == [url], f"{name}: canonical={canon}, expected [{url}]"
+        og = re.findall(r'<meta property="og:url" content="([^"]+)">', html)
+        if og:  # privacy 는 og:url 없음
+            assert og == [url], f"{name}: og:url={og} ≠ canonical"
+
+
+def test_sitemap_matches_canonicals():
+    locs = re.findall(r"<loc>([^<]+)</loc>", _read("sitemap.xml"))
+    assert locs == ["https://bmaker.kr/"] + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"]
+
+
+def test_redirects_has_no_catch_all():
+    """'/*' 캐치올은 홈(/)과 assets 까지 물어 사이트를 깨뜨린다(2026-08-20 사고). 경로별 규칙만 허용."""
+    rules = [l.split() for l in _read("_redirects").splitlines() if l.strip() and not l.startswith("#")]
+    for src, dst, code in rules:
+        assert src != "/*", "_redirects 에 캐치올(/*) 금지"
+        assert src.lstrip("/").split("/")[0] not in SLUGS, f"_redirects 가 실존 페이지 {src} 를 가로챔"
+        assert code == "301"
+
+
+def test_404_page_is_noindex_and_uses_absolute_paths():
+    html = _read("404.html")
+    assert 'name="robots" content="noindex' in html
+    # 404.html 은 어떤 깊이의 경로에서도 서빙되므로 링크·에셋은 반드시 절대경로
+    assert not re.search(r'(href|src)="(?!https?://|/|#|tel:|mailto:)', html), "404.html 에 상대경로 존재"

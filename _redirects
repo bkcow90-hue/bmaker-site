@@ -1,0 +1,28 @@
+# _redirects — Cloudflare Pages
+# 폐지된 구(QUV)·광고 랜딩 경로만 홈으로 301. 위→아래 순으로 첫 매칭 적용.
+# 실존 페이지(/sojingong /jungjingong /bojeung /certification /privacy)는
+# 여기에 규칙이 없으므로 그대로 200으로 서빙된다.
+# .html → 확장자 없는 주소 변환은 Cloudflare Pages가 자동(308)으로 처리하므로 규칙 불필요.
+#
+# 의도적으로 404 로 두는 구 경로(규칙 없음): /mypage /join /oauth/callback.php /g,
+#   → 회원·시스템 페이지와 깨진 경로라 대응 페이지가 없음. 404 가 정답.
+#
+# 나중에 /cases 페이지가 생기면 아래 subsidy/portfolio 대상지를 / → /cases 로 교체.
+
+/subsidy      /   301
+/home         /   301
+/consulting   /   301
+/policy_service /   301
+/portfolio    /   301
+/portfolios   /   301
+/about        /   301
+/services     /   301
+/trademarks   /   301
+/status       /   301
+/status/*     /   301
+/5            /   301
+/6            /   301
+/8            /   301
+/9            /   301
+/10           /   301
+/11           /   301
