@@ -1,11 +1,4 @@
-# .html 은 308 명시(자동은 307), 404.html 은 폴백용으로 제외
-/index.html          /                 308
-/sojingong.html      /sojingong        308
-/jungjingong.html    /jungjingong      308
-/bojeung.html        /bojeung          308
-/certification.html  /certification    308
-/privacy.html        /privacy          308
-/404.html            /404.html         200
+# .html→확장자없음은 Pages가 자동 307 처리(파일 실존 시 _redirects보다 우선). 308로 바꾸려면 존 레벨 Redirect Rules 필요 — 미적용.
 
 # _redirects — Cloudflare Pages
 # 폐지된 구(QUV)·광고 랜딩 경로만 홈으로 301. 위→아래 순으로 첫 매칭 적용.
