@@ -202,7 +202,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
         if d['한 줄 메모']: row+=f". {d['한 줄 메모'].rstrip('.')}"
         row+=f". 근거: {'기관 안내문·약정 캡처' if d['증빙 파일'] else 'CRM 정산 기록'}."
         lines.append(row)
-    sec=f"## 실행 사례 원장 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n익명화 기준: 상호·대표자 비공개, 지역은 시·도, 신용점수는 KCB·NICE 중 낮은 쪽의 100점 구간. 금액은 기관 안내문 우선, 없으면 자사 CRM 정산 기록. 실행 전 비용은 전 사례 0원. 원자료 CSV: https://bmaker.kr/data/cases.csv (CC BY 4.0, 출처 bmaker.kr)\n\n"+"\n".join(lines)+"\n"
+    sec=f"## 실행 사례 원장 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 고객이 공개에 동의하고 기관 안내문·정산 기록으로 실행을 증명할 수 있는 건만 수록 — 전체 실행 건의 극히 일부이며, 동의·기록이 확보되는 대로 추가. 익명화 기준: 상호·대표자 비공개, 지역은 시·도, 신용점수는 KCB·NICE 중 낮은 쪽의 100점 구간. 금액은 기관 안내문 우선, 없으면 자사 CRM 정산 기록. 실행 전 비용은 전 사례 0원. 원자료 CSV: https://bmaker.kr/data/cases.csv (CC BY 4.0, 출처 bmaker.kr)\n\n"+"\n".join(lines)+"\n"
     lf=re.sub(r'## 실행 사례 원장.*?(?=\n## )', sec+"\n", lf, flags=re.S)
     lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {today}', lf)
     (ROOT/'llms-full.txt').write_text(lf, encoding='utf-8')
