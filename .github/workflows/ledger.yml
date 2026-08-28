@@ -38,7 +38,7 @@ jobs:
         id: build
         if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
         run: |
-          pip -q install openpyxl pillow
+          pip -q install openpyxl pillow pytest
           set +e
           OUT=$(python tools/build_cases.py 2>&1); RC=$?
           set -e
@@ -47,8 +47,18 @@ jobs:
             printf 'FAIL\n%s\n' "$OUT" > data/ledger-status.txt
             echo "ok=no" >> "$GITHUB_OUTPUT"
           else
-            printf 'OK\n%s\n' "$OUT" > data/ledger-status.txt
-            echo "ok=yes" >> "$GITHUB_OUTPUT"
+            set +e
+            POUT=$(python -m pytest -q 2>&1); PRC=$?
+            set -e
+            echo "$POUT"
+            if [ $PRC -ne 0 ]; then
+              git checkout -- cases.html data/cases.csv llms.txt llms-full.txt sitemap.xml || true
+              printf 'FAIL\n%s\n[pytest 실패]\n%s\n' "$OUT" "$POUT" > data/ledger-status.txt
+              echo "ok=no" >> "$GITHUB_OUTPUT"
+            else
+              printf 'OK\n%s\n' "$OUT" > data/ledger-status.txt
+              echo "ok=yes" >> "$GITHUB_OUTPUT"
+            fi
           fi
       - name: 커밋·푸시 (변경 있을 때만)
         if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
