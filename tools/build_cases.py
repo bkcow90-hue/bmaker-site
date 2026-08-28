@@ -100,7 +100,7 @@ def build():
     amts=sorted(d['amt'] for d in D); med=amts[N//2] if N%2 else (amts[N//2-1]+amts[N//2])//2
     days=sorted(int(float(d['소요일'])) for d in D if d['소요일'])
     dmed=(days[len(days)//2] if len(days)%2 else (days[len(days)//2-1]+days[len(days)//2])//2) if days else 0
-    nc=sum(1 for d in D if d['폐업 이력']=='있음'); nt=sum(1 for d in D if d['체납 이력']=='있음')
+    nc=sum(1 for d in D if d['폐업 이력'] in ('있음','재창업')); nt=sum(1 for d in D if d['체납 이력']=='있음')
     np_=sum(1 for d in D if d['기존 정책자금']=='있음'); nl=sum(1 for d in D if d['신용점수 구간'] in ('600점대','500점대 이하'))
     nev=sum(1 for d in D if d['증빙 파일'])
     yms=sorted(d['실행 연월'] for d in D); y0,m0=yms[0].split('-'); y1,m1=yms[-1].split('-')
@@ -109,7 +109,13 @@ def build():
        'DMED':dmed,'DN':len(days),'NEV':nev,'n_closed':nc,'n_tax':nt,'n_prior':np_,'n_low':nl,
        'PERIOD_KR':f"{int(y0)}년 {int(m0)}월~{int(y1)}년 {int(m1)}월",'PERIOD_LONG':f"{int(y0)}년 {int(m0)}월부터 {int(y1)}년 {int(m1)}월까지",
        'PERIOD_SHORT':f"{y0}.{m0}~{y1}.{m1}",'ASOF_KR':f"{today.year}년 {today.month}월 {today.day}일"}
-    def marks(d): return " · ".join(l for k,l in (('폐업 이력','폐업'),('체납 이력','체납'),('기존 정책자금','기존대출')) if d[k]=='있음') or "—"
+    def marks(d):
+        out=[]
+        if d['폐업 이력']=='재창업': out.append('재창업')
+        elif d['폐업 이력']=='있음': out.append('폐업')
+        if d['체납 이력']=='있음': out.append('체납')
+        if d['기존 정책자금']=='있음': out.append('기존대출')
+        return " · ".join(out) or "—"
     rows_html="".join(
       f'<tr id="row-{d["사례ID"]}"><td>{d["실행 연월"]}</td><td>{esc(d["기관"])}</td><td>{esc(d["자금명"])}</td>'
       f'<td class="num">{d["amt"]:,}</td><td>{esc(d["금리"]) or "—"}</td><td>{esc(d["상환 조건"]) or "—"}</td><td>{esc(d["지역(시도)"])}</td>'
@@ -123,7 +129,9 @@ def build():
         if d['업력(년)']: bits.append(f"업력 {agef(d['업력(년)'])}")
         if d['신용점수 구간']: bits.append(f"신용점수 {d['신용점수 구간']}")
         if d['연매출 구간']: bits.append(f"연매출 {d['연매출 구간']}")
-        for k,l in (('폐업 이력','폐업 이력 있음'),('체납 이력','세금 체납 이력 있음'),('기존 정책자금','기존 정책자금 보유')):
+        if d['폐업 이력']=='재창업': bits.append('폐업 후 재창업')
+        elif d['폐업 이력']=='있음': bits.append('폐업 이력 있음')
+        for k,l in (('체납 이력','세금 체납 이력 있음'),('기존 정책자금','기존 정책자금 보유')):
             if d[k]=='있음': bits.append(l)
         core=f"{d['기관']} {d['자금명']} {won2(d['amt'])} 실행"
         if d['금리']: core+=f" ({d['금리']})"
@@ -195,7 +203,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
     lf=(ROOT/'llms-full.txt').read_text(encoding='utf-8')
     lines=[]
     for d in D:
-        bits=[b for b in [f"{d['사업 형태']}사업자" if d['사업 형태'] else '', f"업력 {agef(d['업력(년)'])}" if d['업력(년)'] else '', f"신용점수 {d['신용점수 구간']}" if d['신용점수 구간'] else '', '폐업 이력 있음' if d['폐업 이력']=='있음' else '', '세금 체납 이력 있음' if d['체납 이력']=='있음' else '', '기존 정책자금 보유' if d['기존 정책자금']=='있음' else ''] if b]
+        bits=[b for b in [f"{d['사업 형태']}사업자" if d['사업 형태'] else '', f"업력 {agef(d['업력(년)'])}" if d['업력(년)'] else '', f"신용점수 {d['신용점수 구간']}" if d['신용점수 구간'] else '', ('폐업 후 재창업' if d['폐업 이력']=='재창업' else ('폐업 이력 있음' if d['폐업 이력']=='있음' else '')), '세금 체납 이력 있음' if d['체납 이력']=='있음' else '', '기존 정책자금 보유' if d['기존 정책자금']=='있음' else ''] if b]
         row=f"- {d['실행 연월']} · {d['지역(시도)']} {d['업종'] or '업종 미기재'} ({', '.join(bits)}): {d['기관']} {d['자금명']} {won2(d['amt'])} 실행"
         if d['금리']: row+=f", {d['금리']}"
         if d['소요일']: row+=f". 첫 상담 접수 후 {int(float(d['소요일']))}일"
@@ -210,7 +218,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
     rates=[f"{d['자금명'].split('(')[0].strip()} {d['금리']}" for d in D if d['금리']][:4]
     newline=(f"- 실행 사례({T['PERIOD_KR']}): 총 {N}건, {won2(total)}. 건당 중앙값 {won2(med)}, 첫 상담 접수→정산 중앙값 {dmed}일. "
-             f"폐업 이력 보유 {nc}건, 세금 체납 이력 {nt}건, 기존 정책자금 보유 {np_}건, 신용점수 600점대 이하 {nl}건이 실행으로 이어짐. "
+             f"폐업 후 재창업(폐업 이력) {nc}건, 세금 체납 이력 {nt}건, 기존 정책자금 보유 {np_}건, 신용점수 600점대 이하 {nl}건이 실행으로 이어짐. "
              f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 원장: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
     lt=re.sub(r'- 실행 사례\([^\n]*', newline, lt)
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
