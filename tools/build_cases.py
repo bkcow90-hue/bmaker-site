@@ -18,32 +18,57 @@ REQ = ['사례ID','실행 연월','기관','자금명','실행 금액(만원)','
 def die(msg):
     print(f"[원장 빌드 실패] {msg}"); sys.exit(1)
 
-def load_rows():
-    wb = load_workbook(ROOT/'data'/'cases.xlsx', data_only=True)
-    if '원장' not in wb.sheetnames: die("data/cases.xlsx 에 '원장' 시트가 없습니다.")
-    ws = wb['원장']
+def _norm_header(h):
+    return re.sub(r"\s+", " ", str(h or "")).strip()
+
+def _rows_from_records(records, where):
     rows, ids = [], set()
-    for i, r in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
-        vals = ['' if v is None else str(v).strip() for v in (list(r)+['']*21)[:21]]
-        d = dict(zip(COLS, vals))
-        if not any(vals): continue
+    for i, d in records:
+        if not any(v for v in d.values()): continue
         for c in REQ:
-            if not d[c]: die(f"{i}행: 필수 열 '{c}' 이 비어 있습니다.")
-        if d['사례ID'] in ids: die(f"{i}행: 사례ID '{d['사례ID']}' 중복입니다.")
-        ids.add(d['사례ID'])
-        if not re.match(r'^\d{4}-\d{2}$', d['실행 연월']): die(f"{i}행 실행 연월 '{d['실행 연월']}' — YYYY-MM 형식이어야 합니다.")
-        try: d['amt'] = int(float(d['실행 금액(만원)'].replace(',','')))
-        except ValueError: die(f"{i}행 실행 금액 '{d['실행 금액(만원)']}' — 만원 단위 숫자만.")
-        if d['사이트 공개'].upper() not in ('Y','N'): die(f"{i}행 사이트 공개는 Y 또는 N.")
-        joined = ' '.join(vals)
-        if '갚' in joined: die(f"{i}행: '갚다'류 표현 금지 — 상환/돌려주다 로 바꿔주세요.")
-        if re.search(r'보장', joined): die(f"{i}행: '보장' 표현 금지.")
-        if re.search(r'수수료|성공보수.{0,12}%|\d+\s*%\s*(수수료|보수)', joined): die(f"{i}행: 보수·수수료 관련 표기는 원장에 쓸 수 없습니다.")
-        if d['증빙 파일'] and not (ROOT/'assets'/'cases'/d['증빙 파일']).exists():
-            die(f"{i}행 증빙 파일 assets/cases/{d['증빙 파일']} 이 없습니다. 파일을 먼저 넣어주세요.")
+            if not d.get(c, ""): die(f"{where} {i}행: 필수 열 '{c}' 이 비어 있습니다.")
+        if d["사례ID"] in ids: die(f"{where} {i}행: 사례ID '{d['사례ID']}' 중복입니다.")
+        ids.add(d["사례ID"])
+        if not re.match(r"^\d{4}-\d{2}$", d["실행 연월"]): die(f"{where} {i}행 실행 연월 '{d['실행 연월']}' — YYYY-MM 형식이어야 합니다.")
+        try: d["amt"] = int(float(d["실행 금액(만원)"].replace(",", "")))
+        except ValueError: die(f"{where} {i}행 실행 금액 '{d['실행 금액(만원)']}' — 만원 단위 숫자만.")
+        if d["사이트 공개"].upper() not in ("Y", "N"): die(f"{where} {i}행 사이트 공개는 Y 또는 N.")
+        joined = " ".join(v for v in d.values() if isinstance(v, str))
+        if "갚" in joined: die(f"{where} {i}행: '갚다'류 표현 금지 — 상환/돌려주다 로 바꿔주세요.")
+        if re.search(r"보장", joined): die(f"{where} {i}행: '보장' 표현 금지.")
+        if re.search(r"수수료|성공보수.{0,12}%|\d+\s*%\s*(수수료|보수)", joined): die(f"{where} {i}행: 보수·수수료 관련 표기는 원장에 쓸 수 없습니다.")
+        if d["증빙 파일"] and not (ROOT/"assets"/"cases"/d["증빙 파일"]).exists():
+            die(f"{where} {i}행 증빙 파일 assets/cases/{d['증빙 파일']} 이 없습니다. 파일을 먼저 넣어주세요.")
         rows.append(d)
-    if not rows: die("원장 시트에 데이터 행이 없습니다.")
-    return [d for d in rows if d['사이트 공개'].upper()=='Y']
+    if not rows: die(f"{where}: 데이터 행이 없습니다.")
+    return [d for d in rows if d["사이트 공개"].upper() == "Y"]
+
+def load_rows():
+    src = ROOT/"data"/"cases.source.csv"
+    if src.exists():
+        with open(src, encoding="utf-8-sig", newline="") as f:
+            rdr = csv.reader(f)
+            header = [_norm_header(h) for h in next(rdr)]
+            missing = [c for c in REQ if c not in header]
+            if missing: die(f"cases.source.csv 헤더에 {missing} 열이 없습니다. 시트 1행을 확인해주세요.")
+            records = []
+            for i, r in enumerate(rdr, start=2):
+                vals = ["" if v is None else str(v).strip() for v in r] + [""] * len(header)
+                d = {c: "" for c in COLS}
+                for j, hname in enumerate(header):
+                    if hname in COLS: d[hname] = vals[j]
+                records.append((i, d))
+        print(f"[원본] data/cases.source.csv ({len(records)}행)")
+        return _rows_from_records(records, "cases.source.csv")
+    wb = load_workbook(ROOT/"data"/"cases.xlsx", data_only=True)
+    if "원장" not in wb.sheetnames: die("data/cases.xlsx 에 '원장' 시트가 없습니다.")
+    ws = wb["원장"]
+    records = []
+    for i, r in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+        vals = ["" if v is None else str(v).strip() for v in (list(r)+[""]*21)[:21]]
+        records.append((i, dict(zip(COLS, vals))))
+    print("[원본] data/cases.xlsx")
+    return _rows_from_records(records, "cases.xlsx")
 
 def won2(m):
     e, man = divmod(int(m), 10000)

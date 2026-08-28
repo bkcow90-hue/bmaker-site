@@ -6,3 +6,6 @@ wrangler.jsonc
 docs/
 tools/
 data/cases.xlsx
+.github/
+data/cases.source.csv
+data/ledger-source.url

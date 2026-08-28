@@ -1,0 +1,68 @@
+# 실행 사례 원장 자동 반영 — 구글시트(웹 게시 CSV) → 사이트
+# 매시 17분에 시트를 읽고, 내용이 바뀐 경우에만 빌드·커밋한다. 푸시되면 Cloudflare가 자동 배포한다.
+# 시트 연결: data/ledger-source.url 에 게시 CSV 주소 한 줄. 없으면 저장소의 data/cases.source.csv 만 사용.
+name: ledger
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['data/ledger-source.url']
+permissions:
+  contents: write
+concurrency:
+  group: ledger
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 시트 게시본 가져오기
+        id: fetch
+        run: |
+          if [ ! -f data/ledger-source.url ]; then echo "changed=skip" >> "$GITHUB_OUTPUT"; exit 0; fi
+          URL=$(tr -d ' \r\n' < data/ledger-source.url)
+          curl -fsSL "$URL" -o /tmp/sheet.csv
+          sed -i 's/\r$//' /tmp/sheet.csv
+          printf '\xEF\xBB\xBF' | cat - /tmp/sheet.csv > /tmp/sheet.bom.csv 2>/dev/null || cp /tmp/sheet.csv /tmp/sheet.bom.csv
+          head -c 3 data/cases.source.csv | od -An -tx1 | grep -qi 'ef bb bf' && CUR=data/cases.source.csv || CUR=data/cases.source.csv
+          if cmp -s <(sed 's/^\xEF\xBB\xBF//' /tmp/sheet.csv) <(sed 's/^\xEF\xBB\xBF//' data/cases.source.csv); then
+            echo "changed=no" >> "$GITHUB_OUTPUT"
+          else
+            cp /tmp/sheet.bom.csv data/cases.source.csv
+            echo "changed=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - name: 빌드
+        id: build
+        if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
+        run: |
+          pip -q install openpyxl pillow
+          set +e
+          OUT=$(python tools/build_cases.py 2>&1); RC=$?
+          set -e
+          echo "$OUT"
+          if [ $RC -ne 0 ]; then
+            printf 'FAIL\n%s\n' "$OUT" > data/ledger-status.txt
+            echo "ok=no" >> "$GITHUB_OUTPUT"
+          else
+            printf 'OK\n%s\n' "$OUT" > data/ledger-status.txt
+            echo "ok=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - name: 커밋·푸시 (변경 있을 때만)
+        if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "ledger-bot"
+          git config user.email "ledger-bot@users.noreply.github.com"
+          git add data/cases.source.csv data/ledger-status.txt cases.html data/cases.csv llms.txt llms-full.txt sitemap.xml || true
+          git diff --cached --quiet && { echo "변경 없음"; exit 0; }
+          if [ "${{ steps.build.outputs.ok }}" = "yes" ]; then
+            git commit -m "chore(cases): 원장 자동 갱신 (구글시트)"
+          else
+            git commit -m "chore(cases): 원장 갱신 실패 기록 — bmaker.kr/data/ledger-status.txt 확인"
+          fi
+          git push
+      - name: 실패 시 액션도 실패로
+        if: steps.build.outputs.ok == 'no'
+        run: exit 1
