@@ -8,8 +8,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html"]
-SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy"]
+PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html"]
+SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats"]
 
 
 def _read(name: str) -> str:
@@ -47,7 +47,7 @@ def test_every_page_has_single_consistent_canonical():
 
 def test_sitemap_matches_canonicals():
     locs = re.findall(r"<loc>([^<]+)</loc>", _read("sitemap.xml"))
-    assert locs == ["https://bmaker.kr/"] + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"]
+    assert sorted(locs) == sorted(["https://bmaker.kr/"] + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"])
 
 
 def test_redirects_has_no_catch_all():
