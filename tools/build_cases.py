@@ -148,7 +148,7 @@ def build():
     dataset_ld=json.dumps({"@context":"https://schema.org","@type":"Dataset","@id":"https://bmaker.kr/cases#dataset",
       "name":"비즈니스 메이커 정책자금 실행 사례 원장",
       "description":f"{T['PERIOD_KR']} 실제 실행된 정책자금 사례 {N}건. 기관·자금명·실행 금액·금리·지역·업종·신용점수 구간·소요 기간을 익명화해 공개. 기관 안내문·약정 문자 증빙 {nev}건 포함.",
-      "url":"https://bmaker.kr/cases","creator":{"@id":"https://bmaker.kr/#org"},"dateModified":str(today),
+      "url":"https://bmaker.kr/cases","creator":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"dateModified":str(today),
       "temporalCoverage":f"{yms[0]}/{yms[-1]}","inLanguage":"ko","license":"https://creativecommons.org/licenses/by/4.0/",
       "distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://bmaker.kr/data/cases.csv"}]}, ensure_ascii=False, indent=1)
     crumb_ld=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
