@@ -18,6 +18,16 @@ REQ = ['사례ID','실행 연월','기관','자금명','실행 금액(만원)','
 def die(msg):
     print(f"[원장 빌드 실패] {msg}"); sys.exit(1)
 
+def norm_rate(v):
+    """금리 표기 통일: 앞머리의 숫자를 '연 N.NN%' 틀로 맞춘다. 숫자와 뒤따르는 설명(괄호 등)은 그대로 보존.
+    예: '3.65'→'연 3.65%' · '연 3.43(충북 육성자금)'→'연 3.43% (충북 육성자금)' · 숫자로 시작하지 않으면 입력 그대로."""
+    v = str(v or "").strip()
+    if not v: return ""
+    m = re.match(r"^연?\s*(\d+(?:\.\d+)?)\s*%?\s*(.*)$", v)
+    if not m: return v
+    num, rest = m.group(1), m.group(2).strip()
+    return f"연 {num}%" + (f" {rest}" if rest else "")
+
 def _norm_header(h):
     return re.sub(r"\s+", " ", str(h or "")).strip()
 
@@ -39,6 +49,7 @@ def _rows_from_records(records, where):
         if re.search(r"수수료|성공보수.{0,12}%|\d+\s*%\s*(수수료|보수)", joined): die(f"{where} {i}행: 보수·수수료 관련 표기는 원장에 쓸 수 없습니다.")
         if d["증빙 파일"] and not (ROOT/"assets"/"cases"/d["증빙 파일"]).exists():
             die(f"{where} {i}행 증빙 파일 assets/cases/{d['증빙 파일']} 이 없습니다. 파일을 먼저 넣어주세요.")
+        d["금리"] = norm_rate(d.get("금리", ""))
         rows.append(d)
     if not rows: die(f"{where}: 데이터 행이 없습니다.")
     return [d for d in rows if d["사이트 공개"].upper() == "Y"]
