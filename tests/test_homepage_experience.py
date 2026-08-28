@@ -81,7 +81,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
         self.assertEqual(len(trust_lists), 1)
         trust_text = " ".join(trust_lists[0]["text"].split())
-        for signal in ("영업 12년", "연 250개 기업", "착수금 없음", "전국 비대면"):
+        for signal in ("영업 12년", "연 250개 기업", "착수금·진행비 없음", "전국 비대면"):
             with self.subTest(signal=signal):
                 self.assertIn(signal, trust_text)
 
