@@ -61,7 +61,10 @@ jobs:
             set -e
             echo "$POUT"
             if [ $PRC -ne 0 ]; then
-              git checkout -- cases.html data/cases.csv llms.txt llms-full.txt sitemap.xml || true
+              # 소스 2개·상태 파일만 남기고 수정분 전부 복원 (자금 페이지는 시트 행이 늘면 파일명도 늘어 고정 목록으로는 구멍이 생긴다)
+              git ls-files -m | grep -v -E '^data/(cases|funds)\.source\.csv$|^data/ledger-status\.txt$' | xargs -r git checkout -- || true
+              # 새로 생성된 미추적 자금 페이지 제거 — 신규 자금이 테스트 실패와 함께 배포되는 것도 막는다
+              git clean -f ':(glob)*.html' || true
               printf 'FAIL\n%s\n[pytest 실패]\n%s\n' "$OUT" "$POUT" > data/ledger-status.txt
               echo "ok=no" >> "$GITHUB_OUTPUT"
             else

@@ -104,7 +104,7 @@ def build():
     np_=sum(1 for d in D if d['기존 정책자금']=='있음'); nl=sum(1 for d in D if d['신용점수 구간'] in ('600점대','500점대 이하'))
     nev=sum(1 for d in D if d['증빙 파일'])
     yms=sorted(d['실행 연월'] for d in D); y0,m0=yms[0].split('-'); y1,m1=yms[-1].split('-')
-    today=datetime.date.today()
+    today=(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST(UTC+9, 서머타임 없음) — 러너는 UTC
     T={'N':N,'TOTAL_KR':won2(total),'MED_KR':won2(med),'RANGE_KR':f"{won2(amts[0]).replace('원','')}~{won2(amts[-1])}",
        'DMED':dmed,'DN':len(days),'NEV':nev,'n_closed':nc,'n_tax':nt,'n_prior':np_,'n_low':nl,
        'PERIOD_KR':f"{int(y0)}년 {int(m0)}월~{int(y1)}년 {int(m1)}월",'PERIOD_LONG':f"{int(y0)}년 {int(m0)}월부터 {int(y1)}년 {int(m1)}월까지",

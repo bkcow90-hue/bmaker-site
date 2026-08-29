@@ -8,7 +8,7 @@
 import csv, json, re, sys, datetime
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-TODAY = datetime.date.today()
+TODAY = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST(UTC+9, 서머타임 없음) — 러너는 UTC
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
 def die(m): print(f"[자금 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
