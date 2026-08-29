@@ -8,8 +8,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html"]
-SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo"]
+PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html", "schedule.html", "sinyongchwiyak.html", "jaedojeon.html", "hyeoksin.html", "cheongnyeon.html"]
+SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon"]
 
 
 def _read(name: str) -> str:
