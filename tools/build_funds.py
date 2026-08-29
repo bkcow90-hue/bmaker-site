@@ -146,8 +146,18 @@ def build():
         (ROOT/f"{d['자금ID']}.html").write_text(page, encoding='utf-8')
     # /schedule
     order={'open':0,'soon':1,'check':2,'closed':3}
-    items=sorted(((d, *status_of(d)) for d in F), key=lambda x:(order[x[1]], x[3]))
-    sch_rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0">{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td></tr>' for d,cls,txt,_ in items)
+    def cat_of(d):
+        c=d['카테고리']
+        return '직접대출' if '직접' in c else ('대리대출' if '대리' in c else '기타')
+    CAT_DESC={'직접대출':'소상공인시장진흥공단이 직접 대출을 실행하는 트랙입니다.',
+              '대리대출':'보증기관 보증서를 바탕으로 은행이 실행하는 트랙입니다.',
+              '기타':'그 외 트랙입니다.'}
+    sch_rows=""
+    for cat in ('직접대출','대리대출','기타'):
+        group=sorted(((d, *status_of(d)) for d in F if cat_of(d)==cat), key=lambda x:(order[x[1]], x[3]))
+        if not group: continue
+        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0">{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td></tr>' for d,cls,txt,_ in group)
+        sch_rows+=f'<h2>{cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n<div class="tablewrap"><table><thead><tr><th>자금</th><th>기관</th><th>상태</th><th>메모</th><th>최종 확인</th></tr></thead><tbody>{rows}</tbody></table></div>\n' 
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 접수 일정","item":"https://bmaker.kr/schedule"}]}, ensure_ascii=False)
     sch=f'''<!DOCTYPE html>
 <html lang="ko">
@@ -183,7 +193,7 @@ def build():
 <main>
   <div class="wrap">
     <p class="asof">기준일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 일정은 기관 공고에 따라 변경될 수 있으며, 각 항목의 '최종 확인일'을 함께 보세요. 목록은 계속 추가됩니다.</p>
-    <div class="tablewrap"><table><thead><tr><th>자금</th><th>기관</th><th>상태</th><th>메모</th><th>최종 확인</th></tr></thead><tbody>{sch_rows}</tbody></table></div>
+    {sch_rows}
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>
@@ -207,7 +217,7 @@ def build():
     (ROOT/'schedule.html').write_text(sch, encoding='utf-8')
     # llms.txt 일정 줄 갱신 (있으면 교체, 없으면 삽입)
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
-    open_names=[d['자금명'] for d,cls,_,_ in items if cls=='open']
+    open_names=[d['자금명'] for d in F if status_of(d)[0]=='open']
     line=f"- [정책자금 접수 일정](https://bmaker.kr/schedule): 상태별 자동 갱신 일정표 — 자금별 팩트 페이지(실측·공고 링크) {len(F)}종 연결" + (f". 현재 접수 중: {', '.join(open_names)}" if open_names else "")
     if '- [정책자금 접수 일정]' in lt: lt=re.sub(r'- \[정책자금 접수 일정\][^\n]*', line, lt)
     else: lt=lt.replace('- [신용보증재단 사업자대출]', line+'\n- [신용보증재단 사업자대출]')
