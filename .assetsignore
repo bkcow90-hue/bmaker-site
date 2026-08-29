@@ -9,3 +9,4 @@ data/cases.xlsx
 .github/
 data/cases.source.csv
 data/ledger-source.url
+data/funds-source.url
