@@ -45,9 +45,25 @@ def test_every_page_has_single_consistent_canonical():
             assert og == [url], f"{name}: og:url={og} ≠ canonical"
 
 
+def _fund_slugs():
+    """시트가 원본인 자금 페이지 — 목록은 funds.source.csv 에서 동적으로 읽는다."""
+    import csv
+    with open(ROOT/"data"/"funds.source.csv", encoding="utf-8-sig") as f:
+        return [d["자금ID"] for d in csv.DictReader(f) if (d.get("사이트 공개") or "").strip().upper() == "Y"]
+
+
 def test_sitemap_matches_canonicals():
     locs = re.findall(r"<loc>([^<]+)</loc>", _read("sitemap.xml"))
-    assert sorted(locs) == sorted(["https://bmaker.kr/"] + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"])
+    expected = (["https://bmaker.kr/"]
+                + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"]
+                + [f"https://bmaker.kr/{s}" for s in _fund_slugs() if s not in SLUGS])
+    assert sorted(locs) == sorted(expected)
+
+
+def test_fund_pages_canonical():
+    for s in _fund_slugs():
+        html = _read(f"{s}.html")
+        assert f'<link rel="canonical" href="https://bmaker.kr/{s}">' in html, s
 
 
 def test_redirects_has_no_catch_all():
