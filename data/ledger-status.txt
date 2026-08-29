@@ -1,3 +1,3 @@
-FAIL
+OK
 [원본] data/cases.source.csv (25행)
-[원장 빌드 실패] cases.source.csv 26행: 필수 열 '사례ID' 이 비어 있습니다.
+[원장 빌드 OK] 공개 25건 (총 14억 2,000만원, 증빙 12건) → cases.html · data/cases.csv · llms-full.txt · llms.txt · sitemap.xml 갱신 (기준일 2026-08-29)
