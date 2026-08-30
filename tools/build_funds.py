@@ -27,7 +27,7 @@ def load():
             if not re.match(r'^[a-z0-9-]+$', d['자금ID']): die(f"{i}행 자금ID '{d['자금ID']}' — 영소문자·숫자·하이픈만.")
             for c in ('접수 시작일','접수 마감일','최종 확인일'):
                 v=d.get(c,'')
-                if v and v!='예산 소진 시' and not re.match(r'^\d{4}-\d{2}-\d{2}$', v): die(f"{i}행 {c} '{v}' — YYYY-MM-DD 형식(마감일은 '예산 소진 시' 허용).")
+                if v and '소진' not in v and not re.match(r'^\d{4}-\d{2}-\d{2}$', v): die(f"{i}행 {c} '{v}' — YYYY-MM-DD 형식(마감일은 '예산 소진 시(까지)' 등 소진형 표현 허용).")
             j=' '.join(d.values())
             if '갚' in j: die(f"{i}행: '갚다'류 금지 — 상환으로.")
             if re.search(r'보장', j): die(f"{i}행: '보장' 표현 금지.")
@@ -52,7 +52,7 @@ def status_of(d):
     if d['접수 상태']=='상시': return ('open','상시 접수', 3)
     if s and pd(s)>TODAY: return ('soon', f"접수 예정 · {s} 시작", 2)
     if s and pd(s)<=TODAY:
-        if e=='예산 소진 시': return ('open','접수 중 · 예산 소진 시 마감', 1)
+        if '소진' in e: return ('open','접수 중 · 예산 소진 시 마감', 1)
         if e and pd(e)>=TODAY: return ('open', f"접수 중 · {e} 마감", 0 if (pd(e)-TODAY).days<=14 else 1)
         if e and pd(e)<TODAY: return ('closed', f"접수 마감 ({e}) · 다음 공고 대기", 4)
     return ('check','접수 일정: 최신 공고 확인 필요', 3)
