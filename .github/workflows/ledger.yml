@@ -73,6 +73,7 @@ jobs:
             fi
           fi
       - name: 커밋·푸시 (변경 있을 때만)
+        id: commit
         if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "ledger-bot"
@@ -85,6 +86,22 @@ jobs:
             git commit -m "chore(cases): 원장 갱신 실패 기록 — bmaker.kr/data/ledger-status.txt 확인"
           fi
           git push
+          echo "pushed=yes" >> "$GITHUB_OUTPUT"
+      - name: IndexNow 핑 (봇 커밋의 변경 페이지)
+        if: steps.commit.outputs.pushed == 'yes' && steps.build.outputs.ok == 'yes'
+        run: |
+          KEYFILE=$(ls | grep -E '^[0-9a-f]{64}\.txt$' | head -1) || true
+          [ -z "$KEYFILE" ] && { echo "키 파일 없음 — 핑 생략"; exit 0; }
+          KEY=$(tr -d ' \r\n' < "$KEYFILE")
+          FILES=$(git diff --name-only HEAD~1 -- '*.html' | grep -v '^404\.html$' || true)
+          URLS=$(for f in $FILES; do if [ "$f" = "index.html" ]; then echo "https://bmaker.kr/"; else echo "https://bmaker.kr/${f%.html}"; fi; done | sort -u)
+          [ -z "$URLS" ] && { echo "핑할 URL 없음"; exit 0; }
+          LIST=$(echo "$URLS" | sed 's/.*/"&"/' | paste -sd, -)
+          echo "IndexNow 핑 $(echo "$URLS" | wc -l)건:"; echo "$URLS"
+          curl -fsS -o /dev/null -w "HTTP %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"bmaker.kr\",\"key\":\"$KEY\",\"keyLocation\":\"https://bmaker.kr/$KEYFILE\",\"urlList\":[$LIST]}" \
+            || echo "IndexNow 핑 실패 — 무시 (다음 갱신 때 자연 재시도)"
       - name: 실패 시 액션도 실패로
         if: steps.build.outputs.ok == 'no'
         run: exit 1
