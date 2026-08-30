@@ -15,6 +15,9 @@
 ## B2. 자금 시트 연결 (한 번)
 대표가 같은 스프레드시트에 '자금' 탭을 만들어 게시하면(웹에 게시→해당 시트+CSV), 그 주소를 data/funds-source.url 로 저장·커밋한다. 이후 자금 페이지·/schedule 은 원장과 같은 파이프라인으로 자동 반영되고, 매일 06:07 KST에 접수 배지가 날짜 기준으로 재계산된다. 검증: `python tools/build_funds.py` → "[자금 빌드 OK]".
 
+## B3. 재단 시트 연결 (선택)
+'재단' 탭을 게시(CSV)하고 주소를 data/jaedan-source.url 로 저장·커밋하면 지역 재단 17페이지도 시트가 원본이 된다. 연결 전에는 저장소의 data/jaedan.source.csv 가 원본이며, 개별 재단 홈페이지 URL·메모는 시트(또는 CSV)에서 수정한다. 검증: `python tools/build_jaedan.py`.
+
 ## C. 로컬에서 고치는 경우 (시트 없이)
 1. data/cases.source.csv (또는 data/cases.xlsx) 수정 — 시트가 연결된 뒤에는 로컬 수정 금지(시트가 덮어씀), 시트에서 고치라고 안내
 2. `python -c "import openpyxl, PIL"` — 실패 시 `pip install openpyxl pillow`

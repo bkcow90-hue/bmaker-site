@@ -52,11 +52,18 @@ def _fund_slugs():
         return [d["자금ID"] for d in csv.DictReader(f) if (d.get("사이트 공개") or "").strip().upper() == "Y"]
 
 
+def _jaedan_slugs():
+    import csv
+    with open(ROOT/"data"/"jaedan.source.csv", encoding="utf-8-sig") as f:
+        return [d["재단ID"] for d in csv.DictReader(f) if (d.get("사이트 공개") or "").strip().upper() == "Y"]
+
+
 def test_sitemap_matches_canonicals():
     locs = re.findall(r"<loc>([^<]+)</loc>", _read("sitemap.xml"))
     expected = (["https://bmaker.kr/"]
                 + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"]
-                + [f"https://bmaker.kr/{s}" for s in _fund_slugs() if s not in SLUGS])
+                + [f"https://bmaker.kr/{s}" for s in _fund_slugs() if s not in SLUGS]
+                + [f"https://bmaker.kr/{s}" for s in _jaedan_slugs() if s not in SLUGS])
     assert sorted(locs) == sorted(expected)
 
 

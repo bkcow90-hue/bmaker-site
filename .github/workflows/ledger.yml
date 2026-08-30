@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['data/ledger-source.url', 'data/funds-source.url']
+    paths: ['data/ledger-source.url', 'data/funds-source.url', 'data/jaedan-source.url']
 permissions:
   contents: write
 concurrency:
@@ -41,6 +41,14 @@ jobs:
               cp /tmp/funds.bom.csv data/funds.source.csv; CH=yes
             fi
           fi
+          if [ -f data/jaedan-source.url ]; then
+            JURL=$(tr -d ' \r\n' < data/jaedan-source.url)
+            curl -fsSL "$JURL" -o /tmp/jaedan.csv && sed -i 's/\r$//' /tmp/jaedan.csv
+            printf '\xEF\xBB\xBF' | cat - /tmp/jaedan.csv > /tmp/jaedan.bom.csv 2>/dev/null || cp /tmp/jaedan.csv /tmp/jaedan.bom.csv
+            if ! cmp -s <(sed 's/^\xEF\xBB\xBF//' /tmp/jaedan.csv) <(sed 's/^\xEF\xBB\xBF//' data/jaedan.source.csv); then
+              cp /tmp/jaedan.bom.csv data/jaedan.source.csv; CH=yes
+            fi
+          fi
           if [ "${{ github.event.schedule }}" = "7 21 * * *" ]; then CH=yes; fi
           echo "changed=$CH" >> "$GITHUB_OUTPUT"
       - name: 빌드
@@ -49,7 +57,7 @@ jobs:
         run: |
           pip -q install openpyxl pillow pytest
           set +e
-          OUT=$(python tools/build_cases.py 2>&1 && python tools/build_funds.py 2>&1); RC=$?
+          OUT=$(python tools/build_cases.py 2>&1 && python tools/build_funds.py 2>&1 && python tools/build_jaedan.py 2>&1); RC=$?
           set -e
           echo "$OUT"
           if [ $RC -ne 0 ]; then
