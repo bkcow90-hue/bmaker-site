@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """자금 팩트 페이지 + 접수 일정(/schedule) 빌드 — data/funds.source.csv 한 줄 = 페이지 하나.
 
-원장(cases.source.csv)에서 '원장 키워드'로 실측 사례를 자동 연결하고,
+실행 기록(cases.source.csv)에서 '원장 키워드'로 실측 사례를 자동 연결하고,
 접수 시작/마감일을 오늘 날짜와 비교해 상태 배지를 계산한다(매일 새벽 재빌드로 자동 뒤집힘).
 실행: python tools/build_funds.py
 """
@@ -46,6 +46,26 @@ def cases_for(kw):
     out.sort(key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)
     return out
 
+def rate_range(vals):
+    nums=[]
+    for v in vals:
+        m=re.search(r'\d+(?:\.\d+)?', v or '')
+        if m: nums.append(float(m.group(0)))
+    nums=sorted(set(nums))
+    if not nums: return ''
+    lo=f"{nums[0]:g}"; hi=f"{nums[-1]:g}"
+    return f"연 {lo}%" if lo==hi else f"연 {lo}~{hi}%"
+
+def peer_cases(inst):
+    key='소상공인' if '소상공인' in inst else inst[:3]
+    out=[]
+    with open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='') as f:
+        for r in csv.DictReader(f):
+            if r['사이트 공개'].upper()=='Y' and key in r['기관']:
+                out.append(r)
+    out.sort(key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)
+    return out
+
 def status_of(d):
     s,e = d['접수 시작일'], d['접수 마감일']
     def pd(v): return datetime.date.fromisoformat(v)
@@ -69,10 +89,25 @@ def build():
         badge_cls, badge_txt, _ = status_of(d)
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=sorted({r['금리'].split('(')[0].strip() for r in C if r['금리']})
-        meas_sum = (f"원장 실측 {len(C)}건 · {won2(min(amts))}~{won2(max(amts))}" + (f" · {rates[0]}~{rates[-1]}" if rates else "")) if C else "원장 수록 실측 준비 중"
+        meas_sum = (f"실측 기록 {len(C)}건 · {won2(min(amts))}~{won2(max(amts))}" + (f" · {rates[0]}~{rates[-1]}" if rates else "")) if C else "실행 기록 수록 실측 준비 중"
         rows_html="".join(
-          f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">원장</a></td></tr>' for r in C)
-        meas_html=(f'<h2>원장에 기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다 — 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">공개 원장</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>') if C else '<h2>원장 실측</h2>\n<p>이 자금의 실행 건은 진행하고 있으며, 고객 동의와 증빙이 확보되는 대로 <a href="/cases">공개 원장</a>에 수록합니다 — 저희는 문서로 증명할 수 있는 것만 올립니다.</p>'
+          f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in C)
+        if C:
+            meas_html=(f'<h2>기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다 — 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>')
+        else:
+            P=peer_cases(d['기관'])
+            steps='신청 시스템 접수 → 공단 심사 → 약정·실행' if '직접' in d['카테고리'] else '보증기관 심사 → 보증서 발급 → 은행 대출 실행'
+            if P:
+                pa=[int(r['실행 금액(만원)']) for r in P]
+                pr=rate_range([r['금리'] for r in P])
+                prow="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in P[:3])
+                meas_html=(f'<h2>{esc(d["자금명"])} 실행 기록</h2>\n<p>이 자금으로 수록된 건은 아직 없습니다. 다만 같은 {esc(d["기관"])} 경로의 공개 실행 기록이 {len(P)}건 · {won2(sum(pa))}'
+                           +(f' · 금리 {pr}' if pr else '')
+                           +f' 쌓여 있어, 진행 구조와 조건 감각은 거기서 잡을 수 있습니다. 진행 순서는 {steps}.</p>\n'
+                           +'<div class="tablewrap"><table><thead><tr><th>실행</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+prow+'</tbody></table></div>\n'
+                           +'<p><a href="/cases">공개 실행 기록 전체 보기 →</a> 이 자금의 실행 건은 고객 동의·증빙이 확보되는 대로 추가합니다.</p>')
+            else:
+                meas_html=f'<h2>{esc(d["자금명"])} 실행 기록</h2>\n<p>수록된 건은 아직 없습니다. 진행 순서는 {steps} 이며, 실행 건은 고객 동의·증빙이 확보되는 대로 <a href="/cases">공개 실행 기록</a>에 추가합니다.</p>'
         facts=[]
         if d['대상 요약']: facts.append(('대상', esc(d['대상 요약'])))
         if d['한도']: facts.append(('한도', esc(d['한도'])))
@@ -126,7 +161,7 @@ def build():
       <p class="t">함께 보기</p>
       <a href="{inst_link}">{esc(d['기관'])} 안내</a>
       <a href="/schedule">전체 접수 일정</a>
-      <a href="/cases">실행 사례 원장</a>
+      <a href="/cases">실행 기록</a>
       <a href="/sanghwan">상환 구조 가이드</a>
     </div>
     <div class="cta-box">
@@ -197,7 +232,7 @@ def build():
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>
-      <a href="/cases">실행 사례 원장</a>
+      <a href="/cases">실행 기록</a>
       <a href="/sojingong">소상공인 정책자금</a>
       <a href="/jaedan">신용보증재단 사업자대출</a>
       <a href="/chaksugeum">착수금 사기 구별법</a>

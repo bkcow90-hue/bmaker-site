@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """지역 신용보증재단 페이지 17종 빌드 — data/jaedan.source.csv 한 줄 = 페이지 하나.
-원장에서 (기관에 '재단' 포함 & 지역 일치) 사례를 자동 연결하고, /jaedan 허브의 지역 그리드를 마커 사이에 주입한다.
+실행 기록에서 (기관에 '재단' 포함 & 지역 일치) 사례를 자동 연결하고, /jaedan 허브의 지역 그리드를 마커 사이에 주입한다.
 실행: python tools/build_jaedan.py
 """
 import csv, json, re, sys, datetime
@@ -33,6 +33,25 @@ def load():
     if len(ids)!=len(set(ids)): die("재단ID 중복.")
     return [d for d in rows if d['사이트 공개'].upper()=='Y']
 
+def rate_range(vals):
+    nums=[]
+    for v in vals:
+        m=re.search(r'\d+(?:\.\d+)?', v or '')
+        if m: nums.append(float(m.group(0)))
+    nums=sorted(set(nums))
+    if not nums: return ''
+    lo=f"{nums[0]:g}"; hi=f"{nums[-1]:g}"
+    return f"연 {lo}%" if lo==hi else f"연 {lo}~{hi}%"
+
+def all_jd():
+    out=[]
+    with open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='') as f:
+        for r in csv.DictReader(f):
+            if r['사이트 공개'].upper()=='Y' and '재단' in r['기관']:
+                out.append(r)
+    out.sort(key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)
+    return out
+
 def cases_for(region):
     out=[]
     with open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='') as f:
@@ -52,14 +71,21 @@ def build():
     for d in J:
         C=cases_for(d['지역(시도)'])
         amts=[int(r['실행 금액(만원)']) for r in C]
-        rates=sorted({r['금리'].split('(')[0].strip() for r in C if r['금리']})
-        rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">원장</a></td></tr>' for r in C)
+        rates=rate_range([r['금리'] for r in C])
+        rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in C)
         if C:
-            meas=(f'<h2>{esc(d["재단명"])} 실측 — 원장 기록</h2>\n<p>저희가 {esc(d["지역(시도)"])} 사업장으로 실제 실행한 재단 보증부 대출입니다. 총 {len(C)}건 · {won2(sum(amts))}'+(f' · 금리 {rates[0]}~{rates[-1]}' if len(rates)>1 else (f' · {rates[0]}' if rates else ''))+f' (각 실행 시점 기준). 전체 맥락은 <a href="/cases">공개 원장</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
+            meas=(f'<h2>{esc(d["재단명"])} 실측 — 실행 기록</h2>\n<p>저희가 {esc(d["지역(시도)"])} 사업장으로 실제 실행한 재단 보증부 대출입니다. 총 {len(C)}건 · {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준). 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         else:
-            meas=(f'<h2>{esc(d["재단명"])} 실측</h2>\n<p>{esc(d["지역(시도)"])} 지역 실행 건도 진행하고 있으며, 고객 동의와 증빙이 확보되는 대로 <a href="/cases">공개 원장</a>에 수록합니다 — 저희는 문서로 증명할 수 있는 것만 올립니다. 재단 경로 전체 실측은 <a href="/jaedan">재단 안내 페이지</a>의 9개 지역 기록에서 확인할 수 있습니다.</p>')
+            A=all_jd(); aa=[int(r['실행 금액(만원)']) for r in A]
+            ar=rate_range([r['금리'] for r in A])
+            arow="".join(f'<tr><td>{r["지역(시도)"]}</td><td>{esc(r["자금명"])[:24]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in A[:3])
+            meas=(f'<h2>{esc(d["재단명"])} 실행 기록</h2>\n<p>{esc(d["지역(시도)"])} 지역으로 수록된 건은 아직 없습니다. 다만 재단 경로 자체는 저희가 가장 많이 실행한 트랙입니다 — 전국 재단 공개 실행 기록 {len(A)}건 · {won2(sum(aa))}'
+                  +(f' · 금리 {ar}' if ar else '')
+                  +f' (각 실행 시점 기준). 보증 심사 기준과 진행 구조는 지역이 달라도 같습니다.</p>\n'
+                  +'<div class="tablewrap"><table><thead><tr><th>지역</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+arow+'</tbody></table></div>\n'
+                  +f'<p><a href="/cases">공개 실행 기록 전체 →</a> {esc(d["지역(시도)"])} 실행 건은 고객 동의·증빙이 확보되는 대로 추가합니다.</p>')
         faq=[(f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"네, 재단은 사업장 소재지 기준입니다. 사업장이 {d['지역(시도)']}에 있으면 {d['재단명']}이 창구이고, 지자체 이차보전(이자 지원) 상품도 해당 지자체 소재 사업자만 대상입니다."),
-             ("신용점수가 낮아도 가능한가요?", "재단 보증은 신용점수만으로 결정되지 않습니다. 저희 원장에는 신용 600점대에서 재단 보증부 대출이 실행된 기록이 있습니다. 다만 현재 금융 연체 중이거나 세금 체납이 정리되지 않았다면 그 회복이 먼저입니다 — 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
+             ("신용점수가 낮아도 가능한가요?", "재단 보증은 신용점수만으로 결정되지 않습니다. 저희 실행 기록에는 신용 600점대에서 재단 보증부 대출이 실행된 기록이 있습니다. 다만 현재 금융 연체 중이거나 세금 체납이 정리되지 않았다면 그 회복이 먼저입니다 — 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
              ("어떻게 진행되나요?", "재단 보증 심사 → 보증서 발급 → 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다."),
              ("무엇을 준비해야 하나요?", "사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해, 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.")]
         faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
@@ -105,7 +131,7 @@ def build():
     <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
     <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
-    <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 원장의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
+    <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 실행 기록의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
     {faq_html}
@@ -113,7 +139,7 @@ def build():
       <p class="t">함께 보기</p>
       <a href="/jaedan">신용보증재단 안내 (9개 지역 실측)</a>
       <a href="/schedule">정책자금 접수 일정</a>
-      <a href="/cases">실행 사례 원장</a>
+      <a href="/cases">실행 기록</a>
       <a href="/sanghwan">상환 구조 가이드</a>
     </div>
     <div class="cta-box">
@@ -155,7 +181,7 @@ def build():
     # llms.txt 재단 줄 upsert
     withm_regions=[d['지역(시도)'] for d in J if cases_for(d['지역(시도)'])]
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
-    line=f"- [지역 신용보증재단 페이지 17종](https://bmaker.kr/jaedan): 시도별 재단 사업자대출 안내 — 원장 실측 보유 {len(withm_regions)}개 지역({'·'.join(withm_regions)})"
+    line=f"- [지역 신용보증재단 페이지 17종](https://bmaker.kr/jaedan): 시도별 재단 사업자대출 안내 — 실측 기록 보유 {len(withm_regions)}개 지역({'·'.join(withm_regions)})"
     if '- [지역 신용보증재단 페이지 17종]' in lt: lt=re.sub(r'- \[지역 신용보증재단 페이지 17종\][^\n]*', line, lt)
     else: lt=lt.replace('- [기술보증기금 대출]', line+'\n- [기술보증기금 대출]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')

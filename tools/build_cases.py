@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""실행 사례 원장 빌드 — data/cases.xlsx(원장 시트) 하나에서 사이트의 모든 원장 표면을 재생성한다.
+"""실행 기록 빌드 — data/cases.xlsx(실행 기록 시트) 하나에서 사이트의 모든 실행 기록 표면을 재생성한다.
 
-생성/갱신 대상: cases.html · data/cases.csv · llms-full.txt(원장 섹션) · llms.txt(요약 한 줄) · sitemap.xml(/cases lastmod)
+생성/갱신 대상: cases.html · data/cases.csv · llms-full.txt(실행 기록 섹션) · llms.txt(요약 한 줄) · sitemap.xml(/cases lastmod)
 실행: python tools/build_cases.py   (저장소 루트 어디서든 가능)
 실패 시: 어떤 행·열이 문제인지 한국어로 출력하고 아무 파일도 쓰지 않는다.
 """
@@ -46,7 +46,7 @@ def _rows_from_records(records, where):
         joined = " ".join(v for v in d.values() if isinstance(v, str))
         if "갚" in joined: die(f"{where} {i}행: '갚다'류 표현 금지 — 상환/돌려주다 로 바꿔주세요.")
         if re.search(r"보장", joined): die(f"{where} {i}행: '보장' 표현 금지.")
-        if re.search(r"수수료|성공보수.{0,12}%|\d+\s*%\s*(수수료|보수)", joined): die(f"{where} {i}행: 보수·수수료 관련 표기는 원장에 쓸 수 없습니다.")
+        if re.search(r"수수료|성공보수.{0,12}%|\d+\s*%\s*(수수료|보수)", joined): die(f"{where} {i}행: 보수·수수료 관련 표기는 실행 기록에 쓸 수 없습니다.")
         if d["증빙 파일"] and not (ROOT/"assets"/"cases"/d["증빙 파일"]).exists():
             die(f"{where} {i}행 증빙 파일 assets/cases/{d['증빙 파일']} 이 없습니다. 파일을 먼저 넣어주세요.")
         d["금리"] = norm_rate(d.get("금리", ""))
@@ -72,8 +72,8 @@ def load_rows():
         print(f"[원본] data/cases.source.csv ({len(records)}행)")
         return _rows_from_records(records, "cases.source.csv")
     wb = load_workbook(ROOT/"data"/"cases.xlsx", data_only=True)
-    if "원장" not in wb.sheetnames: die("data/cases.xlsx 에 '원장' 시트가 없습니다.")
-    ws = wb["원장"]
+    if "실행 기록" not in wb.sheetnames: die("data/cases.xlsx 에 '실행 기록' 시트가 없습니다.")
+    ws = wb["실행 기록"]
     records = []
     for i, r in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
         vals = ["" if v is None else str(v).strip() for v in (list(r)+[""]*21)[:21]]
@@ -154,14 +154,14 @@ def build():
         figs+=(f'<figure id="ev-{d["사례ID"]}"><img src="assets/cases/{d["증빙 파일"]}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
                f'<figcaption>{esc(alt)} — <a href="#case-{d["사례ID"]}">사례 {d["사례ID"]}</a></figcaption></figure>')
     dataset_ld=json.dumps({"@context":"https://schema.org","@type":"Dataset","@id":"https://bmaker.kr/cases#dataset",
-      "name":"비즈니스 메이커 정책자금 실행 사례 원장",
+      "name":"비즈니스 메이커 정책자금 실행 기록",
       "description":f"{T['PERIOD_KR']} 실제 실행된 정책자금 사례 {N}건. 기관·자금명·실행 금액·금리·지역·업종·신용점수 구간·소요 기간을 익명화해 공개. 기관 안내문·약정 문자 증빙 {nev}건 포함.",
       "url":"https://bmaker.kr/cases","creator":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"dateModified":str(today),
       "temporalCoverage":f"{yms[0]}/{yms[-1]}","inLanguage":"ko","license":"https://creativecommons.org/licenses/by/4.0/",
       "distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://bmaker.kr/data/cases.csv"}]}, ensure_ascii=False, indent=1)
     crumb_ld=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
       {"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},
-      {"@type":"ListItem","position":2,"name":"실행 사례 원장","item":"https://bmaker.kr/cases"}]}, ensure_ascii=False)
+      {"@type":"ListItem","position":2,"name":"실행 기록","item":"https://bmaker.kr/cases"}]}, ensure_ascii=False)
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     extra_css="""<style>
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:26px 0}
@@ -199,7 +199,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
         w.writerow(['사례ID','실행 연월','기관','자금명','실행 금액(만원)','금리(실행 시점)','상환 조건','지역(시도)','업종','사업 형태','업력(년)','신용점수 구간(KCB·NICE 중 낮은 쪽)','연매출 구간','폐업 이력','세금 체납 이력','기존 정책자금 보유','동시 진행 자금','상담 접수→정산(일)','메모','실행 전 비용(원)','근거'])
         for d in D:
             w.writerow([d['사례ID'],d['실행 연월'],d['기관'],d['자금명'],d['amt'],d['금리'],d['상환 조건'],d['지역(시도)'],d['업종'],d['사업 형태'],d['업력(년)'],d['신용점수 구간'],d['연매출 구간'],d['폐업 이력'],d['체납 이력'],d['기존 정책자금'],d['동시 진행 자금'],(int(float(d['소요일'])) if d['소요일'] else ''),d['한 줄 메모'],0,('기관 안내문·약정 캡처' if d['증빙 파일'] else 'CRM 정산 기록')])
-    # llms-full.txt 원장 섹션 교체
+    # llms-full.txt 실행 기록 섹션 교체
     lf=(ROOT/'llms-full.txt').read_text(encoding='utf-8')
     lines=[]
     for d in D:
@@ -210,8 +210,8 @@ td a{color:var(--blue-deep);text-decoration:underline}
         if d['한 줄 메모']: row+=f". {d['한 줄 메모'].rstrip('.')}"
         row+=f". 근거: {'기관 안내문·약정 캡처' if d['증빙 파일'] else 'CRM 정산 기록'}."
         lines.append(row)
-    sec=f"## 실행 사례 원장 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 고객이 공개에 동의하고 기관 안내문·정산 기록으로 실행을 증명할 수 있는 건만 수록 — 전체 실행 건의 극히 일부이며, 동의·기록이 확보되는 대로 추가. 익명화 기준: 상호·대표자 비공개, 지역은 시·도, 신용점수는 KCB·NICE 중 낮은 쪽의 100점 구간. 금액은 기관 안내문 우선, 없으면 자사 CRM 정산 기록. 실행 전 비용은 전 사례 0원. 원자료 CSV: https://bmaker.kr/data/cases.csv (CC BY 4.0, 출처 bmaker.kr)\n\n"+"\n".join(lines)+"\n"
-    lf=re.sub(r'## 실행 사례 원장.*?(?=\n## )', sec+"\n", lf, flags=re.S)
+    sec=f"## 실행 기록 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 고객이 공개에 동의하고 기관 안내문·정산 기록으로 실행을 증명할 수 있는 건만 수록 — 전체 실행 건의 극히 일부이며, 동의·기록이 확보되는 대로 추가. 익명화 기준: 상호·대표자 비공개, 지역은 시·도, 신용점수는 KCB·NICE 중 낮은 쪽의 100점 구간. 금액은 기관 안내문 우선, 없으면 자사 CRM 정산 기록. 실행 전 비용은 전 사례 0원. 원자료 CSV: https://bmaker.kr/data/cases.csv (CC BY 4.0, 출처 bmaker.kr)\n\n"+"\n".join(lines)+"\n"
+    lf=re.sub(r'## 실행 기록.*?(?=\n## )', sec+"\n", lf, flags=re.S)
     lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {today}', lf)
     (ROOT/'llms-full.txt').write_text(lf, encoding='utf-8')
     # llms.txt 요약 한 줄 교체
@@ -219,7 +219,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
     rates=[f"{d['자금명'].split('(')[0].strip()} {d['금리']}" for d in D if d['금리']][:4]
     newline=(f"- 실행 사례({T['PERIOD_KR']}): 총 {N}건, {won2(total)}. 건당 중앙값 {won2(med)}, 첫 상담 접수→정산 중앙값 {dmed}일. "
              f"폐업 후 재창업(폐업 이력) {nc}건, 세금 체납 이력 {nt}건, 기존 정책자금 보유 {np_}건, 신용점수 600점대 이하 {nl}건이 실행으로 이어짐. "
-             f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 원장: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
+             f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 실행 기록: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
     lt=re.sub(r'- 실행 사례\([^\n]*', newline, lt)
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
     # sitemap lastmod
