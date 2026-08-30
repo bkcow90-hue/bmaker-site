@@ -1,0 +1,35 @@
+# IndexNow — 페이지가 main에 푸시되면 바뀐 URL을 빙·네이버 등 참여 엔진에 즉시 통보한다.
+# 수동 실행(workflow_dispatch)은 sitemap 전체 URL을 일괄 핑한다(최초 시드·대량 갱신용).
+name: indexnow
+on:
+  push:
+    branches: [main]
+    paths: ['**.html']
+  workflow_dispatch:
+permissions: {}
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: URL 수집·핑
+        run: |
+          KEYFILE=$(ls | grep -E '^[0-9a-f]{64}\.txt$' | head -1)
+          [ -z "$KEYFILE" ] && { echo "키 파일 없음"; exit 1; }
+          KEY=$(tr -d ' \r\n' < "$KEYFILE")
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g')
+          else
+            FILES=$(git diff --name-only "${{ github.event.before }}" "${{ github.event.after }}" -- '*.html' 2>/dev/null || git diff --name-only HEAD~1 -- '*.html')
+            URLS=$(echo "$FILES" | grep -v '^$' | grep -v '^404\.html$' | sed -e 's#^index\.html$##' -e 's#\.html$##' -e 's#^#https://bmaker.kr/#')
+          fi
+          URLS=$(echo "$URLS" | grep -v '^$' | sort -u)
+          [ -z "$URLS" ] && { echo "핑할 URL 없음"; exit 0; }
+          COUNT=$(echo "$URLS" | wc -l)
+          LIST=$(echo "$URLS" | sed 's/.*/"&"/' | paste -sd, -)
+          echo "IndexNow 핑 $COUNT건:"; echo "$URLS"
+          curl -fsS -o /dev/null -w "HTTP %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"bmaker.kr\",\"key\":\"$KEY\",\"keyLocation\":\"https://bmaker.kr/$KEYFILE\",\"urlList\":[$LIST]}"
