@@ -12,3 +12,4 @@ data/ledger-source.url
 data/funds-source.url
 data/jaedan.source.csv
 data/jaedan-source.url
+.agents/
