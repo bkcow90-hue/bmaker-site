@@ -1,10 +1,12 @@
-# .html→확장자없음은 Workers 정적 자산 런타임이 자동 307 처리(파일 실존 시 _redirects보다 우선). 308로 바꾸려면 존 레벨 Redirect Rules 필요 — 미적용.
+# .html → 확장자 없는 주소는 Cloudflare 존 레벨 Redirect Rules(index-html, html-strip)가 301로 처리(2026-09-02 적용).
+# Workers 런타임 기본은 307이므로 그 규칙이 삭제되면 307로 회귀 — 규칙 유지 필수.
+# _redirects 로는 이 변환을 못 함(실존 파일 우선).
 
 # _redirects — Cloudflare Workers(static assets, wrangler.jsonc)
 # 폐지된 구(QUV)·광고 랜딩 경로를 의미가 맞는 현행 페이지로 301. 위→아래 순으로 첫 매칭 적용.
 # 실존 페이지(/cases /sojingong /jungjingong /bojeung /certification /privacy)는
 # 여기에 규칙이 없으므로 그대로 200으로 서빙된다.
-# .html → 확장자 없는 주소 변환은 런타임이 자동 307로 처리하므로 규칙 불필요(실측 확인).
+# .html → 확장자 없는 주소 변환은 위 존 레벨 Redirect Rules(301)가 담당하므로 여기 규칙 불필요.
 #
 # 의도적으로 404 로 두는 구 경로(규칙 없음): /mypage /join /oauth/callback.php /g,
 #   → 회원·시스템 페이지와 깨진 경로라 대응 페이지가 없음. 404 가 정답.
