@@ -1,17 +1,17 @@
-# .html→확장자없음은 Pages가 자동 307 처리(파일 실존 시 _redirects보다 우선). 308로 바꾸려면 존 레벨 Redirect Rules 필요 — 미적용.
+# .html→확장자없음은 Workers 정적 자산 런타임이 자동 307 처리(파일 실존 시 _redirects보다 우선). 308로 바꾸려면 존 레벨 Redirect Rules 필요 — 미적용.
 
-# _redirects — Cloudflare Pages
+# _redirects — Cloudflare Workers(static assets, wrangler.jsonc)
 # 폐지된 구(QUV)·광고 랜딩 경로를 의미가 맞는 현행 페이지로 301. 위→아래 순으로 첫 매칭 적용.
 # 실존 페이지(/cases /sojingong /jungjingong /bojeung /certification /privacy)는
 # 여기에 규칙이 없으므로 그대로 200으로 서빙된다.
-# .html → 확장자 없는 주소 변환은 Cloudflare Pages가 자동(308)으로 처리하므로 규칙 불필요.
+# .html → 확장자 없는 주소 변환은 런타임이 자동 307로 처리하므로 규칙 불필요(실측 확인).
 #
 # 의도적으로 404 로 두는 구 경로(규칙 없음): /mypage /join /oauth/callback.php /g,
 #   → 회원·시스템 페이지와 깨진 경로라 대응 페이지가 없음. 404 가 정답.
 #
 # 대상지 기준: 옛 사례·실적 경로(/portfolio /portfolios)는 /cases,
 #   옛 정책자금 안내(/subsidy)는 /sojingong,
-#   성격이 홈과 겹치거나 대응 페이지가 없는 경로(/home /about /services 등)는 / 로 보낸다.
+#   성격이 홈과 겹치거나 대응 페이지가 없는 경로(/home /about /services /marketing 등)는 / 로 보낸다.
 
 /subsidy      /sojingong   301
 /home         /   301
@@ -22,6 +22,8 @@
 /portfolios   /cases   301
 /about        /   301
 /services     /   301
+# /marketing: 구 마케팅 안내 페이지
+/marketing    /   301
 /trademarks   /   301
 /fhwcAS       /   301
 /status       /   301
