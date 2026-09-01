@@ -199,7 +199,7 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정책자금 접수 일정 — 지금 신청 가능한 자금 한눈에 (매일 갱신) | 비즈니스 메이커</title>
+<title>정책자금 접수 일정 — 신청 기간·방법, 지금 접수 중인 자금 (매일 갱신) | 비즈니스 메이커</title>
 <meta name="description" content="소상공인·중소기업 정책자금 접수 일정을 상태별로 정리합니다 — 접수 중·예정·마감. 각 자금의 조건·실측·공식 공고 링크와 함께, 날짜 기준 자동 갱신.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="정책자금 접수 일정 — 지금 신청 가능한 자금">
@@ -232,6 +232,7 @@ def build():
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>
+      <a href="/gaein">개인사업자 정책자금 총정리</a>
       <a href="/cases">실행 기록</a>
       <a href="/sojingong">소상공인 정책자금</a>
       <a href="/jaedan">신용보증재단 사업자대출</a>
