@@ -17,8 +17,7 @@
 
 /subsidy      /sojingong   301
 /home         /   301
-# /consulting: 정책자금 컨설팅 페이지 신설 시 교체 예정
-/consulting   /   301
+# /consulting: 2026-09-02부터 실제 페이지(정책자금 컨설팅 안내)가 서빙됨 — 규칙 없음
 /policy_service /   301
 /portfolio    /cases   301
 /portfolios   /cases   301
