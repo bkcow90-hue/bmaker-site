@@ -1,22 +1,25 @@
 # .html→확장자없음은 Pages가 자동 307 처리(파일 실존 시 _redirects보다 우선). 308로 바꾸려면 존 레벨 Redirect Rules 필요 — 미적용.
 
 # _redirects — Cloudflare Pages
-# 폐지된 구(QUV)·광고 랜딩 경로만 홈으로 301. 위→아래 순으로 첫 매칭 적용.
-# 실존 페이지(/sojingong /jungjingong /bojeung /certification /privacy)는
+# 폐지된 구(QUV)·광고 랜딩 경로를 의미가 맞는 현행 페이지로 301. 위→아래 순으로 첫 매칭 적용.
+# 실존 페이지(/cases /sojingong /jungjingong /bojeung /certification /privacy)는
 # 여기에 규칙이 없으므로 그대로 200으로 서빙된다.
 # .html → 확장자 없는 주소 변환은 Cloudflare Pages가 자동(308)으로 처리하므로 규칙 불필요.
 #
 # 의도적으로 404 로 두는 구 경로(규칙 없음): /mypage /join /oauth/callback.php /g,
 #   → 회원·시스템 페이지와 깨진 경로라 대응 페이지가 없음. 404 가 정답.
 #
-# 나중에 /cases 페이지가 생기면 아래 subsidy/portfolio 대상지를 / → /cases 로 교체.
+# 대상지 기준: 옛 사례·실적 경로(/portfolio /portfolios)는 /cases,
+#   옛 정책자금 안내(/subsidy)는 /sojingong,
+#   성격이 홈과 겹치거나 대응 페이지가 없는 경로(/home /about /services 등)는 / 로 보낸다.
 
-/subsidy      /   301
+/subsidy      /sojingong   301
 /home         /   301
+# /consulting: 정책자금 컨설팅 페이지 신설 시 교체 예정
 /consulting   /   301
 /policy_service /   301
-/portfolio    /   301
-/portfolios   /   301
+/portfolio    /cases   301
+/portfolios   /cases   301
 /about        /   301
 /services     /   301
 /trademarks   /   301
@@ -31,17 +34,12 @@
 /11           /   301
 
 # 구 홈페이지 시절 숫자 페이지 번호 (GSC에 잔존 노출: /5 /6 /7 /8 /9 /11 등) → 홈 301
+# (/5 /6 /8 /9 /10 /11 은 위 블록에 이미 있으므로 여기서는 생략)
 /1   /   301
 /2   /   301
 /3   /   301
 /4   /   301
-/5   /   301
-/6   /   301
 /7   /   301
-/8   /   301
-/9   /   301
-/10   /   301
-/11   /   301
 /12   /   301
 /13   /   301
 /14   /   301
