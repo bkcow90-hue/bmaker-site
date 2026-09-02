@@ -82,7 +82,7 @@ def build():
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     hdr=re.search(r'<header>.*?</header>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}</style>'
     inst_page={'소상공인시장진흥공단':'/sojingong'}
     for d in F:
         C=cases_for(d['원장 키워드'])
@@ -101,13 +101,16 @@ def build():
                 pa=[int(r['실행 금액(만원)']) for r in P]
                 pr=rate_range([r['금리'] for r in P])
                 prow="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in P[:3])
-                meas_html=(f'<h2>{esc(d["자금명"])} 실행 기록</h2>\n<p>이 자금으로 수록된 건은 아직 없습니다. 다만 같은 {esc(d["기관"])} 경로의 공개 실행 기록이 {len(P)}건 · {won2(sum(pa))}'
+                kind_desc='소상공인시장진흥공단이 직접 심사하고 직접 실행하는 자금입니다. 은행 문턱과 별개의 정책 심사라, 조건이 맞으면 신용·이력에 사연이 있어도 열립니다.' if '직접' in d['카테고리'] else '보증기관의 보증서를 바탕으로 은행이 실행하는 자금입니다. 담보 없이 은행 대출을 여는 구조이며, 지자체 이차보전이 결합되면 체감 금리가 내려갑니다.'
+                memo_line=(esc(d['한 줄 메모'])+'. ') if d['한 줄 메모'] else ''
+                meas_html=(f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}{kind_desc} 진행 순서는 {steps} — 대상·한도 등 세부 요건은 위 공식 공고가 기준입니다.</p>\n'
+                           +f'<h2>{esc(d["기관"])} 실행 기록</h2>\n<p>같은 기관 경로로 저희가 실행한 기록 중 최근 3건입니다({len(P)}건 · {won2(sum(pa))}'
                            +(f' · 금리 {pr}' if pr else '')
-                           +f' 쌓여 있어, 진행 구조와 조건 감각은 거기서 잡을 수 있습니다. 진행 순서는 {steps}.</p>\n'
-                           +'<div class="tablewrap"><table><thead><tr><th>실행</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+prow+'</tbody></table></div>\n'
-                           +'<p><a href="/cases">공개 실행 기록 전체 보기 →</a> 이 자금의 실행 건은 고객 동의·증빙이 확보되는 대로 추가합니다.</p>')
+                           +f'). 자금별 조건은 달라도 심사 감각과 진행 구조의 기준점이 됩니다 — 전체는 <a href="/cases">공개 실행 기록</a>에.</p>\n'
+                           +'<div class="tablewrap"><table><thead><tr><th>실행</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+prow+'</tbody></table></div>')
             else:
-                meas_html=f'<h2>{esc(d["자금명"])} 실행 기록</h2>\n<p>수록된 건은 아직 없습니다. 진행 순서는 {steps} 이며, 실행 건은 고객 동의·증빙이 확보되는 대로 <a href="/cases">공개 실행 기록</a>에 추가합니다.</p>'
+                kind_desc='소상공인시장진흥공단이 직접 심사·실행하는 자금입니다.' if '직접' in d['카테고리'] else '보증기관 보증서를 바탕으로 은행이 실행하는 자금입니다.'
+                meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{(esc(d["한 줄 메모"])+". ") if d["한 줄 메모"] else ""}{kind_desc} 진행 순서는 {steps} — 세부 요건은 위 공식 공고가 기준이며, 실행 기록 전체는 <a href="/cases">여기</a>에 있습니다.</p>'
         facts=[]
         if d['대상 요약']: facts.append(('대상', esc(d['대상 요약'])))
         if d['한도']: facts.append(('한도', esc(d['한도'])))
@@ -156,6 +159,7 @@ def build():
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
     <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
+    <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>

@@ -67,7 +67,7 @@ def build():
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', src, re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}</style>'
     for d in J:
         C=cases_for(d['지역(시도)'])
         amts=[int(r['실행 금액(만원)']) for r in C]
@@ -79,11 +79,11 @@ def build():
             A=all_jd(); aa=[int(r['실행 금액(만원)']) for r in A]
             ar=rate_range([r['금리'] for r in A])
             arow="".join(f'<tr><td>{r["지역(시도)"]}</td><td>{esc(r["자금명"])[:24]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in A[:3])
-            meas=(f'<h2>{esc(d["재단명"])} 실행 기록</h2>\n<p>{esc(d["지역(시도)"])} 지역으로 수록된 건은 아직 없습니다. 다만 재단 경로 자체는 저희가 가장 많이 실행한 트랙입니다 — 전국 재단 공개 실행 기록 {len(A)}건 · {won2(sum(aa))}'
+            meas=(f'<h2>재단 보증부 대출 — 전국 실행 기록</h2>\n<p>재단 경로는 저희가 가장 많이 실행한 트랙입니다 — 전국 {len(A)}건 · {won2(sum(aa))}'
                   +(f' · 금리 {ar}' if ar else '')
                   +f' (각 실행 시점 기준). 보증 심사 기준과 진행 구조는 지역이 달라도 같습니다.</p>\n'
                   +'<div class="tablewrap"><table><thead><tr><th>지역</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+arow+'</tbody></table></div>\n'
-                  +f'<p><a href="/cases">공개 실행 기록 전체 →</a> {esc(d["지역(시도)"])} 실행 건은 고객 동의·증빙이 확보되는 대로 추가합니다.</p>')
+                  +'<p><a href="/cases">공개 실행 기록 전체 보기 →</a></p>')
         faq=[(f"{d['지역(시도)']} 소상공인 대출, 은행과 재단 중 어디부터 알아봐야 하나요?", f"신용·담보 조건이 충분하면 시중은행 사업자 대출이 가장 빠릅니다. 그 문턱에 걸리는 경우의 표준 경로가 {d['재단명']} 보증부 대출입니다 — 재단 보증서로 은행이 실행하고, {d['지역(시도)']} 지자체 이차보전이 붙으면 체감 금리가 내려갑니다. 소상공인 정책자금(소진공 직접대출)과 어느 쪽이 유리한지는 조건에 따라 갈리며, 무료 진단에서 함께 봐드립니다."),
          (f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"네, 재단은 사업장 소재지 기준입니다. 사업장이 {d['지역(시도)']}에 있으면 {d['재단명']}이 창구이고, 지자체 이차보전(이자 지원) 상품도 해당 지자체 소재 사업자만 대상입니다."),
              ("신용점수가 낮아도 가능한가요?", "재단 보증은 신용점수만으로 결정되지 않습니다. 저희 실행 기록에는 신용 600점대에서 재단 보증부 대출이 실행된 기록이 있습니다. 다만 현재 금융 연체 중이거나 세금 체납이 정리되지 않았다면 그 회복이 먼저입니다 — 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
@@ -132,6 +132,7 @@ def build():
     <p><b>짧은 답:</b> {esc(d['지역(시도)'])} 소상공인 대출·사업자 대출을 알아보는 사장님들이 실제로 가장 많이 쓰는 공적 경로가 이 재단입니다. {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
     <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
+    <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 실행 기록의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
