@@ -77,6 +77,11 @@ footer a{color:#C6D0E4;text-decoration:underline}
 .related a{display:inline-block;font-size:.88rem;color:var(--blue-deep);border:1px solid var(--line);border-radius:999px;padding:8px 16px;margin:0 8px 8px 0}
 .related a:hover{border-color:var(--blue)}
 .asof{margin-top:18px;font-size:.8rem;color:var(--ink-soft)}
+
+.nav-menu{display:flex;gap:20px}
+.nav-menu a{color:var(--ink-soft);text-decoration:none;font-size:.9rem;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.nav-menu a:hover{color:var(--navy)}
+@media(max-width:840px){.nav-menu{display:none}}
 </style>
 <style>
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}
@@ -96,6 +101,12 @@ td a{color:var(--blue-deep);text-decoration:underline}
 <header>
   <div class="wrap nav">
     <a class="logo" href="/"><img src="assets/symbol.png" alt="비즈니스 메이커 로고"><span>비즈니스<b>메이커</b></span></a>
+    <nav class="nav-menu" aria-label="주요 메뉴">
+      <a href="/cases">실행 기록</a>
+      <a href="/schedule">접수 일정</a>
+      <a href="/gaein">개인사업자</a>
+      <a href="/consulting">컨설팅</a>
+    </nav>
     <div class="nav-actions">
       <a class="nav-tel" href="tel:1666-2425">📞 1666-2425</a>
       <a class="nav-cta" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카톡 상담</a>
