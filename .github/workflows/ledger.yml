@@ -101,7 +101,7 @@ jobs:
           KEYFILE=$(ls | grep -E '^[0-9a-f]{64}\.txt$' | head -1) || true
           [ -z "$KEYFILE" ] && { echo "키 파일 없음 — 핑 생략"; exit 0; }
           KEY=$(tr -d ' \r\n' < "$KEYFILE")
-          FILES=$(git diff --name-only HEAD~1 -- '*.html' | grep -v '^404\.html$' || true)
+          FILES=$(git diff --name-only HEAD~1 -- '*.html' | grep -v '/' | grep -v '^404\.html$' || true)
           URLS=$(for f in $FILES; do if [ "$f" = "index.html" ]; then echo "https://bmaker.kr/"; else echo "https://bmaker.kr/${f%.html}"; fi; done | sort -u)
           [ -z "$URLS" ] && { echo "핑할 URL 없음"; exit 0; }
           LIST=$(echo "$URLS" | sed 's/.*/"&"/' | paste -sd, -)

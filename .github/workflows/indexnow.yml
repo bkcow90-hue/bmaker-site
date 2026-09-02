@@ -23,7 +23,7 @@ jobs:
             URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g')
           else
             FILES=$(git diff --name-only "${{ github.event.before }}" "${{ github.event.after }}" -- '*.html' 2>/dev/null || git diff --name-only HEAD~1 -- '*.html')
-            FILES=$(echo "$FILES" | grep -v '^$' | grep -v '^404\.html$' || true)
+            FILES=$(echo "$FILES" | grep -v '^$' | grep -v '/' | grep -v '^404\.html$' || true)
             URLS=$(for f in $FILES; do if [ "$f" = "index.html" ]; then echo "https://bmaker.kr/"; else echo "https://bmaker.kr/${f%.html}"; fi; done)
           fi
           URLS=$(echo "$URLS" | grep -v '^$' | sort -u)
