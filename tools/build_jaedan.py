@@ -84,7 +84,8 @@ def build():
                   +f' (각 실행 시점 기준). 보증 심사 기준과 진행 구조는 지역이 달라도 같습니다.</p>\n'
                   +'<div class="tablewrap"><table><thead><tr><th>지역</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+arow+'</tbody></table></div>\n'
                   +f'<p><a href="/cases">공개 실행 기록 전체 →</a> {esc(d["지역(시도)"])} 실행 건은 고객 동의·증빙이 확보되는 대로 추가합니다.</p>')
-        faq=[(f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"네, 재단은 사업장 소재지 기준입니다. 사업장이 {d['지역(시도)']}에 있으면 {d['재단명']}이 창구이고, 지자체 이차보전(이자 지원) 상품도 해당 지자체 소재 사업자만 대상입니다."),
+        faq=[(f"{d['지역(시도)']} 소상공인 대출, 은행과 재단 중 어디부터 알아봐야 하나요?", f"신용·담보 조건이 충분하면 시중은행 사업자 대출이 가장 빠릅니다. 그 문턱에 걸리는 경우의 표준 경로가 {d['재단명']} 보증부 대출입니다 — 재단 보증서로 은행이 실행하고, {d['지역(시도)']} 지자체 이차보전이 붙으면 체감 금리가 내려갑니다. 소상공인 정책자금(소진공 직접대출)과 어느 쪽이 유리한지는 조건에 따라 갈리며, 무료 진단에서 함께 봐드립니다."),
+         (f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"네, 재단은 사업장 소재지 기준입니다. 사업장이 {d['지역(시도)']}에 있으면 {d['재단명']}이 창구이고, 지자체 이차보전(이자 지원) 상품도 해당 지자체 소재 사업자만 대상입니다."),
              ("신용점수가 낮아도 가능한가요?", "재단 보증은 신용점수만으로 결정되지 않습니다. 저희 실행 기록에는 신용 600점대에서 재단 보증부 대출이 실행된 기록이 있습니다. 다만 현재 금융 연체 중이거나 세금 체납이 정리되지 않았다면 그 회복이 먼저입니다 — 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
              ("어떻게 진행되나요?", "재단 보증 심사 → 보증서 발급 → 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다."),
              ("무엇을 준비해야 하나요?", "사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해, 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.")]
@@ -98,10 +99,10 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{esc(d['재단명'])} 사업자대출 — 보증부 대출 조건·실측 (2026) | 비즈니스 메이커</title>
-<meta name="description" content="{esc(d['재단명'])}({esc(d['지역(시도)'])}) 보증부 사업자대출 — 구조·대상·진행 방법{('과 실제 실행 기록 '+str(len(C))+'건') if C else ''}. 사업장 소재지 기준 이용, 지자체 이차보전 연계까지.">
+<title>{esc(d['재단명'])} 사업자대출 — {esc(d['지역(시도)'])} 소상공인 대출 보증부 조건·실측 (2026) | 비즈니스 메이커</title>
+<meta name="description" content="{esc(d['지역(시도)'])} 소상공인 대출 알아보시나요? {esc(d['재단명'])} 보증부 사업자대출 — 구조·대상·진행 방법{('과 실제 실행 기록 '+str(len(C))+'건') if C else ''}. 사업장 소재지 기준 이용, 지자체 이차보전 연계까지.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{esc(d['재단명'])} 사업자대출 — 조건·실측 (2026)">
+<meta property="og:title" content="{esc(d['재단명'])} — {esc(d['지역(시도)'])} 소상공인 대출·사업자대출 (2026)">
 <meta property="og:description" content="{esc(d['지역(시도)'])} 사업장 보증부 대출{(' · 실측 '+str(len(C))+'건') if C else ''}">
 <meta property="og:url" content="https://bmaker.kr/{d['재단ID']}">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
@@ -128,7 +129,7 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
+    <p><b>짧은 답:</b> {esc(d['지역(시도)'])} 소상공인 대출·사업자 대출을 알아보는 사장님들이 실제로 가장 많이 쓰는 공적 경로가 이 재단입니다. {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
     <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
     <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 실행 기록의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
@@ -165,7 +166,7 @@ def build():
             n=len(cases_for(d['지역(시도)']))
             tag=f' <span style="color:var(--blue-deep);font-size:.8rem">실측 {n}건</span>' if n else ''
             cells.append(f'<a href="/{d["재단ID"]}" style="display:block;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;text-decoration:none;color:var(--navy);font-weight:600;font-size:.92rem">{esc(d["재단명"])}{tag}</a>')
-        grid=('<h2>지역별 재단 페이지</h2>\n<p>사업장 소재지의 재단을 선택하세요 — 실측이 있는 지역은 해당 기록이 함께 실려 있습니다.</p>\n'
+        grid=('<h2>지역별 재단 페이지</h2>\n<p>지역 소상공인 대출·사업자 대출의 공적 경로를 시도별로 정리했습니다 — 사업장 소재지의 재단을 선택하세요. 실측이 있는 지역은 해당 기록이 함께 실려 있습니다.</p>\n'
               '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin:16px 0 26px">'+''.join(cells)+'</div>')
         hub=re.sub(r'<!--REGIONS-->.*?<!--/REGIONS-->', '<!--REGIONS-->\n'+grid+'\n<!--/REGIONS-->', hub, flags=re.S)
         (ROOT/'jaedan.html').write_text(hub, encoding='utf-8')
