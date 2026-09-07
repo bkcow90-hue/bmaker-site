@@ -68,7 +68,7 @@ class HomepageExperienceTests(unittest.TestCase):
     def test_hero_heading_has_three_intentional_lines(self):
         self.assertEqual(
             self.hero_heading_lines,
-            ["가능한 자금과", "준비할 순서를", "정확하게 진단합니다."],
+            ["정책자금·사업자대출,", "내 사업에 맞는 자금부터", "확인하세요."],
         )
 
     def test_first_screen_exposes_four_concrete_trust_signals(self):
@@ -90,7 +90,7 @@ class HomepageExperienceTests(unittest.TestCase):
             element
             for element in self.elements
             if element["tag"] in {"a", "button"}
-            and "무료 진단 예약" in " ".join(element["text"].split())
+            and "상담 신청" in " ".join(element["text"].split())
         ]
 
         self.assertGreaterEqual(len(reservation_actions), 3)

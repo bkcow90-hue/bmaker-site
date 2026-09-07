@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """개인사업자 정책자금 총정리 허브(/gaein) 빌드 — 실행 기록(cases.source.csv)과 자금 시트(funds.source.csv)에서
-개인사업자 실측·현재 접수 중 자금을 계산해 생성한다. 실행: python tools/build_gaein.py
+개인사업자 실측·공고상 접수 기간의 자금을 계산해 생성한다. 실행: python tools/build_gaein.py
 """
 import csv, json, re, sys, datetime, statistics
+from build_funds import status_of
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST
@@ -41,7 +42,7 @@ def build():
     rr_all=rate_range([r['금리'] for r in ind])
     rr={k:rate_range([r['금리'] for r in ind if inst_of(r)==k]) for k in ('재단','소진공','신보')}
     recent=sorted(ind, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:8]
-    # 현재 접수 중 자금 (자금 시트 기준, 소진형/마감일 계산은 build_funds 와 동일 규칙)
+    # 공고상 접수 기간의 자금 (자금 시트 기준, 소진형/마감일 계산은 build_funds 와 동일 규칙)
     open_funds=[]
     fp=ROOT/'data'/'funds.source.csv'
     if fp.exists():
@@ -50,7 +51,7 @@ def build():
             if f.get('사이트 공개','').upper()!='Y': continue
             s,e=f.get('접수 시작일',''),f.get('접수 마감일','')
             try:
-                ok = f.get('접수 상태')=='상시' or (s and datetime.date.fromisoformat(s)<=TODAY and (('소진' in e) or (e and datetime.date.fromisoformat(e)>=TODAY)))
+                ok = status_of(f)[0] == 'open'
             except ValueError: ok=False
             if ok: open_funds.append(f)
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
@@ -63,7 +64,7 @@ def build():
            ('대리대출·이차보전','일반경영안정·긴급경영안정·소공인특화·대환 등 보증 연계로 은행 실행','기본 운전자금, 고금리 대환, 업종 특화', '자금별 페이지 참조', '<a href="/schedule">접수 일정의 대리대출 섹션</a>')]
     kinds_html="".join(f'<tr><td><b>{a}</b></td><td>{b}</td><td>{c}</td><td style="white-space:nowrap">{d_}</td><td>{e}</td></tr>' for a,b,c,d_,e in kinds)
     rec_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in recent)
-    open_html=("".join(f'<li><a href="/{esc(f["자금ID"])}">{esc(f["자금명"])}</a> — {esc(f["기관"])}' + (f' · {esc(f["카테고리"])}' if f.get("카테고리") else '') + '</li>' for f in open_funds)) if open_funds else '<li>현재 접수 중으로 확인된 자금이 없습니다 — 일정 페이지에서 예정 자금을 확인하세요.</li>'
+    open_html=("".join(f'<li><a href="/{esc(f["자금ID"])}">{esc(f["자금명"])}</a> — {esc(f["기관"])}' + (f' · {esc(f["카테고리"])}' if f.get("카테고리") else '') + '</li>' for f in open_funds)) if open_funds else '<li>현재 접수 가능 여부를 확인할 자금은 일정 페이지에서 확인해 주세요 — 일정 페이지에서 예정 자금을 확인하세요.</li>'
     faq=[("개인사업자도 정책자금이 되나요, 법인만 되는 것 아닌가요?", f"됩니다. 저희 공개 실행 기록 {len(rows)}건 중 {N}건이 개인사업자입니다 — 총 {TOT}, 건당 중앙값 {MED}. 소진공 직접대출과 지역 재단 보증부 대출은 오히려 개인사업자가 주 이용자입니다."),
          ("매출이 얼마부터 가능한가요?", f"자금마다 다릅니다. 실행 기록의 개인사업자 {N}건에는 연매출 3천만원 미만 {small}건도 있습니다. 매출보다는 연체·체납 여부와 자금 용도의 정합이 더 자주 결과를 가릅니다."),
          ("사업자등록 1년이 안 됐는데요?", f"업력 1년 이하로 실행된 개인사업자 기록이 {young}건 있습니다. 창업 초기 전용 자금(청년·재도전 등)이나 재단 특례보증이 대상이 되는 경우가 많고, 자금 용도와 집행 계획을 구체적으로 준비하는 것이 관건입니다."),
@@ -79,7 +80,7 @@ def build():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>개인사업자 정책자금 총정리 — 종류·기관·조건·실행 기록 {N}건 (2026) | 비즈니스 메이커</title>
-<meta name="description" content="개인사업자 정책자금, 됩니까? 공개 실행 기록 {len(rows)}건 중 {N}건이 개인사업자 — 총 {TOT}, 건당 중앙값 {MED}, 소요 중앙값 {DMED}일. 정책자금 종류(직접대출·재단 보증·신보 기보·대리대출)와 기관, 조건, 지금 접수 중인 자금까지 한 장에.">
+<meta name="description" content="개인사업자 정책자금, 됩니까? 공개 실행 기록 {len(rows)}건 중 {N}건이 개인사업자 — 총 {TOT}, 건당 중앙값 {MED}, 소요 중앙값 {DMED}일. 정책자금 종류(직접대출·재단 보증·신보 기보·대리대출)와 기관, 조건, 공고상 접수 기간에 해당하는 자금까지 한 장에.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="개인사업자 정책자금 총정리 — 실행 기록 {N}건 (2026)">
 <meta property="og:description" content="총 {TOT} · 중앙값 {MED} · 소요 {DMED}일 — 종류·기관·조건을 실측으로.">
@@ -128,7 +129,7 @@ def build():
     <h2>개인사업자가 자주 걸리는 조건 — 기록으로 답하면</h2>
     <div class="proof"><p>개인사업자 실행 {N}건 안에는 <b>신용 600점대 {low}건</b>, <b>폐업 후 재창업 {rest}건</b>, <b>세금 체납 이력 정리 후 실행 {tax}건</b>, <b>업력 1년 이하 {young}건</b>, <b>연매출 3천만원 미만 {small}건</b>이 있습니다. 즉 점수·이력·업력이 낮다고 닫히는 제도가 아니라, 현재 연체·미정리 체납처럼 <em>지금</em> 걸리는 조건이 있느냐가 관건입니다. 기준은 <a href="/jeosinyong">저신용·재창업 가이드</a>와 <a href="/geojeol">거절 사유와 회복 경로</a>에 정리했습니다.</p></div>
 
-    <h2>지금 접수 중인 자금</h2>
+    <h2>공고상 접수 기간에 해당하는 자금</h2>
     <ul>{open_html}</ul>
     <p>접수 상태는 날짜 기준으로 매일 갱신됩니다 — 전체 일정은 <a href="/schedule">정책자금 접수 일정</a>에서.</p>
 
@@ -152,12 +153,14 @@ def build():
     <div class="cta-box">
       <h3 class="serif">내 조건이면 어느 갈래인지</h3>
       <p>업종·매출·신용·이력을 주시면 직접대출·재단·신보 기보 중 맞는 트랙과 예상 구조를 무료로 진단해 드립니다.</p>
-      <a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
 </main>
 {foot}
+<script src="/assets/conversion.js" defer></script>
 </body>
 </html>
 '''
@@ -170,7 +173,7 @@ def build():
     else: sm=sm.replace('</urlset>', f'  <url><loc>{loc}</loc><lastmod>{TODAY}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>\n</urlset>')
     (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
-    line=f"- [개인사업자 정책자금 총정리](https://bmaker.kr/gaein): 실행 기록 {len(rows)}건 중 개인사업자 {N}건(총 {TOT}, 중앙값 {MED}, 소요 중앙값 {DMED}일) — 종류(직접대출·재단·신보 기보·대리대출)·조건(600점대 {low}·재창업 {rest}·업력 1년 이하 {young})·현재 접수 중 자금"
+    line=f"- [개인사업자 정책자금 총정리](https://bmaker.kr/gaein): 실행 기록 {len(rows)}건 중 개인사업자 {N}건(총 {TOT}, 중앙값 {MED}, 소요 중앙값 {DMED}일) — 종류(직접대출·재단·신보 기보·대리대출)·조건(600점대 {low}·재창업 {rest}·업력 1년 이하 {young})·공고상 접수 기간의 자금"
     if '- [개인사업자 정책자금 총정리]' in lt: lt=re.sub(r'- \[개인사업자 정책자금 총정리\][^\n]*', line, lt)
     else: lt=lt.replace('- [정책자금 접수 일정]', line+'\n- [정책자금 접수 일정]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')

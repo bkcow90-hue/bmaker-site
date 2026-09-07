@@ -59,23 +59,17 @@ class SiteConfigurationTests(unittest.TestCase):
             "전문가 연계 상담하기": "experts",
             "카카오톡 무료 상담하기": "contact",
         }
-        anchors = {anchor["text"]: anchor["attrs"] for anchor in self.parser.anchors}
-
         for label, source in expected.items():
-            with self.subTest(label=label):
-                self.assertEqual(
-                    anchors[label].get("href"),
-                    "https://pf.kakao.com/_GKuxfn/chat",
-                )
-                self.assertEqual(anchors[label].get("data-cta-location"), source)
+            matches = [a for a in self.parser.anchors if a['text'] == label and a['attrs'].get('data-cta-location') == source]
+            self.assertEqual(len(matches), 1)
+            self.assertEqual(matches[0]['attrs']['href'], 'https://pf.kakao.com/_GKuxfn/chat')
 
-    def test_form_error_kakao_link_is_https_and_source_tagged(self):
-        self.assertIn("kakao.href = 'https://pf.kakao.com/_GKuxfn/chat';", self.index)
-        self.assertIn("kakao.dataset.ctaLocation = 'form_error';", self.index)
-
-    def test_kakao_clicks_are_queued_with_the_cta_location(self):
-        self.assertIn("event: 'kakao_click'", self.index)
-        self.assertIn("cta_location: link.dataset.ctaLocation", self.index)
+    def test_shared_conversion_script_is_loaded(self):
+        self.assertEqual(self.index.count('src="/assets/conversion.js"'), 1)
+        script = (ROOT / 'assets/conversion.js').read_text(encoding='utf-8')
+        self.assertIn("'https://pf.kakao.com/_GKuxfn/chat'", script)
+        self.assertIn("a.dataset.ctaLocation = 'form_error'", script)
+        self.assertIn("track('kakao_click', { cta_location: where })", script)
 
     def test_ai_search_agent_and_training_usage_are_explicitly_allowed(self):
         groups = parse_robots_groups(self.robots)
