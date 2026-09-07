@@ -68,7 +68,7 @@ class HomepageExperienceTests(unittest.TestCase):
     def test_hero_heading_has_three_intentional_lines(self):
         self.assertEqual(
             self.hero_heading_lines,
-            ["창업 준비부터 자금 조달,", "고객을 만나는", "마케팅까지."],
+            ["창업부터 자금 조달,", "고객을 만나는", "마케팅까지."],
         )
 
     def test_first_screen_exposes_four_concrete_trust_signals(self):
