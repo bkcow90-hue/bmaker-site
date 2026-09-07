@@ -40,7 +40,7 @@ def build():
     faq=[("정책자금 컨설팅이 꼭 필요한가요?","아닙니다. 조건이 명확하고 서류 준비가 익숙하면 직접 신청이 가장 좋습니다. 컨설팅이 값을 하는 경우는 어느 트랙이 맞는지 모를 때, 신용·이력에 사연이 있을 때, 여러 자금을 순서·동시로 설계해야 할 때입니다. 진단은 무료라 필요 여부부터 확인하는 게 맞습니다."),
          ("비용은 얼마인가요?","실행 전 비용은 0원입니다. 자금이 실제 실행된 경우에만 성공보수를 받으며, 요율은 자금 종류와 규모에 따라 계약 시 안내합니다. 실행되지 않으면 비용이 없습니다."),
          ("착수금을 왜 안 받나요?","착수금을 받으면 결과와 무관하게 수익이 나기 때문에, 가능성이 낮은 분에게도 '됩니다'라고 말할 유인이 생깁니다. 실행된 경우에만 받는 구조가 진단을 정직하게 만듭니다 — 업계 관행과 확인법은 <a href='/chaksugeum'>착수금 사기 구별법</a>에 정리했습니다."),
-         (f"실적은 어떻게 확인하나요?",f"공개 실행 기록 {N}건(총 {TOT}, {int(y0)}.{int(m0)}~{int(y1)}.{int(m1)})을 조건·증빙과 함께 게시합니다. 이 중 {NEV}건은 기관 안내문 캡처를 증빙으로 붙였고, 상담 신청 916곳의 익명 통계도 공개합니다."),
+         (f"실적은 어떻게 확인하나요?",f"공개 실행 기록 {N}건(총 {TOT}, {int(y0)}.{int(m0)}~{int(y1)}.{int(m1)})을 조건·증빙과 함께 게시합니다. 이 중 {NEV}건은 기관 안내문 캡처를 증빙으로 붙였고, 상담 신청 916건의 익명 통계도 공개합니다."),
          ("승인이 안 되면 어떻게 되나요?","비용이 발생하지 않습니다. 거절 사유를 같이 확인하고, 조건이 바뀌면 재신청할 시점을 잡습니다 — 실제로 조건을 만든 뒤 실행까지 간 기록이 있습니다(<a href='/geojeol'>거절 사유와 회복 경로</a>).")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":re.sub(r'<[^>]+>','',a)}} for q,a in faq]}, ensure_ascii=False)
     svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"정책자금 컨설팅 (진단·설계·준비·심사 대응)","serviceType":"정책자금 컨설팅","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/consulting","offers":{"@type":"Offer","description":"실행 전 비용 0원, 자금 실행 시에만 성공보수","priceCurrency":"KRW"}}, ensure_ascii=False)
@@ -120,12 +120,14 @@ def build():
     <div class="cta-box">
       <h3 class="serif">먼저 진단부터 — 비용 없이</h3>
       <p>조건을 주시면 가능한 트랙과 지금 걸리는 조건을 말씀드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
 </main>
 {foot}
+<script src="/assets/conversion.js" defer></script>
 </body>
 </html>
 '''

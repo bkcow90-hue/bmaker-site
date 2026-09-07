@@ -30,21 +30,21 @@ def build():
     combo=[r for r in rows if r['동시 진행 자금'].strip()]
     ca=[int(r['실행 금액(만원)']) for r in corp]; cd=[float(r['소요일']) for r in corp if r['소요일']]
     NC=len(corp); CTOT=won2(sum(ca)) if ca else '—'; CMED=won2(int(statistics.median(ca))) if ca else '—'; CDMED=int(statistics.median(cd)) if cd else None
-    gibo=[r for r in rows if inst_of(r)=='기보']; sinbo=[r for r in rows if inst_of(r)=='신보']
+    gibo=[r for r in rows if '기술보증기금' in r['기관']+r['동시 진행 자금'] or '기보' in r['자금명']]; sinbo=[r for r in rows if inst_of(r)=='신보']
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0); foot=re.search(r'<footer>.*?</footer>', src, re.S).group(0)
     TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}.card b{display:block;font-size:1.4rem;color:var(--navy);margin-bottom:4px}.card span{font-size:.82rem;color:var(--ink-soft)}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}</style>'
     tracks=[('중진공 직접대출','중소벤처기업진흥공단이 직접 실행 — 창업기·성장기 전용 자금','규모가 커진 사업의 기본 축. 사업계획서의 숫자 정합이 결과를 가릅니다', f"동시 설계 {sum(1 for r in combo if '중진공' in r['동시 진행 자금']+r['자금명'])}건 수록", '<a href="/gyehoekseo">사업계획서 5요소</a>'),
-            ('기술보증기금 (기보)','기술평가 보증 — 재무 대신 기술로 억대 보증','기술·콘텐츠·제조 기업. 벤처·이노비즈 인증과 시너지', f"{len(gibo)}건 · 2억 / 2억 9,000만", '<a href="/gibo">기보 안내</a> · <a href="/certification">기업인증</a>'),
+            ('기술보증기금 (기보)','기술성·사업성과 재무 상태 등을 함께 평가하는 보증','기술·콘텐츠·제조 기업. 벤처·이노비즈 인증과 시너지', f"기보가 포함된 공개 사례 {len(gibo)}건 (복합자금 포함)", '<a href="/gibo">기보 안내</a> · <a href="/certification">기업인증</a>'),
             ('신용보증기금 (신보)','매출 기반 일반 보증 — 전국 단위','매출이 잡히는 중소기업의 표준 경로', f"{len(sinbo)}건 · {won2(sum(int(r['실행 금액(만원)']) for r in sinbo)) if sinbo else '—'} · {rate_range([r['금리'] for r in sinbo])}", '<a href="/sinbo">신보 안내</a>'),
             ('지역 재단 상위 구간','시·도 재단 보증 + 지자체 이차보전','1억 안팎 구간, 지역 상품 결합 시 저금리', '재단 1억 실행 기록 보유', '<a href="/jaedan">재단 안내</a>')]
     tracks_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td><td>{c}</td><td>{d}</td><td>{e}</td></tr>' for a,b,c,d,e in tracks)
-    big_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["사업 형태"])}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])[:30]}</td><td><b>{won2(r["실행 금액(만원)"])}</b></td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in big)
-    combo_html="".join(f'<li><a href="/cases#case-{r["사례ID"]}">{r["사례ID"]}</a> — {esc(r["자금명"])[:34]} <b>+ {esc(r["동시 진행 자금"])}</b></li>' for r in combo)
+    big_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["사업 형태"])}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])}</td><td><b>{won2(r["실행 금액(만원)"])}</b></td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in big)
+    combo_html="".join(f'<li><a href="/cases#case-{r["사례ID"]}">사례 ID {r["사례ID"]}</a> — {esc(r["자금명"])} <span> / 함께 검토한 기관·자금: {esc(r["동시 진행 자금"])}</span></li>' for r in combo)
     faq=[("법인만 대상인가요? 개인사업자는요?", f"아닙니다. 중진공·신보·기보 모두 개인사업자도 이용합니다 — 실행 기록의 신보 1억 1,000만원 건이 개인사업자였습니다. 다만 규모가 커질수록 법인 실행 비중이 늘고(법인 {NC}건, 중앙값 {CMED}), 개인사업자 기준의 전체 지도는 개인사업자 정책자금 총정리에 따로 있습니다."),
-         ("소진공과 중진공, 어디로 가야 하나요?","기준은 규모입니다. 소상공인 기준(업종별 상시근로자·매출)에 들면 소진공, 그 규모를 넘어서면 중진공이 축이 됩니다. 경계선에 있으면 두 트랙과 보증 기관을 함께 놓고 설계하며, 어느 쪽인지 애매한 상태 자체가 무료 진단의 단골 질문입니다."),
-         ("억대 자금은 어떻게 만들어지나요?", f"한 자금으로 억대를 채우기보다 조합으로 설계되는 경우가 많습니다. 실행 기록의 동시 설계 {len(combo)}건이 그 방식입니다 — 기보 2억 9,000만에 소진공을 더하거나, 기보 2억에 중진공 청년창업자금을 더하는 식. 보증 축을 세우고 직접대출을 얹는 순서가 일반적입니다."),
+         ("소진공과 중진공, 어디로 가야 하나요?","업종·상시근로자·매출과 자금별 공고를 함께 확인합니다. 소진공은 소상공인 대상 자금, 중진공은 중소기업 대상 정책자금을 운영합니다. 규모만으로 단정하지 않고 상품별 대상과 예외·제외요건을 확인해야 합니다."),
+         ("억대 자금은 어떻게 만들어지나요?", f"한 자금으로 억대를 채우기보다 조합으로 설계되는 경우가 많습니다. 실행 기록의 동시 설계 {len(combo)}건이 그 방식입니다 — 기보 2억 9,000만에 소진공을 더하거나, 기보 2억에 중진공 청년창업자금을 더하는 식. 검토 순서는 자금 용도·기존 부채·접수 일정·중복지원 제한에 따라 달라집니다. 동시 진행 기록이 모든 자금의 실행 완료를 뜻하지는 않습니다."),
          ("사업계획서가 그렇게 중요한가요?","중진공 직접대출에서는 특히 그렇습니다. 심사가 보는 것은 문장이 아니라 숫자 정합 — 산출 근거, 집행 계획, 상환 계획의 일치입니다. 5요소와 감점 포인트를 별도 가이드로 정리해 두었습니다."),
          ("기간과 비용은요?", f"법인 실행 기록 기준 첫 상담 접수부터 정산까지 중앙값 {CDMED}일이었습니다(개인보다 서류·심사 호흡이 깁니다). 비용은 실행 전 0원, 실행된 경우에만 성공보수 — 요율은 자금 종류·규모에 따라 계약 시 안내합니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
@@ -56,7 +56,7 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>중소기업 정책자금 대출 — 중진공·기보·신보 억대 설계, 법인 실행 기록 (2026) | 비즈니스 메이커</title>
+<title>중진공 정책자금 — 신청 준비·사업계획서·보증기관 비교 (2026) | 비즈니스 메이커</title>
 <meta name="description" content="중소기업 정책자금(법인 포함)은 어떻게 설계하나요? 중진공 직접대출·기보·신보·재단 상위 구간의 네 축과 억대 실행 기록 {len(big)}건, 동시 설계 {len(combo)}건 — 법인 {NC}건({CTOT}, 중앙값 {CMED}, 소요 중앙값 {CDMED}일) 실측과 함께.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="중소기업 정책자금 — 억대 설계의 실제 (2026)">
@@ -80,13 +80,14 @@ def build():
 <section class="hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 중소기업 정책자금</p>
-    <h1 class="serif">중소기업 정책자금,<br class="pc"> 억대 설계의 실제</h1>
-    <p>법인·성장기 사업의 자금은 한 상품이 아니라 조합입니다 — 법인 실행 {NC}건({CTOT}), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건의 기록으로 보여드립니다.</p>
+    <h1 class="serif">중진공 정책자금,<br class="pc"> 대상 확인부터 신청 준비까지</h1>
+    <p>신청 자격과 자금 용도부터 확인합니다. 아래 비교 자료는 중진공 단독 실적이 아닌 여러 기관의 공개 실행 기록입니다 — 법인 실행 {NC}건({CTOT}), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건의 기록으로 보여드립니다.</p>
   </div>
 </section>
 <main>
   <div class="wrap">
-    <p><b>짧은 답:</b> 중소기업 정책자금 대출(중진공 대출, 중소벤처기업진흥공단 직접대출로도 검색되는)은 네 축으로 설계됩니다 — ① <b>중진공 직접대출</b>(성장기의 기본 축), ② <b>기술보증기금</b>(기술평가로 억대 보증), ③ <b>신용보증기금</b>(매출 기반 표준 경로), ④ <b>지역 재단 상위 구간</b>(지자체 이차보전 결합). 규모가 커질수록 답은 "어느 자금"이 아니라 "어떤 조합·어떤 순서"가 되고, 법인만의 제도가 아니라 개인사업자도 같은 축을 씁니다.</p>
+    <p><b>짧은 답:</b> 중소벤처기업진흥공단(중진공) 정책자금은 중소기업의 창업·성장 등에 필요한 자금을 지원하는 제도입니다. 직접대출은 중진공의 평가와 심사를 거쳐 실행되며, 신보·기보의 보증부 은행 대출과는 다른 경로입니다. 신청 대상·한도·금리·접수 방식은 자금별 최신 공고를 확인해야 합니다.</p>
+    <p><a href="https://www.kosmes.or.kr/" target="_blank" rel="noopener">중진공 공식 누리집에서 정책자금 공고 확인</a> · 사업자가 직접 신청할 수 있습니다. 상담에서는 자금 선택과 준비 서류, 신청 순서를 함께 정리합니다.</p>
     <p class="asof">기준일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 수치는 <a href="/cases">공개 실행 기록</a>에서 자동 집계됩니다.</p>
 
     <div class="cards">
@@ -96,14 +97,14 @@ def build():
       <div class="card"><b>{CDMED}일</b><span>법인 첫 상담 → 정산 중앙값</span></div>
     </div>
 
-    <h2>중소기업 정책자금의 네 축</h2>
+    <h2>중진공과 보증기관의 역할 비교</h2>
     <div class="tablewrap"><table><thead><tr><th>축</th><th>성격</th><th>누구에게</th><th>실측</th><th>상세</th></tr></thead><tbody>{tracks_html}</tbody></table></div>
 
     <h2>억대 실행 기록 — {len(big)}건 전부</h2>
     <div class="tablewrap"><table><thead><tr><th>실행</th><th>형태</th><th>기관</th><th>구성</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{big_html}</tbody></table></div>
 
     <h2>총액은 조합에서 나옵니다 — 동시 설계 {len(combo)}건</h2>
-    <p>억대가 필요할 때 한 자금의 한도에 매달리기보다, 보증 축(기보·신보·재단)을 먼저 세우고 직접대출(중진공·소진공)을 얹는 방식이 실측에서 반복됩니다:</p>
+    <p>공개 기록에서 다른 기관·자금을 함께 진행한 사례입니다. 아래 표의 금액은 기록된 실행액이며, 동시 진행란은 추가 실행액이 아닙니다. 기관별 심사와 중복지원 제한을 각각 확인해야 합니다:</p>
     <ul>{combo_html}</ul>
     <div class="proof"><p><b>인증이 지렛대가 되기도 합니다.</b> 기보 2억 실행 건은 문화콘텐츠 이차보전(연 1.85%)이 적용된 사례로, 벤처·이노비즈 같은 <a href="/certification">기업인증</a>이 기술평가·우대에 유리하게 작용합니다 — 인증과 자금을 묶어 설계하는 것도 저희가 하는 일입니다.</p></div>
 
@@ -126,12 +127,14 @@ def build():
     <div class="cta-box">
       <h3 class="serif">우리 회사 규모면 어떤 조합인지</h3>
       <p>업종·매출·인력·기존 대출을 주시면 네 축 중 맞는 조합과 순서를 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
 </main>
 {foot}
+<script src="/assets/conversion.js" defer></script>
 </body>
 </html>
 '''
