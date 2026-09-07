@@ -8,14 +8,14 @@ def test_conversion_delivery_contract():
     subprocess.run(['node', 'tests/test_conversion.mjs'], cwd=ROOT, check=True, capture_output=True, text=True)
 
 def test_only_one_form_precedes_company_introduction():
-    source = (ROOT / 'index.html').read_text()
+    source = (ROOT / 'index.html').read_text(encoding='utf-8')
     assert source.count('id="leadForm"') == 1
     assert source.count('id="apply"') == 1
     assert source.index('id="leadForm"') < source.index('id="about"')
     assert 'class="case" aria-hidden="true"' not in source
 
 def test_ledger_heading_matches_public_rows():
-    source = (ROOT / 'cases.html').read_text()
+    source = (ROOT / 'cases.html').read_text(encoding='utf-8')
     count = source.count('<tr id="row-')
     assert f'실행 기록 (전체 {count}건)' in source
 

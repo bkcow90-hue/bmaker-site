@@ -66,7 +66,7 @@ class SiteConfigurationTests(unittest.TestCase):
 
     def test_shared_conversion_script_is_loaded(self):
         self.assertEqual(self.index.count('src="/assets/conversion.js"'), 1)
-        script = (ROOT / 'assets/conversion.js').read_text()
+        script = (ROOT / 'assets/conversion.js').read_text(encoding='utf-8')
         self.assertIn("'https://pf.kakao.com/_GKuxfn/chat'", script)
         self.assertIn("a.dataset.ctaLocation = 'form_error'", script)
         self.assertIn("track('kakao_click', { cta_location: where })", script)
