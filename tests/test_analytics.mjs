@@ -11,7 +11,7 @@ function setup(hostname) {
     document: {
       referrer: 'https://example.com/article?email=private@example.com',
       head: { appendChild: s => scripts.push(s) },
-      createElement: () => ({}), getElementById: () => null,
+      createElement: () => ({}), getElementById: () => null, querySelectorAll: () => [],
       addEventListener: (name, fn) => { listeners[name] = fn; }
     },
     Element: class Element {}

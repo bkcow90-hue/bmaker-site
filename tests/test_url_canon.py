@@ -11,6 +11,10 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html", "schedule.html", "sinyongchwiyak.html", "jaedojeon.html", "hyeoksin.html", "cheongnyeon.html", "gaein.html", "consulting.html"]
 SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "consulting"]
 
+NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide"]
+PAGES += [f"{slug}.html" for slug in NEW_SERVICES]
+SLUGS += NEW_SERVICES
+
 
 def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")

@@ -1,6 +1,15 @@
 # 비즈니스 메이커 — 전체 데이터 (llms-full)
 
-> 이 파일은 bmaker.kr 의 공개 데이터 전문입니다. 기준일 2026-09-07. 요약은 /llms.txt, 사람용 페이지는 /cases 와 /stats.
+> 비즈니스 메이커는 정책자금·기업광고·바이럴 마케팅·창업컨설팅·기업인증을 상담하는 민간 경영컨설팅 회사입니다. 정책자금은 착수금·진행비 없이 자금 실행 시 성공보수이며, 광고·창업·인증은 업무별 견적과 계약 조건을 안내합니다. 초기 상담은 무료입니다.
+
+## 서비스 안내
+
+- 정책자금·사업자대출: https://bmaker.kr/funding
+- 기업광고·마케팅: https://bmaker.kr/marketing
+- 창업컨설팅: https://bmaker.kr/startup
+- 기업인증·연구소: https://bmaker.kr/certification
+- 분야별 공개 자료: https://bmaker.kr/work
+- 사업 가이드: https://bmaker.kr/business-guide
 
 ## 실행 기록 (2025-02 ~ 2026-08, 25건, 총 14억 2,000만원)
 

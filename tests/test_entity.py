@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ORG_ID = "https://bmaker.kr/#org"
 FEE = "착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다."
-SERVICE_PAGES = ["sojingong.html", "jungjingong.html", "bojeung.html", "certification.html"]
+SERVICE_PAGES = ["sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "funding.html", "marketing.html", "startup.html"]
 
 
 def _ld(name: str):
