@@ -1,6 +1,32 @@
-/* Shared conversion events. No names, phone numbers, answers or URL query strings in analytics. */
+/* Shared conversion events. No form values or arbitrary URL query strings in analytics. */
 (function () {
   'use strict';
+  // Shared by all static pages and their generators. Do not measure previews.
+  const measurementId = 'G-DBGR3P6ZHD';
+  if (['bmaker.kr', 'www.bmaker.kr'].includes(location.hostname) && !window.bmakerAnalyticsInitialized) {
+    window.bmakerAnalyticsInitialized = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    // Keep campaign attribution, but discard unknown query parameters and hashes.
+    const pageUrl = new URL(location.origin + location.pathname);
+    const incoming = new URLSearchParams(location.search);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid']) {
+      if (incoming.has(key)) pageUrl.searchParams.set(key, incoming.get(key));
+    }
+    let referrer = '';
+    try { const ref = new URL(document.referrer); referrer = ref.origin + ref.pathname; } catch (_) { /* Direct visit. */ }
+    window.gtag('js', new Date());
+    window.gtag('config', measurementId, {
+      page_location: pageUrl.href,
+      page_referrer: referrer,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    });
+    const tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+    document.head.appendChild(tag);
+  }
   const track = (event, details = {}) => {
     const safe = { page_path: location.pathname, ...details };
     if (typeof window.gtag === 'function') window.gtag('event', event, safe);
