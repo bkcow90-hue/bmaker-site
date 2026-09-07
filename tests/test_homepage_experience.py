@@ -68,7 +68,7 @@ class HomepageExperienceTests(unittest.TestCase):
     def test_hero_heading_has_three_intentional_lines(self):
         self.assertEqual(
             self.hero_heading_lines,
-            ["정책자금·사업자대출,", "내 사업에 맞는 자금부터", "확인하세요."],
+            ["창업 준비부터 자금 조달,", "고객을 만나는", "마케팅까지."],
         )
 
     def test_first_screen_exposes_four_concrete_trust_signals(self):
@@ -81,7 +81,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
         self.assertEqual(len(trust_lists), 1)
         trust_text = " ".join(trust_lists[0]["text"].split())
-        for signal in ("영업 12년", "연 250개 기업", "착수금·진행비 없음", "전국 비대면"):
+        for signal in ("영업 12년", "연 250개 기업", "정책자금 착수금 없음", "전국 비대면"):
             with self.subTest(signal=signal):
                 self.assertIn(signal, trust_text)
 

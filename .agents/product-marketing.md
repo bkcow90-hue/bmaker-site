@@ -1,3 +1,14 @@
+# Current scope update — 2026-09-07
+
+User-approved company positioning: policy funding/business loans, corporate advertising/viral marketing, startup consulting, and corporate certification/research labs.
+Main homepage introduces all four services. Preserve existing policy URLs. New service pages: /funding, /marketing, /startup, /work, /business-guide.
+Policy funding only: no upfront fees; success fee on disbursement; never publish rates or calculation methods.
+Advertising/startup/certification: discuss scope, deliverables, timing and separate quotation before contract. Do not invent channels, service packages, partner credentials, portfolio or results.
+Service-level consultation selection and GA4 service_category must remain intact.
+The document below is historical policy-funding context. Its company-wide pricing/scope statements are superseded by this update; historical metrics are not current analytics.
+
+---
+
 # Product Marketing Context — 비즈니스 메이커
 
 **Document version:** v1

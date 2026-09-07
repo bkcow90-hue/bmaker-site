@@ -14,8 +14,8 @@ class Element {
   appendChild(x) { this.children.push(x); }
   focus() {} contains() { return false; }
 }
-function fixture(mode) {
-  const els = Object.fromEntries(['leadForm','applyMsg','lf-phone','lf-name','lf-biz','lf-memo','lf-consent','lf-website'].map(id => [id,new Element()]));
+function fixture(mode, service = "general") {
+  const els = Object.fromEntries(['leadForm','applyMsg','lf-phone','lf-name','lf-biz','lf-memo','lf-consent','lf-website','lf-service'].map(id => [id,new Element()]));
   const button = new Element(), f = els.leadForm;
   f.querySelector = () => button;
   f.reportValidity = () => !els['lf-phone'].invalid && !els['lf-name'].invalid && els['lf-consent'].checked;
@@ -31,7 +31,7 @@ function fixture(mode) {
     if (mode === 'bad_json') return { ok:true, json: async () => { throw new SyntaxError(); } };
     return { ok: mode !== 'http_error', json: async () => mode === 'success' ? { ok:true, delivery:'accepted' } : mode === 'legacy' ? { ok:true } : { ok:false, delivery:'failed' } };
   };
-  vm.runInNewContext(script, { window, document, location:{ pathname:'/' }, Element, fetch, crypto:webcrypto, AbortController, setTimeout:fn => {abort=fn; return 1;}, clearTimeout() {} });
+  vm.runInNewContext(script, { window, document, location:{ pathname:'/', search:'?service='+service }, URLSearchParams, Element, fetch, crypto:webcrypto, AbortController, setTimeout:fn => {abort=fn; return 1;}, clearTimeout() {} });
   return { els, button, events, bodies, submit: () => f.listeners.submit({ preventDefault() {} }) };
 }
 for (const mode of ['success','legacy','http_error','network','bad_json','timeout']) {
@@ -49,3 +49,20 @@ for (const mode of ['success','legacy','http_error','network','bad_json','timeou
 const invalid = fixture('success'); invalid.els['lf-phone'].value = 'invalid'; await invalid.submit(); assert.equal(invalid.bodies.length, 0);
 const pending = fixture('network'); await Promise.all([pending.submit(),pending.submit()]); assert.equal(pending.bodies.length,1);
 console.log('Conversion handler: delivery contract, duplicate guard, retries, validation, errors and privacy passed.');
+
+for (const service of ['policy', 'marketing', 'startup', 'certification', 'general']) {
+  const f = fixture('success', service);
+  assert.equal(f.els['lf-service'].value, service, 'landing choice preselected');
+  await f.submit();
+  assert.equal(f.bodies[0].consultation_service, service);
+  assert.equal(f.bodies[0].service, service === 'policy' ? 'pfm' : service);
+  assert.ok(f.bodies[0].answers_text.includes(f.bodies[0].service_name));
+  assert.equal(f.events.find(e => e.event === 'generate_lead').service_category, service, 'category survives form reset');
+}
+const unknown = fixture('success', '__proto__');
+assert.equal(unknown.els['lf-service'].value, 'general');
+const changed = fixture('network', 'marketing'); await changed.submit();
+changed.els['lf-service'].value = 'startup'; await changed.submit();
+assert.notEqual(changed.bodies[0].request_id, changed.bodies[1].request_id, 'changed inquiry gets new id');
+assert.equal(changed.bodies[1].consultation_service, 'startup');
+console.log('Service preselection, lead routing, category tracking and changed-service retries passed.');

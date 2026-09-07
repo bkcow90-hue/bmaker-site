@@ -1,6 +1,21 @@
 /* Shared conversion events. No form values or arbitrary URL query strings in analytics. */
 (function () {
   'use strict';
+  const serviceLabels = { general: '종합 상담', policy: '정책자금·사업자대출', marketing: '기업광고·마케팅', startup: '창업컨설팅', certification: '기업인증·연구소' };
+  const markedService = document.body?.dataset?.service;
+  const pageService = markedService && Object.hasOwn(serviceLabels, markedService) ? markedService
+    : /^\/certification(?:\.html)?\/?$/.test(location.pathname) ? 'certification'
+    : ['/', '/index.html', '/privacy', '/404'].includes(location.pathname) ? 'general' : 'policy';
+  const serviceField = document.getElementById('lf-service');
+  if (serviceField) {
+    const requested = new URLSearchParams(location.search || '').get('service');
+    serviceField.value = requested && Object.hasOwn(serviceLabels, requested) ? requested : 'general';
+  }
+  const selectedService = () => serviceField && Object.hasOwn(serviceLabels, serviceField.value) ? serviceField.value : pageService;
+  // Existing policy pages also use this shared file; keep their consultation intent.
+  if (!serviceField) document.querySelectorAll('a[href="/#apply"], a[href="#apply"]').forEach(link => {
+    link.setAttribute('href', '/?service=' + pageService + '#apply');
+  });
   // Shared by all static pages and their generators. Do not measure previews.
   const measurementId = 'G-DBGR3P6ZHD';
   if (['bmaker.kr', 'www.bmaker.kr'].includes(location.hostname) && !window.bmakerAnalyticsInitialized) {
@@ -20,7 +35,8 @@
       page_location: pageUrl.href,
       page_referrer: referrer,
       allow_google_signals: false,
-      allow_ad_personalization_signals: false
+      allow_ad_personalization_signals: false,
+      service_category: pageService
     });
     const tag = document.createElement('script');
     tag.async = true;
@@ -28,12 +44,15 @@
     document.head.appendChild(tag);
   }
   const track = (event, details = {}) => {
-    const safe = { page_path: location.pathname, ...details };
+    const safe = { page_path: location.pathname, service_category: selectedService(), ...details };
     if (typeof window.gtag === 'function') window.gtag('event', event, safe);
     else { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event, ...safe }); }
   };
   const form = document.getElementById('leadForm');
   let ctaLocation = 'direct_form';
+  if (serviceField) serviceField.addEventListener('change', () => {
+    track('consultation_service_select');
+  });
   document.addEventListener('click', e => {
     const link = e.target instanceof Element ? e.target.closest('a') : null;
     if (!link) return;
@@ -102,14 +121,17 @@
     const industry = document.getElementById('lf-biz').value.trim();
     const memo = document.getElementById('lf-memo').value.trim();
     const preferredTime = selectedTime || '아무 때나';
+    const serviceKey = selectedService();
+    const serviceLabel = serviceLabels[serviceKey];
     const payload = {
-      kind: 'consult', service: 'pfm', service_name: '정책자금', delivery_required: true,
+      kind: 'consult', service: serviceKey === 'policy' ? 'pfm' : serviceKey, service_name: serviceLabel, delivery_required: true,
+      consultation_service: serviceKey,
       name: name.value.trim(), phone: digits,
       preferred_time: preferredTime,
-      answers_text: ['[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
-      diagnosis: { '통화 희망 시간': preferredTime, industry, memo },
+      answers_text: ['[문의 분야] ' + serviceLabel, '[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
+      diagnosis: { '문의 분야': serviceLabel, '통화 희망 시간': preferredTime, industry, memo },
       consent_privacy: document.getElementById('lf-consent').checked,
-      consent_marketing: false, consent_version: 'v1.0-2026-08-20',
+      consent_marketing: false, consent_version: 'v1.1-2026-09-07-service-selection',
       website: document.getElementById('lf-website').value,
       source: 'bmaker.kr 홈페이지 간편신청'
     };
@@ -135,7 +157,7 @@
       message.className = 'apply-msg ok';
       message.textContent = '상담 신청이 접수됐습니다. 평일 09:00–18:00에 연락드리며, 선택하신 통화 시간대를 참고합니다. 급한 문의는 1666-2425로 연락해 주세요.';
       form.reset(); selectedTime = ''; timeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
-      track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form' });
+      track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
       message.focus();
     } catch (error) {
       const reason = error.name === 'AbortError' ? 'timeout' : error.message === 'delivery_failed' ? 'delivery_failed' : 'network_or_response';
