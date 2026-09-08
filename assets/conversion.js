@@ -1,7 +1,7 @@
 /* Shared conversion events. No form values or arbitrary URL query strings in analytics. */
 (function () {
   'use strict';
-  const serviceLabels = { general: '종합 상담', policy: '정책자금·사업자대출', marketing: '기업광고·마케팅', startup: '창업컨설팅', certification: '기업인증·연구소' };
+  const serviceLabels = { general: '종합 상담', policy: '정책자금·사업자대출', marketing: '기업광고·마케팅', startup: '창업컨설팅', certification: '기업인증·연구소', education: '교육·출강' };
   const markedService = document.body?.dataset?.service;
   const pageService = markedService && Object.hasOwn(serviceLabels, markedService) ? markedService
     : /^\/certification(?:\.html)?\/?$/.test(location.pathname) ? 'certification'
@@ -11,6 +11,16 @@
     const requested = new URLSearchParams(location.search || '').get('service');
     serviceField.value = requested && Object.hasOwn(serviceLabels, requested) ? requested : 'general';
   }
+  const updateEducationHelp = () => {
+    const education = serviceField?.value === 'education';
+    const help = document.getElementById('education-help');
+    const memo = document.getElementById('lf-memo');
+    const options = document.getElementById('lf-options');
+    if (help) help.hidden = !education;
+    if (memo) memo.placeholder = education ? '단체명 / 지역 / 예상 인원 / 희망 일정 / 관심 프로그램 (미정 가능)' : '예: 자금 검토, 회사 홍보, 창업 준비가 필요합니다';
+    if (options && education) options.open = true;
+  };
+  updateEducationHelp();
   const selectedService = () => serviceField && Object.hasOwn(serviceLabels, serviceField.value) ? serviceField.value : pageService;
   // Existing policy pages also use this shared file; keep their consultation intent.
   if (!serviceField) document.querySelectorAll('a[href="/#apply"], a[href="#apply"]').forEach(link => {
@@ -51,6 +61,7 @@
   const form = document.getElementById('leadForm');
   let ctaLocation = 'direct_form';
   if (serviceField) serviceField.addEventListener('change', () => {
+    updateEducationHelp();
     track('consultation_service_select');
   });
   document.addEventListener('click', e => {

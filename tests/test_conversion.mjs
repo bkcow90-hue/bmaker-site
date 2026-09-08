@@ -50,7 +50,7 @@ const invalid = fixture('success'); invalid.els['lf-phone'].value = 'invalid'; a
 const pending = fixture('network'); await Promise.all([pending.submit(),pending.submit()]); assert.equal(pending.bodies.length,1);
 console.log('Conversion handler: delivery contract, duplicate guard, retries, validation, errors and privacy passed.');
 
-for (const service of ['policy', 'marketing', 'startup', 'certification', 'general']) {
+for (const service of ['policy', 'marketing', 'startup', 'certification', 'education', 'general']) {
   const f = fixture('success', service);
   assert.equal(f.els['lf-service'].value, service, 'landing choice preselected');
   await f.submit();
