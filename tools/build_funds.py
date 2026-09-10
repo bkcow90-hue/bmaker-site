@@ -206,11 +206,11 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정책자금 접수 일정 — 신청 기간·방법, 지금 접수 중인 자금 (매일 갱신) | 비즈니스 메이커</title>
-<meta name="description" content="소상공인·중소기업 정책자금 접수 일정을 상태별로 정리합니다 — 접수 중·예정·마감. 각 자금의 조건·실측·공식 공고 링크와 함께, 날짜 기준 자동 갱신.">
+<title>정책자금 접수 일정 — 공고상 신청 기간·확인일 | 비즈니스 메이커</title>
+<meta name="description" content="소상공인·중소기업 정책자금의 공고상 신청 기간과 자료 확인일을 정리합니다. 기관의 현재 접수 여부와 잔여 예산은 신청 전 최신 공고에서 확인하세요.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="정책자금 접수 일정 — 지금 신청 가능한 자금">
-<meta property="og:description" content="접수 중·예정·마감 상태별 정리, 날짜 기준 자동 갱신.">
+<meta property="og:title" content="정책자금 접수 일정 — 공고상 신청 기간·확인일">
+<meta property="og:description" content="공고상 일정과 자료 확인일 안내. 현재 접수 여부·잔여 예산은 기관 확인이 필요합니다.">
 <meta property="og:url" content="https://bmaker.kr/schedule">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
 <meta property="og:locale" content="ko_KR">
@@ -247,7 +247,7 @@ def build():
     </div>
     <div class="cta-box">
       <h3 class="serif">어느 자금이 내 차례인지</h3>
-      <p>지금 열려 있는 자금 중 내 조건에 맞는 트랙을 무료로 진단해 드립니다.</p>
+      <p>사업 조건과 자금 용도를 바탕으로 검토할 경로와 확인할 공고를 정리해 드립니다. 상담은 무료입니다.</p>
       <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
