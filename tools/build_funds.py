@@ -32,6 +32,11 @@ def load():
             if '갚' in j: die(f"{i}행: '갚다'류 금지 — 상환으로.")
             if re.search(r'보장', j): die(f"{i}행: '보장' 표현 금지.")
             rows.append(d)
+    # 시트 원본은 보존하고 공식 공고 대조 결과만 별도로 적용한다.
+    verification_path = ROOT / "data" / "funds.verification.json"
+    checks = json.loads(verification_path.read_text(encoding="utf-8")) if verification_path.exists() else {}
+    for row in rows:
+        row.update(checks.get(row["자금ID"], {}))
     if not rows: die("자금 행이 없습니다.")
     ids=[d['자금ID'] for d in rows]
     if len(ids)!=len(set(ids)): die("자금ID 중복이 있습니다.")
@@ -67,6 +72,8 @@ def peer_cases(inst):
     return out
 
 def status_of(d):
+    if d.get('회차 확인') == '미확인':
+        return ('check', '회차 공고·현재 접수 여부 확인 필요', 3)
     s,e = d['접수 시작일'], d['접수 마감일']
     def pd(v): return datetime.date.fromisoformat(v)
     if d['접수 상태'] in ('마감', '종료'): return ('closed','기관 확인 마감 · 다음 공고 확인', 4)
@@ -117,7 +124,7 @@ def build():
         if d['한도']: facts.append(('한도', esc(d['한도'])))
         if d['금리 방식']: facts.append(('금리 방식', esc(d['금리 방식'])))
         facts.append(('접수', esc(badge_txt)))
-        facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">기관 안내 확인 →</a>'))
+        facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))} 확인 →</a>'))
         facts_html="".join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in facts)
         svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":f"{d['자금명']} 진단·실행 지원","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":f"https://bmaker.kr/{d['자금ID']}"}, ensure_ascii=False)
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"접수 일정","item":"https://bmaker.kr/schedule"},{"@type":"ListItem","position":3,"name":d['자금명'],"item":f"https://bmaker.kr/{d['자금ID']}"}]}, ensure_ascii=False)
@@ -158,7 +165,7 @@ def build():
   <div class="wrap">
     <p class="badge b-{badge_cls}">{esc(badge_txt)}</p>
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
-    <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
+    <p class="asof">기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))}. 연간 공고는 현재 접수·잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
     <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
@@ -198,7 +205,7 @@ def build():
     for cat in ('직접대출','대리대출','기타'):
         group=sorted(((d, *status_of(d)) for d in F if cat_of(d)==cat), key=lambda x:(order[x[1]], x[3]))
         if not group: continue
-        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0">{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td><td><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">기관 안내</a></td></tr>' for d,cls,txt,_ in group)
+        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0">{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td><td><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></td></tr>' for d,cls,txt,_ in group)
         sch_rows+=f'<h2>{cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n<div class="tablewrap"><table><thead><tr><th>자금</th><th>기관</th><th>상태</th><th>메모</th><th>자료 확인일</th><th>출처</th></tr></thead><tbody>{rows}</tbody></table></div>\n'
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 접수 일정","item":"https://bmaker.kr/schedule"}]}, ensure_ascii=False)
     sch=f'''<!DOCTYPE html>
@@ -234,7 +241,7 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p class="asof">일정 계산일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 자료 확인일은 각 행에 별도로 표시합니다. 출처가 기관 첫 화면인 경우 해당 자금의 최신 공고를 찾아 확인해 주세요.</p>
+    <p class="asof">일정 계산일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 조건자료 확인일은 각 행에 보존하고, 연간 공고 대조일은 메모에 구분합니다. 연간계획 링크는 현재 회차 접수·잔여 예산을 뜻하지 않습니다. 신청 전 소상공인정책자금의 회차 공고를 확인하세요.</p>
     {sch_rows}
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
