@@ -72,6 +72,16 @@ def peer_cases(inst):
     return out
 
 def status_of(d):
+    observed = d.get('접수 관측')
+    checked = d.get('접수 확인일', '미확인')
+    if observed == '분기마감':
+        return ('closed', f'3분기 마감 · 4분기 추후 안내 ({checked} 확인)', 4)
+    if observed == '접수중표시':
+        return ('check', f'공식화면 접수중 표시 ({checked} 확인) · 소진 여부 재확인', 3)
+    if observed == '예정':
+        if datetime.date.fromisoformat(d['접수 시작일']) > TODAY:
+            return ('soon', f"공고상 {d['접수 시작일']} 10:00 예정 · 변경 가능", 2)
+        return ('check', f'공고상 시작일 경과 · 현재 접수 재확인 ({checked} 확인)', 3)
     if d.get('회차 확인') == '미확인':
         return ('check', '회차 공고·현재 접수 여부 확인 필요', 3)
     s,e = d['접수 시작일'], d['접수 마감일']
@@ -165,7 +175,7 @@ def build():
   <div class="wrap">
     <p class="badge b-{badge_cls}">{esc(badge_txt)}</p>
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
-    <p class="asof">기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))}. 연간 공고는 현재 접수·잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
+    <p class="asof">기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
     <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
@@ -241,7 +251,7 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p class="asof">일정 계산일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 조건자료 확인일은 각 행에 보존하고, 연간 공고 대조일은 메모에 구분합니다. 연간계획 링크는 현재 회차 접수·잔여 예산을 뜻하지 않습니다. 신청 전 소상공인정책자금의 회차 공고를 확인하세요.</p>
+    <p class="asof">일정 계산일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 조건자료 확인일은 각 행에 보존하고, 접수 안내 확인일은 메모에 구분합니다. 접수중 표시는 확인 시점의 공식 안내이며 잔여 예산을 뜻하지 않습니다. 신청 전 소상공인정책자금의 회차 공고를 확인하세요.</p>
     {sch_rows}
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">

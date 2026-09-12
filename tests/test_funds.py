@@ -24,8 +24,10 @@ def test_unverified_round_never_becomes_open_from_sheet_date():
     assert module.status_of({'회차 확인':'미확인','접수 시작일':'2026-01-01','접수 마감일':'2099-12-31','접수 상태':'회차'})[0]=='check'
     rows=module.load()
     assert len(rows)==15
-    assert all('PBLN_000000000124909' in r['공고 링크'] for r in rows)
+    assert all('ols.semas.or.kr' in r['공고 링크'] for r in rows)
     sch=(ROOT/'schedule.html').read_text(encoding='utf-8')
-    assert '접수 예정 · 2026-10-06 시작' not in sch
-    assert len(re.findall(r'연간계획 [0-9]+쪽 확인', sch))==15
+    assert '공고상 2026-10-06 10:00 예정' in sch
     assert '잔여 예산을 뜻하지 않습니다' in sch
+    sample={'접수 관측':'예정','접수 확인일':'2026-09-12','접수 시작일':'2020-01-01'}
+    assert module.status_of(sample)[0]=='check'
+    assert module.status_of({'접수 관측':'접수중표시','접수 확인일':'2026-09-12'})[0]=='check'
