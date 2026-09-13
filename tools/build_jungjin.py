@@ -56,7 +56,7 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>중진공 정책자금 — 신청 준비·사업계획서·보증기관 비교 (2026) | 비즈니스 메이커</title>
+<title>중소기업 정책자금 대출 2026 — 중진공·기보·신보 억대 설계, 법인 실측 {NC}건 | 비즈니스 메이커</title>
 <meta name="description" content="중소기업 정책자금(법인 포함)은 어떻게 설계하나요? 중진공 직접대출·기보·신보·재단 상위 구간의 네 축과 억대 실행 기록 {len(big)}건, 동시 설계 {len(combo)}건 — 법인 {NC}건({CTOT}, 중앙값 {CMED}, 소요 중앙값 {CDMED}일) 실측과 함께.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="중소기업 정책자금 — 억대 설계의 실제 (2026)">

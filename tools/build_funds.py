@@ -95,6 +95,16 @@ def status_of(d):
         if e and pd(e)<TODAY: return ('closed', f"접수 마감 ({e}) · 다음 공고 대기", 4)
     return ('check','접수 일정: 최신 공고 확인 필요', 3)
 
+TITLE_OVERRIDES = {
+ 'hyeoksin-jolup': '혁신성장촉진자금(소상공인졸업후보) 2026 — 졸업후보기업 조건·확인법·신청 방법',
+}
+EXTRA_SECTIONS = {
+ 'hyeoksin-jolup': """<h2>소상공인 졸업후보기업이란 — 조건과 확인법</h2>
+<p><b>졸업후보기업</b>은 소상공인 기준(업종별 상시근로자 수·매출 규모)을 막 넘어서거나 넘어서기 직전인 <b>성장 단계 사업자</b>를 뜻합니다. 소상공인 지원의 문턱은 넘었는데 중소기업 정책자금의 규모에는 아직 못 미치는 구간이라, 이 구간을 위해 설계된 자금이 혁신성장촉진자금(소상공인졸업후보)입니다.</p>
+<p><b>확인법:</b> ① 최근 결산 기준 매출과 상시근로자 수를 업종별 소상공인 기준과 대조 ② 공고의 대상 요건(졸업 시점·업력·제외 업종) 확인 ③ 소상공인확인서 발급 이력 확인. 요건 해석이 갈리는 경계 사업자가 많아, 진단에서 자주 다루는 질문입니다.</p>
+<p><b>함께 보는 자금:</b> 매출이 이미 소기업 규모면 <a href="/jungjingong">중소기업 정책자금(중진공·기보·신보)</a>, 아직 소상공인 구간이면 <a href="/sojingong">소상공인 정책자금 직접대출</a>, 사회적 성격의 조직이면 <a href="/hyeoksin-sahoe">혁신성장촉진자금(사회연대경제조직)</a>이 대안 경로입니다.</p>"""
+}
+
 def build():
     F=load()
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
@@ -107,7 +117,12 @@ def build():
         badge_cls, badge_txt, _ = status_of(d)
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=sorted({r['금리'].split('(')[0].strip() for r in C if r['금리']})
-        meas_sum = (f"실측 기록 {len(C)}건 · {won2(min(amts))}~{won2(max(amts))}" + (f" · {rates[0]}~{rates[-1]}" if rates else "")) if C else "실행 기록 수록 실측 준비 중"
+        rng=(won2(min(amts)) if min(amts)==max(amts) else f"{won2(min(amts))}~{won2(max(amts))}") if C else ""
+        rr=("" if not rates else (f" · {rates[0]}" if rates[0]==rates[-1] else f" · {rates[0]}~{rates[-1]}"))
+        meas_sum = (f"실행 기록 {len(C)}건 · {rng}{rr}") if C else "같은 기관 실행 기록으로 보는 심사·진행 구조"
+        kind_short = "소진공 직접대출" if "직접" in d["카테고리"] else ("보증 연계 대리대출" if "대리" in d["카테고리"] else d["카테고리"])
+        title_txt = (f"{d['자금명']} 2026 — 조건·한도·신청 방법, 실행 기록 {len(C)}건" if C else f"{d['자금명']} 2026 — 대상·조건·신청 방법 | {kind_short}")
+        title_txt = TITLE_OVERRIDES.get(d['자금ID'], title_txt)
         rows_html="".join(
           f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in C)
         if C:
@@ -144,8 +159,8 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{esc(d['자금명'])} — 조건·실측·접수 일정 (2026) | 비즈니스 메이커</title>
-<meta name="description" content="{esc(d['자금명'])}({esc(d['기관'])}) — {esc(d['한 줄 메모']) if d['한 줄 메모'] else '조건과 신청 경로'}. {esc(meas_sum)}. 접수 일정과 공식 공고 링크, 실제 실행 기록까지.">
+<title>{esc(title_txt)}</title>
+<meta name="description" content="{esc(d['자금명'])} — {esc(d['기관'])} {esc(kind_short)}. {esc(d['한 줄 메모']) if d['한 줄 메모'] else '대상·한도·금리·신청 기간과 공식 공고 기준 요건'}. {esc(meas_sum)}. 착수금 없이 무료 진단, 실행 시에만 성공보수.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{esc(d['자금명'])} — 조건·실측·접수 일정 (2026)">
 <meta property="og:description" content="{esc(meas_sum)} · {esc(badge_txt)}">
@@ -177,6 +192,7 @@ def build():
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
     <p class="asof">기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
+    {EXTRA_SECTIONS.get(d["자금ID"],"")}
     <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
@@ -223,7 +239,7 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정책자금 접수 일정 — 공고상 신청 기간·확인일 | 비즈니스 메이커</title>
+<title>정책자금 접수 일정 2026 — 접수 중·예정 자금 한눈에, 공고 기준 신청 기간 (매일 갱신) | 비즈니스 메이커</title>
 <meta name="description" content="소상공인·중소기업 정책자금의 공고상 신청 기간과 자료 확인일을 정리합니다. 기관의 현재 접수 여부와 잔여 예산은 신청 전 최신 공고에서 확인하세요.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="정책자금 접수 일정 — 공고상 신청 기간·확인일">

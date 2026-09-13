@@ -99,7 +99,7 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{esc(d['재단명'])} 사업자대출 — {esc(d['지역(시도)'])} 소상공인 대출 보증부 조건·실측 (2026) | 비즈니스 메이커</title>
+<title>{esc(d['재단명'])} 사업자대출 2026 — {esc(d['지역(시도)'])} 소상공인 대출 조건·보증 절차·실측 금리</title>
 <meta name="description" content="{esc(d['지역(시도)'])} 소상공인 대출 알아보시나요? {esc(d['재단명'])} 보증부 사업자대출 — 구조·대상·진행 방법{('과 실제 실행 기록 '+str(len(C))+'건') if C else ''}. 사업장 소재지 기준 이용, 지자체 이차보전 연계까지.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{esc(d['재단명'])} — {esc(d['지역(시도)'])} 소상공인 대출·사업자대출 (2026)">
