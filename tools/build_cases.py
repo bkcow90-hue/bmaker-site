@@ -105,7 +105,7 @@ def build():
     nev=sum(1 for d in D if d['증빙 파일'])
     yms=sorted(d['실행 연월'] for d in D); y0,m0=yms[0].split('-'); y1,m1=yms[-1].split('-')
     today=(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST(UTC+9, 서머타임 없음) — 러너는 UTC
-    T={'N':N,'TOTAL_KR':won2(total),'MED_KR':won2(med),'RANGE_KR':f"{won2(amts[0]).replace('원','')}~{won2(amts[-1])}",
+    T={'N':N,'TOTAL_KR':won2(total),'MED_KR':won2(med), 'AVG_KR': won2(round(total/N)),'RANGE_KR':f"{won2(amts[0]).replace('원','')}~{won2(amts[-1])}",
        'DMED':dmed,'DN':len(days),'NEV':nev,'n_closed':nc,'n_tax':nt,'n_prior':np_,'n_low':nl,
        'PERIOD_KR':f"{int(y0)}년 {int(m0)}월~{int(y1)}년 {int(m1)}월",'PERIOD_LONG':f"{int(y0)}년 {int(m0)}월부터 {int(y1)}년 {int(m1)}월까지",
        'PERIOD_SHORT':f"{y0}.{m0}~{y1}.{m1}",'ASOF_KR':f"{today.year}년 {today.month}월 {today.day}일"}
@@ -227,9 +227,10 @@ td a{color:var(--blue-deep);text-decoration:underline}
     if ip.exists():
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
-            block=(f'<!-- home-proof:start --><li><strong>공개 실행 기록 {N}건</strong><span>{T["PERIOD_SHORT"]} · 전건 익명 공개</span></li>'
-                   f'<li><strong>{T["TOTAL_KR"]} 실행</strong><span>건당 중앙값 {T["MED_KR"]}</span></li>'
-                   f'<li><strong>기관 증빙 {nev}건</strong><span>안내문·약정 캡처 첨부</span></li><!-- home-proof:end -->')
+            big_n=sum(1 for r in D if int(r['실행 금액(만원)'])>=10000)
+            block=(f'<!-- home-proof:start --><li><strong>공개 실행 기록 {N}건</strong><span>{T["PERIOD_SHORT"]}</span></li>'
+                   f'<li><strong>{T["TOTAL_KR"]} 실행</strong><span>정책자금 실행 총액</span></li>'
+                   f'<li><strong>1억원 이상 실행 {big_n}건</strong><span>억대 설계 실행 기록</span></li><!-- home-proof:end -->')
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)

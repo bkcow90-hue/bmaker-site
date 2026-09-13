@@ -31,7 +31,7 @@ def build():
     big=sorted([r for r in rows if int(r['실행 금액(만원)'])>=10000], key=lambda r:-int(r['실행 금액(만원)']))
     combo=[r for r in rows if r['동시 진행 자금'].strip()]
     ca=[int(r['실행 금액(만원)']) for r in corp]; cd=[float(r['소요일']) for r in corp if r['소요일']]
-    NC=len(corp); CTOT=won2(sum(ca)) if ca else '—'; CMED=won2(int(statistics.median(ca))) if ca else '—'; CDMED=int(statistics.median(cd)) if cd else None
+    NC=len(corp); CTOT=won2(sum(ca)) if ca else '—'; CMED=won2(int(statistics.median(ca))) if ca else '—'; CAVG=won2(round(sum(ca)/len(ca))) if ca else '—'; CDMED=int(statistics.median(cd)) if cd else None
     gibo=[r for r in rows if '기술보증기금' in r['기관']+r['동시 진행 자금'] or '기보' in r['자금명']]; sinbo=[r for r in rows if inst_of(r)=='신보']
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
@@ -44,11 +44,11 @@ def build():
     tracks_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td><td>{c}</td><td>{d}</td><td>{e}</td></tr>' for a,b,c,d,e in tracks)
     big_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["사업 형태"])}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])}</td><td><b>{won2(r["실행 금액(만원)"])}</b></td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in big[:20])
     combo_html="".join(f'<li><a href="/cases#case-{r["사례ID"]}">사례 ID {r["사례ID"]}</a> — {esc(r["자금명"])} <span> / 함께 검토한 기관·자금: {esc(r["동시 진행 자금"])}</span></li>' for r in combo)
-    faq=[("법인만 대상인가요? 개인사업자는요?", f"아닙니다. 중진공·신보·기보 모두 개인사업자도 이용합니다 — 실행 기록의 신보 1억 1,000만원 건이 개인사업자였습니다. 다만 규모가 커질수록 법인 실행 비중이 늘고(법인 {NC}건, 중앙값 {CMED}), 개인사업자 기준의 전체 지도는 개인사업자 정책자금 총정리에 따로 있습니다."),
+    faq=[("법인만 대상인가요? 개인사업자는요?", f"아닙니다. 중진공·신보·기보 모두 개인사업자도 이용합니다 — 실행 기록의 신보 1억 1,000만원 건이 개인사업자였습니다. 다만 규모가 커질수록 법인 실행 비중이 늘고(법인 {NC}건, 평균 {CAVG}), 개인사업자 기준의 전체 지도는 개인사업자 정책자금 총정리에 따로 있습니다."),
          ("소진공과 중진공, 어디로 가야 하나요?","업종·상시근로자·매출과 자금별 공고를 함께 확인합니다. 소진공은 소상공인 대상 자금, 중진공은 중소기업 대상 정책자금을 운영합니다. 규모만으로 단정하지 않고 상품별 대상과 예외·제외요건을 확인해야 합니다."),
          ("억대 자금은 어떻게 만들어지나요?", f"한 자금으로 억대를 채우기보다 조합으로 설계되는 경우가 많습니다. 실행 기록의 동시 설계 {len(combo)}건이 그 방식입니다 — 기보 2억 9,000만에 소진공을 더하거나, 기보 2억에 중진공 청년창업자금을 더하는 식. 검토 순서는 자금 용도·기존 부채·접수 일정·중복지원 제한에 따라 달라집니다. 동시 진행 기록이 모든 자금의 실행 완료를 뜻하지는 않습니다."),
          ("사업계획서가 그렇게 중요한가요?","중진공 직접대출에서는 특히 그렇습니다. 심사가 보는 것은 문장이 아니라 숫자 정합 — 산출 근거, 집행 계획, 상환 계획의 일치입니다. 5요소와 감점 포인트를 별도 가이드로 정리해 두었습니다."),
-         ("기간과 비용은요?", f"법인 실행 기록 기준 첫 상담 접수부터 정산까지 중앙값 {CDMED}일이었습니다(개인보다 서류·심사 호흡이 깁니다). 비용은 실행 전 0원, 실행된 경우에만 성공보수 — 요율은 자금 종류·규모에 따라 계약 시 안내합니다.")]
+         ("기간과 비용은요?", f"법인 실행 기록 기준 첫 상담 접수부터 보통 {CDMED}일이었습니다(개인보다 서류·심사 호흡이 깁니다). 비용은 실행 전 0원, 실행된 경우에만 성공보수 — 요율은 자금 종류·규모에 따라 계약 시 안내합니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
     svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"중소기업·법인 정책자금 진단·설계 (중진공·기보·신보)","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/jungjingong"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"중소기업 정책자금","item":"https://bmaker.kr/jungjingong"}]}, ensure_ascii=False)
@@ -59,7 +59,7 @@ def build():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>중소기업 정책자금 대출 2026 — 중진공·기보·신보 억대 설계, 법인 실측 {NC}건 | 비즈니스 메이커</title>
-<meta name="description" content="중소기업 정책자금(법인 포함)은 어떻게 설계하나요? 중진공 직접대출·기보·신보·재단 상위 구간의 네 축과 억대 실행 기록 {len(big)}건, 동시 설계 {len(combo)}건 — 법인 {NC}건({CTOT}, 중앙값 {CMED}, 소요 중앙값 {CDMED}일) 실측과 함께.">
+<meta name="description" content="중소기업 정책자금(법인 포함)은 어떻게 설계하나요? 중진공 직접대출·기보·신보·재단 상위 구간의 네 축과 억대 실행 기록 {len(big)}건, 동시 설계 {len(combo)}건 — 법인 {NC}건({CTOT}, 평균 {CAVG}, 보통 {CDMED}일) 실측과 함께.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="중소기업 정책자금 — 억대 설계의 실제 (2026)">
 <meta property="og:description" content="법인 {NC}건 {CTOT} · 억대 {len(big)}건 · 동시 설계 {len(combo)}건 실측">
@@ -94,9 +94,9 @@ def build():
 
     <div class="cards">
       <div class="card"><b>{NC}건</b><span>법인 실행 · 총 {CTOT}</span></div>
-      <div class="card"><b>{CMED}</b><span>법인 건당 중앙값</span></div>
+      <div class="card"><b>{CAVG}</b><span>법인 건당 평균</span></div>
       <div class="card"><b>{len(big)}건</b><span>1억원 이상 실행</span></div>
-      <div class="card"><b>{CDMED}일</b><span>법인 첫 상담 → 정산 중앙값</span></div>
+      <div class="card"><b>보통 {CDMED}일</b><span>법인 첫 상담 → 정산</span></div>
     </div>
 
     <h2>중진공과 보증기관의 역할 비교</h2>
@@ -147,7 +147,7 @@ def build():
     sm=re.sub(r'(<loc>'+re.escape(loc)+r'</loc><lastmod>)[^<]+', r'\g<1>'+str(TODAY), sm)
     (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
-    line=f"- [중소기업·법인 정책자금 허브](https://bmaker.kr/jungjingong): 네 축(중진공·기보·신보·재단 상위)과 억대 설계 — 법인 {NC}건({CTOT}·중앙값 {CMED}·소요 {CDMED}일), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건 실측"
+    line=f"- [중소기업·법인 정책자금 허브](https://bmaker.kr/jungjingong): 네 축(중진공·기보·신보·재단 상위)과 억대 설계 — 법인 {NC}건({CTOT}·평균 {CAVG}·소요 {CDMED}일), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건 실측"
     if '- [중소기업·법인 정책자금 허브]' in lt: lt=re.sub(r'- \[중소기업·법인 정책자금 허브\][^\n]*', line, lt)
     else: lt=lt.replace('- [정책자금 컨설팅 안내]', line+'\n- [정책자금 컨설팅 안내]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')

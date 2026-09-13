@@ -15,7 +15,7 @@ def build():
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
     if not rows: die("실행 기록 없음")
     a=[int(r['실행 금액(만원)']) for r in rows]; d=[float(r['소요일']) for r in rows if r['소요일']]
-    N=len(rows); TOT=won2(sum(a)); MED=won2(int(statistics.median(a))); DMED=int(statistics.median(d)) if d else None
+    N=len(rows); TOT=won2(sum(a)); MED=won2(int(statistics.median(a))); AVG=won2(round(sum(a)/len(a))); DMED=int(statistics.median(d)) if d else None
     NEV=sum(1 for r in rows if r['증빙 파일'].strip()); NIND=sum(1 for r in rows if r['사업 형태'].strip()=='개인')
     yms=sorted(r['실행 연월'] for r in rows); y0,m0=yms[0].split('-'); y1,m1=yms[-1].split('-')
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
@@ -86,8 +86,8 @@ def build():
 
     <div class="cards">
       <div class="card"><b>{N}건</b><span>공개 실행 기록 ({int(y0)}.{int(m0)}~{int(y1)}.{int(m1)})</span></div>
-      <div class="card"><b>{TOT}</b><span>실행 총액 · 중앙값 {MED}</span></div>
-      <div class="card"><b>{DMED}일</b><span>첫 상담 → 정산 중앙값</span></div>
+      <div class="card"><b>{TOT}</b><span>실행 총액 · 건당 평균 {AVG}</span></div>
+      <div class="card"><b>보통 {DMED}일</b><span>첫 상담 → 정산</span></div>
       <div class="card"><b>0원</b><span>실행 전 비용 (전건 동일)</span></div>
     </div>
 
@@ -143,7 +143,7 @@ def build():
     if '- [정책자금 컨설팅 안내]' in lt: lt=re.sub(r'- \[정책자금 컨설팅 안내\][^\n]*', line, lt)
     else: lt=lt.replace('- [개인사업자 정책자금 총정리]', line+'\n- [개인사업자 정책자금 총정리]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
-    print(f"[컨설팅 페이지 빌드 OK] 실행 기록 {N}건 · {TOT} · 소요 중앙값 {DMED}일 (기준일 {TODAY})")
+    print(f"[컨설팅 페이지 빌드 OK] 실행 기록 {N}건 · {TOT} · 보통 {DMED}일 (기준일 {TODAY})")
 
 if __name__=='__main__':
     build()
