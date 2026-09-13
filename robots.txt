@@ -2,6 +2,7 @@
 User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
+Disallow: /data/
 
 # AI 검색/어시스턴트 크롤러 명시 허용 (GEO)
 User-agent: GPTBot

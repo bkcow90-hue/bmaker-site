@@ -1,0 +1,3 @@
+# 데이터 파일은 검색 색인에서 제외 (robots.txt Disallow 와 병행)
+/data/*
+  X-Robots-Tag: noindex
