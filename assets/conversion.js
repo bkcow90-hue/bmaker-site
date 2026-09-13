@@ -179,3 +179,69 @@
     }
   });
 })();
+
+/* Scroll reveal — 전 페이지 공통. CSS 를 주입해 정적 페이지까지 커버한다.
+   기존 홈의 .reveal/.on 구현과 충돌하지 않도록 .rv/.rv-in 네임스페이스를 쓴다. */
+(function () {
+  'use strict';
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var css = '.rv{opacity:0;transform:translateY(12px);transition:opacity .5s cubic-bezier(.22,.61,.36,1),transform .5s cubic-bezier(.22,.61,.36,1);transition-delay:var(--rv-d,0ms)}'
+          + '.rv-in{opacity:1;transform:none}'
+          + '@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}';
+  var st = document.createElement('style');
+  st.setAttribute('data-rv', '');
+  st.appendChild(document.createTextNode(css));
+  (document.head || document.documentElement).appendChild(st);
+
+  // 제외: 히어로 · 상담 폼 · 인라인 CTA · 모바일 고정 CTA · 헤더/푸터/내비,
+  //      그리고 홈의 기존 .reveal 구현이 이미 맡은 요소
+  var EXCLUDE = '.hero, .hero *, #leadForm, #leadForm *, .cta-inline, .cta-inline *,'
+              + '.sticky-cta, .sticky-cta *, header, header *, footer, footer *, nav, nav *,'
+              + '.reveal, .reveal *';
+  function excluded(el) { return el.closest(EXCLUDE) !== null; }
+
+  var targets = [];
+  function add(el) {
+    if (!el || excluded(el) || targets.indexOf(el) !== -1) return;
+    targets.push(el);
+  }
+
+  document.querySelectorAll('main section, body > section').forEach(function (sec) {
+    if (excluded(sec)) return;
+    sec.querySelectorAll(':scope > .wrap > h2, :scope > .wrap > .sec-label, :scope > .wrap > p').forEach(add);
+    sec.querySelectorAll('.card, .stat, .svc, .exp, details').forEach(add);
+  });
+
+  // 표: 본문 20행 이하만 행 단위 순차, 그 이상은 표 컨테이너 단위
+  document.querySelectorAll('table').forEach(function (tb) {
+    if (excluded(tb)) return;
+    var rows = tb.querySelectorAll('tbody tr');
+    if (rows.length && rows.length <= 20) rows.forEach(add);
+    else add(tb);
+  });
+
+  if (!targets.length) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('rv-in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+  var vh = window.innerHeight || document.documentElement.clientHeight;
+  var groups = new Map();
+  targets.forEach(function (el) {
+    // 이미 화면 안이면 숨기지 않는다 — defer 실행이라 깜빡임이 생기기 때문
+    if (el.getBoundingClientRect().top < vh) return;
+    var parent = el.parentElement;
+    var i = groups.get(parent) || 0;
+    groups.set(parent, i + 1);
+    el.style.setProperty('--rv-d', Math.min(i, 8) * 40 + 'ms');
+    el.classList.add('rv');
+    io.observe(el);
+  });
+})();

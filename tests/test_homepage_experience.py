@@ -132,5 +132,36 @@ class HomepageExperienceTests(unittest.TestCase):
         self.assertNotIn("hidden", guidebook_event["attrs"])
 
 
+class ScrollRevealTests(unittest.TestCase):
+    """스크롤 리빌은 conversion.js 가 CSS 까지 주입해 정적 페이지도 덮는다.
+    홈의 기존 .reveal/.on 구현과 섞이면 이중 적용이 되므로 네임스페이스를 분리한다."""
+
+    def test_scroll_reveal_is_injected_scoped_and_excludes_interactive_surfaces(self):
+        js = (ROOT / "assets/conversion.js").read_text(encoding="utf-8")
+        home = (ROOT / "index.html").read_text(encoding="utf-8")
+
+        # CSS 단일 출처: 스크립트가 주입하고 페이지 <style> 에는 없다
+        self.assertIn(".rv{opacity:0", js)
+        self.assertIn(".rv-in{opacity:1", js)
+        self.assertIn("data-rv", js)
+        self.assertNotIn(".rv{opacity:0", home)
+
+        # 모션 저감 설정 존중
+        self.assertIn("(prefers-reduced-motion: reduce)", js)
+        self.assertIn("@media(prefers-reduced-motion:reduce){.rv{", js)
+
+        # 제외 대상 — 히어로·폼·CTA·고정바, 그리고 홈의 기존 .reveal
+        exclude = js.split("var EXCLUDE")[1].split(";")[0]
+        for selector in (".hero", "#leadForm", ".cta-inline", ".sticky-cta", ".reveal"):
+            with self.subTest(selector=selector):
+                self.assertIn(selector, exclude)
+
+        # 큰 표는 행 단위가 아니라 컨테이너 단위로 등장
+        self.assertIn("rows.length <= 20", js)
+
+        # 홈의 기존 구현은 그대로 남아 있어야 한다 (이중 적용 방지의 반대편 확인)
+        self.assertIn(".reveal{opacity:0", home)
+        self.assertIn("classList.add('on')", home)
+
 if __name__ == "__main__":
     unittest.main()
