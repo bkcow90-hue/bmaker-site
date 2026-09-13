@@ -584,9 +584,32 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
 .hero .apply-form select{width:100%;max-width:100%;font-family:inherit}.faq details{padding:18px 0;border-bottom:1px solid #dbe2ec}.faq summary{cursor:pointer;font-weight:700}.faq details p{margin-top:12px;line-height:1.8}.talk a{display:inline-block;margin-top:16px;color:#2454bc}
 @media(max-width:680px){.business-services{grid-template-columns:minmax(0,1fr)}.hero h1{font-size:clamp(1.65rem,6.2vw,2.5rem)}.hero-cta-row .btn{min-width:0}.hero-apply{min-width:0}.hero-trust strong{overflow-wrap:anywhere}}
 
-.hero-grid{display:block !important} .hero-proof{margin-top:10px} .hero-proof li strong{color:#fff} .apply-section{padding:56px 0;background:#F4F6FA} .apply-section .hero-apply{max-width:640px;margin:0 auto}
+.apply-section{padding:56px 0;background:#F4F6FA} .apply-section .hero-apply{max-width:640px;margin:0 auto}
 
 /* 폼 카드가 밝은 섹션으로 이동하면서 히어로의 흰 글자 상속이 끊긴 것 보정 */.apply-section .apply-form{color:#EAF0FA}.apply-section .apply-form h2{color:#fff}.apply-section .apply-form p,.apply-section .form-help,.apply-section .apply-note,.apply-section .apply-form summary,.apply-section .apply-form .consent,.apply-section .apply-form small{color:#C6D0E4}.apply-section .apply-form label{color:#C6D0E4}.apply-section .form-help a,.apply-section .apply-form a{color:#9CC4FF}
+
+/* 히어로 v3.1 — 사진 위 실행 기록 카드 */
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+.hero-visual{position:relative;justify-self:end;width:min(100%,420px)}
+.hero-visual img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.ledger-card{position:absolute;left:-36px;bottom:28px;width:min(78%,300px);background:#fff;color:#0E1B33;border-radius:14px;padding:16px 18px 14px;box-shadow:0 18px 40px rgba(5,14,32,.4);border-left:5px solid #FEE500}
+.ledger-card .lc-title{margin:0 0 8px;font-size:.78rem;font-weight:700;color:#526077}
+.ledger-card ul{list-style:none;margin:0;padding:0}
+.ledger-card li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid #EEF1F6;font-size:.86rem;font-variant-numeric:tabular-nums}
+.ledger-card li:first-child{border-top:0}
+.ledger-card .lc-ym{color:#7B8799}
+.ledger-card .lc-inst{color:#3A4356;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ledger-card li b{font-weight:800;color:#0E1B33}
+.ledger-card .lc-more{display:inline-block;margin-top:10px;font-size:.8rem;font-weight:700;color:#17345c;text-decoration:underline}
+.hero-trust{grid-column:1 / -1}
+.hero-trust li.lead strong{color:#FEE500}
+.inst-strip{background:#F4F6FA;border-bottom:1px solid #E6EAF2}
+.inst-strip .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px;padding-top:18px;padding-bottom:18px}
+.inst-strip .is-lead{margin:0;font-size:.86rem;color:#526077}
+.inst-strip .is-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 26px}
+.inst-strip .is-list li{font-size:.92rem;font-weight:700;color:#17345c;letter-spacing:-.01em}
+@media(max-width:840px){.hero-grid{grid-template-columns:1fr;gap:34px}.hero-visual{justify-self:stretch;width:100%;margin-top:6px;padding-bottom:12px}.ledger-card{left:12px;bottom:-6px;width:min(82%,320px)}.inst-strip .wrap{gap:8px 16px}.inst-strip .is-list{gap:6px 16px}}
+@media(prefers-reduced-motion:reduce){.hero *{transition:none !important;animation:none !important}}
 </style>
 <style>
 /* Consultation flow: compact form above company narrative. */
@@ -658,16 +681,31 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
       </div>
       <p class="hero-note">어떤 서비스가 필요한지 모르셔도 괜찮습니다. 현재 고민부터 말씀해 주세요.</p>
       <ul class="hero-trust" aria-label="비즈니스 메이커 신뢰 지표">
+        <li class="lead"><!-- home-proof:start --><strong>공개 실행 기록 385건</strong><span>439억 5,500만원 · 2023.09~2026.08</span><!-- home-proof:end --></li>
         <li><strong>영업 12년</strong><span>기업상담 경력</span></li>
-        <li><strong>연 250개 기업</strong><span>자금·인증 업무 진행</span></li>
         <li><strong>착수금·진행비용 없음</strong><span>정책자금 업무 기준</span></li>
         <li><strong>전국 무료 상담</strong><span>대면·비대면 선택</span></li>
       </ul>
-      <ul class="hero-trust hero-proof" aria-label="공개 실행 기록 실측"><!-- home-proof:start --><li><strong>공개 실행 기록 385건</strong><span>2023.09~2026.08</span></li><li><strong>439억 5,500만원 실행</strong><span>정책자금 실행 총액</span></li><li><strong>1억원 이상 실행 217건</strong><span>억대 설계 실행 기록</span></li><!-- home-proof:end --></ul>
     </div>
     
-  </div>
+  
+    <div class="hero-visual" aria-hidden="false">
+      <img src="assets/hero-consult.webp" srcset="assets/hero-consult-m.webp 560w, assets/hero-consult.webp 960w" sizes="(max-width: 840px) 92vw, 42vw" width="960" height="1067" alt="상담 테이블에서 서류를 함께 검토하는 장면" loading="eager" fetchpriority="high">
+      <aside class="ledger-card" aria-label="최근 실행 기록">
+        <p class="lc-title">최근 실행 기록</p>
+        <ul><!-- home-recent:start --><li><span class="lc-ym">2026.08</span><span class="lc-inst">소상공인시장진흥공단</span><b>5,300만원</b></li><li><span class="lc-ym">2026.08</span><span class="lc-inst">서울신용보증재단</span><b>1,000만원</b></li><li><span class="lc-ym">2026.08</span><span class="lc-inst">소상공인시장진흥공단</span><b>3,100만원</b></li><!-- home-recent:end --></ul>
+        <a class="lc-more" href="/cases">전체 실행 기록 보기</a>
+      </aside>
+    </div>
+</div>
 </section>
+
+<section class="inst-strip" aria-label="다루는 기관"><div class="wrap">
+  <p class="is-lead">이 기관들의 정책자금을 진단하고 설계합니다</p>
+  <ul class="is-list">
+    <li>소상공인시장진흥공단</li><li>중소벤처기업진흥공단</li><li>신용보증기금</li><li>기술보증기금</li><li>지역신용보증재단</li>
+  </ul>
+</div></section>
 
 <section class="cases" id="cases">
   <div class="wrap">

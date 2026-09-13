@@ -227,11 +227,11 @@ td a{color:var(--blue-deep);text-decoration:underline}
     if ip.exists():
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
-            big_n=sum(1 for r in D if int(r['실행 금액(만원)'])>=10000)
-            block=(f'<!-- home-proof:start --><li><strong>공개 실행 기록 {N}건</strong><span>{T["PERIOD_SHORT"]}</span></li>'
-                   f'<li><strong>{T["TOTAL_KR"]} 실행</strong><span>정책자금 실행 총액</span></li>'
-                   f'<li><strong>1억원 이상 실행 {big_n}건</strong><span>억대 설계 실행 기록</span></li><!-- home-proof:end -->')
+            block=(f'<!-- home-proof:start --><strong>공개 실행 기록 {N}건</strong><span>{T["TOTAL_KR"]} · {T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
+            recent=sorted(D, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:3]
+            rec=''.join(f'<li><span class="lc-ym">{r["실행 연월"].replace("-",".")}</span><span class="lc-inst">{r["기관"].split("+")[0].strip()[:14]}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent)
+            ih=re.sub(r'<!-- home-recent:start -->.*?<!-- home-recent:end -->', '<!-- home-recent:start -->'+rec+'<!-- home-recent:end -->', ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
     _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
