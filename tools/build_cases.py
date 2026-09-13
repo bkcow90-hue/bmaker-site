@@ -222,6 +222,16 @@ td a{color:var(--blue-deep);text-decoration:underline}
              f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 실행 기록: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
     lt=re.sub(r'- 실행 사례\([^\n]*', newline, lt)
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
+    # index.html 히어로 실측 띠(마커 블록) 교체
+    ip=ROOT/'index.html'
+    if ip.exists():
+        ih=ip.read_text(encoding='utf-8')
+        if '<!-- home-proof:start -->' in ih:
+            block=(f'<!-- home-proof:start --><li><strong>공개 실행 기록 {N}건</strong><span>{T["PERIOD_SHORT"]} · 전건 익명 공개</span></li>'
+                   f'<li><strong>{T["TOTAL_KR"]} 실행</strong><span>건당 중앙값 {T["MED_KR"]}</span></li>'
+                   f'<li><strong>기관 증빙 {nev}건</strong><span>안내문·약정 캡처 첨부</span></li><!-- home-proof:end -->')
+            ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
+            ip.write_text(ih, encoding='utf-8')
     # sitemap lastmod
     sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
     sm=re.sub(r'(<loc>https://bmaker\.kr/cases</loc><lastmod>)[^<]+', r'\g<1>'+str(today), sm)
