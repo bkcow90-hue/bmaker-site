@@ -592,7 +592,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
 .hero-visual{position:relative;justify-self:end;width:min(100%,420px)}
 .hero-visual img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
-.ledger-card{position:absolute;left:-36px;bottom:28px;width:min(78%,300px);background:#fff;color:#0E1B33;border-radius:14px;padding:16px 18px 14px;box-shadow:0 18px 40px rgba(5,14,32,.4);border-left:5px solid #FEE500}
+.ledger-card{position:static;width:100%;background:#fff;color:#0E1B33;border-radius:0 0 14px 14px;padding:16px 18px 14px;box-shadow:0 18px 40px rgba(5,14,32,.4);border-top:5px solid #FEE500}
 .ledger-card .lc-title{margin:0 0 8px;font-size:.78rem;font-weight:700;color:#526077}
 .ledger-card ul{list-style:none;margin:0;padding:0}
 .ledger-card li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid #EEF1F6;font-size:.86rem;font-variant-numeric:tabular-nums}
@@ -608,9 +608,9 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
 .inst-strip .is-lead{margin:0;font-size:.86rem;color:#526077}
 .inst-strip .is-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 26px}
 .inst-strip .is-list li{font-size:.92rem;font-weight:700;color:#17345c;letter-spacing:-.01em}
-@media(max-width:840px){.hero-grid{grid-template-columns:1fr;gap:34px}.hero-visual{justify-self:stretch;width:100%;margin-top:6px}.hero-visual img{border-radius:18px 18px 0 0}.ledger-card{position:static;width:100%;border-radius:0 0 14px 14px;border-left:0;border-top:5px solid #FEE500}.ledger-card .lc-inst{white-space:normal}.inst-strip .wrap{gap:8px 16px}.inst-strip .is-list{gap:6px 16px}}
+@media(max-width:840px){.hero-grid{grid-template-columns:1fr;gap:34px}.hero-visual{justify-self:stretch;width:100%;margin-top:6px}.hero-visual img{border-radius:18px 18px 0 0}.ledger-card .lc-inst{white-space:normal}.inst-strip .wrap{gap:8px 16px}.inst-strip .is-list{gap:6px 16px}}
 
-.count{font-variant-numeric:tabular-nums}
+.count{font-variant-numeric:tabular-nums;color:#FEE500}
 .ledger-card li{opacity:0;transform:translateY(6px);animation:lc-in .5s ease forwards}
 .ledger-card li:nth-child(1){animation-delay:.9s}.ledger-card li:nth-child(2){animation-delay:1.05s}.ledger-card li:nth-child(3){animation-delay:1.2s}
 @keyframes lc-in{to{opacity:1;transform:none}}
@@ -686,7 +686,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
       </div>
       <p class="hero-note">어떤 서비스가 필요한지 모르셔도 괜찮습니다. 현재 고민부터 말씀해 주세요.</p>
       <ul class="hero-trust" aria-label="비즈니스 메이커 신뢰 지표">
-        <li class="lead"><!-- home-proof:start --><strong>받은 사례 385건</strong><span>전부 공개 · 2023.09~2026.08</span><!-- home-proof:end --></li>
+        <li class="lead"><!-- home-proof:start --><strong>받은 사례 385건</strong><span>익명 일부 공개 · 2023.09~2026.08</span><!-- home-proof:end --></li>
         <li><strong>영업 12년</strong><span>기업상담 경력</span></li>
         <li><strong>착수금·진행비용 없음</strong><span>정책자금 업무 기준</span></li>
         <li><strong>전국 무료 상담</strong><span>대면·비대면 선택</span></li>
