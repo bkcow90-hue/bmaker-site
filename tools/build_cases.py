@@ -210,7 +210,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
         if d['한 줄 메모']: row+=f". {d['한 줄 메모'].rstrip('.')}"
         row+=f". 근거: {'기관 안내문·약정 캡처' if d['증빙 파일'] else 'CRM 정산 기록'}."
         lines.append(row)
-    sec=f"## 실행 기록 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 실행이 확인된 건을 익명(업종·지역·금액·조건)으로 전건 수록. 기관 안내문·정산 기록 등 증빙이 확보된 건은 증빙 표시와 함께 캡처 첨부\n\n"+"\n".join(lines)+"\n"
+    sec=f"## 실행 기록 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 실행이 확인된 건을 익명(업종·지역·금액·조건)으로 수록. 기관 안내문·정산 기록 등 증빙이 확보된 건은 증빙 표시와 함께 캡처 첨부\n\n"+"\n".join(lines)+"\n"
     lf=re.sub(r'## 실행 기록.*?(?=\n## )', sec+"\n", lf, flags=re.S)
     lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {today}', lf)
     (ROOT/'llms-full.txt').write_text(lf, encoding='utf-8')
