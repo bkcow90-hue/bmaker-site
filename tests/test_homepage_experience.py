@@ -66,10 +66,11 @@ class HomepageExperienceTests(unittest.TestCase):
         cls.hero_heading_lines = heading_parser.lines
 
     def test_hero_heading_has_three_intentional_lines(self):
-        self.assertEqual(
-            self.hero_heading_lines,
-            ["정책자금부터 마케팅까지,", "실행 기록으로", "증명합니다."],
-        )
+        lines = self.hero_heading_lines
+        self.assertEqual(len(lines), 3)
+        self.assertRegex(lines[0], r"^사장님 [\d,]+분이,$")
+        self.assertRegex(lines[1], r"^정책자금 [\d,]+억을$")
+        self.assertEqual(lines[2], "받았습니다.")
 
     def test_first_screen_exposes_four_concrete_trust_signals(self):
         trust_lists = [
@@ -81,7 +82,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
         self.assertEqual(len(trust_lists), 1)
         trust_text = " ".join(trust_lists[0]["text"].split())
-        for signal in ("공개 실행 기록", "영업 12년", "착수금·진행비용 없음", "전국 무료 상담"):
+        for signal in ("정책자금 받은 사례", "영업 12년", "착수금·진행비용 없음", "전국 무료 상담"):
             with self.subTest(signal=signal):
                 self.assertIn(signal, trust_text)
 

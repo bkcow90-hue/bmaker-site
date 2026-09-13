@@ -227,7 +227,9 @@ td a{color:var(--blue-deep);text-decoration:underline}
     if ip.exists():
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
-            block=(f'<!-- home-proof:start --><strong>공개 실행 기록 {N}건</strong><span>{T["TOTAL_KR"]} · {T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
+            block=(f'<!-- home-proof:start --><strong>정책자금 받은 사례 {N}건</strong><span>전부 공개 · {T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
+            h1=(f'<!-- home-h1:start -->사장님 <span class="count" data-count="{N}">{N}</span>분이,<br>정책자금 <span class="count" data-count="{total//10000}" data-suffix="억">{total//10000}억</span>을<br><span class="under">받았습니다.</span><!-- home-h1:end -->')
+            ih=re.sub(r'<!-- home-h1:start -->.*?<!-- home-h1:end -->', h1, ih, flags=re.S)
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
             recent=sorted(D, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:3]
             rec=''.join(f'<li><span class="lc-ym">{r["실행 연월"].replace("-",".")}</span><span class="lc-inst">{r["기관"].split("+")[0].strip()[:14]}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent)
