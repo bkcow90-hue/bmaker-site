@@ -695,6 +695,31 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
  .advisor-proof a{grid-column:2;grid-row:2;min-width:0;margin:0;line-height:1.5;overflow-wrap:break-word}
  .hero .apply-form{padding:24px 20px}
 }
+
+/* ===== 왜 비즈니스 메이커인가 ===== */
+.why{padding:88px 0;background:#fff;border-bottom:1px solid var(--line)}
+.why h2{font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.4;margin:10px 0 34px;max-width:760px}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.why-card{border:1px solid var(--line);border-radius:14px;padding:26px 26px 24px;background:var(--paper)}
+.why-card .wn{font-weight:800;color:var(--blue);font-size:.9rem;letter-spacing:.04em;margin-bottom:10px}
+.why-card h3{font-size:1.12rem;line-height:1.4;margin-bottom:10px;color:var(--navy)}
+.why-card p{color:var(--ink-soft);font-size:.95rem;line-height:1.7}
+.why-card a{color:var(--blue-deep);text-decoration:underline}
+.why-table-wrap{overflow-x:auto;margin:34px 0 0;border:1px solid var(--line);border-radius:14px}
+.why-table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:520px}
+.why-table th,.why-table td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+.why-table thead th{border-top:0;background:var(--paper);font-size:.85rem;color:var(--ink-soft)}
+.why-table thead th:last-child{color:var(--navy);font-weight:800}
+.why-table tbody th{width:22%;color:var(--ink-soft);font-weight:600}
+.why-table td:nth-child(2){color:#7B8799}
+.why-table td:nth-child(3){color:var(--navy);font-weight:700}
+.why-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;margin-top:30px}
+.why-cta p{margin:0;font-weight:700;color:var(--navy);flex:1 1 240px}
+.why-cta .why-apply{background:var(--navy);color:#fff}
+@media(max-width:860px){.why{padding:64px 0}.why-grid{grid-template-columns:1fr;gap:14px}.why-card{padding:22px 20px}.why-table{min-width:0;font-size:.9rem}.why-table th,.why-table td{padding:12px 12px}.why-table tbody th{width:26%}.why-cta .btn{width:100%;justify-content:center}}
+/* 모바일 헤드라인 크기 — 최종 우선 */
+@media(max-width:680px){.hero .hero-grid h1.serif{font-size:clamp(2.15rem,9.8vw,2.55rem);line-height:1.24;letter-spacing:-.03em}}
+@media(max-width:360px){.hero .hero-grid h1.serif{font-size:2rem}}
 </style>
 <link rel="stylesheet" href="/assets/education.css"></head>
 <body data-service="general">
@@ -750,6 +775,25 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
   <ul class="is-list">
     <li>소상공인시장진흥공단</li><li>중소벤처기업진흥공단</li><li>신용보증기금</li><li>기술보증기금</li><li>지역신용보증재단</li>
   </ul>
+</div></section>
+
+<section class="why" aria-label="왜 비즈니스 메이커인가"><div class="wrap">
+  <p class="sec-label">왜 비즈니스 메이커인가</p>
+  <h2 class="serif">말로는 다 비슷합니다.<br class="pc"> 계약 전에 확인할 수 있는 것만 적었습니다.</h2>
+  <div class="why-grid">
+    <article class="why-card"><p class="wn">01</p><h3>안 되면 안 된다고 먼저 말합니다</h3><p>진단은 무료이고, 조건이 안 되면 진행하지 않습니다. 사장님의 시간과 서류 준비를 헛되이 쓰지 않습니다.</p></article>
+    <article class="why-card"><p class="wn">02</p><h3>정책자금은 나오기 전엔 비용이 없습니다</h3><p>착수금·진행비 0원. 결과와 무관하게 먼저 돈부터 받는 구조가 아닙니다.</p></article>
+    <article class="why-card"><p class="wn">03</p><h3>받은 사례를 익명으로 공개합니다</h3><p>"성공 사례 다수"라는 말 대신, 어느 기관에서 얼마를 어떤 조건으로 받았는지 <a href="/cases">사례를 익명으로</a> 표에 공개합니다.</p></article>
+    <article class="why-card"><p class="wn">04</p><h3>큰 금액도, 막힌 길도 설계합니다</h3><p><!-- why-big:start -->1억원 이상 217건, 기관 여러 곳을 묶은 동시 설계 174건.<!-- why-big:end --> 한 기관에서 막혀도 다른 길을 찾습니다.</p></article>
+  </div>
+  <div class="why-table-wrap"><table class="why-table" aria-label="흔한 방식과 비즈니스 메이커 비교"><thead><tr><th></th><th>흔한 방식</th><th>비즈니스 메이커</th></tr></thead><tbody>
+    <tr><th>첫 상담</th><td>"무조건 됩니다"</td><td>안 되면 안 된다고 말합니다</td></tr>
+    <tr><th>비용 시점</th><td>착수금 먼저</td><td>정책자금은 나온 뒤에만</td></tr>
+    <tr><th>사례</th><td>"성공 사례 다수" 문구</td><td>385건 익명으로 표 공개</td></tr>
+    <tr><th>큰 금액</th><td>한 기관·한 자금</td><td>기관 여러 곳 조합 설계</td></tr>
+    <tr><th>자금 그 다음</th><td>자금까지만</td><td>마케팅·인증·교육까지 한 곳에서</td></tr>
+  </tbody></table></div>
+  <div class="why-cta"><p>우리 회사도 되는지, 무료로 먼저 봐드립니다.</p><a class="btn btn-kakao" href="http://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener" data-cta-location="why">카카오톡 무료 진단</a><a class="btn why-apply" href="#apply">내 사업 상담 신청</a></div>
 </div></section>
 
 <section class="cases" id="cases">
