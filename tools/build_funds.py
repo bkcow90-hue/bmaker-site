@@ -123,8 +123,9 @@ def build():
         kind_short = "소진공 직접대출" if "직접" in d["카테고리"] else ("보증 연계 대리대출" if "대리" in d["카테고리"] else d["카테고리"])
         title_txt = (f"{d['자금명']} 2026 — 조건·한도·신청 방법, 실행 기록 {len(C)}건" if C else f"{d['자금명']} 2026 — 대상·조건·신청 방법 | {kind_short}")
         title_txt = TITLE_OVERRIDES.get(d['자금ID'], title_txt)
+        Cshow=sorted(C, key=lambda r:(r["실행 연월"], r["사례ID"]), reverse=True)[:10]
         rows_html="".join(
-          f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in C)
+          f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in Cshow)
         if C:
             meas_html=(f'<h2>기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다 — 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>')
         else:

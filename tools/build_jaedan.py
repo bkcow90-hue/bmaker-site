@@ -72,7 +72,7 @@ def build():
         C=cases_for(d['지역(시도)'])
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=rate_range([r['금리'] for r in C])
-        rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in C)
+        rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
         if C:
             meas=(f'<h2>{esc(d["재단명"])} 실측 — 실행 기록</h2>\n<p>저희가 {esc(d["지역(시도)"])} 사업장으로 실제 실행한 재단 보증부 대출입니다. 총 {len(C)}건 · {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준). 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         else:

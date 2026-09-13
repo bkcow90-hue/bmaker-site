@@ -19,9 +19,11 @@ def rate_range(vals):
     if not nums: return ''
     lo=f"{nums[0]:g}"; hi=f"{nums[-1]:g}"
     return f"연 {lo}%" if lo==hi else f"연 {lo}~{hi}%"
-def inst_of(r):
-    k=r['기관']
-    return '소진공' if '소상공인' in k else '재단' if '재단' in k else '기보' if '기술' in k else '신보' if '신용보증기금' in k else '중진공' if ('중소벤처' in k or '중진공' in k) else '기타'
+KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
+def _first_inst(k):
+    hits=[(k.find(a),b) for a,b in KEYS if a in k]
+    return min(hits)[1] if hits else '기타'
+def inst_of(r): return _first_inst(r['기관'])
 
 def build():
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
@@ -40,7 +42,7 @@ def build():
             ('신용보증기금 (신보)','매출 기반 일반 보증 — 전국 단위','매출이 잡히는 중소기업의 표준 경로', f"{len(sinbo)}건 · {won2(sum(int(r['실행 금액(만원)']) for r in sinbo)) if sinbo else '—'} · {rate_range([r['금리'] for r in sinbo])}", '<a href="/sinbo">신보 안내</a>'),
             ('지역 재단 상위 구간','시·도 재단 보증 + 지자체 이차보전','1억 안팎 구간, 지역 상품 결합 시 저금리', '재단 1억 실행 기록 보유', '<a href="/jaedan">재단 안내</a>')]
     tracks_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td><td>{c}</td><td>{d}</td><td>{e}</td></tr>' for a,b,c,d,e in tracks)
-    big_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["사업 형태"])}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])}</td><td><b>{won2(r["실행 금액(만원)"])}</b></td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in big)
+    big_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["사업 형태"])}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])}</td><td><b>{won2(r["실행 금액(만원)"])}</b></td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in big[:20])
     combo_html="".join(f'<li><a href="/cases#case-{r["사례ID"]}">사례 ID {r["사례ID"]}</a> — {esc(r["자금명"])} <span> / 함께 검토한 기관·자금: {esc(r["동시 진행 자금"])}</span></li>' for r in combo)
     faq=[("법인만 대상인가요? 개인사업자는요?", f"아닙니다. 중진공·신보·기보 모두 개인사업자도 이용합니다 — 실행 기록의 신보 1억 1,000만원 건이 개인사업자였습니다. 다만 규모가 커질수록 법인 실행 비중이 늘고(법인 {NC}건, 중앙값 {CMED}), 개인사업자 기준의 전체 지도는 개인사업자 정책자금 총정리에 따로 있습니다."),
          ("소진공과 중진공, 어디로 가야 하나요?","업종·상시근로자·매출과 자금별 공고를 함께 확인합니다. 소진공은 소상공인 대상 자금, 중진공은 중소기업 대상 정책자금을 운영합니다. 규모만으로 단정하지 않고 상품별 대상과 예외·제외요건을 확인해야 합니다."),
@@ -100,7 +102,7 @@ def build():
     <h2>중진공과 보증기관의 역할 비교</h2>
     <div class="tablewrap"><table><thead><tr><th>축</th><th>성격</th><th>누구에게</th><th>실측</th><th>상세</th></tr></thead><tbody>{tracks_html}</tbody></table></div>
 
-    <h2>억대 실행 기록 — {len(big)}건 전부</h2>
+    <h2>억대 실행 기록 — 상위 20건 (전체 {len(big)}건은 <a href="/cases">실행 기록</a>에)</h2>
     <div class="tablewrap"><table><thead><tr><th>실행</th><th>형태</th><th>기관</th><th>구성</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{big_html}</tbody></table></div>
 
     <h2>총액은 조합에서 나옵니다 — 동시 설계 {len(combo)}건</h2>

@@ -210,7 +210,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
         if d['한 줄 메모']: row+=f". {d['한 줄 메모'].rstrip('.')}"
         row+=f". 근거: {'기관 안내문·약정 캡처' if d['증빙 파일'] else 'CRM 정산 기록'}."
         lines.append(row)
-    sec=f"## 실행 기록 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 고객이 공개에 동의하고 기관 안내문·정산 기록으로 실행을 증명할 수 있는 건만 수록 — 전체 실행 건의 극히 일부이며, 동의·기록이 확보되는 대로 추가. 익명화 기준: 상호·대표자 비공개, 지역은 시·도, 신용점수는 KCB·NICE 중 낮은 쪽의 100점 구간. 금액은 기관 안내문 우선, 없으면 자사 CRM 정산 기록. 실행 전 비용은 전 사례 0원. 원자료 CSV: https://bmaker.kr/data/cases.csv (CC BY 4.0, 출처 bmaker.kr)\n\n"+"\n".join(lines)+"\n"
+    sec=f"## 실행 기록 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 실행이 확인된 건을 익명(업종·지역·금액·조건)으로 전건 수록. 기관 안내문·정산 기록 등 증빙이 확보된 건은 증빙 표시와 함께 캡처 첨부\n\n"+"\n".join(lines)+"\n"
     lf=re.sub(r'## 실행 기록.*?(?=\n## )', sec+"\n", lf, flags=re.S)
     lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {today}', lf)
     (ROOT/'llms-full.txt').write_text(lf, encoding='utf-8')
@@ -232,6 +232,30 @@ td a{color:var(--blue-deep);text-decoration:underline}
                    f'<li><strong>기관 증빙 {nev}건</strong><span>안내문·약정 캡처 첨부</span></li><!-- home-proof:end -->')
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
+    # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
+    _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
+    def _inst(r):
+        k=r['기관']; hits=[(k.find(a),b) for a,b in _KEYS if a in k]
+        return min(hits)[1] if hits else '기타'
+    def _rr(vals):
+        nums=sorted({float(x.group(0)) for v in vals for x in [re.search(r'\d+(?:\.\d+)?', v or '')] if x})
+        return '' if not nums else (f"연 {nums[0]:g}%" if nums[0]==nums[-1] else f"연 {nums[0]:g}~{nums[-1]:g}%")
+    _by={}
+    for r in D: _by.setdefault(_inst(r),[]).append(r)
+    def _n(k): return str(len(_by.get(k,[])))
+    def _won(k): return won2(sum(int(r['실행 금액(만원)']) for r in _by.get(k,[]))) if _by.get(k) else '0원'
+    def _max(k): return won2(max(int(r['실행 금액(만원)']) for r in _by.get(k,[]))) if _by.get(k) else '—'
+    STATS={'total-n':str(N),'total-won':T['TOTAL_KR'],'period':T['PERIOD_SHORT'],'ev-n':str(nev),
+           'jaedan-n':_n('재단'),'jaedan-won':_won('재단'),'jaedan-regions':str(len({r['지역(시도)'] for r in _by.get('재단',[])})),'jaedan-rate':_rr([r['금리'] for r in _by.get('재단',[])]),
+           'gibo-n':_n('기보'),'gibo-max':_max('기보'),'sinbo-n':_n('신보'),'sinbo-max':_max('신보'),
+           'sojingong-n':_n('소진공'),'sojingong-won':_won('소진공'),'jungjin-n':_n('중진공'),
+           'corp-n':str(sum(1 for r in D if r['사업 형태'].strip()=='법인')),'ind-n':str(sum(1 for r in D if r['사업 형태'].strip()=='개인'))}
+    for f in ('sojingong.html','bojeung.html','gibo.html','sinbo.html','jaedan.html','stats.html','consulting.html'):
+        p=ROOT/f
+        if not p.exists(): continue
+        s0=p.read_text(encoding='utf-8'); s=s0
+        for k,v in STATS.items(): s=re.sub(r'(data-stat="'+k+r'">)[^<]*(</span>)', lambda mm: mm.group(1)+v+mm.group(2), s)
+        if s!=s0: p.write_text(s, encoding='utf-8')
     # sitemap lastmod
     sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
     sm=re.sub(r'(<loc>https://bmaker\.kr/cases</loc><lastmod>)[^<]+', r'\g<1>'+str(today), sm)

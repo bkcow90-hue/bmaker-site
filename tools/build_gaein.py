@@ -22,9 +22,11 @@ def rate_range(vals):
     if not nums: return ''
     lo=f"{nums[0]:g}"; hi=f"{nums[-1]:g}"
     return f"연 {lo}%" if lo==hi else f"연 {lo}~{hi}%"
-def inst_of(r):
-    k=r['기관']
-    return '소진공' if '소상공인' in k else '재단' if '재단' in k else '기보' if '기술' in k else '신보' if '신용보증기금' in k else '중진공' if '중소벤처' in k or '중진공' in k else '기타'
+KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
+def _first_inst(k):
+    hits=[(k.find(a),b) for a,b in KEYS if a in k]
+    return min(hits)[1] if hits else '기타'
+def inst_of(r): return _first_inst(r['기관'])
 
 def build():
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
