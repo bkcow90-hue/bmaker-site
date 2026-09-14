@@ -44,7 +44,7 @@ h2:first-child{margin-top:0}
 main p{color:#3A4356;margin-bottom:14px;font-size:.97rem}
 main ul{padding-left:22px;margin-bottom:14px}
 main li{color:#3A4356;margin-bottom:6px;font-size:.96rem}
-.callout{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:20px 24px;margin:22px 0}
+.wrap .callout{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:20px 24px;margin:22px 0}
 .callout p{margin:0;font-size:.93rem}
 details{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
 summary{cursor:pointer;padding:16px 20px;font-weight:600;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;gap:14px}
@@ -75,7 +75,7 @@ footer a{color:#C6D0E4;text-decoration:underline}
 .related{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
 .related p.t{font-weight:700;color:var(--navy);margin-bottom:12px;font-size:.95rem}
 .related a{display:inline-block;font-size:.88rem;color:var(--blue-deep);border:1px solid var(--line);border-radius:999px;padding:8px 16px;margin:0 8px 8px 0}
-.related a:hover{border-color:var(--blue)}
+.wrap .related a:hover{border-color:var(--blue)}
 .asof{margin-top:18px;font-size:.8rem;color:var(--ink-soft)}
 
 .nav-menu{display:flex;gap:20px}
@@ -114,27 +114,27 @@ h2:first-of-type{margin-top:36px}h3{font-weight:700}
 .hero{background:#0E1B33;background-image:none}
 .hero .crumb{font-family:var(--display);color:#C9D3EA;display:inline-block;padding-bottom:8px;border-bottom:2px solid #FEE500;margin-bottom:18px}
 .btn,.btn-kakao,.btn-tel,.btn-apply,.nav-cta,.nav-tel{border-radius:4px}
-.cards{gap:0;border-top:2px solid #0E1B33;border-bottom:1px solid var(--line)}
-.card{background:transparent;border:0;border-radius:0;border-left:1px solid var(--line);padding:16px 18px}
-.card:first-child{border-left:0;padding-left:0}
-.card b{font-variant-numeric:tabular-nums}
-.tablewrap{border-radius:0;border:0;border-top:2px solid #0E1B33;border-bottom:1px solid var(--line)}
-table th{background:transparent;color:#0E1B33;border-bottom:1px solid #0E1B33;font-family:var(--display);font-weight:700}
-tr:nth-child(even) td{background:transparent}
-td{font-variant-numeric:tabular-nums}
-.callout{background:var(--paper);border:0;border-left:3px solid #FEE500;border-radius:0;padding:16px 20px}
-.proof{background:transparent;border:0;border-top:2px solid #0E1B33;border-bottom:1px solid var(--line);border-radius:0;padding:18px 0}
-details{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;margin:0}
-details:first-of-type{border-top:2px solid #0E1B33}
-summary{padding:16px 0}details .body{padding:0 0 16px}
-.cta-inline{border-radius:4px}
-.cta-box{border-radius:4px}
-.related{border-top:2px solid #0E1B33}
-.related a{display:inline-block;margin:0 10px 10px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;text-decoration:none;color:#0E1B33;font-weight:600}
-.related a:hover{border-bottom-color:#0E1B33}
+.wrap .cards{gap:0;border-top:2px solid #0E1B33;border-bottom:1px solid var(--line)}
+.wrap .cards .card{background:transparent;border:0;border-radius:0;border-left:1px solid var(--line);padding:16px 18px}
+.wrap .cards .card:first-child{border-left:0;padding-left:0}
+.wrap .cards .card b{font-variant-numeric:tabular-nums}
+.wrap .tablewrap{border-radius:0;border:0;border-top:2px solid #0E1B33;border-bottom:1px solid var(--line)}
+.wrap table th,.wrap table.mini th{background:transparent;color:#0E1B33;border-bottom:1px solid #0E1B33;font-family:var(--display);font-weight:700}
+.wrap tr:nth-child(even) td{background:transparent}
+.wrap td{font-variant-numeric:tabular-nums}
+.wrap .callout{background:var(--paper);border:0;border-left:3px solid #FEE500;border-radius:0;padding:16px 20px}
+.wrap .proof{background:transparent;border:0;border-top:2px solid #0E1B33;border-bottom:1px solid var(--line);border-radius:0;padding:18px 0}
+main details{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;margin:0}
+main details:first-of-type{border-top:2px solid #0E1B33}
+main summary{padding:16px 0}main details .body{padding:0 0 16px}
+.wrap .cta-inline{border-radius:4px}
+.wrap .cta-box{border-radius:4px}
+.wrap .related{border-top:2px solid #0E1B33}
+.wrap .related a{display:inline-block;margin:0 10px 10px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;text-decoration:none;color:#0E1B33;font-weight:600}
+.wrap .related a:hover{border-bottom-color:#0E1B33}
 .asof{font-family:var(--display);font-size:.85rem}
 .nav-menu a{font-family:inherit}
-@media(max-width:680px){h2{font-size:1.3rem;margin-top:40px}.cards{border-top-width:2px}.card{border-left:0;padding:14px 0;border-top:1px solid var(--line)}.card:first-child{border-top:0}.related a{margin:0 8px 8px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0}}
+@media(max-width:680px){h2{font-size:1.3rem;margin-top:40px}.wrap .cards{border-top-width:2px}.wrap .cards .card{border-left:0;padding:14px 0;border-top:1px solid var(--line)}.wrap .cards .card:first-child{border-top:0}.wrap .related a{margin:0 8px 8px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0}}
 </style>
 <style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}</style>
 </head>
