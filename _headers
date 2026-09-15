@@ -10,3 +10,9 @@
 # 데이터 파일은 검색 색인에서 제외 (robots.txt Disallow 와 병행)
 /data/*
   X-Robots-Tag: noindex
+
+# 정적 자산 캐시 — 폰트는 파일명에 버전을 붙이므로 불변, 그 외 자산은 하루
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/*
+  Cache-Control: public, max-age=86400
