@@ -48,10 +48,15 @@
       allow_ad_personalization_signals: false,
       service_category: pageService
     });
-    const tag = document.createElement('script');
-    tag.async = true;
-    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
-    document.head.appendChild(tag);
+    const loadGtag = () => {
+      const tag = document.createElement('script');
+      tag.async = true;
+      tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+      document.head.appendChild(tag);
+    };
+    // 초기 렌더 경로에서 168KB 스크립트를 치운다 — 그 사이 이벤트는 dataLayer에 쌓였다가 전송된다
+    if (document.readyState === 'complete' || typeof window.addEventListener !== 'function') loadGtag();
+    else window.addEventListener('load', loadGtag, { once: true });
   }
   const track = (event, details = {}) => {
     const safe = { page_path: location.pathname, service_category: selectedService(), ...details };
@@ -234,9 +239,10 @@
 
   var vh = window.innerHeight || document.documentElement.clientHeight;
   var groups = new Map();
-  targets.forEach(function (el) {
-    // 이미 화면 안이면 숨기지 않는다 — defer 실행이라 깜빡임이 생기기 때문
-    if (el.getBoundingClientRect().top < vh) return;
+  var below = [];
+  targets.forEach(function (el) { if (el.getBoundingClientRect().top >= vh) below.push(el); }); // 읽기 일괄
+  below.forEach(function (el) {
+    // 이미 화면 안이면 숨기지 않는다 — defer 실행이라 깜빡임이 생기기 때문 (위에서 걸러짐)
     var parent = el.parentElement;
     var i = groups.get(parent) || 0;
     groups.set(parent, i + 1);
