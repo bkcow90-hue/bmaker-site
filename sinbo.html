@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=optional" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=optional"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap"></noscript>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "신용보증기금 보증부 대출 진단·실행 지원", "serviceType": "정책자금·보증부 대출 진단 및 실행 지원", "provider": {"@type": "Organization", "@id": "https://bmaker.kr/#org", "name": "비즈니스 메이커"}, "areaServed": "KR", "url": "https://bmaker.kr/sinbo"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"}, {"@type": "ListItem", "position": 2, "name": "신용보증기금 사업자대출", "item": "https://bmaker.kr/sinbo"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "신용보증기금과 신용보증재단, 뭐가 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "이름은 비슷하지만 다른 기관입니다. 신용보증기금(신보)은 전국 단위로 중소기업 일반을 보증하고, 지역 신용보증재단은 시·도별로 소상공인·소기업을 보증합니다. 사업 규모가 커지고 매출이 잡히기 시작하면 신보 쪽 한도가 유리해지는 경우가 많습니다 — 저희 실측도 재단은 1,000만~1억원, 신보는 1억 1,000만원이었습니다."}}, {"@type": "Question", "name": "개인사업자도 신보 보증이 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "됩니다. 저희 실행 기록의 신보 실행 건이 바로 개인사업자였습니다 — 업력 4년, 연매출 6억원 미만의 도소매 사업자가 1억 1,000만원을 실행했습니다. 법인만 되는 제도가 아닙니다."}}, {"@type": "Question", "name": "이자만 낸다는 게 무슨 뜻인가요?", "acceptedAnswer": {"@type": "Answer", "text": "보증서 대출에서 흔한 만기 구조입니다. 만기까지는 월 이자만 내고, 만기에 원금을 상환하거나 보증 연장 심사를 거쳐 기간을 늘립니다. 원금 분할이 시작되지 않아 월 부담이 가볍지만 만기 계획이 필요합니다 — 구조 비교는 상환 가이드에 실측으로 정리돼 있습니다."}}, {"@type": "Question", "name": "얼마나 걸리나요?", "acceptedAnswer": {"@type": "Answer", "text": "건마다 다르지만, 저희 실행 기록의 신보 건은 첫 상담 접수부터 정산까지 90일이 걸렸습니다. 보증 심사와 은행 실행이 단계로 이어지는 구조라 재단·소진공보다 호흡이 긴 편이며, 서류가 정리돼 있을수록 짧아집니다."}}]}</script>
@@ -135,6 +135,8 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 .asof{font-family:var(--display);font-size:.85rem}
 .nav-menu a{font-family:inherit}
 @media(max-width:680px){h2{font-size:1.3rem;margin-top:40px}.wrap .cards{border-top-width:2px}.wrap .cards{grid-template-columns:1fr}.wrap .cards .card{border-left:0;padding:14px 0;border-top:1px solid var(--line)}.wrap .cards .card:first-child{border-top:0}.wrap .related a{margin:0 8px 8px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0}}
+@font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
+h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 </style>
 <style>
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}
@@ -145,7 +147,8 @@ tr:nth-child(even) td{background:#FAFBFD}
 td a{color:var(--blue-deep);text-decoration:underline}
 .proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}
 </style>
-<link rel="stylesheet" href="/assets/editorial.css"></head>
+<link rel="stylesheet" href="/assets/editorial.css"><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.woff2" crossorigin>
+</head>
 <body>
 <header>
   <div class="wrap nav">
