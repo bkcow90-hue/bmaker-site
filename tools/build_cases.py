@@ -122,7 +122,7 @@ def build():
       f'<td>{esc(d["업종"]) or "—"}</td><td>{esc(d["사업 형태"]) or "—"}</td><td>{agef(d["업력(년)"]) or "—"}</td><td>{d["신용점수 구간"] or "—"}</td>'
       f'<td>{esc(d["연매출 구간"]) or "—"}</td><td>{marks(d)}</td><td>{esc(d["동시 진행 자금"]) or "—"}</td>'
       f'<td>{(str(int(float(d["소요일"]))) if d["소요일"] else "—")}</td>'
-      f'<td>{(chr(60)+"a href=\"#ev-"+d["사례ID"]+"\">보기</a>") if d["증빙 파일"] else "—"}</td></tr>' for d in D)
+      f'<td>{(chr(60)+"a href=\"#ev-"+d["사례ID"]+"\">증빙 보기</a>") if d["증빙 파일"] else "—"}</td></tr>' for d in D)
     def sent(d):
         bits=[]
         if d['사업 형태']: bits.append(f"{d['사업 형태']}사업자" if d['사업 형태'] in ('개인','법인') else d['사업 형태'])

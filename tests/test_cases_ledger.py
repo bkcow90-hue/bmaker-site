@@ -7,7 +7,7 @@ def test_ledger_counts_align():
     rows = html.count('<tr id="row-')
     cases = html.count('class="case"')
     figs = html.count("<figure")
-    ev_links = html.count('">보기</a>')
+    ev_links = html.count('>증빙 보기</a>')
     with open(ROOT/"data"/"cases.csv", encoding="utf-8-sig") as f:
         n = sum(1 for _ in csv.DictReader(f))
     assert rows == cases == n >= 1, (rows, cases, n)
