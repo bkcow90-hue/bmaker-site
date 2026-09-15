@@ -1,3 +1,12 @@
+# 보안 헤더 (2026-09-15) — CSP 시행 모드·Trusted Types는 인라인 스크립트·외부 위젯 허용 목록 문제로 보류
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
 # 데이터 파일은 검색 색인에서 제외 (robots.txt Disallow 와 병행)
 /data/*
   X-Robots-Tag: noindex
