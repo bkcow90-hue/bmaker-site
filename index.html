@@ -1055,8 +1055,8 @@ h2.serif,.why h2{font-weight:700;letter-spacing:-.015em}
 <section class="media-sec" id="news">
   <div class="wrap">
     <p class="sec-label">콘텐츠</p>
-    <h2 class="serif">블로그와 인스타그램에서 <br class="pc">매주 정책자금 소식을 전합니다</h2>
-    <p class="sub">글과 게시물은 새로 올라올 때마다 이 자리에 자동으로 갱신됩니다.</p>
+    <h2 class="serif">블로그에서 <br class="pc">매주 정책자금 소식을 전합니다</h2>
+    <p class="sub">새 글이 올라올 때마다 이 자리에 자동으로 갱신됩니다.</p>
     <div class="blog-list" id="blogList"></div>
     <div class="insta-grid" id="instaGrid" hidden></div>
     <a class="media-more" href="https://www.instagram.com/bmaker_kr/" target="_blank" rel="noopener" hidden>인스타그램에서 더 보기 →</a>
@@ -1139,20 +1139,6 @@ fetch('data/feed.json').then(r=>r.json()).then(feed=>{
       a.querySelector('.date').textContent = p.date || '';
       bl.appendChild(a);
     });
-  }
-  const ig = document.getElementById('instaGrid');
-  const posts = (feed.instagram||[]).filter(p=>!p.url.includes('POST_CODE'));
-  if (ig && posts.length) {
-    posts.slice(0,3).forEach(p=>{
-      const bq = document.createElement('blockquote');
-      bq.className = 'instagram-media';
-      bq.setAttribute('data-instgrm-permalink', p.url);
-      bq.setAttribute('data-instgrm-version', '14');
-      ig.appendChild(bq);
-    });
-    const s = document.createElement('script');
-    s.async = true; s.src = 'https://www.instagram.com/embed.js';
-    document.body.appendChild(s);
   }
 }).catch(()=>{});
 </script>
