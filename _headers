@@ -12,7 +12,8 @@
   X-Robots-Tag: noindex
 
 # 정적 자산 캐시 — 폰트는 파일명에 버전을 붙이므로 불변, 그 외 자산은 하루
-/assets/fonts/*
-  Cache-Control: public, max-age=31536000, immutable
 /assets/*
   Cache-Control: public, max-age=86400
+/assets/fonts/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
