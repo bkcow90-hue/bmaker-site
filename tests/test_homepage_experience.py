@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from pathlib import Path
+import re
 import unittest
 
 
@@ -58,6 +59,7 @@ class HomepageExperienceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         index = (ROOT / "index.html").read_text(encoding="utf-8")
+        cls.source = index
         parser = HomePageParser()
         parser.feed(index)
         cls.elements = parser.elements
@@ -72,7 +74,24 @@ class HomepageExperienceTests(unittest.TestCase):
         self.assertRegex(lines[1], r"^정책자금 [\d,]+억을$")
         self.assertEqual(lines[2], "받았습니다.")
 
-    def test_first_screen_exposes_four_concrete_trust_signals(self):
+    def test_hero_says_one_thing_with_a_single_reservation_button(self):
+        """히어로 = 라벨 + H1 + 서브 1문장 + 버튼 1개. 카톡·안내문·칩·사례 카드는 히어로 밖으로."""
+        hero = re.search(r'<section class="hero">.*?</section>', self.source, re.S).group(0)
+        self.assertIn('<span class="eyebrow">정책자금 컨설팅, 비즈니스 메이커</span>', hero)
+        self.assertEqual(hero.count("<h1"), 1)
+        leads = re.findall(r'<p class="lead">(.*?)</p>', hero)
+        self.assertEqual(leads, ["우리 회사도 되는지, 무료로 먼저 봐드립니다."])
+        actions = re.findall(r'<(?:a|button)[\s>].*?</(?:a|button)>', hero, re.S)
+        self.assertEqual(len(actions), 1, actions)
+        self.assertIn('href="#apply"', actions[0])
+        self.assertIn(">무료 진단 예약하기 →<", actions[0])
+        self.assertNotIn("btn-kakao", actions[0])
+        for gone in ("pf.kakao.com", "hero-note", "어떤 서비스가 필요한지", "home-recent", "home-proof", "신뢰 지표"):
+            with self.subTest(gone=gone):
+                self.assertNotIn(gone, hero)
+        self.assertIn('src="assets/hero-consult.webp"', hero)
+
+    def test_trust_signals_sit_in_a_strip_right_below_the_hero(self):
         trust_lists = [
             element
             for element in self.elements
@@ -85,13 +104,36 @@ class HomepageExperienceTests(unittest.TestCase):
         for signal in ("받은 사례", "영업 12년", "착수금·진행비용 없음", "전국 무료 상담"):
             with self.subTest(signal=signal):
                 self.assertIn(signal, trust_text)
+        # 히어로 바로 다음 섹션이 신뢰 스트립이어야 첫 화면 다음 시선에 걸린다
+        after_hero = self.source.split('<section class="hero">', 1)[1].split("</section>", 1)[1]
+        self.assertTrue(after_hero.lstrip().startswith('<section class="trust-strip"'), after_hero[:80])
+
+    def test_recent_cases_are_an_independent_section_after_the_hero(self):
+        """GEO 1차 소스 데이터 — 삭제 금지, 위치만 히어로 다음으로."""
+        src = self.source
+        recent = re.search(r'<section class="recent" id="recent"[^>]*>.*?</section>', src, re.S)
+        self.assertIsNotNone(recent)
+        self.assertIn(">최근에 받은 사례</h2>", recent.group(0))
+        self.assertRegex(recent.group(0), r"<!-- home-recent:start -->(<li>.+?</li>){3}<!-- home-recent:end -->")
+        self.assertEqual(src.count("<!-- home-recent:start -->"), 1)
+        self.assertLess(src.index('<section class="trust-strip"'), recent.start())
+        self.assertLess(recent.start(), src.index('<section class="why"'))
+
+    def test_home_has_exactly_one_h1(self):
+        self.assertEqual(len([e for e in self.elements if e["tag"] == "h1"]), 1)
+
+    def test_sticky_bar_waits_until_the_hero_button_leaves_the_screen(self):
+        js = (ROOT / "assets/conversion.js").read_text(encoding="utf-8")
+        self.assertIn('id="heroCta"', self.source)
+        self.assertIn("getElementById('heroCta')", js)
+        self.assertIn("formInView || heroCtaInView", js)
 
     def test_reservation_actions_are_visually_distinct_from_kakao_actions(self):
         reservation_actions = [
             element
             for element in self.elements
             if element["tag"] in {"a", "button"}
-            and "상담 신청" in " ".join(element["text"].split())
+            and any(k in " ".join(element["text"].split()) for k in ("상담 신청", "진단 예약"))
         ]
 
         self.assertGreaterEqual(len(reservation_actions), 3)

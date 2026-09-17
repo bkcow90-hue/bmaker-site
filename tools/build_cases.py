@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """실행 기록 빌드 — data/cases.xlsx(실행 기록 시트) 하나에서 사이트의 모든 실행 기록 표면을 재생성한다.
 
-생성/갱신 대상: cases.html · data/cases.csv · llms-full.txt(실행 기록 섹션) · llms.txt(요약 한 줄) · sitemap.xml(/cases lastmod)
+생성/갱신 대상: cases.html · data/cases.csv · llms-full.txt(실행 기록 섹션) · llms.txt(요약 한 줄) · sitemap.xml(/cases lastmod) · 업종 타일·랜딩(tools/industry.py)
 실행: python tools/build_cases.py   (저장소 루트 어디서든 가능)
 실패 시: 어떤 행·열이 문제인지 한국어로 출력하고 아무 파일도 쓰지 않는다.
 """
@@ -240,6 +240,8 @@ td a{color:var(--blue-deep);text-decoration:underline}
             rec=''.join(f'<li><span class="lc-ym">{r["실행 연월"].replace("-",".")}</span><span class="lc-inst">{r["기관"].split("+")[0].strip()[:14]}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent)
             ih=re.sub(r'<!-- home-recent:start -->.*?<!-- home-recent:end -->', '<!-- home-recent:start -->'+rec+'<!-- home-recent:end -->', ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
+    # 업종별 정책자금 — 홈 타일 + /industry/<slug> 랜딩 (원장 업종 필터)
+    import industry; industry.build(D, T['PERIOD_SHORT'])
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
     _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
     def _inst(r):

@@ -102,15 +102,21 @@
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
   const sticky = document.querySelector('.sticky-cta');
-  let formInView = false;
+  // 홈 히어로의 단일 CTA(#heroCta)가 보이는 동안에는 고정바를 숨겨 첫 화면을 버튼 하나로 둔다
+  const heroCta = document.getElementById('heroCta');
+  let formInView = false, heroCtaInView = !!heroCta;
   function updateSticky() {
-    if (sticky) sticky.hidden = formInView || form.contains(document.activeElement);
+    if (sticky) sticky.hidden = formInView || heroCtaInView || form.contains(document.activeElement);
   }
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       formInView = entries[0].isIntersecting; updateSticky();
     }, { threshold: 0 }).observe(form);
-  }
+    if (heroCta) new IntersectionObserver(entries => {
+      heroCtaInView = entries[0].isIntersecting; updateSticky();
+    }, { threshold: 0 }).observe(heroCta);
+  } else heroCtaInView = false;
+  updateSticky();
   form.addEventListener('focusin', updateSticky);
   form.addEventListener('focusout', () => setTimeout(updateSticky, 0));
   function failure(uncertain) {

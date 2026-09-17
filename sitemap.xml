@@ -61,4 +61,6 @@
 <url><loc>https://bmaker.kr/startup-consulting-cost</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/education</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/education-program</loc><lastmod>2026-09-15</lastmod></url>
+  <url><loc>https://bmaker.kr/industry/eumsikjeom</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bmaker.kr/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
