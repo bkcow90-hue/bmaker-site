@@ -133,3 +133,33 @@ def test_industry_landing_follows_intent_page_rules():
         assert 'class="nav-menu"' in page
         assert not re.search(r'(href|src)="(?!https?://|/|#|tel:|mailto:)', page), "중첩 경로라 상대경로 금지"
         assert "갚" not in page
+
+
+# ── 조건 밴드: 원장에서 자동 (히어로 아님, 최근 사례 섹션 제목 아래) ──
+
+def test_recent_section_shows_ledger_condition_band():
+    home = _read("index.html")
+    recent = _section(home, "recent")
+    band = re.search(r"<!-- home-band:start -->(.*?)<!-- home-band:end -->", recent, re.S)
+    assert band, "조건 밴드 마커가 최근 사례 섹션에 없다"
+    text = band.group(1)
+
+    rows = _public_cases()
+    amts = sorted(int(r["실행 금액(만원)"]) for r in rows)
+    rates = sorted(float(m.group(1)) for r in rows
+                   for m in [re.search(r"(\d+(?:\.\d+)?)", r["금리(실행 시점)"] or "")] if m)
+    hi = f"{amts[-1] / 10000:g}억원" if amts[-1] >= 10000 else f"{amts[-1]:,}만원"
+    assert text.startswith(f"실행 사례 기준 금액 {amts[0]:,}만원~{hi}"), text
+    assert f"금리 연 {rates[0]:g}%~{rates[-1]:g}%" in text, text
+    assert text.endswith(f", {len(rows)}건)"), text
+
+    # 히어로에는 넣지 않는다 · 기관 최대치·자격 관련 표현 금지
+    hero = re.search(r'<section class="hero">.*?</section>', home, re.S).group(0)
+    assert "home-band" not in hero
+    assert "최대" not in text and "신용" not in text
+
+
+def test_condition_band_sub_lines_stay_within_two():
+    """규격: 섹션당 서브는 최대 2줄."""
+    recent = _section(_read("index.html"), "recent")
+    assert len(re.findall(r'<p class="sub[^"]*">', recent)) <= 2

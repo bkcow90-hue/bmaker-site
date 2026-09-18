@@ -94,6 +94,20 @@ def agef(v):
     except ValueError: return v
     return "1년 미만" if a<1 else f"{round(a)}년"
 
+def band(D, T):
+    """홈 '최근에 받은 사례' 조건 밴드 — 실행 금액 최소~최대, 금리 최소~최대(금리가 적힌 건만).
+    기관별 최대치나 자격 관련 표현은 넣지 않는다. 숫자는 전부 원장에서만 나온다."""
+    amts = sorted(d['amt'] for d in D)
+    rates = sorted(float(m.group(1)) for d in D
+                   for m in [re.search(r'(\d+(?:\.\d+)?)', d['금리'] or '')] if m)
+    lo = f"{amts[0]:,}만원"
+    hi = f"{amts[-1] / 10000:g}억원" if amts[-1] >= 10000 else f"{amts[-1]:,}만원"
+    text = f"실행 사례 기준 금액 {lo}~{hi}"
+    if rates:
+        text += f" · 금리 연 {rates[0]:g}%~{rates[-1]:g}%"
+    return text + f" ({T['PERIOD_SHORT']}, {len(D)}건)"
+
+
 def build():
     D = load_rows()
     D.sort(key=lambda d:(d['실행 연월'], d['사례ID']), reverse=True)
@@ -239,6 +253,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
             recent=sorted(D, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:3]
             rec=''.join(f'<li><span class="lc-ym">{r["실행 연월"].replace("-",".")}</span><span class="lc-inst">{r["기관"].split("+")[0].strip()[:14]}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent)
             ih=re.sub(r'<!-- home-recent:start -->.*?<!-- home-recent:end -->', '<!-- home-recent:start -->'+rec+'<!-- home-recent:end -->', ih, flags=re.S)
+            ih=re.sub(r'<!-- home-band:start -->.*?<!-- home-band:end -->', '<!-- home-band:start -->'+band(D,T)+'<!-- home-band:end -->', ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
     # 업종별 정책자금 — 홈 타일 + /industry/<slug> 랜딩 (원장 업종 필터)
     import industry; industry.build(D, T['PERIOD_SHORT'])
