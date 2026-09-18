@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """실행 기록 빌드 — data/cases.xlsx(실행 기록 시트) 하나에서 사이트의 모든 실행 기록 표면을 재생성한다.
 
-생성/갱신 대상: cases.html · data/cases.csv · llms-full.txt(실행 기록 섹션) · llms.txt(요약 한 줄) · sitemap.xml(/cases lastmod)
+생성/갱신 대상: cases.html · data/cases.csv · llms-full.txt(실행 기록 섹션) · llms.txt(요약 한 줄) · sitemap.xml(/cases lastmod) · 업종 타일·랜딩(tools/industry.py)
 실행: python tools/build_cases.py   (저장소 루트 어디서든 가능)
 실패 시: 어떤 행·열이 문제인지 한국어로 출력하고 아무 파일도 쓰지 않는다.
 """
@@ -93,6 +93,20 @@ def agef(v):
     try: a=float(v)
     except ValueError: return v
     return "1년 미만" if a<1 else f"{round(a)}년"
+
+def band(D, T):
+    """홈 '최근에 받은 사례' 조건 밴드 — 실행 금액 최소~최대, 금리 최소~최대(금리가 적힌 건만).
+    기관별 최대치나 자격 관련 표현은 넣지 않는다. 숫자는 전부 원장에서만 나온다."""
+    amts = sorted(d['amt'] for d in D)
+    rates = sorted(float(m.group(1)) for d in D
+                   for m in [re.search(r'(\d+(?:\.\d+)?)', d['금리'] or '')] if m)
+    lo = f"{amts[0]:,}만원"
+    hi = f"{amts[-1] / 10000:g}억원" if amts[-1] >= 10000 else f"{amts[-1]:,}만원"
+    text = f"실행 사례 기준 금액 {lo}~{hi}"
+    if rates:
+        text += f" · 금리 연 {rates[0]:g}%~{rates[-1]:g}%"
+    return text + f" ({T['PERIOD_SHORT']}, {len(D)}건)"
+
 
 def build():
     D = load_rows()
@@ -231,15 +245,27 @@ td a{color:var(--blue-deep);text-decoration:underline}
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
             block=(f'<!-- home-proof:start --><strong>받은 사례 {N}건</strong><span>익명 일부 공개 · {T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
-            h1=(f'<!-- home-h1:start -->사장님 <span class="count" data-count="{N}">{N}</span>분이,<br>정책자금 <span class="count" data-count="{total//10000}" data-suffix="억">{total//10000}억</span>을<br><span class="under">받았습니다.</span><!-- home-h1:end -->')
-            ih=re.sub(r'<!-- home-h1:start -->.*?<!-- home-h1:end -->', h1, ih, flags=re.S)
+            # 히어로 서브 — 숫자·기간은 원장에서만 나온다. H1 은 카테고리 고정 문구라 빌더가 손대지 않는다.
+            sub=(f'<!-- home-sub:start -->사장님 <span class="count" data-count="{N}">{N}</span>분이 정책자금 '
+                 f'<span class="count" data-count="{total//10000}" data-suffix="억">{total//10000}억</span>을 받았습니다 '
+                 f'({T["PERIOD_SHORT"]})<!-- home-sub:end -->')
+            ih=re.sub(r'<!-- home-sub:start -->.*?<!-- home-sub:end -->', sub, ih, flags=re.S)
+            # 홈 description — 확정 문구에 숫자·기간만 채운다 (검색 결과에 그대로 나가는 값)
+            desc=(f'소상공인·중소기업 정책자금 컨설팅, 비즈니스 메이커. 진단은 무료, 착수금 없이 성과로만 보수를 받습니다. '
+                  f'사장님 {N}분이 정책자금 {total//10000}억을 받았습니다({T["PERIOD_SHORT"]}, 익명 일부 공개). '
+                  f'전국 무료 상담, 대면·비대면 중 선택.')
+            for attr in ('name="description"', 'property="og:description"'):
+                ih=re.sub(r'<meta '+attr+r' content="[^"]*">', f'<meta {attr} content="{desc}">', ih, count=1)
             big_n=sum(1 for r in D if int(r['실행 금액(만원)'])>=10000); combo_n=sum(1 for r in D if (r.get('동시 진행 자금') or '').strip())
             ih=re.sub(r'<!-- why-big:start -->.*?<!-- why-big:end -->', f'<!-- why-big:start -->1억원 이상 {big_n}건, 기관 여러 곳을 묶은 동시 설계 {combo_n}건.<!-- why-big:end -->', ih, flags=re.S)
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
             recent=sorted(D, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:3]
             rec=''.join(f'<li><span class="lc-ym">{r["실행 연월"].replace("-",".")}</span><span class="lc-inst">{r["기관"].split("+")[0].strip()[:14]}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent)
             ih=re.sub(r'<!-- home-recent:start -->.*?<!-- home-recent:end -->', '<!-- home-recent:start -->'+rec+'<!-- home-recent:end -->', ih, flags=re.S)
+            ih=re.sub(r'<!-- home-band:start -->.*?<!-- home-band:end -->', '<!-- home-band:start -->'+band(D,T)+'<!-- home-band:end -->', ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
+    # 업종별 정책자금 — 홈 타일 + /industry/<slug> 랜딩 (원장 업종 필터)
+    import industry; industry.build(D, T['PERIOD_SHORT'])
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
     _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
     def _inst(r):

@@ -28,7 +28,7 @@
   "hash": "68850a882c08cb4f992a14296c12d56c48f28779394f393e95090dd78526e2fe"
  },
  "consulting.html": {
-  "date": "2026-09-19",
+  "date": "2026-09-18",
   "hash": "eb2799e0a32c8751df0252994fc6ff9e6672cf9f3cc46dc77c78074001b14f2c"
  },
  "daehwan.html": {
@@ -43,12 +43,16 @@
   "date": "2026-09-15",
   "hash": "497a1eb4802e9047db455ad811c594bb3b168a874a6e5fd57d977ff90f9ebc09"
  },
+ "faq.html": {
+  "date": "2026-09-18",
+  "hash": "5ef6bd8ad91cea17d1cc1a303a7c9ef36623c423a0cd464634af333cc836275c"
+ },
  "funding.html": {
   "date": "2026-09-15",
   "hash": "e1899b2930557c08cfa3800bc2053e67efe6819e4a3037377a63ef6b322b2227"
  },
  "gaein.html": {
-  "date": "2026-09-19",
+  "date": "2026-09-18",
   "hash": "a4bb6f9a03083c57c7238a83698e2e7c69c968ddcb07d7f310899e7029f98af2"
  },
  "geojeol.html": {
@@ -92,8 +96,12 @@
   "hash": "a15c54f0ab4591980df43d8bc1648e3d47729cdc87eab17efaf6d94461ce1f6c"
  },
  "index.html": {
-  "date": "2026-09-15",
-  "hash": "546cb10113530e77a8dc9a45d2bd25e9085c7850b3997a97cc79667da6a9e068"
+  "date": "2026-09-19",
+  "hash": "92173e52ccc7ca12a0e4e618b774c62e322d789da570453d88a53c2055223d4c"
+ },
+ "industry/eumsikjeom.html": {
+  "date": "2026-09-18",
+  "hash": "a8d23df05617ef40a4188941fb3ffcbec8ed480deadd4b20e9c0131f3017a657"
  },
  "jaedan-busan.html": {
   "date": "2026-09-15",
@@ -180,7 +188,7 @@
   "hash": "02bd5497ce70280565f63a448b4eb30bdc108a958f252ef56bcff89e71be4f70"
  },
  "jungjingong.html": {
-  "date": "2026-09-19",
+  "date": "2026-09-18",
   "hash": "cf06dcfa13d1609aaba3623b0ffc5d15bda946c6ac0484dab36eadd58a5af5d5"
  },
  "marketing.html": {
@@ -208,7 +216,7 @@
   "hash": "88e02ea8478d26c06f0bbadbe236dfc29268058819daf20a28f39de2c6a790d1"
  },
  "schedule.html": {
-  "date": "2026-09-19",
+  "date": "2026-09-18",
   "hash": "18726ceb143d74057ff11243af58696b63b9f0babf11994872afef2ff6f79396"
  },
  "sinbo.html": {
