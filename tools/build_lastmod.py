@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""푸터 '최종 업데이트' 한 줄과 JSON-LD dateModified 를 전 페이지에 스탬프한다.
+"""푸터 '최종 업데이트' 한 줄·JSON-LD dateModified·sitemap lastmod 를 같은 값으로 스탬프한다.
 
 날짜 규칙
   - 사례 페이지(cases.html): 원장 빌드일 — cases.html Dataset 의 dateModified 를 그대로 쓴다.
@@ -7,6 +7,9 @@
     스탬프(푸터 한 줄·WebPage 블록·dateModified 값)는 해시에서 빼고 비교하므로
     스탬프를 넣는 커밋이 다음 날짜를 또 올리는 자기참조가 생기지 않는다.
     레지스트리(data/page-updated.json)에 없는 페이지는 git 최종 커밋일(KST)로 seed 한다.
+
+sitemap.xml 의 lastmod 도 같은 값으로 맞춘다. 다른 빌더들은 lastmod 에 '오늘'을 쓰지만
+이 스크립트가 마지막에 레지스트리 값으로 되돌리므로, 내용이 안 바뀐 페이지의 lastmod 는 움직이지 않는다.
 
 실행: python tools/build_lastmod.py   — 다른 build_*.py 를 모두 돌린 뒤 마지막에 실행한다.
       (자금·재단·교육 빌더가 다른 페이지의 <footer>·<head> 를 복사해 가므로 순서가 중요하다)
@@ -17,6 +20,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / 'data' / 'page-updated.json'
+SITEMAP = ROOT / 'sitemap.xml'
+PREFIX = 'https://bmaker.kr/'
 TODAY = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date().isoformat()  # KST
 SKIP = {'404.html'}       # noindex 오류 페이지 — 어떤 경로에서도 서빙되므로 날짜 의미가 없다
 LEDGER = {'cases.html'}   # 원장 빌드일을 쓰는 페이지
@@ -27,6 +32,8 @@ STAMP = re.compile(r'<p class="lastmod"[^>]*>.*?</p>', re.S)
 WEBPAGE_LD = re.compile(r'<script type="application/ld\+json" data-webpage>.*?</script>', re.S)
 ANY_LD = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 DATEMOD = re.compile(r'"dateModified"\s*:\s*"\d{4}-\d{2}-\d{2}"')
+URL_BLOCK = re.compile(r'<url>\s*<loc>([^<]+)</loc>.*?</url>', re.S)
+LASTMOD = re.compile(r'<lastmod>[^<]*</lastmod>')
 
 
 def die(msg):
@@ -116,6 +123,35 @@ def stamp_jsonld(s, date):
     return s.replace('</head>', block + '</head>', 1)
 
 
+def page_of(loc):
+    """sitemap 의 loc → 저장소의 페이지 파일명. 홈은 index.html."""
+    if not loc.startswith(PREFIX):
+        return None
+    slug = loc[len(PREFIX):].strip('/')
+    return 'index.html' if slug == '' else slug + '.html'
+
+
+def stamp_sitemap(dates):
+    """sitemap lastmod = 그 페이지의 갱신일. lastmod 가 없는 항목에는 새로 넣는다."""
+    s0 = SITEMAP.read_text(encoding='utf-8')
+    unknown = []
+
+    def one(m):
+        block, loc = m.group(0), m.group(1)
+        date = dates.get(page_of(loc) or '')
+        if not date:                       # 페이지가 아닌 항목은 근거가 없으므로 건드리지 않는다
+            unknown.append(loc)
+            return block
+        if '<lastmod>' in block:
+            return LASTMOD.sub(f'<lastmod>{date}</lastmod>', block, count=1)
+        return block.replace('</loc>', f'</loc><lastmod>{date}</lastmod>', 1)
+
+    s = URL_BLOCK.sub(one, s0)
+    if s != s0:
+        SITEMAP.write_text(s, encoding='utf-8')
+    return s != s0, unknown
+
+
 def main():
     reg = {}
     if REG.exists():
@@ -149,8 +185,10 @@ def main():
             p.write_text(s, encoding='utf-8')
             touched.append(p.name)
     REG.write_text(json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + '\n', encoding='utf-8')
+    sm_changed, unknown = stamp_sitemap({k: v['date'] for k, v in out.items()})
     print(f"[갱신일 스탬프 OK] {len(out)}개 페이지 (수정 {len(touched)}개, 신규 seed {len(seeded)}개, "
-          f"원장 빌드일 {led}, 오늘 {TODAY})")
+          f"sitemap {'갱신' if sm_changed else '그대로'}, 원장 빌드일 {led}, 오늘 {TODAY})"
+          + (f" — sitemap 에 대응 페이지가 없는 항목 {len(unknown)}개: {unknown[:3]}" if unknown else ""))
 
 
 if __name__ == '__main__':

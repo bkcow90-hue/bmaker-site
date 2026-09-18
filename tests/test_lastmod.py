@@ -65,6 +65,21 @@ def test_cases_page_uses_ledger_build_date():
     assert STAMP.findall(s)[0][0] == B.ledger_date()
 
 
+def test_sitemap_lastmod_matches_registry():
+    """sitemap lastmod = 푸터·JSON-LD 와 같은 갱신일. 크롤러가 보는 세 값이 어긋나면 안 된다."""
+    reg = json.loads((ROOT / 'data' / 'page-updated.json').read_text(encoding='utf-8'))
+    blocks = list(B.URL_BLOCK.finditer((ROOT / 'sitemap.xml').read_text(encoding='utf-8')))
+    assert blocks, 'sitemap.xml 에 <url> 항목이 없음'
+    for m in blocks:
+        loc, block = m.group(1), m.group(0)
+        name = B.page_of(loc)
+        assert name in reg, f'sitemap {loc}: 대응 페이지({name})가 레지스트리에 없음'
+        lm = re.search(r'<lastmod>([^<]*)</lastmod>', block)
+        assert lm, f'sitemap {loc}: lastmod 없음 — build_lastmod.py 실행 필요'
+        assert lm.group(1) == reg[name]['date'], \
+            f"sitemap {loc}: lastmod {lm.group(1)} ≠ 갱신일 {reg[name]['date']}"
+
+
 def test_llms_files_declare_utf8_charset():
     """llms.txt 는 한글 본문 — charset 없이 text/plain 으로 나가면 크롤러가 깨뜨린다."""
     headers = (ROOT / '_headers').read_text(encoding='utf-8')
