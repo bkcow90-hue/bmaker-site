@@ -17,3 +17,9 @@
 /assets/fonts/*
   ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable
+
+# llms.txt·llms-full.txt 는 한글 본문이라 charset 이 없으면 크롤러가 latin-1 로 읽어 깨진다
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8

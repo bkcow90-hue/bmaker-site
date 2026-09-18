@@ -22,6 +22,15 @@
 1. data/cases.source.csv (또는 data/cases.xlsx) 수정 — 시트가 연결된 뒤에는 로컬 수정 금지(시트가 덮어씀), 시트에서 고치라고 안내
 2. `python -c "import openpyxl, PIL"` — 실패 시 `pip install openpyxl pillow`
 3. `python tools/build_cases.py` — "[원장 빌드 OK]" 확인. 실패 메시지는 행·열 그대로 대표에게 전달하고 멈춤
+3-1. `python tools/build_lastmod.py` — 푸터 '최종 업데이트' 와 JSON-LD dateModified 재스탬프 (D 참고). 빌드 체인의 마지막 단계다
 4. `python -m pytest -q` 전부 통과 → 커밋 `chore(cases): 원장 갱신 — N건` → 푸시 → https://bmaker.kr/cases 반영 확인
+
+## D. 페이지 갱신일 스탬프 (build_lastmod.py)
+전 페이지 푸터의 `최종 업데이트: YYYY-MM-DD` 한 줄과 각 페이지 JSON-LD(WebPage·Article)의 `dateModified` 를 같은 값으로 붙인다.
+
+- 날짜 기준: 사례 페이지(/cases)는 **원장 빌드일**(cases.html Dataset dateModified), 그 밖의 홈·상세·블로그는 **그 페이지 내용이 마지막으로 바뀐 날**.
+- 근거는 data/page-updated.json 에 `{날짜, 본문 해시}` 로 남는다. 해시는 스탬프를 뺀 본문으로 계산하므로 스탬프를 넣는 커밋이 날짜를 또 올리지 않는다. 레지스트리에 없는 새 페이지는 git 최종 커밋일(KST)로 채운다.
+- **HTML 을 손으로 고쳤으면 커밋 전에 반드시 실행한다.** 안 하면 tests/test_lastmod.py 가 "본문이 바뀌었는데 갱신일이 그대로" 로 막는다.
+- 다른 build_*.py(자금·재단·교육)가 서로의 `<footer>`·`<head>` 를 복사해 가므로 **항상 체인의 마지막**에 실행한다. Actions 의 ledger 워크플로에는 이미 마지막 단계로 들어가 있다.
 
 주의: data/cases.xlsx·cases.source.csv·ledger-source.url·tools/·.github/ 는 .assetsignore 로 서빙 제외 유지. 시트에는 익명 정보만 넣는다(상호·이름 금지) — 게시 CSV는 주소를 아는 사람은 볼 수 있다. 증빙 이미지는 가림 처리된 webp만 assets/cases/ 에 넣는다.
