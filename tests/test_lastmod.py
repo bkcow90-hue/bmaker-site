@@ -14,7 +14,11 @@ STAMP = re.compile(r'<p class="lastmod" data-lastmod="(\d{4}-\d{2}-\d{2})"[^>]*>
 
 
 def pages():
-    return sorted(p for p in ROOT.glob('*.html') if p.name not in B.SKIP)
+    return B.pages()
+
+
+def key(p):
+    return p.relative_to(ROOT).as_posix()
 
 
 def test_every_page_shows_one_last_updated_line():
@@ -29,12 +33,12 @@ def test_every_page_shows_one_last_updated_line():
 def test_registry_matches_pages():
     """레지스트리(날짜의 근거)가 현재 본문과 맞물려 있어야 한다 — 어긋나면 날짜가 거짓말이 된다."""
     reg = json.loads((ROOT / 'data' / 'page-updated.json').read_text(encoding='utf-8'))
-    assert sorted(reg) == sorted(p.name for p in pages()), 'data/page-updated.json 의 페이지 목록이 다름'
+    assert sorted(reg) == sorted(key(p) for p in pages()), 'data/page-updated.json 의 페이지 목록이 다름'
     for p in pages():
         s = p.read_text(encoding='utf-8')
-        assert reg[p.name]['hash'] == B.content_hash(s), \
-            f"{p.name}: 본문이 바뀌었는데 갱신일이 그대로 — python tools/build_lastmod.py 를 실행하세요"
-        assert STAMP.findall(s)[0][0] == reg[p.name]['date'], f"{p.name}: 표시 날짜와 레지스트리 불일치"
+        assert reg[key(p)]['hash'] == B.content_hash(s), \
+            f"{key(p)}: 본문이 바뀌었는데 갱신일이 그대로 — python tools/build_lastmod.py 를 실행하세요"
+        assert STAMP.findall(s)[0][0] == reg[key(p)]['date'], f"{key(p)}: 표시 날짜와 레지스트리 불일치"
 
 
 def _page_nodes(s):
