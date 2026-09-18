@@ -85,3 +85,46 @@ jobs:
         run: python -m pytest -q
       - name: node 테스트
         run: node tests/test_conversion.mjs && node tests/test_analytics.mjs
+      # 커밋된 산출물이 곧 1회차 기준이므로, 체인을 한 번만 돌려 git status 로 판정하면
+      # "커밋 전에 체인을 돌렸는가" 와 "체인이 결정적인가" 를 한 번에 본다.
+      # 입력은 커밋된 소스뿐이다 — 빌더에는 네트워크 호출이 없고(시트 fetch 는 ledger.yml 의
+      # curl 단계이지 빌더가 아니다) openpyxl·PIL 은 저장소 파일만 읽는다. 그래서 시트가
+      # 앞서가고 ledger 가 아직 안 돈 시점에도 이 검사는 흔들리지 않는다.
+      # 첫 주는 경고만 — push·PR 실행에서 연속 5회 churn 0 이 확인되면 blocking 으로 바꾼다.
+      - name: 빌더 체인 churn 검사 (첫 주는 경고만)
+        continue-on-error: true
+        env:
+          PYTHONIOENCODING: 'utf-8'
+        run: |
+          set -e
+          python tools/build_cases.py
+          python tools/build_funds.py
+          python tools/build_jaedan.py
+          python tools/build_gaein.py
+          python tools/build_consulting.py
+          python tools/build_jungjin.py
+          python tools/build_editorial.py
+          python tools/build_education.py
+          python tools/build_lastmod.py
+          # 바이너리 제외 목록 — 지금은 비어 있다. 빌더는 이미지를 만들지 않고 PIL 로 크기만
+          # 읽으므로 체인의 산출물은 전부 텍스트다(html·xml·txt·json·csv). pillow·libwebp
+          # 버전차로 바이트가 흔들리는 바이너리가 생기면 여기에 경로와 사유를 적어 제외한다.
+          EXCLUDE=''
+          CHANGED=$(git status --porcelain -- . $EXCLUDE)
+          if [ -z "$CHANGED" ]; then
+            echo "churn 0 — 커밋된 산출물이 체인 1회 실행 결과와 같다"
+            printf '## 빌더 체인 churn 검사\n\n✅ churn 0 — 커밋된 산출물이 체인 1회 실행 결과와 같습니다.\n' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "$CHANGED"
+          {
+            printf '## 빌더 체인 churn 검사\n\n'
+            printf '⚠️ 변경된 산출물 %s개 — 커밋 전에 체인을 돌렸는지, 체인이 결정적인지 확인이 필요합니다.\n\n' "$(printf '%s\n' "$CHANGED" | wc -l | tr -d ' ')"
+            printf '```\n%s\n```\n\n' "$CHANGED"
+            printf '### 텍스트 산출물 diff 상위 20줄\n\n```diff\n'
+            git diff -U0 -- '*.html' '*.xml' '*.txt' '*.json' '*.csv' \
+              | grep -E '^[-+][^-+]' | head -20 || true
+            printf '```\n'
+          } >> "$GITHUB_STEP_SUMMARY"
+          # 텍스트 산출물은 반드시 0 이어야 한다 (바이너리는 위 EXCLUDE 에서 걸러진다)
+          exit 1
