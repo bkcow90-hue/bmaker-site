@@ -5,10 +5,13 @@
 (CSS: .sticky-cta[hidden]{display:none!important}).
 
 로컬 실행: pip install playwright && playwright install chromium && python -m pytest tests/test_sticky_cta.py
-playwright 가 없는 환경(ledger 워크플로의 pytest 게이트)에서는 skip 된다.
+playwright·Chromium 이 없는 환경(ledger 워크플로의 pytest 게이트)에서는 skip 된다.
+단, REQUIRE_BROWSER 가 설정돼 있으면(pr-check 워크플로) skip 대신 실패한다 —
+브라우저 검사가 조용히 빠진 채 초록으로 보이는 일을 막는다.
 """
 import functools
 import http.server
+import os
 import threading
 from pathlib import Path
 
@@ -17,9 +20,19 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 PHONE = {"width": 390, "height": 844}
 TIMEOUT = 5000
+REQUIRE_BROWSER = bool(os.environ.get("REQUIRE_BROWSER"))
 
-sync_api = pytest.importorskip(
-    "playwright.sync_api", reason="playwright 미설치 — 브라우저 동작 테스트를 건너뜁니다")
+try:
+    from playwright import sync_api
+except ImportError:                                    # playwright 미설치
+    sync_api = None
+
+
+def _unavailable(reason):
+    """브라우저를 못 쓰는 상황. CI(REQUIRE_BROWSER)에서는 skip 으로 넘기지 않는다."""
+    if REQUIRE_BROWSER:
+        pytest.fail(f"REQUIRE_BROWSER 가 설정된 환경인데 브라우저 테스트를 실행할 수 없습니다 — {reason}")
+    pytest.skip(reason)
 
 
 @pytest.fixture(scope="module")
@@ -37,15 +50,26 @@ def site():
 
 @pytest.fixture(scope="module")
 def phone(site):
+    # 브라우저를 '띄우는' 단계만 예외를 가로챈다. yield 이후(테스트 본문)에서 나는
+    # playwright TimeoutError 까지 여기서 잡으면 실패가 skip 으로 둔갑한다.
+    if sync_api is None:
+        _unavailable("playwright 미설치 — pip install playwright")
     try:
-        with sync_api.sync_playwright() as p:
-            browser = p.chromium.launch()
-            page = browser.new_page(viewport=PHONE)
-            page.goto(f"{site}/index.html", wait_until="load")
-            yield page
-            browser.close()
+        driver = sync_api.sync_playwright().start()
+    except Exception as exc:                           # 드라이버 실행 실패
+        _unavailable(f"playwright 드라이버를 시작할 수 없음: {exc}")
+    try:
+        browser = driver.chromium.launch()
     except sync_api.Error as exc:                      # 브라우저 바이너리 미설치 등
-        pytest.skip(f"Chromium 을 띄울 수 없어 건너뜁니다: {exc}")
+        driver.stop()
+        _unavailable(f"Chromium 을 띄울 수 없음: {exc} (playwright install chromium)")
+    try:
+        page = browser.new_page(viewport=PHONE)
+        page.goto(f"{site}/index.html", wait_until="load")
+        yield page
+    finally:
+        browser.close()
+        driver.stop()
 
 
 def _cta_in_viewport(page):
