@@ -218,7 +218,8 @@ td a{color:var(--blue-deep);text-decoration:underline}
     # llms.txt 요약 한 줄 교체
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
     rates=[f"{d['자금명'].split('(')[0].strip()} {d['금리']}" for d in D if d['금리']][:4]
-    newline=(f"- 실행 사례({T['PERIOD_KR']}): 총 {N}건, {won2(total)}. 건당 중앙값 {won2(med)}, 첫 상담 접수→정산 중앙값 {dmed}일. "
+    # 표현·숫자는 사이트와 같은 것만 쓴다 — '건당 평균'(AVG_KR)·'보통 N일'. 중앙값은 쓰지 않는다.
+    newline=(f"- 실행 사례({T['PERIOD_KR']}): 총 {N}건, {won2(total)}. 건당 평균 {T['AVG_KR']}, 첫 상담 접수→정산 보통 {dmed}일. "
              f"폐업 후 재창업(폐업 이력) {nc}건, 세금 체납 이력 {nt}건, 기존 정책자금 보유 {np_}건, 신용점수 600점대 이하 {nl}건이 실행으로 이어짐. "
              f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 실행 기록: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
     lt=re.sub(r'- 실행 사례\([^\n]*', newline, lt)

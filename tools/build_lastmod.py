@@ -35,6 +35,7 @@ ANY_LD = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 DATEMOD = re.compile(r'"dateModified"\s*:\s*"\d{4}-\d{2}-\d{2}"')
 URL_BLOCK = re.compile(r'<url>\s*<loc>([^<]+)</loc>.*?</url>', re.S)
 LASTMOD = re.compile(r'<lastmod>[^<]*</lastmod>')
+MAIN = re.compile(r'<main\b[^>]*>(.*?)</main>', re.S)
 
 
 def die(msg):
@@ -43,7 +44,17 @@ def die(msg):
 
 
 def content_hash(s):
-    """스탬프를 제외한 본문 해시. STAMP·WEBPAGE_LD 제거는 삽입의 정확한 역연산이어야 한다."""
+    """페이지 본문(<main>) 해시 — 스탬프는 제외한다.
+
+    범위를 본문으로 한정하는 이유: 공통 헤더·내비·푸터나 페이지마다 복사돼 있는 <style>
+    블록을 한 번 손대면 61개 페이지의 '최종 업데이트' 가 같은 날짜로 한꺼번에 올라간다.
+    실제로 바뀐 것은 공통 부품인데 모든 페이지가 갱신된 것처럼 보이면 날짜가 거짓말이 된다.
+    대신 <head> 만 고치는 변경(title·description·JSON-LD)은 갱신일에 반영되지 않는다 —
+    그 경우는 본문도 함께 손보거나, 필요해지면 해시 범위에 title·description 을 더한다.
+    <main> 이 없는 페이지는 전체를 쓴다(현재 대상 62개는 전부 <main> 이 하나씩 있다).
+    """
+    m = MAIN.search(s)
+    s = m.group(1) if m else s
     s = STAMP.sub('', s)
     s = WEBPAGE_LD.sub('', s)
     s = DATEMOD.sub('"dateModified":"-"', s)
