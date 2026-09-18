@@ -102,21 +102,53 @@
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
   const sticky = document.querySelector('.sticky-cta');
-  // 홈 히어로의 단일 CTA(#heroCta)가 보이는 동안에는 고정바를 숨겨 첫 화면을 버튼 하나로 둔다
+  // 홈 히어로의 단일 CTA(#heroCta)가 보이는 동안에는 고정바를 숨겨 첫 화면을 버튼 하나로 둔다.
+  // 노출 상태는 hidden 속성 하나로만 표현한다 — CSS 가 .sticky-cta[hidden]{display:none!important} 로 받는다.
+  // class 토글과 섞으면 한쪽만 바뀌어도 화면이 어긋나므로 속성 방식으로 통일.
   const heroCta = document.getElementById('heroCta');
-  let formInView = false, heroCtaInView = !!heroCta;
+  // 좌표를 읽을 수 없는 실행 환경(노드 테스트 픽스처 등)에서는 false — 고정바 기본값은 '노출'이다
+  const inViewport = el => {
+    if (!el || typeof el.getBoundingClientRect !== 'function') return false;
+    const r = el.getBoundingClientRect();
+    const h = window.innerHeight || document.documentElement?.clientHeight || 0;
+    return r.bottom > 0 && r.top < h && r.width > 0 && r.height > 0;
+  };
+  let formInView = false, heroCtaInView = false;
   function updateSticky() {
     if (sticky) sticky.hidden = formInView || heroCtaInView || form.contains(document.activeElement);
   }
-  if ('IntersectionObserver' in window) {
+  // 초기·복귀 판정은 IntersectionObserver 콜백 타이밍에 기대지 않고 좌표로 직접 계산한다.
+  // (폰트·이미지 로드로 레이아웃이 밀리는 구간이나 bfcache 복귀에서 첫 콜백이 어긋난 적이 있다)
+  let queued = false;
+  function measure() {
+    queued = false;
+    if (heroCta) heroCtaInView = inViewport(heroCta);
+    formInView = inViewport(form);
+    updateSticky();
+  }
+  function rederive() {
+    if (typeof requestAnimationFrame !== 'function') { measure(); return; }
+    if (queued) return;                       // resize 연타는 한 프레임으로 합친다
+    queued = true;
+    requestAnimationFrame(measure);
+  }
+  function observe() {
+    if (!('IntersectionObserver' in window)) { heroCtaInView = false; updateSticky(); return; }
     new IntersectionObserver(entries => {
       formInView = entries[0].isIntersecting; updateSticky();
     }, { threshold: 0 }).observe(form);
     if (heroCta) new IntersectionObserver(entries => {
       heroCtaInView = entries[0].isIntersecting; updateSticky();
     }, { threshold: 0 }).observe(heroCta);
-  } else heroCtaInView = false;
+  }
+  if (heroCta) heroCtaInView = inViewport(heroCta);   // 스크롤 전 첫 판정
   updateSticky();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', observe, { once: true });
+  else observe();
+  // 이중 안전장치 — 폰트·이미지 로드(load), 뷰포트 변경(resize), 뒤로가기 복귀(pageshow)에서 다시 판정
+  if (typeof window.addEventListener === 'function') {
+    for (const ev of ['load', 'resize', 'pageshow']) window.addEventListener(ev, rederive);
+  }
   form.addEventListener('focusin', updateSticky);
   form.addEventListener('focusout', () => setTimeout(updateSticky, 0));
   function failure(uncertain) {
