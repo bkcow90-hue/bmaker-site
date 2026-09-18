@@ -6,10 +6,12 @@ build_cases.py 가 원장 빌드 끝에서 build(rows) 를 호출한다(8빌더 
 랜딩은 landing=True 인 업종만 생성한다(2026-09 시안: 음식점·카페). 나머지 타일은 받은 사례 원장으로 연결.
 """
 import json, re, statistics, datetime
+from builddate import build_date, data_date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TODAY = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST
+TODAY = build_date()   # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
+ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 원장이 바뀐 날
 
 INDUSTRIES = [
     # slug, 타일 이름, 검색 질문(h1·title), 랜딩 생성 여부, 업종 열 키워드
@@ -87,7 +89,7 @@ def landing_html(ind, rows, all_n, period):
         {"@type": "ListItem", "position": 2, "name": "업종별 정책자금", "item": "https://bmaker.kr/#industry"},
         {"@type": "ListItem", "position": 3, "name": ind['name'], "item": url}]}, ensure_ascii=False)
     art = json.dumps({"@context": "https://schema.org", "@type": "Article", "headline": title, "description": answer,
-                      "dateModified": str(TODAY), "inLanguage": "ko",
+                      "dateModified": str(ASOF), "inLanguage": "ko",
                       "author": {"@type": "Organization", "@id": "https://bmaker.kr/#org", "name": "비즈니스 메이커"},
                       "publisher": {"@type": "Organization", "@id": "https://bmaker.kr/#org", "name": "비즈니스 메이커"},
                       "mainEntityOfPage": url, "isBasedOn": "https://bmaker.kr/data/cases.csv"}, ensure_ascii=False)
@@ -136,7 +138,7 @@ def landing_html(ind, rows, all_n, period):
 
     <h2>{ind['name']} 받은 사례 {n}건</h2>
     <div class="tablewrap"><table><thead><tr><th>실행</th><th>지역</th><th>업종</th><th>기관</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody><!-- industry-cases:start -->{trs}<!-- industry-cases:end --></tbody></table></div>
-    <p class="asof">기준일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 금리는 각 실행 시점 기준 · 전체 기록과 증빙은 <a href="/cases">받은 사례</a>에서 확인하세요.</p>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 금리는 각 실행 시점 기준 · 전체 기록과 증빙은 <a href="/cases">받은 사례</a>에서 확인하세요.</p>
 
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
 
