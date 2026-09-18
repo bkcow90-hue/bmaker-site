@@ -17,12 +17,13 @@ sitemap.xml 의 lastmod 도 같은 값으로 맞춘다. 다른 빌더들은 last
 """
 import datetime, hashlib, json, os, re, subprocess, sys
 from pathlib import Path
+from builddate import build_date
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / 'data' / 'page-updated.json'
 SITEMAP = ROOT / 'sitemap.xml'
 PREFIX = 'https://bmaker.kr/'
-TODAY = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date().isoformat()  # KST
+TODAY = build_date().isoformat()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 SKIP = {'404.html'}       # noindex 오류 페이지 — 어떤 경로에서도 서빙되므로 날짜 의미가 없다
 LEDGER = {'cases.html'}   # 원장 빌드일을 쓰는 페이지
 LABEL = '최종 업데이트'

@@ -24,6 +24,9 @@ jobs:
     if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
     steps:
       - uses: actions/checkout@v4
+        with:
+          # churn 검사가 '산출물을 마지막으로 재생성한 커밋' 을 찾아야 하므로 전체 이력이 필요하다
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -97,6 +100,18 @@ jobs:
           PYTHONIOENCODING: 'utf-8'
         run: |
           set -e
+          # 대상 커밋 — PR 은 머지 커밋이 아니라 head 커밋을 본다(머지 커밋 시각은 이벤트 시각이라 늘 오늘).
+          TARGET="${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}"
+          # 기준일은 그 커밋에서 '산출물을 마지막으로 재생성한 커밋' 의 KST 날짜다.
+          # 대상 커밋 자체의 날짜를 쓰면, 산출물을 건드리지 않은 커밋(워크플로 수정 등)이 자정을
+          # 넘겨 올라올 때마다 날짜 스탬프만으로 churn 이 잡혀 오탐이 된다(2026-09-19 실측 7개).
+          STAMP_SHA=$(git log -1 --format=%H "$TARGET" -- data/page-updated.json cases.html)
+          if [ -z "$STAMP_SHA" ]; then
+            echo "산출물을 재생성한 커밋을 찾지 못했습니다 (fetch-depth 확인)"; exit 1
+          fi
+          BUILD_DATE=$(git log -1 --format=%cI "$STAMP_SHA" | python -c "import sys, datetime; print(datetime.datetime.fromisoformat(sys.stdin.read().strip()).astimezone(datetime.timezone(datetime.timedelta(hours=9))).date().isoformat())")
+          export BUILD_DATE
+          echo "대상 커밋 ${TARGET:0:7} · 산출물 갱신 커밋 ${STAMP_SHA:0:7} · BUILD_DATE=$BUILD_DATE"
           python tools/build_cases.py
           python tools/build_funds.py
           python tools/build_jaedan.py
@@ -113,13 +128,13 @@ jobs:
           CHANGED=$(git status --porcelain -- . $EXCLUDE)
           if [ -z "$CHANGED" ]; then
             echo "churn 0 — 커밋된 산출물이 체인 1회 실행 결과와 같다"
-            printf '## 빌더 체인 churn 검사\n\n✅ churn 0 — 커밋된 산출물이 체인 1회 실행 결과와 같습니다.\n' >> "$GITHUB_STEP_SUMMARY"
+            printf '## 빌더 체인 churn 검사\n\n✅ churn 0 — 커밋된 산출물이 체인 1회 실행 결과와 같습니다. (기준일 %s)\n' "$BUILD_DATE" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           echo "$CHANGED"
           {
             printf '## 빌더 체인 churn 검사\n\n'
-            printf '⚠️ 변경된 산출물 %s개 — 커밋 전에 체인을 돌렸는지, 체인이 결정적인지 확인이 필요합니다.\n\n' "$(printf '%s\n' "$CHANGED" | wc -l | tr -d ' ')"
+            printf '⚠️ 변경된 산출물 %s개 (기준일 %s) — 커밋 전에 체인을 돌렸는지, 체인이 결정적인지 확인이 필요합니다.\n\n' "$(printf '%s\n' "$CHANGED" | wc -l | tr -d ' ')" "$BUILD_DATE"
             printf '```\n%s\n```\n\n' "$CHANGED"
             printf '### 텍스트 산출물 diff 상위 20줄\n\n```diff\n'
             git diff -U0 -- '*.html' '*.xml' '*.txt' '*.json' '*.csv' \

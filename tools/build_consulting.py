@@ -2,8 +2,9 @@
 """정책자금 컨설팅 안내(/consulting) 빌드 — 실행 기록에서 실적 수치를 자동 집계해 생성한다. 실행: python tools/build_consulting.py"""
 import csv, json, re, sys, datetime, statistics
 from pathlib import Path
+from builddate import build_date
 ROOT = Path(__file__).resolve().parent.parent
-TODAY = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST
+TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
 def die(m): print(f"[컨설팅 페이지 빌드 실패] {m}"); sys.exit(1)
 def won2(m):

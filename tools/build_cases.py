@@ -8,6 +8,7 @@
 import csv, json, re, sys, datetime
 from pathlib import Path
 from openpyxl import load_workbook
+from builddate import build_date
 
 ROOT = Path(__file__).resolve().parent.parent
 FEE = "착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다."
@@ -104,7 +105,7 @@ def build():
     np_=sum(1 for d in D if d['기존 정책자금']=='있음'); nl=sum(1 for d in D if d['신용점수 구간'] in ('600점대','500점대 이하'))
     nev=sum(1 for d in D if d['증빙 파일'])
     yms=sorted(d['실행 연월'] for d in D); y0,m0=yms[0].split('-'); y1,m1=yms[-1].split('-')
-    today=(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)).date()  # KST(UTC+9, 서머타임 없음) — 러너는 UTC
+    today=build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
     T={'N':N,'TOTAL_KR':won2(total),'MED_KR':won2(med), 'AVG_KR': won2(round(total/N)),'RANGE_KR':f"{won2(amts[0]).replace('원','')}~{won2(amts[-1])}",
        'DMED':dmed,'DN':len(days),'NEV':nev,'n_closed':nc,'n_tax':nt,'n_prior':np_,'n_low':nl,
        'PERIOD_KR':f"{int(y0)}년 {int(m0)}월~{int(y1)}년 {int(m1)}월",'PERIOD_LONG':f"{int(y0)}년 {int(m0)}월부터 {int(y1)}년 {int(m1)}월까지",
