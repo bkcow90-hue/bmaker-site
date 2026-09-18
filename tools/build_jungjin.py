@@ -2,9 +2,10 @@
 """중소기업·법인 정책자금 허브(/jungjingong) 빌드 — 법인·억대·동시 설계 실측을 실행 기록에서 자동 집계. 실행: python tools/build_jungjin.py"""
 import csv, json, re, sys, datetime, statistics
 from pathlib import Path
-from builddate import build_date
+from builddate import build_date, data_date
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
+ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 소스가 바뀐 날
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
 def die(m): print(f"[중소기업 허브 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
@@ -91,7 +92,7 @@ def build():
   <div class="wrap">
     <p><b>짧은 답:</b> 중소벤처기업진흥공단(중진공) 정책자금은 중소기업의 창업·성장 등에 필요한 자금을 지원하는 제도입니다. 직접대출은 중진공의 평가와 심사를 거쳐 실행되며, 신보·기보의 보증부 은행 대출과는 다른 경로입니다. 신청 대상·한도·금리·접수 방식은 자금별 최신 공고를 확인해야 합니다.</p>
     <p><a href="https://www.kosmes.or.kr/" target="_blank" rel="noopener">중진공 공식 누리집에서 정책자금 공고 확인</a> · 사업자가 직접 신청할 수 있습니다. 상담에서는 자금 선택과 준비 서류, 신청 순서를 함께 정리합니다.</p>
-    <p class="asof">기준일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 수치는 <a href="/cases">공개 실행 기록</a>에서 자동 집계됩니다.</p>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 수치는 <a href="/cases">공개 실행 기록</a>에서 자동 집계됩니다.</p>
 
     <div class="cards">
       <div class="card"><b>{NC}건</b><span>법인 실행 · 총 {CTOT}</span></div>

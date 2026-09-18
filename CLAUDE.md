@@ -13,6 +13,9 @@
 
 - 작업 시작 전 `git pull --ff-only`. ledger 봇이 매시 `main` 에 커밋하므로, 안 하면 봇 결과를
   되돌리는 커밋이 생긴다.
+- `BUILD_DATE` 는 CI 전용이다. **로컬에서 과거 날짜로 체인을 돌리지 않는다** — 그 커밋이
+  '산출물 최신 커밋' 이 되어 CI 가 잡는 기준일이 어긋난다(2026-09-19 `dcc8201`).
+  커밋 전 체인은 그냥 `python tools/build_*.py` 로 실제 오늘 날짜로 돌린다.
 - 게이트: `python -m pytest -q` 와 `node tests/test_conversion.mjs`·`test_analytics.mjs`.
   푸시 전에 로컬에서 돌린다.
 - `pr-check` 워크플로가 `main` 푸시·PR 마다 pytest + 브라우저 동작 테스트(`REQUIRE_BROWSER=1`)

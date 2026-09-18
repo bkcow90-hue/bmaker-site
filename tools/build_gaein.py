@@ -5,9 +5,10 @@
 import csv, json, re, sys, datetime, statistics
 from build_funds import status_of
 from pathlib import Path
-from builddate import build_date
+from builddate import build_date, data_date
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
+ASOF = data_date('data/cases.source.csv', 'data/funds.source.csv')  # 페이지에 적는 기준일 = 소스가 바뀐 날
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
 def die(m): print(f"[개인사업자 허브 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
@@ -113,7 +114,7 @@ def build():
 <main>
   <div class="wrap">
     <p><b>짧은 답:</b> 개인사업자가 실제로 쓰는 정책자금(정부지원 대출)은 세 갈래입니다 — ① 소상공인시장진흥공단 <b>직접대출</b>, ② 지역 신용보증재단의 <b>보증부 대출</b>(개인사업자 실행이 가장 많은 경로), ③ 신용보증기금·기술보증기금 <b>보증</b>(매출·기술 기반, 억대 설계). 여기에 은행이 실행하는 대리대출·이차보전 상품이 붙습니다. 어느 갈래가 맞는지는 매출 규모, 신용·이력, 자금 용도로 정해지며, 아래 표와 실행 기록이 그 판단 기준입니다.</p>
-    <p class="asof">기준일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 실측은 <a href="/cases">공개 실행 기록</a>에서 자동 집계되며 기록이 늘면 함께 갱신됩니다.</p>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 실측은 <a href="/cases">공개 실행 기록</a>에서 자동 집계되며 기록이 늘면 함께 갱신됩니다.</p>
 
     <div class="cards">
       <div class="card"><b>{N}건</b><span>개인사업자 실행 (전체 {len(rows)}건 중)</span></div>

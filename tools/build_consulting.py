@@ -2,9 +2,10 @@
 """정책자금 컨설팅 안내(/consulting) 빌드 — 실행 기록에서 실적 수치를 자동 집계해 생성한다. 실행: python tools/build_consulting.py"""
 import csv, json, re, sys, datetime, statistics
 from pathlib import Path
-from builddate import build_date
+from builddate import build_date, data_date
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
+ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 소스가 바뀐 날
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
 def die(m): print(f"[컨설팅 페이지 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
@@ -83,7 +84,7 @@ def build():
 <main>
   <div class="wrap">
     <p><b>짧은 답:</b> 정책자금 컨설팅이 실제로 하는 일은 네 가지입니다 — 조건 <b>진단</b>, 자금·기관 <b>설계</b>, 서류·계획서 <b>준비</b>, 심사 <b>대응</b>. 승인 여부와 조건은 소진공·재단·신보 같은 심사 기관이 결정하며, 컨설팅이 바꿀 수 있는 것은 "맞는 트랙에, 맞는 서류로, 맞는 시점에" 들어가느냐입니다. 비용은 업계에 두 방식이 있습니다: 착수금을 먼저 받는 방식과 실행된 경우에만 받는 방식. 저희는 후자입니다.</p>
-    <p class="asof">기준일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 실적 수치는 <a href="/cases">공개 실행 기록</a>에서 자동 집계됩니다.</p>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 실적 수치는 <a href="/cases">공개 실행 기록</a>에서 자동 집계됩니다.</p>
 
     <div class="cards">
       <div class="card"><b>{N}건</b><span>공개 실행 기록 ({int(y0)}.{int(m0)}~{int(y1)}.{int(m1)})</span></div>

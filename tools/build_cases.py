@@ -8,7 +8,7 @@
 import csv, json, re, sys, datetime
 from pathlib import Path
 from openpyxl import load_workbook
-from builddate import build_date
+from builddate import build_date, data_date
 
 ROOT = Path(__file__).resolve().parent.parent
 FEE = "착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다."
@@ -106,10 +106,11 @@ def build():
     nev=sum(1 for d in D if d['증빙 파일'])
     yms=sorted(d['실행 연월'] for d in D); y0,m0=yms[0].split('-'); y1,m1=yms[-1].split('-')
     today=build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
+    asof=data_date('data/cases.source.csv','data/cases.xlsx')  # 페이지에 적는 기준일 = 원장이 바뀐 날
     T={'N':N,'TOTAL_KR':won2(total),'MED_KR':won2(med), 'AVG_KR': won2(round(total/N)),'RANGE_KR':f"{won2(amts[0]).replace('원','')}~{won2(amts[-1])}",
        'DMED':dmed,'DN':len(days),'NEV':nev,'n_closed':nc,'n_tax':nt,'n_prior':np_,'n_low':nl,
        'PERIOD_KR':f"{int(y0)}년 {int(m0)}월~{int(y1)}년 {int(m1)}월",'PERIOD_LONG':f"{int(y0)}년 {int(m0)}월부터 {int(y1)}년 {int(m1)}월까지",
-       'PERIOD_SHORT':f"{y0}.{m0}~{y1}.{m1}",'ASOF_KR':f"{today.year}년 {today.month}월 {today.day}일"}
+       'PERIOD_SHORT':f"{y0}.{m0}~{y1}.{m1}",'ASOF_KR':f"{asof.year}년 {asof.month}월 {asof.day}일"}
     def marks(d):
         out=[]
         if d['폐업 이력']=='재창업': out.append('재창업')

@@ -36,6 +36,8 @@ DATEMOD = re.compile(r'"dateModified"\s*:\s*"\d{4}-\d{2}-\d{2}"')
 URL_BLOCK = re.compile(r'<url>\s*<loc>([^<]+)</loc>.*?</url>', re.S)
 LASTMOD = re.compile(r'<lastmod>[^<]*</lastmod>')
 MAIN = re.compile(r'<main\b[^>]*>(.*?)</main>', re.S)
+TITLE = re.compile(r'<title>(.*?)</title>', re.S)
+DESC = re.compile(r'<meta name="description" content="([^"]*)"')
 
 
 def die(msg):
@@ -44,17 +46,18 @@ def die(msg):
 
 
 def content_hash(s):
-    """페이지 본문(<main>) 해시 — 스탬프는 제외한다.
+    """갱신일 판정 범위 = 페이지 본문(<main>) + <title> + meta description. 스탬프는 제외.
 
-    범위를 본문으로 한정하는 이유: 공통 헤더·내비·푸터나 페이지마다 복사돼 있는 <style>
-    블록을 한 번 손대면 61개 페이지의 '최종 업데이트' 가 같은 날짜로 한꺼번에 올라간다.
-    실제로 바뀐 것은 공통 부품인데 모든 페이지가 갱신된 것처럼 보이면 날짜가 거짓말이 된다.
-    대신 <head> 만 고치는 변경(title·description·JSON-LD)은 갱신일에 반영되지 않는다 —
-    그 경우는 본문도 함께 손보거나, 필요해지면 해시 범위에 title·description 을 더한다.
+    공통 부품(헤더·내비·푸터)이나 페이지마다 복사돼 있는 <style> 블록을 한 번 손대면
+    61개 페이지의 '최종 업데이트' 가 같은 날짜로 한꺼번에 올라간다. 실제로 바뀐 것은 공통
+    부품인데 모든 페이지가 갱신된 것처럼 보이면 날짜가 거짓말이 되므로 범위에서 뺀다.
+    title·description 은 검색 결과에 그대로 나가는 값이라 포함한다 — 고치면 재크롤을
+    유도해야 한다. JSON-LD 는 스탬퍼 자신이 날짜를 써 넣는 곳이라 제외한다.
     <main> 이 없는 페이지는 전체를 쓴다(현재 대상 62개는 전부 <main> 이 하나씩 있다).
     """
     m = MAIN.search(s)
-    s = m.group(1) if m else s
+    head = ' '.join(TITLE.findall(s) + DESC.findall(s))
+    s = (m.group(1) if m else s) + '\n<!--head-->' + head
     s = STAMP.sub('', s)
     s = WEBPAGE_LD.sub('', s)
     s = DATEMOD.sub('"dateModified":"-"', s)

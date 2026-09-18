@@ -11,6 +11,10 @@
 import datetime
 import os
 import re
+import subprocess
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
 
 try:
     from zoneinfo import ZoneInfo
@@ -32,3 +36,28 @@ def build_date():
         return datetime.date.fromisoformat(raw)
     except ValueError:
         raise SystemExit(f"[빌드 기준일 실패] {ENV}='{raw}' — 실제 날짜가 아닙니다.")
+
+
+def data_date(*paths):
+    """페이지가 읽는 소스 파일이 마지막으로 바뀐 날(KST).
+
+    페이지에 적는 '기준일' 은 빌드한 날이 아니라 데이터가 바뀐 날이어야 한다. 빌드 날짜를
+    쓰면 내용이 그대로인데도 매일 기준일과 갱신일이 올라간다.
+    소스에 미커밋 변경이 있으면 build_date() 로 떨어진다 — ledger 워크플로가 시트를 받아
+    쓰고 바로 빌드하는 경우가 그것이고, 그때는 '오늘' 이 맞다.
+    git 을 못 쓰는 환경에서도 build_date() 로 떨어진다.
+    """
+    rel = [str(p) for p in paths]
+    try:
+        dirty = subprocess.run(['git', 'status', '--porcelain', '--', *rel],
+                               cwd=ROOT, capture_output=True, text=True, timeout=30)
+        if dirty.returncode != 0 or dirty.stdout.strip():
+            return build_date()
+        log = subprocess.run(['git', 'log', '-1', '--format=%cI', '--', *rel],
+                             cwd=ROOT, capture_output=True, text=True, timeout=30)
+        iso = log.stdout.strip()
+        if not iso:
+            return build_date()
+        return datetime.datetime.fromisoformat(iso).astimezone(KST).date()
+    except Exception:
+        return build_date()
