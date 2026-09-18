@@ -145,3 +145,32 @@ def test_page_carries_no_build_date(browser, site):
     html = (ROOT / "schedule.html").read_text(encoding="utf-8")
     assert "일정 계산일" not in html
     assert re.search(r'class="asof">기준일 \d{4}년 \d{1,2}월 \d{1,2}일', html), "기준일 줄이 없다"
+
+
+def _fund_page_with_start():
+    """날짜로 갈리는 자금 상세 페이지 — 데이터가 바뀌어도 테스트가 따라간다."""
+    for path in sorted(ROOT.glob('*.html')):
+        html = path.read_text(encoding='utf-8')
+        m = re.search(r'data-sched-start="(\d{4}-\d{2}-\d{2})"', html)
+        if m and 'class="badge' in html:
+            return path.name, m.group(1)
+    pytest.skip('data-sched-start 를 가진 자금 상세 페이지가 없다')
+
+
+def test_fund_detail_badge_also_flips_at_visit_time(browser, site):
+    """자금 상세 15장도 같은 규칙 — 배지와 '접수' 행이 방문 시점에 함께 바뀐다."""
+    name, start = _fund_page_with_start()
+    context = browser.new_context(viewport=PHONE, timezone_id='Asia/Seoul')
+    page = context.new_page()
+    page.clock.install(time=f"{start}T09:00:00+09:00")          # 시작일 당일
+    page.goto(f"{site}/{name}", wait_until='load')
+    page.wait_for_function("document.querySelectorAll('[data-sched-state=\"passed\"]').length > 0")
+    got = page.evaluate("""() => [...document.querySelectorAll('[data-sched-start]')].map(el => ({
+        tag: el.tagName, cls: el.className, state: el.getAttribute('data-sched-state'), text: el.textContent.trim(),
+    }))""")
+    context.close()
+    assert len(got) == 2, got                                    # 배지 + 접수 행
+    for g in got:
+        assert g['state'] == 'passed', g
+        assert '시작일 경과' in g['text'], g
+    assert any('b-check' in g['cls'] for g in got), got

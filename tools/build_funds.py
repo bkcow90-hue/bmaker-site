@@ -150,7 +150,8 @@ def build():
     inst_page={'소상공인시장진흥공단':'/sojingong'}
     for d in F:
         C=cases_for(d['원장 키워드'])
-        badge_cls, badge_txt, _ = status_of(d)
+        badge_cls, badge_txt, _, badge_start, badge_passed, badge_pcls = schedule_status(d)
+        badge_attrs = sched_attrs(badge_start, badge_passed, badge_pcls)   # 날짜로 갈리는 건에만 붙는다
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=sorted({r['금리'].split('(')[0].strip() for r in C if r['금리']})
         rng=(won2(min(amts)) if min(amts)==max(amts) else f"{won2(min(amts))}~{won2(max(amts))}") if C else ""
@@ -185,7 +186,7 @@ def build():
         if d['대상 요약']: facts.append(('대상', esc(d['대상 요약'])))
         if d['한도']: facts.append(('한도', esc(d['한도'])))
         if d['금리 방식']: facts.append(('금리 방식', esc(d['금리 방식'])))
-        facts.append(('접수', esc(badge_txt)))
+        facts.append(('접수', f'<span{badge_attrs}>{esc(badge_txt)}</span>' if badge_attrs else esc(badge_txt)))
         facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))} 확인 →</a>'))
         facts_html="".join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in facts)
         svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":f"{d['자금명']} 진단·실행 지원","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":f"https://bmaker.kr/{d['자금ID']}"}, ensure_ascii=False)
@@ -225,7 +226,7 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p class="badge b-{badge_cls}">{esc(badge_txt)}</p>
+    <p class="badge b-{badge_cls}"{badge_attrs}>{esc(badge_txt)}</p>
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
     <p class="asof">기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
