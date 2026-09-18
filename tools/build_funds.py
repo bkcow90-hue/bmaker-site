@@ -7,9 +7,20 @@
 """
 import csv, json, re, sys, datetime
 from pathlib import Path
-from builddate import build_date
+from builddate import build_date, data_date
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
+FASOF = data_date('data/funds.source.csv', 'data/funds.verification.json')  # 일정 페이지 기준일 = 자금 소스가 바뀐 날
+
+
+def sched_attrs(start, passed_text, passed_cls):
+    """시작일이 지나면 방문 시점에 문장을 바꿔 끼우도록 conversion.js 에 넘기는 값."""
+    if not start:
+        return ''
+    return (f' data-sched-start="{start}" data-sched-passed="{esc(passed_text)}"'
+            f' data-sched-passed-class="{passed_cls}"')
+
+
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
 def die(m): print(f"[자금 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
@@ -95,6 +106,30 @@ def status_of(d):
         if e and pd(e)>=TODAY: return ('open', f"공고상 접수 기간 · {e} 마감", 0 if (pd(e)-TODAY).days<=14 else 1)
         if e and pd(e)<TODAY: return ('closed', f"접수 마감 ({e}) · 다음 공고 대기", 4)
     return ('check','접수 일정: 최신 공고 확인 필요', 3)
+
+def schedule_status(d):
+    """접수 일정 페이지용 상태 — 빌드 날짜를 보지 않는다.
+
+    status_of() 는 '예정' 건을 시작일과 오늘을 비교해 예정/경과로 갈라서, 빌드한 날에 따라
+    같은 데이터가 다른 HTML 이 된다(방문자는 굳은 상태를 보고, 검사에는 churn 으로 잡힌다).
+    여기서는 항상 '예정' 형태로 렌더하고, 시작일이 지났을 때 쓸 문장을 data 속성으로 실어
+    보낸다. 실제 전환은 conversion.js 가 방문 시점 날짜로 한다.
+    기관 확인 관측(분기마감·접수중표시 등)은 사람이 날짜와 함께 기록한 사실이라 그대로 둔다.
+    돌려주는 값: (배지 class, 배지 문장, 정렬 순위, 시작일, 경과 후 문장, 경과 후 class)
+    """
+    observed = d.get('접수 관측')
+    checked = d.get('접수 확인일', '미확인')
+    s = (d.get('접수 시작일') or '').strip()
+    iso = s if re.fullmatch(r'\d{4}-\d{2}-\d{2}', s) else ''
+    if observed == '예정' and iso:
+        return ('soon', f"공고상 {s} 10:00 예정 · 변경 가능", 2,
+                iso, f'공고상 시작일 경과 · 현재 접수 재확인 ({checked} 확인)', 'check')
+    if not observed and not d.get('회차 확인') and iso and (d.get('접수 상태') or '').strip() not in ('마감', '종료', '상시'):
+        return ('soon', f"접수 예정 · {s} 시작", 2,
+                iso, '공고상 시작일 경과 · 현재 접수 여부 확인 필요', 'check')
+    cls, txt, rank = status_of(d)       # 날짜와 무관한 분기들 — 관측·데이터가 그대로 결정한다
+    return (cls, txt, rank, '', '', '')
+
 
 TITLE_OVERRIDES = {
  'hyeoksin-jolup': '혁신성장촉진자금(소상공인졸업후보) 2026 — 졸업후보기업 조건·확인법·신청 방법',
@@ -231,9 +266,9 @@ def build():
               '기타':'그 외 트랙입니다.'}
     sch_rows=""
     for cat in ('직접대출','대리대출','기타'):
-        group=sorted(((d, *status_of(d)) for d in F if cat_of(d)==cat), key=lambda x:(order[x[1]], x[3]))
+        group=sorted(((d, *schedule_status(d)) for d in F if cat_of(d)==cat), key=lambda x:(order[x[1]], x[3], x[0]['자금명']))
         if not group: continue
-        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0">{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td><td><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></td></tr>' for d,cls,txt,_ in group)
+        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0"{sched_attrs(st, pt, pc)}>{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td><td><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></td></tr>' for d,cls,txt,_,st,pt,pc in group)
         sch_rows+=f'<h2>{cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n<div class="tablewrap"><table><thead><tr><th>자금</th><th>기관</th><th>상태</th><th>메모</th><th>자료 확인일</th><th>출처</th></tr></thead><tbody>{rows}</tbody></table></div>\n'
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 접수 일정","item":"https://bmaker.kr/schedule"}]}, ensure_ascii=False)
     sch=f'''<!DOCTYPE html>
@@ -269,7 +304,7 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p class="asof">일정 계산일 {TODAY.year}년 {TODAY.month}월 {TODAY.day}일 · 조건자료 확인일은 각 행에 보존하고, 접수 안내 확인일은 메모에 구분합니다. 접수중 표시는 확인 시점의 공식 안내이며 잔여 예산을 뜻하지 않습니다. 신청 전 소상공인정책자금의 회차 공고를 확인하세요.</p>
+    <p class="asof">기준일 {FASOF.year}년 {FASOF.month}월 {FASOF.day}일 · 조건자료 확인일은 각 행에 보존하고, 접수 안내 확인일은 메모에 구분합니다. 접수중 표시는 확인 시점의 공식 안내이며 잔여 예산을 뜻하지 않습니다. 신청 전 소상공인정책자금의 회차 공고를 확인하세요.</p>
     {sch_rows}
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">

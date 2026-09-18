@@ -251,3 +251,29 @@
     io.observe(el);
   });
 })();
+
+/* 접수 일정(/schedule) — 시작일이 지난 건은 방문 시점 날짜로 문장을 바꿔 끼운다.
+   빌드 시점에 예정/경과를 갈라 굳히면 다음 재빌드까지 지난 상태가 그대로 남는다.
+   JS 가 없는 크롤러·AI 는 서버가 쓴 '공고상 YYYY-MM-DD 예정' 을 읽는다 — 날짜가 그대로 있어
+   굳은 배지보다 정확하다. 기관 확인 관측(분기마감·접수중표시)은 사람이 기록한 사실이라 손대지 않는다. */
+(function () {
+  'use strict';
+  var cells = document.querySelectorAll('[data-sched-start][data-sched-passed]');
+  if (!cells.length) return;
+  var parse = function (v) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+  };
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  Array.prototype.forEach.call(cells, function (el) {
+    var start = parse(el.getAttribute('data-sched-start'));
+    if (!start || today < start) return;                 // 아직 시작 전 — 서버 문장 유지
+    var passed = el.getAttribute('data-sched-passed');
+    if (!passed) return;
+    var cls = el.getAttribute('data-sched-passed-class') || 'check';
+    el.className = el.className.replace(/\bb-[a-z]+\b/, 'b-' + cls);
+    el.textContent = passed;
+    el.setAttribute('data-sched-state', 'passed');
+  });
+})();

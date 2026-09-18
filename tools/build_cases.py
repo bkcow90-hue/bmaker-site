@@ -158,7 +158,7 @@ def build():
     dataset_ld=json.dumps({"@context":"https://schema.org","@type":"Dataset","@id":"https://bmaker.kr/cases#dataset",
       "name":"비즈니스 메이커 정책자금 실행 기록",
       "description":f"{T['PERIOD_KR']} 실제 실행된 정책자금 사례 {N}건. 기관·자금명·실행 금액·금리·지역·업종·신용점수 구간·소요 기간을 익명화해 공개. 기관 안내문·약정 문자 증빙 {nev}건 포함.",
-      "url":"https://bmaker.kr/cases","creator":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"dateModified":str(today),
+      "url":"https://bmaker.kr/cases","creator":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"dateModified":str(asof),
       "temporalCoverage":f"{yms[0]}/{yms[-1]}","inLanguage":"ko","license":"https://creativecommons.org/licenses/by/4.0/",
       "distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://bmaker.kr/data/cases.csv"}]}, ensure_ascii=False, indent=1)
     crumb_ld=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
@@ -214,7 +214,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
         lines.append(row)
     sec=f"## 실행 기록 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 실행이 확인된 건을 익명(업종·지역·금액·조건)으로 수록. 기관 안내문·정산 기록 등 증빙이 확보된 건은 증빙 표시와 함께 캡처 첨부\n\n"+"\n".join(lines)+"\n"
     lf=re.sub(r'## 실행 기록.*?(?=\n## )', sec+"\n", lf, flags=re.S)
-    lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {today}', lf)
+    lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {asof}', lf)
     (ROOT/'llms-full.txt').write_text(lf, encoding='utf-8')
     # llms.txt 요약 한 줄 교체
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
