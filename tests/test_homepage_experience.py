@@ -122,11 +122,12 @@ class HomepageExperienceTests(unittest.TestCase):
     def test_home_has_exactly_one_h1(self):
         self.assertEqual(len([e for e in self.elements if e["tag"] == "h1"]), 1)
 
-    def test_sticky_bar_waits_until_the_hero_button_leaves_the_screen(self):
-        js = (ROOT / "assets/conversion.js").read_text(encoding="utf-8")
-        self.assertIn('id="heroCta"', self.source)
-        self.assertIn("getElementById('heroCta')", js)
-        self.assertIn("formInView || heroCtaInView", js)
+    def test_hero_cta_is_addressable_for_the_sticky_bar_rule(self):
+        """고정바 노출 규칙의 실제 동작은 tests/test_sticky_cta.py(브라우저)에서 검증한다.
+        여기서는 그 규칙이 붙을 자리(히어로 CTA 의 id)만 고정한다."""
+        hero = re.search(r'<section class="hero">.*?</section>', self.source, re.S).group(0)
+        self.assertIn('id="heroCta"', hero)
+        self.assertEqual(self.source.count('id="heroCta"'), 1)
 
     def test_reservation_actions_are_visually_distinct_from_kakao_actions(self):
         reservation_actions = [
