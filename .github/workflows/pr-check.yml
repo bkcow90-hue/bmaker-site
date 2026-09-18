@@ -1,0 +1,42 @@
+# PR·main 푸시 검사 — 브라우저 동작 테스트까지 여기서 돌린다.
+# ledger.yml(매시 원장 갱신)은 건드리지 않는다: 그 잡은 가볍게 유지하고, Chromium 은 이 워크플로에서만 띄운다.
+# 빌더 체인 churn 검사는 이 잡이 녹색으로 확인된 뒤 별도 커밋으로 추가한다.
+name: pr-check
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: pr-check-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  # pip 설치와 캐시 키가 같은 값을 쓰도록 한 곳에서 고정한다 (올릴 때 여기만 바꾼다)
+  PLAYWRIGHT_VERSION: '1.59.0'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # ledger 봇이 main 에 올리는 원장 갱신 커밋으로는 돌리지 않는다. PR 이벤트는 항상 돌린다.
+    if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 의존성 설치
+        run: pip -q install openpyxl pillow pytest playwright==${{ env.PLAYWRIGHT_VERSION }}
+      - name: Chromium 캐시
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Chromium 설치
+        run: python -m playwright install --with-deps chromium
+      - name: pytest — REQUIRE_BROWSER=1 이면 브라우저 테스트가 skip 되지 못한다
+        env:
+          REQUIRE_BROWSER: '1'
+        run: python -m pytest -q
+      - name: node 테스트
+        run: node tests/test_conversion.mjs && node tests/test_analytics.mjs
