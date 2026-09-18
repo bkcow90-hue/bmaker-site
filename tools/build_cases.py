@@ -245,8 +245,17 @@ td a{color:var(--blue-deep);text-decoration:underline}
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
             block=(f'<!-- home-proof:start --><strong>받은 사례 {N}건</strong><span>익명 일부 공개 · {T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
-            h1=(f'<!-- home-h1:start -->사장님 <span class="count" data-count="{N}">{N}</span>분이,<br>정책자금 <span class="count" data-count="{total//10000}" data-suffix="억">{total//10000}억</span>을<br><span class="under">받았습니다.</span><!-- home-h1:end -->')
-            ih=re.sub(r'<!-- home-h1:start -->.*?<!-- home-h1:end -->', h1, ih, flags=re.S)
+            # 히어로 서브 — 숫자·기간은 원장에서만 나온다. H1 은 카테고리 고정 문구라 빌더가 손대지 않는다.
+            sub=(f'<!-- home-sub:start -->사장님 <span class="count" data-count="{N}">{N}</span>분이 정책자금 '
+                 f'<span class="count" data-count="{total//10000}" data-suffix="억">{total//10000}억</span>을 받았습니다 '
+                 f'({T["PERIOD_SHORT"]})<!-- home-sub:end -->')
+            ih=re.sub(r'<!-- home-sub:start -->.*?<!-- home-sub:end -->', sub, ih, flags=re.S)
+            # 홈 description — 확정 문구에 숫자·기간만 채운다 (검색 결과에 그대로 나가는 값)
+            desc=(f'소상공인·중소기업 정책자금 컨설팅, 비즈니스 메이커. 진단은 무료, 착수금 없이 성과로만 보수를 받습니다. '
+                  f'사장님 {N}분이 정책자금 {total//10000}억을 받았습니다({T["PERIOD_SHORT"]}, 익명 일부 공개). '
+                  f'전국 무료 상담, 대면·비대면 중 선택.')
+            for attr in ('name="description"', 'property="og:description"'):
+                ih=re.sub(r'<meta '+attr+r' content="[^"]*">', f'<meta {attr} content="{desc}">', ih, count=1)
             big_n=sum(1 for r in D if int(r['실행 금액(만원)'])>=10000); combo_n=sum(1 for r in D if (r.get('동시 진행 자금') or '').strip())
             ih=re.sub(r'<!-- why-big:start -->.*?<!-- why-big:end -->', f'<!-- why-big:start -->1억원 이상 {big_n}건, 기관 여러 곳을 묶은 동시 설계 {combo_n}건.<!-- why-big:end -->', ih, flags=re.S)
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)

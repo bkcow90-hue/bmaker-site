@@ -67,26 +67,33 @@ class HomepageExperienceTests(unittest.TestCase):
         heading_parser.feed(index)
         cls.hero_heading_lines = heading_parser.lines
 
-    def test_hero_heading_has_three_intentional_lines(self):
-        lines = self.hero_heading_lines
-        self.assertEqual(len(lines), 3)
-        self.assertRegex(lines[0], r"^사장님 [\d,]+분이,$")
-        self.assertRegex(lines[1], r"^정책자금 [\d,]+억을$")
-        self.assertEqual(lines[2], "받았습니다.")
+    def test_hero_heading_is_two_category_lines(self):
+        """H1 은 숫자가 아니라 업종·서비스 카테고리 2줄 — 검색어와 화면이 같은 말을 한다.
+        숫자(실적)는 서브로 내려갔고 build_cases 가 관리한다."""
+        self.assertEqual(self.hero_heading_lines, ["소상공인·중소기업", "정책자금 컨설팅"])
+        for digit_free in self.hero_heading_lines:
+            with self.subTest(line=digit_free):
+                self.assertNotRegex(digit_free, r"\d")
 
     def test_hero_says_one_thing_with_a_single_reservation_button(self):
         """히어로 = 라벨 + H1 + 서브 1문장 + 버튼 1개. 카톡·안내문·칩·사례 카드는 히어로 밖으로."""
         hero = re.search(r'<section class="hero">.*?</section>', self.source, re.S).group(0)
-        self.assertIn('<span class="eyebrow">정책자금 컨설팅, 비즈니스 메이커</span>', hero)
+        self.assertIn('<span class="eyebrow">비즈니스 메이커 · 전국 무료 상담</span>', hero)
         self.assertEqual(hero.count("<h1"), 1)
-        leads = re.findall(r'<p class="lead">(.*?)</p>', hero)
-        self.assertEqual(leads, ["우리 회사도 되는지, 무료로 먼저 봐드립니다."])
+        leads = re.findall(r'<p class="lead">(.*?)</p>', hero, re.S)
+        self.assertEqual(len(leads), 1, leads)
+        sub = re.sub(r"<[^>]+>", "", leads[0])
+        self.assertRegex(sub, r"^사장님 [\d,]+분이 정책자금 [\d,]+억을 받았습니다 \(\d{4}\.\d{2}~\d{4}\.\d{2}\)$")
+        self.assertIn("home-sub:start", leads[0])          # 숫자는 원장에서만 나온다
+        self.assertEqual(hero.count('class="hero-fee"'), 1)
+        self.assertIn(">진단은 무료, 정책자금은 착수금이 없습니다<", hero)
         actions = re.findall(r'<(?:a|button)[\s>].*?</(?:a|button)>', hero, re.S)
         self.assertEqual(len(actions), 1, actions)
         self.assertIn('href="#apply"', actions[0])
-        self.assertIn(">무료 진단 예약하기 →<", actions[0])
+        self.assertIn(">무료 진단 예약하기<", actions[0])
         self.assertNotIn("btn-kakao", actions[0])
-        for gone in ("pf.kakao.com", "hero-note", "어떤 서비스가 필요한지", "home-recent", "home-proof", "신뢰 지표"):
+        for gone in ("pf.kakao.com", "hero-note", "어떤 서비스가 필요한지", "home-recent", "home-proof", "신뢰 지표",
+                     "강서구", "마곡", "기업광고"):
             with self.subTest(gone=gone):
                 self.assertNotIn(gone, hero)
         self.assertIn('src="assets/hero-consult.webp"', hero)
