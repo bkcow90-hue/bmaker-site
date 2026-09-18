@@ -209,7 +209,7 @@
       if (!response.ok || result.ok !== true || result.delivery !== 'accepted') throw new Error('delivery_failed');
       completed = true;
       message.className = 'apply-msg ok';
-      message.textContent = '상담 신청이 접수됐습니다. 평일 09:00–18:00에 연락드리며, 선택하신 통화 시간대를 참고합니다. 급한 문의는 1666-2425로 연락해 주세요.';
+      message.textContent = '예약됐습니다. 평일 09:00~18:00 중 정하신 시간대에 전화드리겠습니다. 급한 문의는 1666-2425로 연락해 주세요.';
       form.reset(); selectedTime = ''; timeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
       track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
       message.focus();
