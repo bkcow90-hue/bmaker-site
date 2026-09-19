@@ -53,9 +53,18 @@ class SiteConfigurationTests(unittest.TestCase):
         cls.parser = AnchorParser()
         cls.parser.feed(cls.index)
 
+    def test_header_cta_is_the_diagnosis_booking_button(self):
+        """헤더는 첫 화면에 늘 떠 있다 — 규격상 그 자리의 버튼은 진단 예약 하나다(카톡은 문의 섹션·플로팅바로)."""
+        header = self.index[self.index.index("<header>"):self.index.index("</header>")]
+        self.assertNotIn("pf.kakao.com", header)
+        booking = [a for a in self.parser.anchors
+                   if a["attrs"].get("data-cta-location") == "header"]
+        self.assertEqual(len(booking), 1, booking)
+        self.assertEqual(booking[0]["text"], "무료 진단 예약")
+        self.assertEqual(booking[0]["attrs"]["href"], "/#apply")
+
     def test_kakao_ctas_use_https_and_expose_their_source(self):
         expected = {
-            "카톡 상담": "header",
             "전문가 연계 상담하기": "experts",
             "카카오톡 무료 상담하기": "contact",
         }

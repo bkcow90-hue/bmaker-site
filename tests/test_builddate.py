@@ -54,4 +54,4 @@ def test_every_dated_builder_uses_the_shared_helper():
             assert 'from builddate import build_date' in src, path.name
         assert 'timedelta(hours=9)' not in src, f'{path.name}: 자체 KST 계산이 남아 있다'
         assert 'date.today()' not in src, f'{path.name}: date.today() 는 러너 TZ 에 흔들린다'
-    assert len(dated) == 8, f'날짜를 쓰는 빌더 수가 바뀌었다: {dated}'
+    assert len(dated) == 9, f'날짜를 쓰는 빌더 수가 바뀌었다: {dated}'

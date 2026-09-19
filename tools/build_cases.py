@@ -94,6 +94,30 @@ def agef(v):
     except ValueError: return v
     return "1년 미만" if a<1 else f"{round(a)}년"
 
+# 기관 기준 분류 — 허브 2장(/sosangin·/jungsogieop)이 같은 규칙을 쓴다.
+# 복합 표기("기술보증기금 + 소상공인…")는 먼저 등장한 기관으로 분류한다(규격 9절).
+INST_RULES = [('중진공', ('중소벤처기업진흥공단', '중진공')),
+              ('신보', ('신용보증기금',)),
+              ('기보', ('기술보증기금',)),
+              ('무역보증', ('무역보증',)),
+              ('소진공', ('소상공인시장진흥공단',)),
+              ('지역신보', ('신용보증재단',)),
+              ('지자체', ('시청', '도청', '군청', '지자체'))]
+HUB_OF = {'소진공': '소상공인', '지역신보': '소상공인', '지자체': '소상공인',
+          '중진공': '중소기업', '신보': '중소기업', '기보': '중소기업', '무역보증': '중소기업'}
+
+
+def inst_bucket(inst):
+    """기관 문자열 → 기관 약칭. 못 가리면 None."""
+    hits = [(inst.find(k), name) for name, keys in INST_RULES for k in keys if k in inst]
+    return min(hits)[1] if hits else None
+
+
+def hub_of(inst):
+    """기관 문자열 → 허브 분류('소상공인'·'중소기업'). 못 가리면 None."""
+    return HUB_OF.get(inst_bucket(inst) or '')
+
+
 def band(D, T):
     """홈 '최근에 받은 사례' 조건 밴드 — 실행 금액 최소~최대, 금리 최소~최대(금리가 적힌 건만).
     기관별 최대치나 자격 관련 표현은 넣지 않는다. 숫자는 전부 원장에서만 나온다."""
