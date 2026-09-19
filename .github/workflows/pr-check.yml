@@ -120,6 +120,7 @@ jobs:
           python tools/build_jungjin.py
           python tools/build_editorial.py
           python tools/build_education.py
+          python tools/build_hubs.py
           python tools/build_lastmod.py
           # 바이너리 제외 목록 — 지금은 비어 있다. 빌더는 이미지를 만들지 않고 PIL 로 크기만
           # 읽으므로 체인의 산출물은 전부 텍스트다(html·xml·txt·json·csv). pillow·libwebp

@@ -136,6 +136,20 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @media(max-width:680px){h2{font-size:1.3rem;margin-top:40px}.wrap .cards{border-top-width:2px}.wrap .cards{grid-template-columns:1fr}.wrap .cards .card{border-left:0;padding:14px 0;border-top:1px solid var(--line)}.wrap .cards .card:first-child{border-top:0}.wrap .related a{margin:0 8px 8px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0}}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+/* nav-7 — 내비 7개(자금 안내 드롭다운)·푸터 다른 업무 블록 */
+.nav-drop{position:relative;display:inline-block}
+.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap}
+.nav-drop>summary::-webkit-details-marker{display:none}
+.nav-drop>summary::after{content:"\25BE";margin-left:4px;font-size:.8em}
+.nav-drop .nav-drop-menu{position:absolute;left:0;top:calc(100% + 8px);z-index:120;min-width:232px;background:#fff;border:1px solid var(--line,#E3E7EF);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
+.nav-drop .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap}
+.nav-drop .nav-drop-menu a:hover{background:var(--paper,#F7F8FB)}
+.nav-cta-book{background:var(--kakao,#FEE500);color:#191600;font-weight:700}
+.foot-other{margin-top:18px;padding-top:14px;border-top:1px solid rgba(198,208,228,.2)}
+.foot-other b{display:block;margin-bottom:6px;font-size:.82rem;opacity:.75}
+.foot-other a{margin-right:10px;white-space:nowrap}
+@media(max-width:840px){.nav-drop .nav-drop-menu{position:static;box-shadow:none;border:0;padding:4px 0 4px 10px;min-width:0}}
+@media(max-width:430px){.nav-actions{gap:6px}.nav-actions .nav-tel{padding:8px 9px;font-size:.82rem}.nav-cta-book{padding:9px 11px;font-size:.84rem}}
 </style>
 <style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}</style>
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/jangaein#webpage", "url": "https://bmaker.kr/jangaein", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-09-15"}</script></head>
@@ -143,15 +157,10 @@ h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo'
 <header>
   <div class="wrap nav">
     <a class="logo" href="/"><img src="assets/symbol-96.webp" alt="비즈니스 메이커 로고" width="32" height="27"><span>비즈니스<b>메이커</b></span></a>
-    <nav class="nav-menu" aria-label="주요 메뉴">
-      <a href="/cases">실행 기록</a>
-      <a href="/schedule">접수 일정</a>
-      <a href="/gaein">개인사업자</a>
-      <a href="/consulting">컨설팅</a>
-    </nav>
+    <nav class="nav-menu" aria-label="주요 메뉴"><a href="/sosangin">소상공인 정책자금 컨설팅</a><a href="/jungsogieop">중소기업 정책자금 컨설팅</a><a href="/cases">받은 사례</a><details class="nav-drop"><summary>자금 안내</summary><div class="nav-drop-menu"><a href="/sojingong">소상공인시장진흥공단(소진공)</a><a href="/jaedan">지역신용보증재단</a><a href="/jungjingong">중소벤처기업진흥공단(중진공)</a><a href="/sinbo">신용보증기금(신보)</a><a href="/gibo">기술보증기금(기보)</a><a href="/bojeung">보증서 대출</a><a href="/schedule">접수 일정</a><a href="/gaein">개인사업자</a></div></details><a href="/certification">기업인증</a><a href="/#about">회사소개</a></nav>
     <div class="nav-actions">
       <a class="nav-tel" href="tel:1666-2425">📞 1666-2425</a>
-      <a class="nav-cta" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카톡 상담</a>
+      <a class="nav-cta nav-cta-book" href="/#apply" data-cta-location="header">무료 진단 예약</a>
     </div>
   </div>
 </header>
@@ -196,7 +205,7 @@ h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo'
     <p>비즈니스 메이커 · 대표 김상표 · 사업자등록번호 369-20-01814<br>서울특별시 강서구 공항대로 213, 8층 819호(마곡동, 보타닉파크타워2) · 전화 1666-2425</p>
     <p>비즈니스 메이커는 민간 진단 회사이며, 정부 및 공공기관과 무관합니다. 승인 여부와 조건은 각 심사 기관의 심사 결과에 따라 결정됩니다.</p>
     <p><a href="/">홈</a> · <a href="/cases">실행 사례</a> · <a href="/stats">상담 통계</a> · <a href="/privacy">개인정보처리방침</a></p>
-  <p class="lastmod" data-lastmod="2026-09-15" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-09-15</p></div>
+  <div class="foot-other"><b>다른 업무</b><a href="/startup">창업컨설팅</a><a href="/marketing">기업광고·마케팅</a><a href="/education">교육·출강</a><a href="/work">진행사례</a><a href="/business-guide">사업 가이드</a></div><p class="lastmod" data-lastmod="2026-09-15" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-09-15</p></div>
 </footer>
 <script src="/assets/conversion.js" defer></script>
 </body>

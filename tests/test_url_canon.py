@@ -12,7 +12,7 @@ PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "ce
 SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "consulting"]
 
 NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program"]
-NEW_SERVICES += ["faq"]
+NEW_SERVICES += ["faq", "sosangin", "jungsogieop"]
 PAGES += [f"{slug}.html" for slug in NEW_SERVICES]
 SLUGS += NEW_SERVICES
 
