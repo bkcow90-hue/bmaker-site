@@ -781,13 +781,6 @@ h2.serif,.why h2{font-weight:700;letter-spacing:-.015em}
 /* CRO: one primary action, explicit scope, ledger-backed proof. */
 header .nav-cta{background:var(--blue-deep);color:#fff}
 .hero #heroCta{background:var(--blue-deep);color:#fff;border-color:var(--blue-deep);justify-content:center;min-height:52px}
-.hero .hero-fee{margin-top:16px;font-size:.94rem;line-height:1.65;color:#e5eafa}
-.hero .hero-fee strong{color:#fff}
-.hero .hero-disclaimer{margin-top:8px;font-size:.82rem;line-height:1.6;color:#bfcade}
-.hero .hero-proof{display:block;border-top:1px solid #ffffff30;margin-top:22px;padding-top:18px}
-.hero .hero-proof strong{display:block;color:#fee500;font-size:1rem}
-.hero .hero-proof span{display:block;color:#c6d0e4;font-size:.84rem;margin-top:3px}
-.hero .hero-proof .proof-link{color:#fff;text-decoration:underline;margin-top:8px}
 .diagnosis-result{margin-top:26px;color:var(--ink-soft);line-height:1.8}
 .diagnosis-result strong{display:block;color:var(--navy)}
 .diagnosis-link{margin-top:16px;color:var(--blue-deep);font-weight:700;text-decoration:underline}
@@ -822,6 +815,9 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
   .audience-routes{grid-template-columns:1fr;gap:14px}
 }
 </style>
+<link rel="stylesheet" href="/assets/hero-v1.css">
+<link rel="preload" as="image" href="/assets/hero-architecture-mobile-v1.webp" media="(max-width: 860px)" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/hero-architecture-v1.webp" media="(min-width: 861px)" fetchpriority="high">
 <link rel="stylesheet" href="/assets/education.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/assets/education.css"></noscript><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/#webpage", "url": "https://bmaker.kr/", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-09-21"}</script></head>
 <body data-service="general">
@@ -840,29 +836,23 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
 
 <main id="top">
 
-<section class="hero">
+<section class="hero hero-cinematic">
+  <div class="hero-architecture" aria-hidden="true"></div>
+  <div class="hero-light" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">정책자금 컨설팅, 비즈니스 메이커</span>
-      <h1 class="serif">우리 사업에 맞는<br>정책자금,<br><span class="under">가능성부터 확인하세요.</span></h1>
+      <h1 class="serif"><span class="hero-title-line">우리 사업에 맞는</span><br><span class="hero-title-line">정책자금,</span><br><span class="under hero-title-line">가능성부터 확인하세요.</span></h1>
       <p class="lead">소상공인부터 제조·기술 중소기업 법인까지, 검토할 자금과 준비할 순서를 안내합니다. 진행이 어렵다면 그 이유부터 말씀드립니다.</p>
 
       <div class="hero-cta-row">
         <a id="heroCta" class="btn btn-primary" href="#apply" data-cta-location="hero" data-consultation-service="policy">무료 진단 신청</a>
       </div>
-      <p class="hero-fee"><strong>정책자금 진단·착수금·진행비 0원</strong><br>자금 실행 시 성과 보수가 발생합니다.</p>
-      <p class="hero-disclaimer">최종 지원 여부와 조건은 해당 기관의 심사로 결정됩니다.</p>
-      <a class="hero-proof" href="/cases" aria-label="정책자금 받은 사례와 근거 보기"><!-- home-proof:start --><strong>받은 사례 385건 · 총 439억 5,500만원</strong><span>2023.09~2026.08 · 익명 일부 공개</span><!-- home-proof:end --><span class="proof-link">사례와 근거 보기 →</span></a>
     </div>
     
   
     <div class="hero-visual" aria-hidden="false">
       <img src="assets/hero-consult.webp" srcset="assets/hero-consult-m.webp 560w, assets/hero-consult.webp 960w" sizes="(max-width: 840px) 92vw, 42vw" width="960" height="1067" alt="상담 테이블에서 서류를 함께 검토하는 장면" loading="eager" fetchpriority="high">
-      <aside class="ledger-card" aria-label="개인·법인 받은 사례 발췌">
-        <p class="lc-title">개인·법인 받은 사례</p>
-        <ul><!-- home-recent:start --><li><span class="lc-ym">2026.08</span><span class="lc-inst">개인 · 소상공인시장진흥공단</span><b>5,300만원</b></li><li><span class="lc-ym">2026.08</span><span class="lc-inst">법인 · 신용보증기금</span><b>1억 7,000만원</b></li><li><span class="lc-ym">2026.08</span><span class="lc-inst">법인 · 신용보증기금</span><b>1억 500만원</b></li><!-- home-recent:end --></ul>
-        <a class="lc-more" href="/cases">받은 사례 보기</a>
-      </aside>
     </div>
 </div>
 </section>
@@ -876,6 +866,7 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
     <article class="why-card"><p class="wn">03</p><h3>기관별 조건과 준비할 순서</h3><p>신청 대상과 제한 조건, 준비 자료를 함께 살펴봅니다. 추가 준비가 필요하거나 진행이 어렵다면 그 이유를 안내합니다.</p></article>
   </div>
   <p class="diagnosis-result"><strong>진단 후 진행 가능성을 검토한 건만 맡습니다.</strong> 사전 진단은 기관의 최종 심사 결과를 확약하는 절차가 아닙니다.</p>
+  <p class="diagnosis-fee"><strong>정책자금 진단·착수금·진행비 0원.</strong> 자금 실행 시 성과 보수가 발생합니다.<br>최종 지원 여부와 조건은 해당 기관의 심사로 결정됩니다.</p>
   <p class="diagnosis-link"><a href="#apply" data-cta-location="diagnosis" data-consultation-service="policy">내 사업 무료 진단 신청 →</a></p>
 </div></section>
 
@@ -884,6 +875,7 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
     <p class="sec-label">조건을 확인할 수 있는 실제 사례</p>
     <h2 class="serif">내 사업과 어떤 점이 비슷한지<br class="pc"> 확인해 보세요.</h2>
     <p class="sub">소상공인·개인사업자와 중소기업 법인을 함께 상담합니다. 업종·업력·기관과 받은 금액을 확인해 보세요. 아래는 각 고객사의 당시 조건에 따른 결과이며, 같은 결과를 약속하지 않습니다.</p>
+    <a class="case-proof" href="/cases" aria-label="정책자금 받은 사례와 근거 보기"><!-- home-proof:start --><strong>받은 사례 385건 · 총 439억 5,500만원</strong><span>2023.09~2026.08 · 익명 일부 공개</span><!-- home-proof:end --><span class="proof-link">사례와 근거 보기 →</span></a>
     <div class="audience-routes" aria-label="사업 형태별 정책자금 안내">
       <a href="/gaein"><span class="route-title">소상공인·개인사업자</span><span>운영자금과 기관별 신청 경로를 확인하세요.</span><strong>개인사업자 <span data-stat="ind-n">207</span>건 · <span data-stat="ind-won">126억 4,000만원</span></strong><span class="route-more">개인사업자 안내 →</span></a>
       <a href="/jungjingong"><span class="route-title">중소기업·법인</span><span>제조·기술기업의 운전·시설자금 경로를 확인하세요.</span><strong>법인사업자 <span data-stat="corp-n">178</span>건 · <span data-stat="corp-won">313억 1,500만원</span></strong><span class="route-more">중소기업·법인 안내 →</span></a>

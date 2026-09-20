@@ -183,3 +183,45 @@ def test_education_course_intent_and_print_action(browser_page, site):
     expect(page.locator('#corporate-plan')).to_be_visible()
     expect(page.locator('#staff-checklist')).to_be_visible()
     assert page.locator('tbody tr').evaluate_all("els=>els.every(e=>getComputedStyle(e).opacity==='1')")
+
+
+@pytest.mark.parametrize('width', [390, 1440])
+def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, site, width):
+    page = browser_page
+    page.set_viewport_size({'width': width, 'height': 900})
+    page.goto(site, wait_until='networkidle')
+    hero = page.locator('.hero')
+    expect(hero.locator('a')).to_have_count(1)
+    expect(hero.locator('aside')).to_have_count(0)
+    expect(hero).not_to_contain_text('받은 사례')
+    expect(hero).not_to_contain_text('성과 보수')
+    expect(page.locator('#cases .case-proof')).to_contain_text('받은 사례')
+    expect(page.locator('#diagnosis')).to_contain_text('성과 보수')
+    assert page.locator('#cases .case-proof').get_attribute('href') == '/cases'
+    expect(hero.locator('h1')).to_contain_text('정책자금')
+    backgrounds = page.evaluate("performance.getEntriesByType('resource').filter(e=>e.name.includes('hero-architecture')).map(e=>e.name)")
+    variant = 'hero-architecture-mobile-v1.webp' if width <= 860 else 'hero-architecture-v1.webp'
+    assert backgrounds == [site + '/assets/' + variant], 'Fetch only the background needed by this viewport'
+
+
+def test_hero_motion_is_finite_readable_and_respects_reduced_motion(browser_page, site):
+    page = browser_page
+    page.emulate_media(reduced_motion='no-preference')
+    page.goto(site, wait_until='domcontentloaded')
+    timings = page.locator('.hero').evaluate("e=>e.getAnimations({subtree:true}).map(a=>a.effect.getTiming())")
+    assert len(timings) >= 3, 'Title, photo and decorative light should animate'
+    assert all(t['iterations'] == 1 and t['duration'] + t['delay'] <= 5000 for t in timings)
+    movement = page.locator('.hero-title-line').first.evaluate("""e=>{
+      const a=e.getAnimations()[0]; a.pause(); a.currentTime=0;
+      const start=getComputedStyle(e).transform;
+      const opacity=getComputedStyle(e).opacity;
+      a.currentTime=a.effect.getTiming().duration;
+      return {start,end:getComputedStyle(e).transform,opacity};
+    }""")
+    assert movement['start'] != movement['end']
+    assert float(movement['opacity']) >= .85
+    page.emulate_media(reduced_motion='reduce')
+    page.reload(wait_until='networkidle')
+    assert page.locator('.hero').evaluate('e=>e.getAnimations({subtree:true}).length') == 0
+    expect(page.locator('#heroCta')).to_be_visible()
+    assert page.locator('.hero-title-line').first.evaluate("e=>getComputedStyle(e).opacity") == '1'

@@ -77,7 +77,7 @@ class HomepageExperienceTests(unittest.TestCase):
             element
             for element in self.elements
             if element["tag"] == "a"
-            and "hero-proof" in element["attrs"].get("class", "").split()
+            and "case-proof" in element["attrs"].get("class", "").split()
         ]
         self.assertEqual(len(proof_links), 1)
         self.assertEqual(proof_links[0]["attrs"]["href"], "/cases")
