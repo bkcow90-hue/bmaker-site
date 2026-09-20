@@ -1,0 +1,63 @@
+# 네이버 서치어드바이저 콘텐츠 노출/클릭, 최근 30일(~2026-09-19 업데이트), PC+Mobile. 대표 화면 캡처를 옮겨 적음.
+# 총계: 클릭 약 140(표시 1.4백, 지난달 대비 +4733%), 노출 약 2,500(표시 2.5천, +10520%), 평균 CTR 5.7%(-6.8%)
+section,rank,name,clicks,impressions,ctr_pct,brand
+keyword,1,"비즈니스메이커",37,120,30.8,Y
+keyword,2,"비즈니스 메이커",25,97,25.8,Y
+keyword,3,"비지니스메이커",5,25,20,Y
+keyword,4,"소상공인 졸업후보기업",4,26,15.4,N
+keyword,5,"소상공인 졸업후보",3,11,27.3,N
+keyword,6,"bmaker.kr",3,6,50,Y
+keyword,7,"혁신성장촉진자금(사회연대경제조직)",2,7,28.6,N
+keyword,8,"비지니스 메이커",2,4,50,Y
+keyword,9,"비즈니스 메이커 컨설팅 후기",2,2,100,Y
+keyword,10,"상환계획서 쓰는 법",1,37,2.7,N
+keyword,11,"민간투자연계형",1,4,25,N
+keyword,12,"소상공인 졸업",1,4,25,N
+keyword,13,"신용보증기금 금리 비교",1,4,25,N
+keyword,14,"정책자금 거절 사유 7가지 | 중진공 융자제한(제목 검색)",1,4,25,N
+keyword,15,"정책자금 착수금",1,4,25,N
+keyword,16,"소상공인졸업후보",1,3,33.3,N
+keyword,17,"매출 상환계획서",1,3,33.3,N
+keyword,18,"자금사용 계획서 쓰는법",1,3,33.3,N
+keyword,19,"혁신성장촉진자금 소상공인졸업후보",1,2,50,N
+keyword,20,"정책자금 거절 사유",1,2,50,N
+keyword,21,"bmaker",1,2,50,Y
+keyword,22,"비즈니스 메이ㅓㅋ",1,2,50,Y
+keyword,23,"정책자금착수금",1,2,50,N
+keyword,24,"혁신촉진자금 소상공인졸업후보 대상",1,2,50,N
+keyword,25,"재도전특별자금 3신용회복",1,2,50,N
+keyword,26,"혁신성장촉진자금사회연대경제조직",1,2,50,N
+keyword,27,"혁신성장촉진자금 사회연대",1,2,50,N
+keyword,28,"신보 대출은 얼마나 걸리나요",1,2,50,N
+keyword,29,"소상공인정책자금착수금요구",1,2,50,N
+keyword,30,"김상표 비즈니스메이커",1,2,50,Y
+page,1,https://bmaker.kr/,75,484,15.5,
+page,2,https://bmaker.kr/hyeoksin-jolup,26,185,14.1,
+page,3,https://bmaker.kr/hyeoksin-sahoe,8,29,27.6,
+page,4,https://bmaker.kr/gyehoekseo,7,143,4.9,
+page,5,https://bmaker.kr/chaksugeum,5,94,5.3,
+page,6,https://bmaker.kr/jaedan,4,265,1.5,
+page,7,https://bmaker.kr/sanghwan,4,202,2,
+page,8,https://bmaker.kr/jungjingong,3,211,1.4,
+page,9,https://bmaker.kr/sinbo,2,167,1.2,
+page,10,https://bmaker.kr/matching,2,50,4,
+page,11,https://bmaker.kr/jaedojeon,2,22,9.1,
+page,12,https://bmaker.kr/geojeol,2,18,11.1,
+page,13,https://bmaker.kr/bojeung,1,184,0.5,
+page,14,https://bmaker.kr/ilsijeok-homeplus,1,27,3.7,
+page,15,https://bmaker.kr/jeosinyong,1,23,4.3,
+page,16,https://bmaker.kr/consulting,1,13,7.7,
+page,17,https://bmaker.kr/education,1,13,7.7,
+page,18,https://bmaker.kr/cheongnyeon,0,116,0,
+page,19,https://bmaker.kr/certification,0,43,0,
+page,20,https://bmaker.kr/gibo,0,34,0,
+page,21,https://bmaker.kr/sangsaeng,0,33,0,
+page,22,https://bmaker.kr/jungjingong.html,0,30,0,
+page,23,https://bmaker.kr/sojingong,0,20,0,
+page,24,https://bmaker.kr/gaein,0,18,0,
+page,25,https://bmaker.kr/subsidy,0,15,0,
+page,26,https://bmaker.kr/sinyongchwiyak,0,12,0,
+page,27,https://bmaker.kr/hyeoksin,0,12,0,
+page,28,https://bmaker.kr/8,0,11,0,
+page,29,https://bmaker.kr/ilsijeok,0,11,0,
+page,30,https://bmaker.kr/portfolio,0,10,0,
