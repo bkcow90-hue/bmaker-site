@@ -106,6 +106,9 @@
   // 노출 상태는 hidden 속성 하나로만 표현한다 — CSS 가 .sticky-cta[hidden]{display:none!important} 로 받는다.
   // class 토글과 섞으면 한쪽만 바뀌어도 화면이 어긋나므로 속성 방식으로 통일.
   const heroCta = document.getElementById('heroCta');
+  // 헤더 버튼은 히어로 CTA 가 보이는 동안 숨긴다 — 첫 화면 CTA 를 하나로 유지한다.
+  // 모바일(≤680px)에서는 CSS 로 이미 감춰져 있고 메뉴 항목이 그 자리를 대신한다.
+  const headerCta = document.querySelector('.nav-cta-book');
   // 좌표를 읽을 수 없는 실행 환경(노드 테스트 픽스처 등)에서는 false — 고정바 기본값은 '노출'이다
   const inViewport = el => {
     if (!el || typeof el.getBoundingClientRect !== 'function') return false;
@@ -116,6 +119,7 @@
   let formInView = false, heroCtaInView = false;
   function updateSticky() {
     if (sticky) sticky.hidden = formInView || heroCtaInView || form.contains(document.activeElement);
+    if (headerCta) headerCta.hidden = heroCtaInView;
   }
   // 초기·복귀 판정은 IntersectionObserver 콜백 타이밍에 기대지 않고 좌표로 직접 계산한다.
   // (폰트·이미지 로드로 레이아웃이 밀리는 구간이나 bfcache 복귀에서 첫 콜백이 어긋난 적이 있다)

@@ -49,27 +49,37 @@ def site():
 
 
 @pytest.fixture(scope="module")
-def phone(site):
-    # 브라우저를 '띄우는' 단계만 예외를 가로챈다. yield 이후(테스트 본문)에서 나는
-    # playwright TimeoutError 까지 여기서 잡으면 실패가 skip 으로 둔갑한다.
+def browser():
+    """뷰포트를 바꿔가며 열어야 하는 검사용 — phone 픽스처는 페이지 하나를 공유한다."""
     if sync_api is None:
         _unavailable("playwright 미설치 — pip install playwright")
     try:
         driver = sync_api.sync_playwright().start()
-    except Exception as exc:                           # 드라이버 실행 실패
+    except Exception as exc:
         _unavailable(f"playwright 드라이버를 시작할 수 없음: {exc}")
     try:
-        browser = driver.chromium.launch()
-    except sync_api.Error as exc:                      # 브라우저 바이너리 미설치 등
+        b = driver.chromium.launch()
+    except sync_api.Error as exc:
         driver.stop()
         _unavailable(f"Chromium 을 띄울 수 없음: {exc} (playwright install chromium)")
     try:
-        page = browser.new_page(viewport=PHONE)
-        page.goto(f"{site}/index.html", wait_until="load")
+        yield b
+    finally:
+        b.close()
+        driver.stop()
+
+
+@pytest.fixture(scope="module")
+def phone(browser, site):
+    """첫 화면 검사용 페이지 하나. 드라이버는 browser 픽스처가 만든 것을 공유한다
+    (같은 스레드에서 sync_playwright 를 두 번 start 하면 asyncio 충돌로 실행되지 못한다)."""
+    context = browser.new_context(viewport=PHONE, timezone_id='Asia/Seoul')
+    page = context.new_page()
+    page.goto(f"{site}/index.html", wait_until="load")
+    try:
         yield page
     finally:
-        browser.close()
-        driver.stop()
+        context.close()
 
 
 def _cta_in_viewport(page):
@@ -127,3 +137,66 @@ def test_sticky_bar_is_hidden_after_a_pageshow_restore(phone):
         window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
     }""")
     phone.wait_for_selector(".sticky-cta", state="hidden", timeout=TIMEOUT)
+
+
+DESKTOP = {"width": 1280, "height": 800}
+BOOK_TEXT = "무료 진단 예약하기"
+
+VISIBLE_BOOK = """() => [...document.querySelectorAll('a')]
+    .filter(a => a.textContent.trim().includes('무료 진단 예약'))
+    .filter(a => a.getClientRects().length)
+    .filter(a => { const r = a.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; })
+    .map(a => ({text: a.textContent.trim(), cls: a.className, loc: a.getAttribute('data-cta-location')}))"""
+
+
+def _home(browser, site, viewport):
+    context = browser.new_context(viewport=viewport, timezone_id='Asia/Seoul')
+    page = context.new_page()
+    page.goto(f"{site}/index.html", wait_until='load')
+    page.wait_for_function("document.querySelector('.sticky-cta') !== null")
+    return context, page
+
+
+@pytest.mark.parametrize('viewport', [PHONE, DESKTOP], ids=['phone', 'desktop'])
+def test_first_screen_shows_exactly_one_booking_button(browser, site, viewport):
+    """규격 4절 — 첫 화면 CTA 는 1개. 폰·데스크톱 모두 히어로 버튼 하나만 보인다."""
+    context, page = _home(browser, site, viewport)
+    try:
+        page.wait_for_timeout(200)
+        shown = page.evaluate(VISIBLE_BOOK)
+        assert len(shown) == 1, shown
+        assert shown[0]['loc'] == 'hero', shown
+        assert shown[0]['text'] == BOOK_TEXT, shown
+    finally:
+        context.close()
+
+
+def test_desktop_header_button_cycle(browser, site):
+    context, page = _home(browser, site, DESKTOP)
+    try:
+        header = page.locator('.nav-cta-book')
+        page.wait_for_timeout(200)
+        assert header.is_hidden(), '첫 화면에서는 헤더 버튼이 숨어 있어야 한다'
+
+        page.evaluate("window.scrollTo({top: document.querySelector('.why').getBoundingClientRect().top"
+                      " + window.scrollY, behavior: 'instant'})")
+        page.wait_for_selector('.nav-cta-book', state='visible', timeout=TIMEOUT)
+        shown = page.evaluate(VISIBLE_BOOK)
+        assert [s['loc'] for s in shown] == ['header'], shown
+
+        page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
+        page.wait_for_selector('.nav-cta-book', state='hidden', timeout=TIMEOUT)
+        assert header.evaluate("el => el.hasAttribute('hidden')"), 'hidden 속성 방식이어야 한다'
+    finally:
+        context.close()
+
+
+def test_mobile_header_has_no_button_and_menu_carries_the_cta():
+    """모바일 헤더에는 버튼을 두지 않는다 — 메뉴 항목이 그 자리를 대신한다."""
+    home = (ROOT / 'index.html').read_text(encoding='utf-8')
+    header = home[home.index('<header>'):home.index('</header>')]
+    assert 'class="nav-book"' in header, '메뉴에 예약 항목이 있어야 한다'
+    assert f'>{BOOK_TEXT}</a>' in header
+    css = home[home.index('/* nav-7 '):]
+    assert '@media(max-width:680px){.nav-cta-book{display:none}' in css, '모바일에서 헤더 버튼을 감춰야 한다'
+    assert '.nav-book{display:none}' in css, '데스크톱에서는 메뉴 항목을 감춰야 한다'

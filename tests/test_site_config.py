@@ -60,7 +60,7 @@ class SiteConfigurationTests(unittest.TestCase):
         booking = [a for a in self.parser.anchors
                    if a["attrs"].get("data-cta-location") == "header"]
         self.assertEqual(len(booking), 1, booking)
-        self.assertEqual(booking[0]["text"], "무료 진단 예약")
+        self.assertEqual(booking[0]["text"], "무료 진단 예약하기")   # 문구는 어디서든 하나
         self.assertEqual(booking[0]["attrs"]["href"], "/#apply")
 
     def test_kakao_ctas_use_https_and_expose_their_source(self):
