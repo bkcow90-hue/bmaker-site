@@ -92,6 +92,8 @@ def build():
              ("무엇을 준비해야 하나요?", "사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해, 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.")]
         faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
         svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":f"{d['재단명']} 보증부 대출 진단·실행 지원","serviceType":"정책자금·보증부 대출 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":d['지역(시도)'],"url":f"https://bmaker.kr/{d['재단ID']}"}, ensure_ascii=False)
+        ck=d['최종 확인일']
+        asof_ym=f"{ck[:4]}년 {int(ck[5:7])}월" if len(ck)>=7 else '미확인'
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"신용보증재단","item":"https://bmaker.kr/jaedan"},{"@type":"ListItem","position":3,"name":d['재단명'],"item":f"https://bmaker.kr/{d['재단ID']}"}]}, ensure_ascii=False)
         faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("저신용·재창업 가이드", chr(60)+chr(97)+chr(32)+"href=\'/jeosinyong\'"+chr(62)+"저신용·재창업 가이드"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
         memo=(' — '+esc(d['한 줄 메모'])) if d['한 줄 메모'] else ''
@@ -131,11 +133,12 @@ def build():
 <main>
   <div class="wrap">
     <p><b>짧은 답:</b> {esc(d['지역(시도)'])} 소상공인 대출·사업자 대출을 알아보는 사장님들이 실제로 가장 많이 쓰는 공적 경로가 이 재단입니다. {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
-    <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
+    <p class="asof">본 안내는 {asof_ym} 기준입니다. 최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
     <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 실행 기록의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
+    <p class="byline" style="margin-top:14px;font-size:.8rem;opacity:.7">작성 비즈니스 메이커 · 검토 김상표(대표) · 최종 확인 {esc(d['최종 확인일'])}</p>
     <h2>자주 묻는 질문</h2>
     {faq_html}
     <div class="related">

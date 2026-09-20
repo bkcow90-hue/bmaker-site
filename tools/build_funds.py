@@ -22,11 +22,33 @@ def sched_attrs(start, passed_text, passed_cls):
 
 
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
+BASE_RATE_ID = 'base-rate'   # 시트의 기준금리 예약 행 (사이트 공개 N)
+BASE_RATE = None             # 예: 3.85
+BASE_RATE_LABEL = ''         # 예: '2026년 3분기'
+
+
+def rate_text(d):
+    """금리 표시. 시트에 '가산금리' 가 있으면 기준금리와 더해 계산 근거까지 보여준다.
+
+    공식은 '기준금리(분기별 변동) + 가산금리' 라 고정 숫자만 적어 두면 분기마다 틀어진다.
+    가산금리 열이 없으면 기존 '금리 방식' 값을 그대로 쓴다 — 시트가 바뀌기 전에도 동작한다.
+    """
+    add = (d.get('가산금리') or '').strip()
+    if add and BASE_RATE is not None:
+        m = re.search(r'(-?\d+(?:\.\d+)?)', add)
+        if m:
+            total = BASE_RATE + float(m.group(1))
+            label = f", {BASE_RATE_LABEL} 기준" if BASE_RATE_LABEL else ""
+            return (f"연 {total:.2f}% (기준금리 {BASE_RATE:g}%+{m.group(1)}%P{label})")
+    return d.get('금리 방식', '')
 def die(m): print(f"[자금 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
     e,man=divmod(int(m),10000)
     return ((f"{e}억"+((" " if man else "")+f"{man:,}만" if man else ""))+"원") if e else f"{man:,}만원"
 def esc(s): return str(s).replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+def comma(s):
+    """시트에 '7000만원' 으로 들어온 값을 '7,000만원' 으로. 4자리 이상 숫자에만 적용한다."""
+    return re.sub(r'\d{4,}', lambda m: format(int(m.group()), ','), str(s))
 
 def load():
     rows=[]
@@ -52,6 +74,13 @@ def load():
     if not rows: die("자금 행이 없습니다.")
     ids=[d['자금ID'] for d in rows]
     if len(ids)!=len(set(ids)): die("자금ID 중복이 있습니다.")
+    global BASE_RATE, BASE_RATE_LABEL
+    for d in rows:
+        if d['자금ID'] == BASE_RATE_ID:
+            m = re.search(r'(\d+(?:\.\d+)?)', d.get('금리 방식', ''))
+            if not m: die("base-rate 행의 '금리 방식' 에 기준금리 숫자가 없습니다.")
+            BASE_RATE = float(m.group(1))
+            BASE_RATE_LABEL = d.get('한 줄 메모', '').strip()
     return [d for d in rows if d['사이트 공개'].upper()=='Y']
 
 def cases_for(kw):
@@ -145,6 +174,201 @@ OG_TITLE_OVERRIDES = {
 DESC_OVERRIDES = {
  'cheongnyeon': '청년 대표(업력 3년 미만)이거나 청년을 고용해 유지 중이면 대상입니다. 2026년 공고 기준 대상 3가지와 한도·금리, 보증 연계 대리대출 진행 순서, 신청 경로를 정리했습니다. 착수금 없이 무료 진단.',
 }
+# ── 즉답·FAQ (자금ID별) ─────────────────────────────────────────────────────
+# 화면 FAQ 와 FAQPage JSON-LD 는 아래 한 곳에서 같이 생성한다(규격 3절).
+# 답변에 조건 숫자를 직접 쓰지 않는다 — 시트가 바뀌면 문구가 어긋나므로 "위 표"로 가리킨다(규격 6절).
+# 시점 의존 표현("예정", "현재 접수 중")을 쓰지 않는다 — JSON-LD 는 방문 시점에 갱신되지 않는다.
+# 링크는 [문구](/경로) 로 적는다. 화면은 <a>, JSON-LD 는 문구만 들어간다.
+LEAD = {
+ 'cheongnyeon': '청년고용연계자금은 청년 창업자이거나 청년을 고용한 사업장이 대상인 소상공인시장진흥공단 자금입니다. '
+                '직접대출이 아니라 보증 연계 대리대출이라, 보증기관에서 보증서를 받은 뒤 은행에서 실행합니다.',
+ 'hyeoksin': '혁신성장촉진자금은 스마트기술·수출·혁신성장 요건에 해당하는 소상공인의 운전·시설 자금입니다. '
+             '공단이 직접 심사하고 직접 실행하는 직접대출이라 보증서 발급 단계가 없습니다.',
+ 'jaedojeon': '재도전특별자금은 폐업 후 재창업했거나 신용회복 절차를 이행 중인 사업자를 위한 직접대출입니다. '
+              '과거 이력 때문에 일반 대출이 막힌 경우를 위해 따로 만든 트랙입니다.',
+ 'sogongin': '소공인특화자금은 상시근로자 10인 미만 제조업(소공인) 전용 자금입니다. '
+             '보증 연계 대리대출이라 보증서를 받아 은행에서 실행합니다.',
+ 'sangsaeng': '상생성장지원자금은 소상공인시장진흥공단의 직접대출 트랙입니다. '
+              '대상 요건과 한도는 회차 공고가 기준이라 이 페이지에 단정해 적지 않습니다.',
+ 'ilsijeok': '일시적경영애로자금은 매출 급감 등 일시적인 경영 애로가 생긴 사업장을 위한 소상공인시장진흥공단 직접대출입니다. '
+             '한도와 금리는 회차 공고가 기준이라 이 페이지에 단정해 적지 않습니다.',
+}
+FAQ = {
+ 'cheongnyeon': [
+  ('청년고용연계자금과 청년전용 창업자금은 뭐가 다른가요?',
+   '청년고용연계자금은 대표 연령만 보는 자금이 아닙니다. 청년 대표로 신청하려면 공고상 업력 3년 미만이어야 하지만, '
+   '청년 근로자를 고용해 유지 중이면 업력과 관계없이 검토 대상입니다. 창업 단계 자금과는 심사 항목이 다릅니다.'),
+  ('대표가 청년이 아니어도 되나요?',
+   '공고상 대상이 세 갈래입니다 — 업력 3년 미만의 청년 소상공인(만 39세 이하), 상시근로자 과반수가 청년인 소상공인, '
+   '최근 1년 이내 청년 근로자를 1인 이상 고용해 유지 중인 소상공인입니다. 대표가 청년이 아니어도 뒤의 두 경우면 검토할 수 있습니다.'),
+  ('직접대출인가요, 대리대출인가요?',
+   '대리대출(보증 연계)입니다. 공단이 직접 빌려주는 구조가 아니라, 보증기관 보증서를 받아 은행이 실행합니다. '
+   '그래서 공단 신청과 은행 절차가 따로 있고, 은행 단계에서 서류를 한 번 더 봅니다.'),
+  ('신청은 어디서 하나요?',
+   '소상공인 정책자금 온라인신청(ols.sbiz.or.kr)에서 접수합니다. 회차별로 접수 시작 시각에 열리고 예산이 소진되면 닫힙니다. '
+   '위 표의 접수 항목과 공식 공고 링크에서 해당 회차를 확인하세요.'),
+  ('이번 회차를 놓치면 다음은 언제인가요?',
+   '회차제라 공고가 다시 나와야 합니다. 마감 여부와 다음 회차는 날짜 계산으로 단정할 수 없어 공식 공고를 직접 확인하시는 편이 정확합니다. '
+   '다른 자금의 접수 상태는 [접수 일정](/schedule)에서 함께 보실 수 있습니다.'),
+ ],
+ 'hyeoksin': [
+  ('혁신성장촉진자금은 어떤 사업장이 대상인가요?',
+   '공고상 스마트기술 도입, 수출, 혁신성장 요건 중 하나에 해당하는 소상공인입니다. '
+   '어떤 증빙으로 그 요건을 인정받는지가 실제 심사의 핵심이라, 해당 여부는 공고의 인정 기준으로 확인해야 합니다.'),
+  ('직접대출이면 은행에 안 가도 되나요?',
+   '공단 심사로 실행되는 직접대출이라 보증서 발급 단계가 없습니다. 다만 약정과 자금 집행, 사후 점검 절차는 그대로 있습니다.'),
+  ('위 표의 한도는 누구나 받을 수 있나요?',
+   '아닙니다. 표의 한도는 공고상 최대치이고, 실제 한도는 매출·업력·기존 대출·자금 용도로 정해집니다. '
+   '저희가 받은 사례의 금액 범위는 이 페이지의 받은 사례 표에 그대로 공개돼 있습니다.'),
+  ('소상공인 규모를 넘어가면 못 받나요?',
+   '성장해서 소상공인 기준을 벗어나는 단계라면 [혁신성장촉진자금(소상공인졸업후보)](/hyeoksin-jolup)이 별도 트랙으로 있습니다. '
+   '사회적기업·협동조합 등은 [사회연대경제조직 트랙](/hyeoksin-sahoe)입니다.'),
+  ('접수는 언제 하나요?',
+   '회차제입니다. 위 표의 접수 항목과 공식 공고에서 해당 회차를 확인하시고, 대상·한도·금리는 그 회차 공고가 기준입니다. '
+   '다른 자금의 접수 상태는 [접수 일정](/schedule)에 있습니다.'),
+ ],
+ 'jaedojeon': [
+  ('폐업 이력이 있어도 되나요?',
+   '이 자금은 폐업 이력이 있는 재창업자를 대상으로 하는 자금입니다. 저희가 받은 사례에도 폐업 후 재창업 건이 포함돼 있습니다. '
+   '다만 폐업 사유와 현재 사업 상태, 세금 상태를 함께 봅니다.'),
+  ('신용회복 중인데 신청할 수 있나요?',
+   '공고는 재도전특별자금을 유형별로 나누고, 그중 하나가 채무조정(신용회복) 성실상환자입니다. '
+   '신용회복 절차를 이행 중이어도 성실상환이 확인되면 검토 대상이라는 뜻입니다. '
+   '인정 기관과 상환 기간 기준은 회차 공고와 채무조정 참여기관 확인 사항이라, 서류로 확인한 뒤에 판단합니다.'),
+  ('금리가 왜 범위로 적혀 있나요?',
+   '조건에 따라 달라지는 공고상 범위이기 때문입니다. 위 표의 금리 방식이 공고 기준값이고, 실제 적용 금리는 실행 시점과 심사 결과로 정해집니다. '
+   '저희가 받은 사례의 실제 금리는 받은 사례 표에 실행 시점과 함께 적어 두었습니다.'),
+  ('재신청은 얼마 만에 되나요?',
+   '기간보다 조건이 바뀌었는지가 기준입니다. 흔한 거절 사유와 회복 경로는 [거절 사유와 재도전](/geojeol)에 정리해 두었습니다.'),
+  ('세금 체납이 있으면 안 되나요?',
+   '체납은 대부분 걸림돌이 되지만 정리 상태에 따라 달라집니다. 단정하지 않고 현재 상태부터 확인합니다.'),
+ ],
+ 'sogongin': [
+  ('소공인이 정확히 뭔가요?',
+   '공고 기준으로 상시근로자 10인 미만 제조업 사업장입니다. 업종 코드로 제조업에 해당하는지가 먼저이고, 인원 기준은 신청 시점으로 봅니다.'),
+  ('제조업이 아니면 안 되나요?',
+   '이 자금은 제조업 전용입니다. 제조업이 아니면 [일반경영안정자금](/ilban-gyeongyeong)이나 다른 트랙을 봅니다.'),
+  ('접수 표시만 보고 신청하면 되나요?',
+   '접수 표시는 확인 시점의 공식 안내이고 잔여 예산을 뜻하지 않습니다. 예산 소진 시 조기 마감될 수 있어 신청 전에 공고를 확인하셔야 합니다.'),
+  ('한도는 얼마인가요?',
+   '한도는 회차 공고가 기준입니다. 이 페이지에는 공고에 확정된 값만 적고, 확인되지 않은 최대치는 적지 않습니다.'),
+  ('보증서는 어디서 받나요?',
+   '사업장 소재지 [지역신용보증재단](/jaedan)이 일반적인 경로입니다. 보증 심사와 은행 실행이 각각 있습니다.'),
+ ],
+ 'sangsaeng': [
+  ('누가 대상인가요?',
+   '세부 요건은 공고 기준입니다. 저희가 확인한 범위를 넘어서는 대상 조건은 적지 않습니다. '
+   '공식 공고에서 확인하시거나, 조건을 주시면 해당 여부를 같이 봐 드립니다.'),
+  ('상시 접수면 아무 때나 되나요?',
+   '상시로 열려 있어도 예산이 소진되면 마감됩니다. 접수 표시는 확인 시점 기준입니다.'),
+  ('직접대출과 대리대출 중 뭔가요?',
+   '직접대출입니다. 보증서 발급 단계 없이 공단 심사로 진행합니다.'),
+  ('다른 자금과 같이 받을 수 있나요?',
+   '자금별 중복 제한이 달라 단정할 수 없습니다. 기존 정책자금 보유 상태를 먼저 정리하고 조합을 봅니다.'),
+ ],
+ 'ilsijeok': [
+  ('일시적 경영애로는 어떻게 증명하나요?',
+   '매출 감소를 숫자로 보여주는 자료가 핵심입니다. 부가세 신고자료와 매출 증빙으로 비교 기간을 잡아 정리합니다. '
+   '사정 설명만으로는 심사가 어렵습니다.'),
+  ('접수 상태는 어디서 보나요?',
+   '위 표의 접수 항목과 공식 공고 링크에서 확인합니다. 마감 현황은 날짜 계산으로 단정할 수 없습니다. '
+   '다른 자금의 접수 상태는 [접수 일정](/schedule)에 있습니다.'),
+  ('홈플러스 피해 사업장은 별도인가요?',
+   '네. [일시적경영애로자금(홈플러스 피해 소상공인)](/ilsijeok-homeplus) 트랙이 따로 있습니다.'),
+  ('이미 정책자금을 받고 있어도 되나요?',
+   '기존 보유 건이 있어도 진행된 사례가 있습니다. 다만 잔액과 상환 이력, 자금 용도가 함께 검토됩니다.'),
+  ('금리와 한도는 왜 안 적혀 있나요?',
+   '회차 공고에서 확정되는 값이고, 저희가 확인하지 못한 숫자는 적지 않습니다. '
+   '공식 공고에서 확인하시거나 상담 시 함께 봐 드립니다.'),
+ ],
+ 'hyeoksin-jolup': [
+  ('소상공인 졸업후보기업이 뭔가요?',
+   '소상공인 규모를 막 넘어서거나 넘어서기 직전인 성장 단계 사업자를 말합니다. 공고에서는 혁신성장촉진자금 혁신형 신청요건 중 하나로 들어가 있습니다. '
+   '소상공인 지원의 문턱은 넘었는데 중소기업 정책자금 규모에는 아직 못 미치는 구간을 위한 트랙입니다.'),
+  ('내가 졸업후보에 해당하는지 어떻게 확인하나요?',
+   '상시근로자 수와 매출을 업종별 소상공인 기준과 대조하는 것이 먼저입니다. 공고상 소상공인은 상시근로자 5인 미만이고, '
+   '제조업·건설업·운수업·광업은 10인 미만입니다. 경계에 있는 경우가 많아 소상공인확인서 발급 이력까지 같이 봅니다.'),
+  ('졸업후보면 소상공인 정책자금은 이제 못 받나요?',
+   '이 자금 자체가 소상공인 정책자금의 한 갈래입니다. 규모를 완전히 벗어나면 [중소기업 정책자금](/jungjingong) 쪽으로 넘어가고, '
+   '아직 소상공인 구간이면 [소상공인 정책자금](/sojingong)이 맞습니다.'),
+  ('한도와 금리는 일반 혁신성장촉진자금과 다른가요?',
+   '공고는 혁신성장촉진자금을 일반형과 혁신형으로 나누고 한도를 다르게 둡니다. 졸업후보기업은 혁신형 요건에 속합니다. '
+   '정확한 값은 위 표와 공식 공고에서 확인하세요.'),
+  ('사회연대경제조직 트랙과는 뭐가 다른가요?',
+   '졸업후보는 규모 기준이고, [사회연대경제조직](/hyeoksin-sahoe)은 조직 성격 기준입니다. '
+   '공고에서도 전자는 혁신형, 후자는 일반형 요건에 들어가 갈립니다.'),
+ ],
+ 'hyeoksin-sahoe': [
+  ('사회연대경제조직은 어디까지인가요?',
+   '공고는 혁신성장촉진자금 일반형 신청요건 중 하나로 사회연대경제조직을 두고 있습니다. 사회적기업·협동조합 등이 여기에 해당합니다. '
+   '인정 범위와 증빙은 회차 공고가 기준이라, 우리 인증서가 그 범위에 들어가는지부터 확인합니다.'),
+  ('협동조합도 되나요?',
+   '조직 형태만으로 자동으로 되는 것은 아니고, 공고가 요구하는 확인 서류를 갖췄는지가 기준입니다. '
+   '설립 근거 법령과 인증·확인서 종류를 먼저 맞춰 봅니다.'),
+  ('일반 혁신성장촉진자금과 뭐가 다른가요?',
+   '자금 자체는 같은 혁신성장촉진자금이고, 어느 요건으로 들어가는지가 다릅니다. 조직 성격으로 들어가는 경로라 기술·수출 실적을 따로 만들지 않아도 됩니다. '
+   '규모로 들어가는 경로는 [소상공인졸업후보](/hyeoksin-jolup)입니다.'),
+  ('어떤 증빙이 필요한가요?',
+   '조직 성격을 증명하는 인증서·확인서가 핵심이고, 나머지는 일반 정책자금과 같습니다. '
+   '사업 현황과 자금 용도를 숫자로 맞추는 작업은 [사업계획서 쓰는 법](/gyehoekseo)에 정리해 두었습니다.'),
+ ],
+ 'matching': [
+  ('민간투자연계형 매칭융자가 뭔가요?',
+   '민간에서 먼저 투자를 받은 소상공인에게 공단이 융자를 얹어 주는 구조입니다. '
+   '공고 기준 신청요건은 주관기관으로부터 투자금을 지원받고 소상공인 선투자 추천서를 발급받은 소상공인입니다. '
+   '투자 유치가 전제라는 점이 다른 자금과 가장 크게 다릅니다.'),
+  ('선투자 추천서는 어떻게 받나요?',
+   '매칭융자 주관기관에서 투자를 받은 뒤 그 기관이 발급합니다. 공단에 먼저 신청해서 받는 서류가 아니라, 투자 절차가 끝나야 나오는 서류입니다. '
+   '발급 절차와 대상 주관기관은 공식 공고에서 확인하세요.'),
+  ('투자를 안 받았으면 신청할 수 없나요?',
+   '추천서가 요건이라 투자 없이는 이 트랙이 열리지 않습니다. '
+   '그 경우 [소상공인 정책자금 직접대출](/sojingong)이나 [보증서 대출](/bojeung) 쪽을 봅니다.'),
+  ('한도와 기간은 어떻게 되나요?',
+   '위 표의 값이 공고 기준입니다. 투자 금액에 따라 실제 승인 규모가 달라지므로 표의 한도가 곧 받는 금액은 아닙니다.'),
+ ],
+}
+LINK = re.compile(r'\[([^\]]+)\]\((/[^)]*)\)')
+BYLINE = '작성 비즈니스 메이커 · 검토 김상표(대표) · 최종 확인 {}'
+
+
+def faq_html_and_ld(fid):
+    """화면 FAQ 와 FAQPage JSON-LD 를 같은 목록에서 생성한다 — 문구가 갈라질 수 없다."""
+    qa = FAQ.get(fid)
+    if not qa:
+        return '', ''
+    rows = ''.join(
+        '<details><summary>{}</summary><p class="body">{}</p></details>\n'.format(
+            esc(q), LINK.sub(lambda m: '<a href="%s">%s</a>' % (m.group(2), esc(m.group(1))), esc(a)))
+        for q, a in qa)
+    ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q,
+         "acceptedAnswer": {"@type": "Answer", "text": LINK.sub(r'\1', a)}} for q, a in qa]},
+        ensure_ascii=False)
+    return ('<h2>자주 묻는 질문</h2>\n' + rows,
+            '<script type="application/ld+json">%s</script>' % ld)
+
+
+def lead_html(d):
+    """즉답 — 편집 문장 + 공고에서 확인된 값만 붙인 사실 문장(규격 6절). 시점 의존 표현을 쓰지 않는다."""
+    base = LEAD.get(d['자금ID'])
+    if not base:
+        return ''
+    bits = []
+    if d['한도']:
+        bits.append('한도 %s' % comma(esc(d['한도'])))
+    rtxt = rate_text(d)
+    if rtxt:
+        bits.append('금리 %s' % esc(rtxt))
+    fact = ''
+    if bits:
+        fact = ' 공고 기준 ' + ' · '.join(bits) + '입니다.'
+    if d['접수 시작일']:
+        fact += ' 공고상 접수 시작일은 %s입니다.' % esc(d['접수 시작일'])
+    if fact:
+        fact += ' (공고 확인일 %s)' % esc(d['최종 확인일'])
+    return '<p class="lead">%s%s</p>\n' % (base, fact)
+
+
 EXTRA_SECTIONS = {
  'hyeoksin-jolup': """<h2>소상공인 졸업후보기업이란 — 조건과 확인법</h2>
 <p><b>졸업후보기업</b>은 소상공인 기준(업종별 상시근로자 수·매출 규모)을 막 넘어서거나 넘어서기 직전인 <b>성장 단계 사업자</b>를 뜻합니다. 소상공인 지원의 문턱은 넘었는데 중소기업 정책자금의 규모에는 아직 못 미치는 구간이라, 이 구간을 위해 설계된 자금이 혁신성장촉진자금(소상공인졸업후보)입니다.</p>
@@ -157,7 +381,7 @@ def build():
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     hdr=re.search(r'<header>.*?</header>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}p.lead{font-size:1.02rem;line-height:1.75;color:var(--ink);margin:0 0 18px;padding-left:14px;border-left:3px solid var(--kakao,#FEE500)}p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}</style>'
     inst_page={'소상공인시장진흥공단':'/sojingong'}
     for d in F:
         C=cases_for(d['원장 키워드'])
@@ -200,14 +424,19 @@ def build():
                 meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{(esc(d["한 줄 메모"])+". ") if d["한 줄 메모"] else ""}{kind_desc} 진행 순서는 {steps} — 세부 요건은 위 공식 공고가 기준이며, 실행 기록 전체는 <a href="/cases">여기</a>에 있습니다.</p>'
         facts=[]
         if d['대상 요약']: facts.append(('대상', esc(d['대상 요약'])))
-        if d['한도']: facts.append(('한도', esc(d['한도'])))
-        if d['금리 방식']: facts.append(('금리 방식', esc(d['금리 방식'])))
+        if d['한도']: facts.append(('한도', comma(esc(d['한도']))))
+        rtxt = rate_text(d)
+        if rtxt: facts.append(('금리 방식', esc(rtxt)))
         facts.append(('접수', f'<span{badge_attrs}>{esc(badge_txt)}</span>' if badge_attrs else esc(badge_txt)))
         facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))} 확인 →</a>'))
         facts_html="".join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in facts)
         svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":f"{d['자금명']} 진단·실행 지원","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":f"https://bmaker.kr/{d['자금ID']}"}, ensure_ascii=False)
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"접수 일정","item":"https://bmaker.kr/schedule"},{"@type":"ListItem","position":3,"name":d['자금명'],"item":f"https://bmaker.kr/{d['자금ID']}"}]}, ensure_ascii=False)
         inst_link=inst_page.get(d['기관'],'/sojingong')
+        lead=lead_html(d)
+        faq_html, faq_ld = faq_html_and_ld(d['자금ID'])
+        ck=d['최종 확인일']
+        asof_ym=f"{ck[:4]}년 {int(ck[5:7])}월" if len(ck)>=7 else '미확인'
         page=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -228,6 +457,7 @@ def build():
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap">
 <script type="application/ld+json">{svc}</script>
 <script type="application/ld+json">{crumb}</script>
+{faq_ld}
 {style}
 {TBL}
 </head>
@@ -242,13 +472,16 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p class="badge b-{badge_cls}"{badge_attrs}>{esc(badge_txt)}</p>
+    {lead}<p class="badge b-{badge_cls}"{badge_attrs}>{esc(badge_txt)}</p>
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
-    <p class="asof">기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
+    <p class="asof">상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요.</p>
+    <p class="asof">본 안내는 {asof_ym} 기준입니다. 기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
     {EXTRA_SECTIONS.get(d["자금ID"],"")}
+    {faq_html}
     <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
+    <p class="byline">{BYLINE.format(esc(d["최종 확인일"]))}</p>
     <div class="related">
       <p class="t">함께 보기</p>
       <a href="{inst_link}">{esc(d['기관'])} 안내</a>
