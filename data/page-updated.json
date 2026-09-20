@@ -43,6 +43,10 @@
   "date": "2026-09-15",
   "hash": "497a1eb4802e9047db455ad811c594bb3b168a874a6e5fd57d977ff90f9ebc09"
  },
+ "faq.html": {
+  "date": "2026-09-18",
+  "hash": "5ef6bd8ad91cea17d1cc1a303a7c9ef36623c423a0cd464634af333cc836275c"
+ },
  "funding.html": {
   "date": "2026-09-15",
   "hash": "e1899b2930557c08cfa3800bc2053e67efe6819e4a3037377a63ef6b322b2227"
@@ -92,8 +96,12 @@
   "hash": "a15c54f0ab4591980df43d8bc1648e3d47729cdc87eab17efaf6d94461ce1f6c"
  },
  "index.html": {
-  "date": "2026-09-15",
-  "hash": "546cb10113530e77a8dc9a45d2bd25e9085c7850b3997a97cc79667da6a9e068"
+  "date": "2026-09-19",
+  "hash": "92173e52ccc7ca12a0e4e618b774c62e322d789da570453d88a53c2055223d4c"
+ },
+ "industry/eumsikjeom.html": {
+  "date": "2026-09-18",
+  "hash": "a8d23df05617ef40a4188941fb3ffcbec8ed480deadd4b20e9c0131f3017a657"
  },
  "jaedan-busan.html": {
   "date": "2026-09-15",
