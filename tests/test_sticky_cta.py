@@ -152,3 +152,34 @@ def test_home_case_cards_link_to_matching_ledger_records(browser_page, site):
         expect(card).to_contain_text(row["업종"])
         expect(card).to_contain_text(row["지역(시도)"])
         expect(card).to_contain_text(row["실행 연월"].replace("-", "."))
+
+
+@pytest.mark.parametrize("width", [320, 390, 1440])
+def test_growth_pages_readable_without_horizontal_overflow(browser_page, site, width):
+    page = browser_page
+    page.set_viewport_size({"width": width, "height": 900})
+    for slug in ['education', 'education-program', 'corporate-loan-documents',
+                 'working-capital-facility', 'cheongnyeon', 'jaedan', 'sanghwan', 'gaein', 'sojingong']:
+        page.goto(site + '/' + slug + '.html', wait_until='networkidle')
+        expect(page.locator('h1')).to_have_count(1)
+        assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), (slug, width)
+        for link in page.locator('.editorial-grid a').all():
+            assert link.bounding_box()['width'] > 100
+
+
+def test_education_course_intent_and_print_action(browser_page, site):
+    page = browser_page
+    page.goto(site + '/education.html', wait_until='networkidle')
+    expect(page.locator('#course-corporate')).to_contain_text('90분')
+    page.locator('[data-cta-location="education_corporate"]').click()
+    expect(page.locator('#lf-service')).to_have_value('education')
+    page.emulate_media(reduced_motion='no-preference')
+    page.goto(site + '/education-program.html', wait_until='networkidle')
+    page.evaluate('() => { window.__printed=0; window.print=()=>window.__printed++; }')
+    page.locator('#print-program').click()
+    assert page.evaluate('window.__printed') == 1
+    page.emulate_media(media='print')
+    expect(page.locator('header')).to_be_hidden()
+    expect(page.locator('#corporate-plan')).to_be_visible()
+    expect(page.locator('#staff-checklist')).to_be_visible()
+    assert page.locator('tbody tr').evaluate_all("els=>els.every(e=>getComputedStyle(e).opacity==='1')")

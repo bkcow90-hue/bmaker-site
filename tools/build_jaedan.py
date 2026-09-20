@@ -4,6 +4,7 @@
 실행: python tools/build_jaedan.py
 """
 import csv, json, re, sys, datetime
+from html import escape
 from pathlib import Path
 from builddate import build_date
 ROOT = Path(__file__).resolve().parent.parent
@@ -48,19 +49,29 @@ def all_jd():
     out=[]
     with open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='') as f:
         for r in csv.DictReader(f):
-            if r['사이트 공개'].upper()=='Y' and '재단' in r['기관']:
+            keys = [('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
+            hits = [(r['기관'].find(a), b) for a, b in keys if a in r['기관']]
+            if r['사이트 공개'].upper()=='Y' and hits and min(hits)[1] == '재단':
                 out.append(r)
     out.sort(key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)
     return out
 
 def cases_for(region):
-    out=[]
-    with open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='') as f:
-        for r in csv.DictReader(f):
-            if r['사이트 공개'].upper()=='Y' and '재단' in r['기관'] and r['지역(시도)']==region:
-                out.append(r)
-    out.sort(key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)
-    return out
+    return [r for r in all_jd() if r['지역(시도)'] == region]
+
+
+def render_hub_cases(rows):
+    regions = len({r['지역(시도)'] for r in rows})
+    total = sum(int(r['실행 금액(만원)']) for r in rows)
+    heading = f'<h2>재단 경로의 받은 사례 — {regions}개 지역</h2><p>공개 원장 기준 {len(rows)}건 · {won2(total)}. 기업 수가 아닌 사례 건수입니다.'
+    if rows:
+        dates = sorted(r['실행 연월'] for r in rows)
+        amounts = [int(r['실행 금액(만원)']) for r in rows]
+        heading += f' 집계 기간 {dates[0]}~{dates[-1]}, 받은 금액 {won2(min(amounts))}~{won2(max(amounts))}, 금리 {rate_range([r["금리"] for r in rows])} (각 실행 시점 기준).'
+    heading += ' 과거 사례는 현재 신청 한도·금리·승인 가능성을 뜻하지 않습니다. 복합 기관 사례는 원장에 먼저 기재된 기관으로 분류합니다.</p>'
+    selected = sorted(rows, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:10]
+    table = ''.join(f'<tr><td>{escape(r["실행 연월"])} · {escape(r["지역(시도)"])}</td><td>{escape(r["자금명"])}</td><td>{won2(r["실행 금액(만원)"])} · {escape(r["금리"])}</td><td><a href="/cases#case-{escape(r["사례ID"], quote=True)}">사례 {escape(r["사례ID"])}</a></td></tr>' for r in selected)
+    return heading + '<p>최근 사례 최대 10건을 표시합니다. 기관·상품·금액의 근거는 각 사례 링크에서 확인하세요.</p><div class="tablewrap"><table><thead><tr><th>시점·지역</th><th>상품</th><th>받은 금액·당시 금리</th><th>근거</th></tr></thead><tbody>' + table + '</tbody></table></div>'
 
 def build():
     J=load()
@@ -80,14 +91,14 @@ def build():
             A=all_jd(); aa=[int(r['실행 금액(만원)']) for r in A]
             ar=rate_range([r['금리'] for r in A])
             arow="".join(f'<tr><td>{r["지역(시도)"]}</td><td>{esc(r["자금명"])[:24]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in A[:3])
-            meas=(f'<h2>재단 보증부 대출 — 전국 실행 기록</h2>\n<p>재단 경로는 저희가 가장 많이 실행한 트랙입니다 — 전국 {len(A)}건 · {won2(sum(aa))}'
+            meas=(f'<h2>해당 지역 공개 사례 없음 — 전국 재단 사례 참고</h2>\n<p>현재 공개 원장에 {esc(d["지역(시도)"])} 사례는 없습니다. 아래는 다른 지역의 참고 사례이며 해당 지역 실적이 아닙니다. 전국 재단 경로 {len(A)}건 · {won2(sum(aa))}'
                   +(f' · 금리 {ar}' if ar else '')
-                  +f' (각 실행 시점 기준). 보증 심사 기준과 진행 구조는 지역이 달라도 같습니다.</p>\n'
+                  +f' (각 실행 시점 기준). 보증 후 은행 대출이라는 기본 구조와 별개로 지역·상품별 대상과 세부 요건은 다릅니다.</p>\n'
                   +'<div class="tablewrap"><table><thead><tr><th>지역</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+arow+'</tbody></table></div>\n'
                   +'<p><a href="/cases">공개 실행 기록 전체 보기 →</a></p>')
-        faq=[(f"{d['지역(시도)']} 소상공인 대출, 은행과 재단 중 어디부터 알아봐야 하나요?", f"신용·담보 조건이 충분하면 시중은행 사업자 대출이 가장 빠릅니다. 그 문턱에 걸리는 경우의 표준 경로가 {d['재단명']} 보증부 대출입니다 — 재단 보증서로 은행이 실행하고, {d['지역(시도)']} 지자체 이차보전이 붙으면 체감 금리가 내려갑니다. 소상공인 정책자금(소진공 직접대출)과 어느 쪽이 유리한지는 조건에 따라 갈리며, 무료 진단에서 함께 봐드립니다."),
-         (f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"네, 재단은 사업장 소재지 기준입니다. 사업장이 {d['지역(시도)']}에 있으면 {d['재단명']}이 창구이고, 지자체 이차보전(이자 지원) 상품도 해당 지자체 소재 사업자만 대상입니다."),
-             ("신용점수가 낮아도 가능한가요?", "재단 보증은 신용점수만으로 결정되지 않습니다. 저희 실행 기록에는 신용 600점대에서 재단 보증부 대출이 실행된 기록이 있습니다. 다만 현재 금융 연체 중이거나 세금 체납이 정리되지 않았다면 그 회복이 먼저입니다 — 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
+        faq=[(f"{d['지역(시도)']} 소상공인 대출, 은행과 재단 중 어디부터 알아봐야 하나요?", f"은행 자체 대출과 {d['재단명']} 보증부 대출은 확인하는 절차가 다릅니다. 보증 상품의 신청 창구와 취급 은행을 먼저 확인하고, 기존 보증 이용액·필요 금액·자금 용도를 정리하세요. 이차보전은 해당 사업의 대상·예산·지원 기간을 따로 확인해야 합니다."),
+         (f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"사업장이 {d['지역(시도)']}에 있다면 {d['재단명']}의 안내를 우선 확인하세요. 소재지만으로 대상이 확정되지는 않습니다. 기업 규모, 업종, 기존 보증, 상품별 제외 조건과 접수 상태도 확인해야 합니다."),
+             ("신용점수가 낮아도 가능한가요?", "신용점수만으로 가능 여부를 단정할 수 없습니다. 현재 사업 현황, 기존 보증·대출, 신청 상품의 제외 조건을 함께 확인해야 합니다. 최종 보증·대출 여부는 재단과 은행이 결정합니다."),
              ("어떻게 진행되나요?", "재단 보증 심사 → 보증서 발급 → 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다."),
              ("무엇을 준비해야 하나요?", "사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해, 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.")]
         faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
@@ -130,17 +141,17 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p><b>짧은 답:</b> {esc(d['지역(시도)'])} 소상공인 대출·사업자 대출을 알아보는 사장님들이 실제로 가장 많이 쓰는 공적 경로가 이 재단입니다. {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
+    <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업 등이 보증 상담을 확인할 기관입니다. 보증기관 심사와 은행 대출 심사는 구분되며 보증만으로 대출 실행이 확정되는 것은 아닙니다. 사업장 소재지뿐 아니라 업종·기업 규모·기존 보증·상품별 제외 조건을 확인하세요. 지자체 이차보전(이자 지원)은 해당 사업의 대상·예산·지원 기간에 따라 적용 여부가 달라집니다.</p>
     <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
     <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
-    <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 실행 기록의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
+    <div class="proof"><p><b>과거 사례는 현재 심사 결과와 다릅니다.</b> 기존 보증과 현재 사업 현황, 해당 상품의 요건을 확인해야 합니다. <a href="/geojeol">신청 전 확인할 사유와 준비 순서</a>를 참고하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
     {faq_html}
     <div class="related">
       <p class="t">함께 보기</p>
-      <a href="/jaedan">신용보증재단 안내 (9개 지역 실측)</a>
+      <a href="/jaedan">신용보증재단 안내와 지역별 받은 사례</a>
       <a href="/schedule">정책자금 접수 일정</a>
       <a href="/cases">실행 기록</a>
       <a href="/sanghwan">상환 구조 가이드</a>
@@ -164,6 +175,25 @@ def build():
         (ROOT/f"{d['재단ID']}.html").write_text(page, encoding='utf-8')
     # /jaedan 허브 지역 그리드 (마커 사이 주입)
     hub=(ROOT/'jaedan.html').read_text(encoding='utf-8')
+    # Retire the hand-maintained legacy table once; subsequent builds replace only this block.
+    evidence = '<!-- jaedan-evidence:start -->' + render_hub_cases(all_jd()) + '<!-- jaedan-evidence:end -->'
+    if '<!-- jaedan-evidence:start -->' in hub:
+        hub = re.sub(r'<!-- jaedan-evidence:start -->.*?<!-- jaedan-evidence:end -->', lambda _: evidence, hub, flags=re.S)
+    else:
+        hub = re.sub(r'<h2>기록된 재단 실측.*?(?=\s*<!--REGIONS-->)', lambda _: evidence, hub, count=1, flags=re.S)
+    hub = re.sub(r'<div class="proof"><p><b>저신용·재창업이어도.*?</div>', '<div class="proof"><p><b>과거 사례와 현재 심사는 구분합니다.</b> 개인별 가능 여부는 현재 사업 현황, 기존 보증, 신청 상품의 요건에 따라 달라집니다. <a href="/geojeol">신청 전 확인할 사유와 준비 순서</a>를 함께 살펴보세요.</p></div>', hub, count=1, flags=re.S)
+    answers = {
+        '신용점수가 낮아도 되나요?': '신용점수 하나만으로 지원 여부를 판단할 수 없습니다. 현재 사업 현황, 기존 보증·대출, 신청 상품의 제외 조건을 확인해야 하며 최종 보증·대출 여부는 재단과 은행이 결정합니다.',
+        '한도는 얼마까지 되나요?': '한도는 신청 상품과 기업 심사에 따라 정해집니다. 위 표의 받은 금액은 과거 사례이며 현재 신청 한도가 아닙니다. 기존 보증 이용액·자금 용도·기업 현황을 준비해 재단과 취급 은행의 현행 기준을 확인하세요.'}
+    for question, answer in answers.items():
+        hub = re.sub(r'(<summary>'+re.escape(question)+r'</summary><div class="body">).*?(</div>)', lambda m:m[1]+answer+m[2], hub, flags=re.S)
+    def sync_faq(match):
+        data=json.loads(match[1])
+        if data.get('@type') == 'FAQPage':
+            for q in data['mainEntity']:
+                if q['name'] in answers:q['acceptedAnswer']['text']=answers[q['name']]
+        return '<script type="application/ld+json">'+json.dumps(data,ensure_ascii=False)+'</script>'
+    hub = re.sub(r'<script type="application/ld\+json">(.*?)</script>',sync_faq,hub,flags=re.S)
     if '<!--REGIONS-->' in hub:
         cells=[]
         for d in J:

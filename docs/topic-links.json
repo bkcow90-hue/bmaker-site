@@ -1,0 +1,264 @@
+{
+  "cheongnyeon": [
+    [
+      "sojingong",
+      "소진공 직접대출·대리대출 구분"
+    ],
+    [
+      "bojeung",
+      "보증서가 필요한 대출의 준비 순서"
+    ],
+    [
+      "education-program",
+      "신청자료 정리 활동지"
+    ]
+  ],
+  "jaedojeon": [
+    [
+      "geojeol",
+      "신청이 어려웠던 사유 점검"
+    ],
+    [
+      "gyehoekseo",
+      "사업계획서 준비"
+    ],
+    [
+      "education",
+      "재창업자도 참여하는 준비교육"
+    ]
+  ],
+  "hyeoksin": [
+    [
+      "hyeoksin-jolup",
+      "소상공인 졸업후보기업 안내"
+    ],
+    [
+      "working-capital-facility",
+      "운전자금·시설자금 비교"
+    ],
+    [
+      "corporate-loan-documents",
+      "기업 대출 준비서류"
+    ]
+  ],
+  "sogongin": [
+    [
+      "working-capital-facility",
+      "원자재와 설비 자금 구분"
+    ],
+    [
+      "jungjingong",
+      "중소기업 정책자금 준비"
+    ],
+    [
+      "corporate-loan-documents",
+      "제조기업 담당자 준비서류"
+    ]
+  ],
+  "daehwan": [
+    [
+      "sanghwan",
+      "상환 구조와 총비용 확인"
+    ],
+    [
+      "gaein",
+      "개인사업자 자금 준비"
+    ],
+    [
+      "education-program",
+      "자금계획 활동지"
+    ]
+  ],
+  "bojeung": [
+    [
+      "sinbo",
+      "신용보증기금 준비 안내"
+    ],
+    [
+      "gibo",
+      "기술보증기금 준비 안내"
+    ],
+    [
+      "jaedan",
+      "지역 신용보증재단 안내"
+    ],
+    [
+      "corporate-loan-documents",
+      "보증 상담 전 준비서류"
+    ]
+  ],
+  "sinbo": [
+    [
+      "bojeung",
+      "보증기관과 은행의 역할"
+    ],
+    [
+      "gibo",
+      "기술사업 보증 준비"
+    ],
+    [
+      "corporate-loan-documents",
+      "법인사업자 서류 체크리스트"
+    ],
+    [
+      "working-capital-facility",
+      "자금 용도와 필요 시점 정리"
+    ]
+  ],
+  "gibo": [
+    [
+      "sinbo",
+      "신용보증기금과 비교할 항목"
+    ],
+    [
+      "corporate-loan-documents",
+      "기술기업 준비서류"
+    ],
+    [
+      "working-capital-facility",
+      "운영·설비 자금계획"
+    ]
+  ],
+  "jungjingong": [
+    [
+      "corporate-loan-documents",
+      "법인사업자 준비서류"
+    ],
+    [
+      "working-capital-facility",
+      "운전자금·시설자금 준비"
+    ],
+    [
+      "education-program",
+      "재무·회계 담당자용 활동지"
+    ],
+    [
+      "education",
+      "기업·단체 정책자금 출강"
+    ]
+  ],
+  "jaedan": [
+    [
+      "bojeung",
+      "보증서 대출 진행 순서"
+    ],
+    [
+      "gaein",
+      "개인사업자 대출 경로"
+    ],
+    [
+      "daehwan",
+      "기존 대출 대환 준비"
+    ],
+    [
+      "education-program",
+      "상담 전 사업 정보 정리"
+    ]
+  ],
+  "gaein": [
+    [
+      "cheongnyeon",
+      "청년고용연계자금 확인 사항"
+    ],
+    [
+      "jaedojeon",
+      "재도전특별자금 준비"
+    ],
+    [
+      "daehwan",
+      "대환대출 조건 확인"
+    ],
+    [
+      "education-program",
+      "사업 정보 정리 활동지"
+    ]
+  ],
+  "education": [
+    [
+      "corporate-loan-documents",
+      "법인 대출 서류 체크리스트"
+    ],
+    [
+      "working-capital-facility",
+      "운전자금·시설자금 학습 가이드"
+    ]
+  ],
+  "corporate-loan-documents": [
+    [
+      "jungjingong",
+      "중진공 정책자금 진행 순서"
+    ],
+    [
+      "sinbo",
+      "신보 보증 상담 준비"
+    ],
+    [
+      "gibo",
+      "기보 기술사업 준비"
+    ],
+    [
+      "education-program",
+      "준비서류 담당자 배정 활동지"
+    ]
+  ],
+  "working-capital-facility": [
+    [
+      "corporate-loan-documents",
+      "증빙과 담당자 체크리스트"
+    ],
+    [
+      "sogongin",
+      "소공인 제조업 자금 준비"
+    ],
+    [
+      "jungjingong",
+      "중소기업 정책자금"
+    ],
+    [
+      "education-program",
+      "기업 자금계획 활동지"
+    ]
+  ],
+  "funding": [
+    [
+      "corporate-loan-documents",
+      "법인사업자 대출 준비서류"
+    ],
+    [
+      "working-capital-facility",
+      "운전자금·시설자금 차이"
+    ],
+    [
+      "education",
+      "기업·단체 준비교육·출강"
+    ]
+  ],
+  "gyehoekseo": [
+    [
+      "corporate-loan-documents",
+      "계획서와 증빙자료 연결"
+    ],
+    [
+      "working-capital-facility",
+      "자금 용도와 집행 일정"
+    ],
+    [
+      "education-program",
+      "계획서 작성 전 활동지"
+    ]
+  ],
+  "hyeoksin-jolup": [
+    [
+      "hyeoksin",
+      "혁신성장촉진자금 유형 확인"
+    ],
+    [
+      "jungjingong",
+      "중소기업 정책자금 안내"
+    ],
+    [
+      "corporate-loan-documents",
+      "기업 증빙자료 준비"
+    ]
+  ]
+}
