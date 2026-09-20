@@ -133,6 +133,17 @@ def schedule_status(d):
 
 TITLE_OVERRIDES = {
  'hyeoksin-jolup': '혁신성장촉진자금(소상공인졸업후보) 2026 — 졸업후보기업 조건·확인법·신청 방법',
+ # 2026-09-20 v2(대표 승인). 구글 460노출 5클릭, 네이버 116노출 0클릭 — 양쪽 다 클릭이 안 났다.
+ # 검색자의 질문(내가 대상인가)을 앞으로 빼고, 금지어 '실행 기록' 을 뺐다.
+ 'cheongnyeon': '청년고용연계자금 2026 — 누가 대상인가, 한도·금리·접수 일정 | 비즈니스 메이커',
+}
+# og:title 은 title 과 같아야 한다(규격 2절) — 구글이 og:title 을 검색결과 제목으로 쓴다.
+# 나머지 페이지 일괄 정리는 9/27 이후 B묶음. 여기서는 승인된 이 한 장만 맞춘다.
+OG_TITLE_OVERRIDES = {
+ 'cheongnyeon': '청년고용연계자금 2026 — 누가 대상인가, 한도·금리·접수 일정 | 비즈니스 메이커',
+}
+DESC_OVERRIDES = {
+ 'cheongnyeon': '청년 대표(업력 3년 미만)이거나 청년을 고용해 유지 중이면 대상입니다. 2026년 공고 기준 대상 3가지와 한도·금리, 보증 연계 대리대출 진행 순서, 신청 경로를 정리했습니다. 착수금 없이 무료 진단.',
 }
 EXTRA_SECTIONS = {
  'hyeoksin-jolup': """<h2>소상공인 졸업후보기업이란 — 조건과 확인법</h2>
@@ -160,6 +171,11 @@ def build():
         kind_short = "소진공 직접대출" if "직접" in d["카테고리"] else ("보증 연계 대리대출" if "대리" in d["카테고리"] else d["카테고리"])
         title_txt = (f"{d['자금명']} 2026 — 조건·한도·신청 방법, 실행 기록 {len(C)}건" if C else f"{d['자금명']} 2026 — 대상·조건·신청 방법 | {kind_short}")
         title_txt = TITLE_OVERRIDES.get(d['자금ID'], title_txt)
+        default_desc = (f"{d['자금명']} — {d['기관']} {kind_short}. "
+                        f"{d['한 줄 메모'] if d['한 줄 메모'] else '대상·한도·금리·신청 기간과 공식 공고 기준 요건'}. "
+                        f"{meas_sum}. 착수금 없이 무료 진단, 실행 시에만 성공보수.")
+        desc_txt = DESC_OVERRIDES.get(d['자금ID'], default_desc)
+        og_title_txt = OG_TITLE_OVERRIDES.get(d['자금ID'], f"{d['자금명']} — 조건·실측·접수 일정 (2026)")
         Cshow=sorted(C, key=lambda r:(r["실행 연월"], r["사례ID"]), reverse=True)[:10]
         rows_html="".join(
           f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in Cshow)
@@ -198,9 +214,9 @@ def build():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{esc(title_txt)}</title>
-<meta name="description" content="{esc(d['자금명'])} — {esc(d['기관'])} {esc(kind_short)}. {esc(d['한 줄 메모']) if d['한 줄 메모'] else '대상·한도·금리·신청 기간과 공식 공고 기준 요건'}. {esc(meas_sum)}. 착수금 없이 무료 진단, 실행 시에만 성공보수.">
+<meta name="description" content="{esc(desc_txt)}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{esc(d['자금명'])} — 조건·실측·접수 일정 (2026)">
+<meta property="og:title" content="{esc(og_title_txt)}">
 <meta property="og:description" content="{esc(meas_sum)} · {esc(badge_txt)}">
 <meta property="og:url" content="https://bmaker.kr/{d['자금ID']}">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
