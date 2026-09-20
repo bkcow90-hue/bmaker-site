@@ -45,11 +45,13 @@ def test_malformed_env_stops_the_build(monkeypatch, bad):
 def test_every_dated_builder_uses_the_shared_helper():
     """날짜를 쓰는 빌더가 제 나름의 계산으로 되돌아가지 않게 고정한다."""
     dated = []
-    for path in sorted((ROOT / 'tools').glob('build_*.py')):
+    for path in sorted((ROOT / 'tools').glob('*.py')):
+        if path.name == 'builddate.py':
+            continue
         src = path.read_text(encoding='utf-8')
         if 'build_date()' in src:
             dated.append(path.name)
             assert 'from builddate import build_date' in src, path.name
         assert 'timedelta(hours=9)' not in src, f'{path.name}: 자체 KST 계산이 남아 있다'
         assert 'date.today()' not in src, f'{path.name}: date.today() 는 러너 TZ 에 흔들린다'
-    assert len(dated) == 7, f'날짜를 쓰는 빌더 수가 바뀌었다: {dated}'
+    assert len(dated) == 9, f'날짜를 쓰는 빌더 수가 바뀌었다: {dated}'

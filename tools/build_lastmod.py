@@ -138,6 +138,12 @@ def stamp_jsonld(s, date):
     return s.replace('</head>', block + '</head>', 1)
 
 
+def pages():
+    """스탬프 대상 — 루트 페이지 + 하위 경로 업종 페이지."""
+    return [p for p in sorted(ROOT.glob('*.html')) + sorted(ROOT.glob('industry/*.html'))
+            if p.relative_to(ROOT).as_posix() not in SKIP]
+
+
 def page_of(loc):
     """sitemap 의 loc → 저장소의 페이지 파일명. 홈은 index.html."""
     if not loc.startswith(PREFIX):
@@ -174,31 +180,32 @@ def main():
             reg = json.loads(REG.read_text(encoding='utf-8'))
         except ValueError:
             die(f'{REG.name} 을 읽을 수 없습니다. 파일을 지우고 다시 실행하면 git 기록으로 다시 채웁니다.')
-    pages = sorted(p for p in ROOT.glob('*.html') if p.name not in SKIP)
-    if not pages:
+    targets = pages()
+    if not targets:
         die('저장소 루트에 페이지가 없습니다.')
     out, touched, seeded = {}, [], []
-    led = ledger_date() if any(p.name in LEDGER for p in pages) else TODAY
-    for p in pages:
+    led = ledger_date() if any(p.name in LEDGER for p in targets) else TODAY
+    for p in targets:
+        key = p.relative_to(ROOT).as_posix()   # 하위 경로 페이지(industry/…)도 같은 레지스트리에 담는다
         s0 = p.read_text(encoding='utf-8')
         h = content_hash(s0)
-        prev = reg.get(p.name)
-        if p.name in LEDGER:
+        prev = reg.get(key)
+        if key in LEDGER:
             date = led
         elif prev and prev.get('hash') == h:
             date = prev['date']
         elif prev is None:
-            date = git_date(p.name) or TODAY   # 최초 도입 — 스탬프가 없던 시점의 커밋일이 실제 갱신일
-            seeded.append(p.name)
+            date = git_date(key) or TODAY   # 최초 도입 — 스탬프가 없던 시점의 커밋일이 실제 갱신일
+            seeded.append(key)
         else:
             date = TODAY
-        out[p.name] = {'date': date, 'hash': h}
+        out[key] = {'date': date, 'hash': h}
         s = stamp_jsonld(stamp_footer(s0, date), date)
         if content_hash(s) != h:
-            die(f'{p.name}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
+            die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
         if s != s0:
             p.write_text(s, encoding='utf-8')
-            touched.append(p.name)
+            touched.append(key)
     REG.write_text(json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + '\n', encoding='utf-8')
     sm_changed, unknown = stamp_sitemap({k: v['date'] for k, v in out.items()})
     print(f"[갱신일 스탬프 OK] {len(out)}개 페이지 (수정 {len(touched)}개, 신규 seed {len(seeded)}개, "

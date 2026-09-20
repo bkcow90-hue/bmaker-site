@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from pathlib import Path
+import re
 import unittest
 
 
@@ -58,6 +59,7 @@ class HomepageExperienceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         index = (ROOT / "index.html").read_text(encoding="utf-8")
+        cls.source = index
         parser = HomePageParser()
         parser.feed(index)
         cls.elements = parser.elements
@@ -65,14 +67,38 @@ class HomepageExperienceTests(unittest.TestCase):
         heading_parser.feed(index)
         cls.hero_heading_lines = heading_parser.lines
 
-    def test_hero_heading_has_three_intentional_lines(self):
-        lines = self.hero_heading_lines
-        self.assertEqual(len(lines), 3)
-        self.assertRegex(lines[0], r"^사장님 [\d,]+분이,$")
-        self.assertRegex(lines[1], r"^정책자금 [\d,]+억을$")
-        self.assertEqual(lines[2], "받았습니다.")
+    def test_hero_heading_is_two_category_lines(self):
+        """H1 은 숫자가 아니라 업종·서비스 카테고리 2줄 — 검색어와 화면이 같은 말을 한다.
+        숫자(실적)는 서브로 내려갔고 build_cases 가 관리한다."""
+        self.assertEqual(self.hero_heading_lines, ["소상공인·중소기업", "정책자금 컨설팅"])
+        for digit_free in self.hero_heading_lines:
+            with self.subTest(line=digit_free):
+                self.assertNotRegex(digit_free, r"\d")
 
-    def test_first_screen_exposes_four_concrete_trust_signals(self):
+    def test_hero_says_one_thing_with_a_single_reservation_button(self):
+        """히어로 = 라벨 + H1 + 서브 1문장 + 버튼 1개. 카톡·안내문·칩·사례 카드는 히어로 밖으로."""
+        hero = re.search(r'<section class="hero">.*?</section>', self.source, re.S).group(0)
+        self.assertIn('<span class="eyebrow">비즈니스 메이커 · 전국 무료 상담</span>', hero)
+        self.assertEqual(hero.count("<h1"), 1)
+        leads = re.findall(r'<p class="lead">(.*?)</p>', hero, re.S)
+        self.assertEqual(len(leads), 1, leads)
+        sub = re.sub(r"<[^>]+>", "", leads[0])
+        self.assertRegex(sub, r"^사장님 [\d,]+분이 정책자금 [\d,]+억을 받았습니다 \(\d{4}\.\d{2}~\d{4}\.\d{2}\)$")
+        self.assertIn("home-sub:start", leads[0])          # 숫자는 원장에서만 나온다
+        self.assertEqual(hero.count('class="hero-fee"'), 1)
+        self.assertIn(">진단은 무료, 정책자금은 착수금이 없습니다<", hero)
+        actions = re.findall(r'<(?:a|button)[\s>].*?</(?:a|button)>', hero, re.S)
+        self.assertEqual(len(actions), 1, actions)
+        self.assertIn('href="#apply"', actions[0])
+        self.assertIn(">무료 진단 예약하기<", actions[0])
+        self.assertNotIn("btn-kakao", actions[0])
+        for gone in ("pf.kakao.com", "hero-note", "어떤 서비스가 필요한지", "home-recent", "home-proof", "신뢰 지표",
+                     "강서구", "마곡", "기업광고"):
+            with self.subTest(gone=gone):
+                self.assertNotIn(gone, hero)
+        self.assertIn('src="assets/hero-consult.webp"', hero)
+
+    def test_trust_signals_sit_in_a_strip_right_below_the_hero(self):
         trust_lists = [
             element
             for element in self.elements
@@ -85,13 +111,37 @@ class HomepageExperienceTests(unittest.TestCase):
         for signal in ("받은 사례", "영업 12년", "착수금·진행비용 없음", "전국 무료 상담"):
             with self.subTest(signal=signal):
                 self.assertIn(signal, trust_text)
+        # 히어로 바로 다음 섹션이 신뢰 스트립이어야 첫 화면 다음 시선에 걸린다
+        after_hero = self.source.split('<section class="hero">', 1)[1].split("</section>", 1)[1]
+        self.assertTrue(after_hero.lstrip().startswith('<section class="trust-strip"'), after_hero[:80])
+
+    def test_recent_cases_are_an_independent_section_after_the_hero(self):
+        """GEO 1차 소스 데이터 — 삭제 금지, 위치만 히어로 다음으로."""
+        src = self.source
+        recent = re.search(r'<section class="recent" id="recent"[^>]*>.*?</section>', src, re.S)
+        self.assertIsNotNone(recent)
+        self.assertIn(">최근에 받은 사례</h2>", recent.group(0))
+        self.assertRegex(recent.group(0), r"<!-- home-recent:start -->(<li>.+?</li>){3}<!-- home-recent:end -->")
+        self.assertEqual(src.count("<!-- home-recent:start -->"), 1)
+        self.assertLess(src.index('<section class="trust-strip"'), recent.start())
+        self.assertLess(recent.start(), src.index('<section class="why"'))
+
+    def test_home_has_exactly_one_h1(self):
+        self.assertEqual(len([e for e in self.elements if e["tag"] == "h1"]), 1)
+
+    def test_hero_cta_is_addressable_for_the_sticky_bar_rule(self):
+        """고정바 노출 규칙의 실제 동작은 tests/test_sticky_cta.py(브라우저)에서 검증한다.
+        여기서는 그 규칙이 붙을 자리(히어로 CTA 의 id)만 고정한다."""
+        hero = re.search(r'<section class="hero">.*?</section>', self.source, re.S).group(0)
+        self.assertIn('id="heroCta"', hero)
+        self.assertEqual(self.source.count('id="heroCta"'), 1)
 
     def test_reservation_actions_are_visually_distinct_from_kakao_actions(self):
         reservation_actions = [
             element
             for element in self.elements
             if element["tag"] in {"a", "button"}
-            and "상담 신청" in " ".join(element["text"].split())
+            and any(k in " ".join(element["text"].split()) for k in ("상담 신청", "진단 예약"))
         ]
 
         self.assertGreaterEqual(len(reservation_actions), 3)

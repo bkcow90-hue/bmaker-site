@@ -4,8 +4,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "bojeung.html": {
-  "date": "2026-09-15",
-  "hash": "06b464a0baf6dd4aa54a90a0c440ebf8c7b7bce69ef29ffc7bbc65f801595d3d"
+  "date": "2026-09-19",
+  "hash": "fa81a968b1d7a10a2d202b4162d3c4c6e429d8831e8c31430f51052b5431330a"
  },
  "business-guide.html": {
   "date": "2026-09-15",
@@ -42,6 +42,10 @@
  "education.html": {
   "date": "2026-09-15",
   "hash": "497a1eb4802e9047db455ad811c594bb3b168a874a6e5fd57d977ff90f9ebc09"
+ },
+ "faq.html": {
+  "date": "2026-09-18",
+  "hash": "5ef6bd8ad91cea17d1cc1a303a7c9ef36623c423a0cd464634af333cc836275c"
  },
  "funding.html": {
   "date": "2026-09-15",
@@ -92,8 +96,12 @@
   "hash": "a15c54f0ab4591980df43d8bc1648e3d47729cdc87eab17efaf6d94461ce1f6c"
  },
  "index.html": {
-  "date": "2026-09-15",
-  "hash": "546cb10113530e77a8dc9a45d2bd25e9085c7850b3997a97cc79667da6a9e068"
+  "date": "2026-09-19",
+  "hash": "92173e52ccc7ca12a0e4e618b774c62e322d789da570453d88a53c2055223d4c"
+ },
+ "industry/eumsikjeom.html": {
+  "date": "2026-09-18",
+  "hash": "a8d23df05617ef40a4188941fb3ffcbec8ed480deadd4b20e9c0131f3017a657"
  },
  "jaedan-busan.html": {
   "date": "2026-09-15",
@@ -183,6 +191,10 @@
   "date": "2026-09-19",
   "hash": "cf06dcfa13d1609aaba3623b0ffc5d15bda946c6ac0484dab36eadd58a5af5d5"
  },
+ "jungsogieop.html": {
+  "date": "2026-09-19",
+  "hash": "ad123593e979185faeb080570125701b6c04de2ce8f0d0af579371de2db980f3"
+ },
  "marketing.html": {
   "date": "2026-09-15",
   "hash": "738a9cbf208f701d2f88a9aa87dfafb982356331729d23d55ae09c1d88c049bb"
@@ -224,8 +236,12 @@
   "hash": "01084659a19b2928cdc020f4d7b80c807bb44bd19e857de58da80fa3c90890e9"
  },
  "sojingong.html": {
-  "date": "2026-09-15",
+  "date": "2026-09-19",
   "hash": "83f3990d049fe48e6180ba4c4fc059ebafc6ef373fa37ded5a56cbc7f354966a"
+ },
+ "sosangin.html": {
+  "date": "2026-09-19",
+  "hash": "d9486dd8f7c21ca686a8fd1aba3bda3cb9ca8ba05dc56ecfd2cae0dc899da86c"
  },
  "startup-consulting-cost.html": {
   "date": "2026-09-15",
