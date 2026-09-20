@@ -13,6 +13,7 @@ data/funds-source.url
 data/jaedan.source.csv
 data/jaedan-source.url
 .agents/
+.claude/
 data/page-updated.json
 CLAUDE.md
 AGENTS.md

@@ -126,7 +126,7 @@
 - IndexNow 핑은 루트 한정.
 - 복합 기관 표기("기술보증기금 + 소상공인…")는 먼저 등장한 기관으로 분류.
 - index.html은 zip 통째 덮어쓰기 대신 줄 단위로 고친다. 적용 전 `git log -3 -- index.html`로 외부 편집을 확인한다.
-- 작업 중 되돌릴 땐 `git checkout -- .` 금지. 파일 경로를 명시하거나 git stash.
+- 작업 중 되돌릴 땐 `git checkout -- .` 금지 (.claude/settings.json deny 로 차단됨 — 파일 경로를 명시한 checkout/restore 만 허용). 파일 경로를 명시하거나 git stash.
 
 ## 10. 테스트·검증
 

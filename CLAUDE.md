@@ -20,4 +20,7 @@
   푸시 전에 로컬에서 돌린다.
 - `pr-check` 워크플로가 `main` 푸시·PR 마다 pytest + 브라우저 동작 테스트(`REQUIRE_BROWSER=1`)
   + 빌더 체인 churn 검사를 돌린다. churn 검사는 첫 주 경고만(`continue-on-error`).
+- **작업 중 되돌릴 땐 `git checkout -- .` 금지** (.claude/settings.json deny 로 차단됨 — 파일 경로를 명시한 checkout/restore 만 허용).
+  산출물 되돌리다 소스 수정이 같이 날아간 사례(2026-09-19)와 재발(2026-09-20, 두 번)이 있다.
+  파일 경로를 명시하거나 `git stash push -u -m <태그>` 를 쓴다.
 - 배포는 `main` 푸시 즉시다. 되돌릴 일이 생기면 되돌리는 커밋을 올린다.

@@ -5,7 +5,7 @@
 
 - **페이지·카피·CSS·빌더를 만지기 전 [`docs/homepage-standard.md`](docs/homepage-standard.md) 를
   읽는다. 작업이 규격과 충돌하면 코드가 아니라 규격 파일을 먼저 고친다(변경 이력 남김).**
-- **작업 중 되돌릴 땐 `git checkout -- .` 금지.** 파일 경로를 명시하거나 `git stash` 를 쓴다
+- **작업 중 되돌릴 땐 `git checkout -- .` 금지** (.claude/settings.json deny 로 차단됨 — 파일 경로를 명시한 checkout/restore 만 허용). 파일 경로를 명시하거나 `git stash` 를 쓴다
   — 산출물 되돌리다 소스 수정이 같이 날아간 사례(2026-09-19).
 - 작업 시작 전 `git pull --ff-only` (ledger 봇이 매시 `main` 에 커밋한다).
 - `index.html` 은 통파일 덮어쓰기 금지 — 고치는 부분만 수정한다.
