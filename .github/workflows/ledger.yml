@@ -20,6 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 얕은 체크아웃이면 tools/builddate.py 의 data_date() 가 소스 파일의 마지막 커밋을
+          # 못 찾아 '오늘' 로 떨어진다 — 시트가 안 바뀐 날에도 기준일이 매일 올라가고,
+          # pr-check(fetch-depth 0)는 진짜 데이터 날짜를 계산하므로 churn 으로 잡힌다.
+          fetch-depth: 0
       - name: 시트 게시본 가져오기
         id: fetch
         run: |
