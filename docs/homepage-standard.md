@@ -50,6 +50,9 @@
 - 각 페이지에 "본 안내는 YYYY년 M월 기준". 푸터 "최종 업데이트"와 JSON-LD dateModified, sitemap lastmod는 build_lastmod가 자동 삽입 — 손으로 쓰지 않는다.
 - 날짜는 **실질적인 내용 변경과 확인 근거**를 반영한다. 단순 빌드로 전 페이지를 최신 정보처럼 표시하지 않는다.
   build_lastmod의 해시 범위(<main>·title·description)와 data_date()가 그 장치다. 봇이 얕은 체크아웃으로 돌면 이 보장이 깨진다(2026-09-20 `6a099e9`).
+- **og:title 은 title 과 같은 값으로 둔다. 빌더가 생성하며 손으로 따로 쓰지 않는다.**
+  2026-09-20 실측에서 구글이 `<title>` 이 아니라 `og:title` 을 검색결과 제목으로 표시했다 — 둘이 다르면 title 만 고쳐도 검색결과가 안 바뀐다.
+  현재 49장이 어긋나 있고, 정리는 9/27 이후 B묶음에서 한다(`docs/plan-b-batch.md`).
 - 홈 head의 Google Search Console 소유권 메타태그는 영구 유지. 삭제 금지.
 - www → 루트 301(Cloudflare 리다이렉트 규칙, Preserve query string 켬). Netlify식 `/* / 301` 캐치올은 무한 리다이렉트 — 사용 금지.
 - 검색 등록 3곳(네이버 서치어드바이저·Google Search Console·Bing Webmaster)은 도메인 기준이라 유지된다. MX 등 메일 레코드는 절대 건드리지 않는다.
@@ -160,5 +163,6 @@
   4. 2절 title·description 길이를 순위 공식이 아니라 편집 가이드로 명시
   5. 2절에 "날짜는 실질 변경과 확인 근거를 반영" 추가. 근거: ledger 봇 얕은 체크아웃으로 기준일이 매일 올라가던 버그(`6a099e9`에서 수정)
   6. 1절에 "공식 제도 조건과 회사 사례 통계 구분" 추가. 근거: `/cheongnyeon`·`/jaedan-seoul`·`/funding`·`/hyeoksin` 기준일 표기 누락, `/bojeung`·`/funding`·`/cases` 공식 출처 링크 누락
+- 2026-09-20 2절에 og:title 규칙 추가(title 과 동일·빌더 생성). 근거: 구글이 og:title 을 검색결과 제목으로 쓰는 것을 실측. 라이브 정리는 9/27 이후
 - 2026-09-20 1절 금지어 "실행 기록"을 **전 페이지**로 확대 확정(대표 승인). 현재 54개 페이지·7개 title·`tests/test_conversion_flow.py:20` 문자열이 대상이며,
   **적용은 9/27 이후 B묶음에서 일괄**한다(9/13 CTR 실험 판정 데이터 보존을 위해 그때까지 라이브 title·description 동결)
