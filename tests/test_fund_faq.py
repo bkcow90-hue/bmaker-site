@@ -74,8 +74,8 @@ def test_internal_links_resolve(fid):
     """FAQ·본문의 내부 링크가 실제 파일을 가리켜야 한다 (404 0)."""
     s = (ROOT / f'{fid}.html').read_text(encoding='utf-8')
     missing = []
-    for href in set(re.findall(r'href="(/[a-z0-9\-/]*)"', s)):
-        path = href.strip('/')
+    for href in set(re.findall(r'href="(/[a-z0-9\-/]*(?:#[a-z0-9\-]+)?)"', s)):
+        path = href.split('#')[0].strip('/')
         if not path or path == '#':
             continue
         if (ROOT / f'{path}.html').exists() or (ROOT / path).exists():

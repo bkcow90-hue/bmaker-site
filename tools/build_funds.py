@@ -22,11 +22,33 @@ def sched_attrs(start, passed_text, passed_cls):
 
 
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
+BASE_RATE_ID = 'base-rate'   # 시트의 기준금리 예약 행 (사이트 공개 N)
+BASE_RATE = None             # 예: 3.85
+BASE_RATE_LABEL = ''         # 예: '2026년 3분기'
+
+
+def rate_text(d):
+    """금리 표시. 시트에 '가산금리' 가 있으면 기준금리와 더해 계산 근거까지 보여준다.
+
+    공식은 '기준금리(분기별 변동) + 가산금리' 라 고정 숫자만 적어 두면 분기마다 틀어진다.
+    가산금리 열이 없으면 기존 '금리 방식' 값을 그대로 쓴다 — 시트가 바뀌기 전에도 동작한다.
+    """
+    add = (d.get('가산금리') or '').strip()
+    if add and BASE_RATE is not None:
+        m = re.search(r'(-?\d+(?:\.\d+)?)', add)
+        if m:
+            total = BASE_RATE + float(m.group(1))
+            label = f", {BASE_RATE_LABEL} 기준" if BASE_RATE_LABEL else ""
+            return (f"연 {total:.2f}% (기준금리 {BASE_RATE:g}%+{m.group(1)}%P{label})")
+    return d.get('금리 방식', '')
 def die(m): print(f"[자금 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
     e,man=divmod(int(m),10000)
     return ((f"{e}억"+((" " if man else "")+f"{man:,}만" if man else ""))+"원") if e else f"{man:,}만원"
 def esc(s): return str(s).replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+def comma(s):
+    """시트에 '7000만원' 으로 들어온 값을 '7,000만원' 으로. 4자리 이상 숫자에만 적용한다."""
+    return re.sub(r'\d{4,}', lambda m: format(int(m.group()), ','), str(s))
 
 def load():
     rows=[]
@@ -52,6 +74,13 @@ def load():
     if not rows: die("자금 행이 없습니다.")
     ids=[d['자금ID'] for d in rows]
     if len(ids)!=len(set(ids)): die("자금ID 중복이 있습니다.")
+    global BASE_RATE, BASE_RATE_LABEL
+    for d in rows:
+        if d['자금ID'] == BASE_RATE_ID:
+            m = re.search(r'(\d+(?:\.\d+)?)', d.get('금리 방식', ''))
+            if not m: die("base-rate 행의 '금리 방식' 에 기준금리 숫자가 없습니다.")
+            BASE_RATE = float(m.group(1))
+            BASE_RATE_LABEL = d.get('한 줄 메모', '').strip()
     return [d for d in rows if d['사이트 공개'].upper()=='Y']
 
 def cases_for(kw):
@@ -280,9 +309,10 @@ def lead_html(d):
         return ''
     bits = []
     if d['한도']:
-        bits.append('한도 %s' % esc(d['한도']))
-    if d['금리 방식']:
-        bits.append('금리 %s' % esc(d['금리 방식']))
+        bits.append('한도 %s' % comma(esc(d['한도'])))
+    rtxt = rate_text(d)
+    if rtxt:
+        bits.append('금리 %s' % esc(rtxt))
     fact = ''
     if bits:
         fact = ' 공고 기준 ' + ' · '.join(bits) + '입니다.'
@@ -348,8 +378,9 @@ def build():
                 meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{(esc(d["한 줄 메모"])+". ") if d["한 줄 메모"] else ""}{kind_desc} 진행 순서는 {steps} — 세부 요건은 위 공식 공고가 기준이며, 실행 기록 전체는 <a href="/cases">여기</a>에 있습니다.</p>'
         facts=[]
         if d['대상 요약']: facts.append(('대상', esc(d['대상 요약'])))
-        if d['한도']: facts.append(('한도', esc(d['한도'])))
-        if d['금리 방식']: facts.append(('금리 방식', esc(d['금리 방식'])))
+        if d['한도']: facts.append(('한도', comma(esc(d['한도']))))
+        rtxt = rate_text(d)
+        if rtxt: facts.append(('금리 방식', esc(rtxt)))
         facts.append(('접수', f'<span{badge_attrs}>{esc(badge_txt)}</span>' if badge_attrs else esc(badge_txt)))
         facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))} 확인 →</a>'))
         facts_html="".join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in facts)
@@ -397,6 +428,7 @@ def build():
   <div class="wrap">
     {lead}<p class="badge b-{badge_cls}"{badge_attrs}>{esc(badge_txt)}</p>
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
+    <p class="asof">상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요.</p>
     <p class="asof">본 안내는 {asof_ym} 기준입니다. 기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
     {meas_html}
     {EXTRA_SECTIONS.get(d["자금ID"],"")}
