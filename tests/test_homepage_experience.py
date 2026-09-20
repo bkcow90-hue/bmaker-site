@@ -65,26 +65,24 @@ class HomepageExperienceTests(unittest.TestCase):
         heading_parser.feed(index)
         cls.hero_heading_lines = heading_parser.lines
 
-    def test_hero_heading_has_three_intentional_lines(self):
+    def test_hero_heading_has_three_lines_without_claiming_records_are_people(self):
         lines = self.hero_heading_lines
         self.assertEqual(len(lines), 3)
-        self.assertRegex(lines[0], r"^사장님 [\d,]+분이,$")
-        self.assertRegex(lines[1], r"^정책자금 [\d,]+억을$")
-        self.assertEqual(lines[2], "받았습니다.")
+        self.assertTrue(all(lines))
+        self.assertIn("정책자금", " ".join(lines))
+        self.assertNotRegex(" ".join(lines), r"[\d,]+\s*분")
 
-    def test_first_screen_exposes_four_concrete_trust_signals(self):
-        trust_lists = [
+    def test_ledger_proof_is_linked_to_its_source_and_labeled_as_cases(self):
+        proof_links = [
             element
             for element in self.elements
-            if element["tag"] == "ul"
-            and element["attrs"].get("aria-label") == "비즈니스 메이커 신뢰 지표"
+            if element["tag"] == "a"
+            and "hero-proof" in element["attrs"].get("class", "").split()
         ]
-
-        self.assertEqual(len(trust_lists), 1)
-        trust_text = " ".join(trust_lists[0]["text"].split())
-        for signal in ("받은 사례", "영업 12년", "착수금·진행비용 없음", "전국 무료 상담"):
-            with self.subTest(signal=signal):
-                self.assertIn(signal, trust_text)
+        self.assertEqual(len(proof_links), 1)
+        self.assertEqual(proof_links[0]["attrs"]["href"], "/cases")
+        self.assertRegex(proof_links[0]["text"], r"받은 사례 [\d,]+건")
+        self.assertRegex(proof_links[0]["text"], r"20\d{2}\.\d{2}~20\d{2}\.\d{2}")
 
     def test_reservation_actions_are_visually_distinct_from_kakao_actions(self):
         reservation_actions = [

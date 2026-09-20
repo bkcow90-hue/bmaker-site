@@ -77,6 +77,11 @@
     if (href.includes('pf.kakao.com/')) track('kakao_click', { cta_location: where });
     else if (href.startsWith('tel:')) track('phone_click', { cta_location: where });
     else if (href.endsWith('#apply')) {
+      const intent = link.dataset.consultationService;
+      if (serviceField && intent && Object.hasOwn(serviceLabels, intent)) {
+        serviceField.value = intent;
+        updateEducationHelp();
+      }
       ctaLocation = where;
       track('consultation_click', { cta_location: where });
     }
@@ -102,15 +107,26 @@
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
   const sticky = document.querySelector('.sticky-cta');
-  let formInView = false;
+  const heroCta = document.getElementById('heroCta');
+  function inViewport(element) {
+    if (!element || typeof element.getBoundingClientRect !== 'function') return false;
+    const r = element.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
+  }
   function updateSticky() {
-    if (sticky) sticky.hidden = formInView || form.contains(document.activeElement);
+    if (sticky) sticky.hidden = inViewport(heroCta) || inViewport(form) || form.contains(document.activeElement);
   }
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      formInView = entries[0].isIntersecting; updateSticky();
-    }, { threshold: 0 }).observe(form);
+    const observer = new IntersectionObserver(updateSticky, { threshold: 0 });
+    observer.observe(form);
+    if (heroCta) observer.observe(heroCta);
   }
+  if (typeof window.addEventListener === 'function') {
+    for (const event of ['load', 'resize', 'pageshow', 'scroll']) {
+      window.addEventListener(event, updateSticky, { passive: true });
+    }
+  }
+  updateSticky();
   form.addEventListener('focusin', updateSticky);
   form.addEventListener('focusout', () => setTimeout(updateSticky, 0));
   function failure(uncertain) {

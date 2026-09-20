@@ -6,6 +6,7 @@
 실패 시: 어떤 행·열이 문제인지 한국어로 출력하고 아무 파일도 쓰지 않는다.
 """
 import csv, json, re, sys, datetime
+from html import escape
 from pathlib import Path
 from openpyxl import load_workbook
 from builddate import build_date, data_date
@@ -18,6 +19,43 @@ REQ = ['사례ID','실행 연월','기관','자금명','실행 금액(만원)','
 
 def die(msg):
     print(f"[원장 빌드 실패] {msg}"); sys.exit(1)
+
+def select_home_cases(rows):
+    """Include individual and corporate businesses, then fill with recent cases."""
+    ordered = sorted(rows, key=lambda r: (r['실행 연월'], r['사례ID']), reverse=True)
+    selected = []
+    for kind in ('개인', '법인', '법인'):
+        candidate = next((r for r in ordered if r.get('사업 형태', '').strip() == kind
+                          and r not in selected), None)
+        if candidate is not None:
+            selected.append(candidate)
+    for row in ordered:
+        if len(selected) >= 3:
+            break
+        if row not in selected:
+            selected.append(row)
+    return selected
+
+
+def render_home_case_cards(rows):
+    """Each public card and its evidence anchor come from the same ledger row."""
+    cards = []
+    for r in rows:
+        def e(key):
+            return escape(str(r.get(key, '') or ''), quote=True)
+        key = e('사례ID')
+        date = e('실행 연월').replace('-', '.')
+        cards.append(
+            f'<article class="case" data-case-id="{key}">'
+            f'<p class="biz">{e("지역(시도)")} · {e("업종")}</p>'
+            f'<h3>{e("기관")}</h3>'
+            f'<p>{e("사업 형태")} · 업력 {e("업력(년)")}년</p>'
+            f'<p>{e("자금명")}</p>'
+            f'<p class="amt">{escape(won2(r["실행 금액(만원)"]))}</p>'
+            f'<p class="case-date">{date} 실행 · 당시 개별 심사 결과</p>'
+            f'<a href="/cases#case-{key}">이 사례 자세히 보기 →</a></article>'
+        )
+    return '\n'.join(cards)
 
 def norm_rate(v):
     """금리 표기 통일: 앞머리의 숫자를 '연 N.NN%' 틀로 맞춘다. 숫자와 뒤따르는 설명(괄호 등)은 그대로 보존.
@@ -230,15 +268,15 @@ td a{color:var(--blue-deep);text-decoration:underline}
     if ip.exists():
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
-            block=(f'<!-- home-proof:start --><strong>받은 사례 {N}건</strong><span>익명 일부 공개 · {T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
-            h1=(f'<!-- home-h1:start -->사장님 <span class="count" data-count="{N}">{N}</span>분이,<br>정책자금 <span class="count" data-count="{total//10000}" data-suffix="억">{total//10000}억</span>을<br><span class="under">받았습니다.</span><!-- home-h1:end -->')
-            ih=re.sub(r'<!-- home-h1:start -->.*?<!-- home-h1:end -->', h1, ih, flags=re.S)
-            big_n=sum(1 for r in D if int(r['실행 금액(만원)'])>=10000); combo_n=sum(1 for r in D if (r.get('동시 진행 자금') or '').strip())
-            ih=re.sub(r'<!-- why-big:start -->.*?<!-- why-big:end -->', f'<!-- why-big:start -->1억원 이상 {big_n}건, 기관 여러 곳을 묶은 동시 설계 {combo_n}건.<!-- why-big:end -->', ih, flags=re.S)
+            block=(f'<!-- home-proof:start --><strong>받은 사례 {N}건 · 총 {T["TOTAL_KR"]}</strong><span>{T["PERIOD_SHORT"]} · 익명 일부 공개</span><!-- home-proof:end -->')
+            # H1 is editorial copy, not a ledger counter: records are not unique people.
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
-            recent=sorted(D, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:3]
-            rec=''.join(f'<li><span class="lc-ym">{r["실행 연월"].replace("-",".")}</span><span class="lc-inst">{r["기관"].split("+")[0].strip()[:14]}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent)
+            featured=select_home_cases(D)
+            rec=''.join(f'<li><span class="lc-ym">{escape(r["실행 연월"].replace("-","."))}</span><span class="lc-inst">{escape(r["사업 형태"])} · {escape(r["기관"].split("+")[0].strip()[:14])}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in featured)
             ih=re.sub(r'<!-- home-recent:start -->.*?<!-- home-recent:end -->', '<!-- home-recent:start -->'+rec+'<!-- home-recent:end -->', ih, flags=re.S)
+            cards = render_home_case_cards(featured)
+            ih=re.sub(r'<!-- home-matched-cases:start -->.*?<!-- home-matched-cases:end -->',
+                      lambda _: '<!-- home-matched-cases:start -->'+cards+'<!-- home-matched-cases:end -->', ih, flags=re.S)
             ip.write_text(ih, encoding='utf-8')
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
     _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]
@@ -257,13 +295,28 @@ td a{color:var(--blue-deep);text-decoration:underline}
            'jaedan-n':_n('재단'),'jaedan-won':_won('재단'),'jaedan-regions':str(len({r['지역(시도)'] for r in _by.get('재단',[])})),'jaedan-rate':_rr([r['금리'] for r in _by.get('재단',[])]),
            'gibo-n':_n('기보'),'gibo-max':_max('기보'),'sinbo-n':_n('신보'),'sinbo-max':_max('신보'),
            'sojingong-n':_n('소진공'),'sojingong-won':_won('소진공'),'jungjin-n':_n('중진공'),
-           'corp-n':str(sum(1 for r in D if r['사업 형태'].strip()=='법인')),'ind-n':str(sum(1 for r in D if r['사업 형태'].strip()=='개인'))}
-    for f in ('sojingong.html','bojeung.html','gibo.html','sinbo.html','jaedan.html','stats.html','consulting.html'):
+           'corp-n':str(sum(1 for r in D if r['사업 형태'].strip()=='법인')),'ind-n':str(sum(1 for r in D if r['사업 형태'].strip()=='개인')),
+           'corp-won':won2(sum(int(r['실행 금액(만원)']) for r in D if r['사업 형태'].strip()=='법인')),
+           'ind-won':won2(sum(int(r['실행 금액(만원)']) for r in D if r['사업 형태'].strip()=='개인'))}
+    for f in ('index.html','sojingong.html','bojeung.html','gibo.html','sinbo.html','jaedan.html','stats.html','consulting.html'):
         p=ROOT/f
         if not p.exists(): continue
         s0=p.read_text(encoding='utf-8'); s=s0
         for k,v in STATS.items(): s=re.sub(r'(data-stat="'+k+r'">)[^<]*(</span>)', lambda mm: mm.group(1)+v+mm.group(2), s)
         if s!=s0: p.write_text(s, encoding='utf-8')
+    business_summary = (f'- 기업 형태별 받은 사례: {T["PERIOD_SHORT"]} 공개 원장 기준, '
+                        f'개인사업자 {STATS["ind-n"]}건 · {STATS["ind-won"]}, '
+                        f'법인사업자 {STATS["corp-n"]}건 · {STATS["corp-won"]}. '
+                        '기업 수가 아닌 건수이며 집계 금액은 개별 신청 한도가 아닙니다. '
+                        '근거: https://bmaker.kr/cases · 법인 안내: https://bmaker.kr/jungjingong')
+    for file in ('llms.txt', 'llms-full.txt'):
+        path = ROOT / file
+        text = path.read_text(encoding='utf-8')
+        if '- 기업 형태별 받은 사례:' in text:
+            text = re.sub(r'- 기업 형태별 받은 사례:[^\n]*', lambda _: business_summary, text)
+        else:
+            text = text.replace('\n## ', '\n'+business_summary+'\n\n## ', 1)
+        path.write_text(text, encoding='utf-8')
     # sitemap lastmod
     sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
     sm=re.sub(r'(<loc>https://bmaker\.kr/cases</loc><lastmod>)[^<]+', r'\g<1>'+str(today), sm)
