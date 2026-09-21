@@ -110,10 +110,15 @@ def test_before_start_shows_the_scheduled_notice(browser, site):
 
 
 def test_on_the_start_date_flips_to_passed(browser, site):
-    """② 시작일 당일 — 방문 시점 계산으로 '시작일 경과' 로 바뀐다(재빌드 없이)."""
+    """② 첫 시작일 당일 — 도래한 행만 경과, 다른 회차의 미래 행은 예정 유지."""
     start = _start_date()
     rows, _ = _badges(browser, site, start)
+    assert any(r["start"] == start for r in rows)
     for r in rows:
+        if r["start"] > start:
+            assert r["state"] is None, r
+            assert "b-soon" in r["cls"] and "예정" in r["text"], r
+            continue
         assert r["state"] == "passed", r
         assert "b-check" in r["cls"] and "b-soon" not in r["cls"], r
         assert "시작일 경과" in r["text"], r

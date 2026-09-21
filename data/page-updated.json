@@ -8,8 +8,8 @@
   "hash": "6d9a51ada77ae9786221b90ae6dbeefc422baf16a47aa4ff805a35135807ea6e"
  },
  "business-guide.html": {
-  "date": "2026-09-21",
-  "hash": "c6ad71bd2a360e639dd4f6e8c12189e77c1538c0106ab1d05c6891b86e48ad50"
+  "date": "2026-09-22",
+  "hash": "92ce54aaca2256f7812a64e8d6366a7048ddb5eb45c4c648fb28608fd08ac965"
  },
  "cases.html": {
   "date": "2026-09-13",
@@ -48,20 +48,20 @@
   "hash": "77ee8918a389e664ac03993ba5605869a8c5bfb18bf38cd0b01a6d215ae607bc"
  },
  "funding.html": {
-  "date": "2026-09-21",
-  "hash": "6071c3a943372d10b1ab7e014a0999fece0ca006304980f75659665965a29738"
+  "date": "2026-09-22",
+  "hash": "85a2f8b81064a8b6682371f58437d434aa5a596cfa2c04387e3f7c378874a89f"
  },
  "gaein.html": {
-  "date": "2026-09-21",
-  "hash": "099436716033af945fd11b1e180975d78c46b22e716b64bb8af9885bcbfd23a3"
+  "date": "2026-09-22",
+  "hash": "b3a0b0d8e07c5c10fdccd956f2b01fcf43861d5eee52ee339c12e17fc8578a29"
  },
  "geojeol.html": {
   "date": "2026-09-15",
   "hash": "0f6fd310845e80f62f7d63a8216749cfe128a924912f074e8ad969fa7882cb94"
  },
  "gibo.html": {
-  "date": "2026-09-21",
-  "hash": "8937aead72c85d7ab1dfe8c07f5c48cba6be3833023544b4e857d077a4fc4301"
+  "date": "2026-09-22",
+  "hash": "3817563bfb6f4873d9b1bafc29f43abba6f8c0105897001ea17d56a3522c51b3"
  },
  "gingeup.html": {
   "date": "2026-09-15",
@@ -96,8 +96,8 @@
   "hash": "a19e30959d2a99da519e0d64738bfa8699a28e69e02facb9af7449cc77f2914e"
  },
  "index.html": {
-  "date": "2026-09-21",
-  "hash": "7ace2a76b63582018b66941af19ccd86bd663b96b37f42a4f117495e7a6cf332"
+  "date": "2026-09-22",
+  "hash": "8b7f276c165e9dfba7c7e7051c976aa445084c06f358bb3ffdb0d5b993464536"
  },
  "jaedan-busan.html": {
   "date": "2026-09-21",
@@ -184,8 +184,8 @@
   "hash": "02bd5497ce70280565f63a448b4eb30bdc108a958f252ef56bcff89e71be4f70"
  },
  "jungjingong.html": {
-  "date": "2026-09-21",
-  "hash": "69e36f7d344566ac6256c0d346c91f80792f5ee373b2e8d71b480e05cdf1b732"
+  "date": "2026-09-22",
+  "hash": "67add6330560c7f15abc642044a5f7c0c634ec4d4c4b3f1fe6de7fef8479d51b"
  },
  "marketing.html": {
   "date": "2026-09-15",
@@ -194,6 +194,10 @@
  "matching.html": {
   "date": "2026-09-21",
   "hash": "4473b6c8d17b1d9b9a8705bfe4e1a3e4a1f2fc4d49249b7307b383f867bac4fd"
+ },
+ "microfinance-business.html": {
+  "date": "2026-09-22",
+  "hash": "a294b1db99c3b9cbd481a0ad882c176fc395f88eb3e8d751a88058f5fef93846"
  },
  "online-ad-guide.html": {
   "date": "2026-09-15",
@@ -216,20 +220,24 @@
   "hash": "e64243cc7d0f5e12ca14f4642f6017cb2cd283150f26ef25a6e9d9055d13b04c"
  },
  "sinbo.html": {
-  "date": "2026-09-21",
-  "hash": "de4f5987f9914013750a9a5151a4f5825eacfc3c4f7912c59db591a3297e3969"
+  "date": "2026-09-22",
+  "hash": "0e5077f4bbccc23d32beeb5de05541cae40b64e87f8c5dd1dadd02dd5031d03c"
  },
  "sinyongchwiyak.html": {
   "date": "2026-09-21",
   "hash": "cacdefda5444662e82a2688aac07692c29858d914f381695257c72a35ff8e1d9"
+ },
+ "sme-business-loans.html": {
+  "date": "2026-09-22",
+  "hash": "79252da8ab64deb0538590d084ba7cf5ea64c0e0a0981a7adf529b0e6f28c288"
  },
  "sogongin.html": {
   "date": "2026-09-21",
   "hash": "9739b6cddd522320efc082ffd488143844115d246b43aa40c731d8799c853a91"
  },
  "sojingong.html": {
-  "date": "2026-09-21",
-  "hash": "b9c60c4ac1a46d6d13f44c551370b128d9dc3b4cdabe228f639dacdc584514f6"
+  "date": "2026-09-22",
+  "hash": "ee5a70ddab743c0cbe62ce819684a2f53ebe0f316dbd357a7220598c5de85949"
  },
  "startup-consulting-cost.html": {
   "date": "2026-09-15",

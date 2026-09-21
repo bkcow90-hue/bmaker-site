@@ -113,3 +113,11 @@ def test_repayment_examples_keep_each_case_label_and_id_together():
     assert '2건' in out and '/cases#case-T1' in out and '상품 &lt;가&gt;' in out
     assert '2,000만원' in out and '12개월 거치' in out
     assert builder.repayment_examples([]).count('<tbody><tr>') == 0
+
+
+def test_microfinance_referral_bar_opens_the_official_institution_not_company_leads():
+    page = (ROOT / 'microfinance-business.html').read_text(encoding='utf-8')
+    bar = re.search(r'<div class="sticky".*?</div>', page, re.S).group(0)
+    targets = re.findall(r'href="([^"]+)"', bar)
+    assert targets == ['https://mmc.kinfa.or.kr/view/pdt/KFA_PDT_04010000']
+    assert '#apply' not in bar and 'kakao.com' not in bar

@@ -136,6 +136,12 @@ def main():
             page = re.sub(r'<title>.*?</title>', '<title>' + html.escape(item['title']) + '</title>', page)
             for attr, key, value in [('name', 'description', item['description']), ('property', 'og:title', item['title']), ('property', 'og:description', item['description'])]:
                 page = re.sub(f'<meta {attr}="{key}" content="[^"]*">', f'<meta {attr}="{key}" content="{html.escape(value, quote=True)}">', page)
+        if item.get('official_contact'):
+            # Informational referrals must not funnel official-loan enquiries
+            # through the company's inherited mobile consultation buttons.
+            contact = html.escape(item['official_contact'], quote=True)
+            bar = f'<div class="sticky" aria-label="공식 기관 안내"><a class="btn" style="grid-column:1/-1" href="{contact}">공식 기관에서 확인하기</a></div>'
+            page = re.sub(r'<div class="sticky".*?</div>', lambda _: bar, page, flags=re.S)
         path.write_text(stylesheet(page), encoding='utf-8')
 
     for slug, selection in [('business-guide', ITEMS), ('marketing', [x for x in ITEMS if x['service'] == 'marketing']), ('startup', [x for x in ITEMS if x['service'] == 'startup' and x['new']]), ('funding', ITEMS[:5])]:
