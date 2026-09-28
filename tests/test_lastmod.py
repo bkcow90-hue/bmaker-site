@@ -95,3 +95,23 @@ def test_llms_files_declare_utf8_charset():
         block = re.search(re.escape(name) + r'\n((?:  .*\n)+)', headers)
         assert block, f'_headers 에 {name} 규칙 없음'
         assert 'Content-Type: text/plain; charset=utf-8' in block.group(1), name
+
+
+def test_assets_are_versioned_by_content():
+    """페이지가 부르는 /assets/*.js·*.css 는 ?v=<현재 파일 해시> 여야 한다.
+
+    _headers 가 /assets/* 를 하루 캐시한다. 주소가 그대로면 배포 뒤 최대 24시간 동안 방문자
+    브라우저가 옛 conversion.js 를 새 HTML 과 섞어 쓴다 — 2026-09-28 인라인 폼 배포 당일 이
+    조합에서 사업자 형태 버튼이 무반응이었고 제출도 조용히 실패했다. 로컬 브라우저 테스트는
+    항상 최신 JS 를 받으므로 이 사고를 재현하지 못한다. 그래서 주소 자체를 검사한다.
+    """
+    import hashlib, re
+    root = Path(__file__).resolve().parents[1]
+    ref = re.compile(r'(?:src|href)="(/assets/(?!fonts/)[\w./-]+\.(?:js|css))(\?v=[0-9a-f]+)?"')
+    bad = []
+    for p in sorted(root.glob('*.html')) + sorted(root.glob('industry/*.html')):
+        for path, ver in ref.findall(p.read_text(encoding='utf-8')):
+            want = '?v=' + hashlib.sha256((root / path.lstrip('/')).read_bytes()).hexdigest()[:10]
+            if ver != want:
+                bad.append(f'{p.name}: {path}{ver} (기대 {want})')
+    assert not bad, '자산 버전이 파일 내용과 다르다 — python tools/build_lastmod.py 를 돌릴 것:\n' + '\n'.join(bad[:10])

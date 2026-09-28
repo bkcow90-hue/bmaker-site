@@ -11,6 +11,12 @@
 sitemap.xml 의 lastmod 도 같은 값으로 맞춘다. 다른 빌더들은 lastmod 에 '오늘'을 쓰지만
 이 스크립트가 마지막에 레지스트리 값으로 되돌리므로, 내용이 안 바뀐 페이지의 lastmod 는 움직이지 않는다.
 
+자산 버전: 페이지가 부르는 /assets/*.js·*.css 주소에 파일 내용 해시(?v=…)를 붙인다.
+  _headers 가 /assets/* 를 하루(max-age=86400) 캐시하므로, 주소가 그대로면 배포 뒤에도
+  방문자 브라우저가 최대 24시간 옛 conversion.js 를 새 HTML 과 섞어 쓴다. 2026-09-28 인라인 폼
+  배포 당일 실제로 이 조합에서 사업자 형태 버튼이 무반응이었고 제출도 조용히 실패했다.
+  ?v= 는 content_hash 에서 빼므로 JS 만 바뀐 배포가 페이지 갱신일을 올리지 않는다.
+
 실행: python tools/build_lastmod.py   — 다른 build_*.py 를 모두 돌린 뒤 마지막에 실행한다.
       (자금·재단·교육 빌더가 다른 페이지의 <footer>·<head> 를 복사해 가므로 순서가 중요하다)
 실패 시: 아무 파일도 쓰지 않고 한국어로 원인을 출력한다.
@@ -35,6 +41,7 @@ ANY_LD = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 DATEMOD = re.compile(r'"dateModified"\s*:\s*"\d{4}-\d{2}-\d{2}"')
 URL_BLOCK = re.compile(r'<url>\s*<loc>([^<]+)</loc>.*?</url>', re.S)
 LASTMOD = re.compile(r'<lastmod>[^<]*</lastmod>')
+ASSET = re.compile(r'((?:src|href)="/assets/(?!fonts/)[\w./-]+\.(?:js|css))(?:\?v=[0-9a-f]+)?"')
 MAIN = re.compile(r'<main\b[^>]*>(.*?)</main>', re.S)
 TITLE = re.compile(r'<title>(.*?)</title>', re.S)
 DESC = re.compile(r'<meta name="description" content="([^"]*)"')
@@ -61,6 +68,7 @@ def content_hash(s):
     s = STAMP.sub('', s)
     s = WEBPAGE_LD.sub('', s)
     s = DATEMOD.sub('"dateModified":"-"', s)
+    s = ASSET.sub(r'"', s)
     return hashlib.sha256(s.encode('utf-8')).hexdigest()
 
 
@@ -87,6 +95,23 @@ def ledger_date():
         if isinstance(d, dict) and d.get('@type') == 'Dataset' and d.get('dateModified'):
             return d['dateModified']
     die('cases.html 에서 Dataset dateModified(원장 빌드일)를 찾지 못했습니다. build_cases.py 를 먼저 실행하세요.')
+
+
+_versions = {}
+
+
+def stamp_assets(s):
+    """/assets/*.js·*.css 주소에 내용 해시를 붙인다 — 파일이 바뀌면 주소가 바뀌어 캐시를 건너뛴다."""
+    def one(m):
+        ref = m.group(1)
+        path = ref.split('"', 1)[1]
+        if path not in _versions:
+            f = ROOT / path.lstrip('/')
+            if not f.is_file():
+                die(f'페이지가 부르는 자산 {path} 이(가) 저장소에 없습니다.')
+            _versions[path] = hashlib.sha256(f.read_bytes()).hexdigest()[:10]
+        return f'{ref}?v={_versions[path]}"'
+    return ASSET.sub(one, s)
 
 
 def canonical_of(s):
@@ -195,12 +220,17 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_jsonld(stamp_footer(s0, date), date)
+        s = stamp_assets(stamp_jsonld(stamp_footer(s0, date), date))
         if content_hash(s) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
         if s != s0:
             p.write_text(s, encoding='utf-8')
             touched.append(key)
+    for p in (ROOT / name for name in SKIP):   # 404 는 날짜 스탬프 대상이 아니지만 같은 JS 를 부른다
+        s0 = p.read_text(encoding='utf-8')
+        if stamp_assets(s0) != s0:
+            p.write_text(stamp_assets(s0), encoding='utf-8')
+            touched.append(p.name)
     REG.write_text(json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + '\n', encoding='utf-8')
     sm_changed, unknown = stamp_sitemap({k: v['date'] for k, v in out.items()})
     print(f"[갱신일 스탬프 OK] {len(out)}개 페이지 (수정 {len(touched)}개, 신규 seed {len(seeded)}개, "

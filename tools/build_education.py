@@ -71,7 +71,7 @@ def main():
                 page = re.sub(r'<section class="edu-home">.*?</section>', lambda _: block, page, count=1, flags=re.S)
             else:page=page.replace('<section class="services"',block+'\n<section class="services"',1)
             css='<link rel="stylesheet" href="/assets/education.css">'
-            if css not in page:page=page.replace('</head>',css+'</head>')
+            if 'href="/assets/education.css' not in page:page=page.replace('</head>',css+'</head>')  # ?v= 무관
         path.write_text(page,encoding='utf-8')
     path=ROOT/'sitemap.xml';s=path.read_text(encoding='utf-8')
     for slug in ['education','education-program']:
