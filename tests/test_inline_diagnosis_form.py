@@ -58,7 +58,8 @@ def test_every_fund_and_foundation_page_has_exactly_one_form():
 
 def test_no_other_page_gained_a_form():
     """폼은 홈 + 자금·재단 33장에만 있어야 한다 — conversion.js 는 페이지당 폼 1개를 전제한다."""
-    expected = set(FORM_PAGES) | {"index"}
+    # 홈 + 자금·재단 33장 + 분기별 접수 안내(자체 폼을 가진 정적 페이지)
+    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin"}
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 
@@ -66,7 +67,7 @@ def test_no_other_page_gained_a_form():
 def test_form_fields_and_wording():
     s = (ROOT / "cheongnyeon.html").read_text(encoding="utf-8")
     assert "이 자금, 우리 회사도 되는지 무료로 확인" in s
-    assert "무료 진단 예약하기" in s
+    assert "무료 진단 신청" in s
     for label in ("개인사업자", "법인사업자", "창업 예정"):
         assert f'class="biz-opt" aria-pressed="false">{label}<' in s, label
     for fid in ("lf-name", "lf-phone", "lf-consent", "lf-website", "lf-page", "lf-service"):

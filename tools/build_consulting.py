@@ -122,7 +122,7 @@ def build():
     <div class="cta-box">
       <h3 class="serif">먼저 진단부터 — 비용 없이</h3>
       <p>조건을 주시면 가능한 트랙과 지금 걸리는 조건을 말씀드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">무료 진단 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>

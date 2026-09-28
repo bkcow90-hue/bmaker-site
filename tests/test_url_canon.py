@@ -11,9 +11,17 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html", "schedule.html", "sinyongchwiyak.html", "jaedojeon.html", "hyeoksin.html", "cheongnyeon.html", "gaein.html", "consulting.html"]
 SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "consulting"]
 
-NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program"]
+NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program", "corporate-loan-documents", "working-capital-facility"]
 PAGES += [f"{slug}.html" for slug in NEW_SERVICES]
 SLUGS += NEW_SERVICES
+LOAN_GUIDES = ["sme-business-loans", "microfinance-business"]
+PAGES += [f"{slug}.html" for slug in LOAN_GUIDES]
+SLUGS += LOAN_GUIDES
+
+# 분기별 접수 안내 — 손으로 만드는 정적 페이지(빌더 대상이 아님)
+QUARTERLY = ["2026-4q-sosangin"]
+PAGES += [f"{slug}.html" for slug in QUARTERLY]
+SLUGS += QUARTERLY
 
 
 def _read(name: str) -> str:

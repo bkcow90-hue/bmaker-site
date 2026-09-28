@@ -173,7 +173,7 @@ OG_TITLE_OVERRIDES = {
  'cheongnyeon': '청년고용연계자금 2026 — 누가 대상인가, 한도·금리·접수 일정 | 비즈니스 메이커',
 }
 DESC_OVERRIDES = {
- 'cheongnyeon': '청년 대표(업력 3년 미만)이거나 청년을 고용해 유지 중이면 대상입니다. 2026년 공고 기준 대상 3가지와 한도·금리, 보증 연계 대리대출 진행 순서, 신청 경로를 정리했습니다. 착수금 없이 무료 진단.',
+ 'cheongnyeon': '청년고용연계자금의 대표자·고용 요건 확인 방법, 증빙과 대리대출 준비 순서를 안내합니다. 실제 대상 여부와 접수는 현재 공식 공고에서 확인하세요.',
 }
 # ── 즉답·FAQ (자금ID별) ─────────────────────────────────────────────────────
 # 화면 FAQ 와 FAQPage JSON-LD 는 아래 한 곳에서 같이 생성한다(규격 3절).
@@ -414,7 +414,7 @@ def build():
                 pa=[int(r['실행 금액(만원)']) for r in P]
                 pr=rate_range([r['금리'] for r in P])
                 prow="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in P[:3])
-                kind_desc='소상공인시장진흥공단이 직접 심사하고 직접 실행하는 자금입니다. 은행 문턱과 별개의 정책 심사라, 조건이 맞으면 신용·이력에 사연이 있어도 열립니다.' if '직접' in d['카테고리'] else '은행이 심사·실행하는 자금입니다. 상품에 따라 보증서·신용·담보 방식이 다르며, 보증료와 이차보전 여부도 확인합니다.'
+                kind_desc='소상공인시장진흥공단이 직접 심사하고 실행하는 경로입니다. 해당 상품의 대상·제외 조건과 심사 절차를 확인해야 하며 승인·한도는 심사로 결정됩니다.' if '직접' in d['카테고리'] else '은행이 심사·실행하는 자금입니다. 상품에 따라 보증서·신용·담보 방식이 다르며, 보증료와 이차보전 여부도 확인합니다.'
                 memo_line=(esc(d['한 줄 메모'])+'. ') if d['한 줄 메모'] else ''
                 meas_html=(f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}{kind_desc} 진행 순서는 {steps} — 대상·한도 등 세부 요건은 위 공식 공고가 기준입니다.</p>\n'
                            +f'<h2>{esc(d["기관"])} 실행 기록</h2>\n<p>같은 기관 경로로 저희가 실행한 기록 중 최근 3건입니다({len(P)}건 · {won2(sum(pa))}'
@@ -488,6 +488,7 @@ def build():
     <div class="related">
       <p class="t">함께 보기</p>
       <a href="{inst_link}">{esc(d['기관'])} 안내</a>
+      <a href="/2026-4q-sosangin">2026년 4분기 접수 일정과 대상</a>
       <a href="/schedule">전체 접수 일정</a>
       <a href="/cases">실행 기록</a>
       <a href="/sanghwan">상환 구조 가이드</a>
@@ -495,7 +496,7 @@ def build():
     <div class="cta-box">
       <h3 class="serif">이 자금, 내 조건이면 되는지</h3>
       <p>업종·매출·신용·이력을 주시면 이 자금이 맞는 트랙인지, 아니면 다른 경로가 나은지 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">무료 진단 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
@@ -562,6 +563,7 @@ def build():
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>
+      <a href="/2026-4q-sosangin">2026년 4분기 접수 일정과 대상</a>
       <a href="/gaein">개인사업자 정책자금 총정리</a>
       <a href="/cases">실행 기록</a>
       <a href="/sojingong">소상공인 정책자금</a>
@@ -571,7 +573,7 @@ def build():
     <div class="cta-box">
       <h3 class="serif">어느 자금이 내 차례인지</h3>
       <p>사업 조건과 자금 용도를 바탕으로 검토할 경로와 확인할 공고를 정리해 드립니다. 상담은 무료입니다.</p>
-      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">무료 진단 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>

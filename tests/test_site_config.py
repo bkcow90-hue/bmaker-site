@@ -55,7 +55,7 @@ class SiteConfigurationTests(unittest.TestCase):
 
     def test_kakao_ctas_use_https_and_expose_their_source(self):
         expected = {
-            "카톡 상담": "header",
+            "전화보다 카톡이 편하신가요? 카톡으로 상담하기": "form_alternative",
             "전문가 연계 상담하기": "experts",
             "카카오톡 무료 상담하기": "contact",
         }

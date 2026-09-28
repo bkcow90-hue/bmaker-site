@@ -80,6 +80,11 @@
     if (href.includes('pf.kakao.com/')) track('kakao_click', { cta_location: where });
     else if (href.startsWith('tel:')) track('phone_click', { cta_location: where });
     else if (href.endsWith('#apply')) {
+      const intent = link.dataset.consultationService;
+      if (serviceField && intent && Object.hasOwn(serviceLabels, intent)) {
+        serviceField.value = intent;
+        updateEducationHelp();
+      }
       ctaLocation = where;
       track('consultation_click', { cta_location: where });
     }
@@ -87,6 +92,8 @@
   if (!form) return;
   const message = document.getElementById('applyMsg');
   const button = form.querySelector('[type=submit]');
+  // 폼마다 버튼 문구가 다르다(홈·인라인 진단 폼). 하드코딩하면 전송 실패 뒤 문구가 바뀌어버린다.
+  const buttonLabel = button.textContent;
   const phone = document.getElementById('lf-phone');
   const name = document.getElementById('lf-name');
   let started = false, busy = false, completed = false, selectedTime = '';
@@ -112,15 +119,26 @@
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
   const sticky = document.querySelector('.sticky-cta');
-  let formInView = false;
+  const heroCta = document.getElementById('heroCta');
+  function inViewport(element) {
+    if (!element || typeof element.getBoundingClientRect !== 'function') return false;
+    const r = element.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
+  }
   function updateSticky() {
-    if (sticky) sticky.hidden = formInView || form.contains(document.activeElement);
+    if (sticky) sticky.hidden = inViewport(heroCta) || inViewport(form) || form.contains(document.activeElement);
   }
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      formInView = entries[0].isIntersecting; updateSticky();
-    }, { threshold: 0 }).observe(form);
+    const observer = new IntersectionObserver(updateSticky, { threshold: 0 });
+    observer.observe(form);
+    if (heroCta) observer.observe(heroCta);
   }
+  if (typeof window.addEventListener === 'function') {
+    for (const event of ['load', 'resize', 'pageshow', 'scroll']) {
+      window.addEventListener(event, updateSticky, { passive: true });
+    }
+  }
+  updateSticky();
   form.addEventListener('focusin', updateSticky);
   form.addEventListener('focusout', () => setTimeout(updateSticky, 0));
   function failure(uncertain) {
@@ -154,6 +172,10 @@
     const bizType = document.querySelector('#lf-biztype .biz-opt[aria-pressed="true"]')?.textContent.trim() || '';
     const leadPage = fieldValue('lf-page');
     const preferredTime = selectedTime || '아무 때나';
+    // 최상위 source 키는 /api/lead 가 화이트리스트로 걸러 알림 메일에 안 실린다
+    // (2026-09-28 메일 템플릿 렌더로 확인). 어느 폼에서 온 신청인지 남기려면 answers_text 로 보낸다.
+    const source = leadPage ? 'bmaker.kr 자금·재단 인라인 진단 폼'
+                            : 'bmaker.kr 홈페이지 간편신청';
     const serviceKey = selectedService();
     const serviceLabel = serviceLabels[serviceKey];
     const payload = {
@@ -164,7 +186,8 @@
       answers_text: ['[문의 분야] ' + serviceLabel]
         .concat(bizType ? ['[사업자 형태] ' + bizType] : [])
         .concat(['[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')])
-        .concat(leadPage ? ['[유입] ' + leadPage] : []).join(' · '),
+        .concat(leadPage ? ['[유입] ' + leadPage] : [])
+        .concat(['[신청 경로] ' + source]).join(' · '),
       diagnosis: Object.assign({ '문의 분야': serviceLabel },
         bizType ? { '사업자 형태': bizType } : null,
         { '통화 희망 시간': preferredTime, industry, memo },
@@ -172,7 +195,7 @@
       consent_privacy: document.getElementById('lf-consent').checked,
       consent_marketing: false, consent_version: 'v1.1-2026-09-07-service-selection',
       website: document.getElementById('lf-website').value,
-      source: leadPage ? 'bmaker.kr 자금 페이지 인라인 진단 (' + leadPage + ')' : 'bmaker.kr 홈페이지 간편신청'
+      source: source
     };
     // Reuse the ID and exact payload across uncertain retries; never persist contact data.
     const fingerprint = JSON.stringify(payload);
@@ -194,7 +217,7 @@
       if (!response.ok || result.ok !== true || result.delivery !== 'accepted') throw new Error('delivery_failed');
       completed = true;
       message.className = 'apply-msg ok';
-      message.textContent = '상담 신청이 접수됐습니다. 평일 09:00–18:00에 연락드리며, 선택하신 통화 시간대를 참고합니다. 급한 문의는 1666-2425로 연락해 주세요.';
+      message.textContent = '신청이 접수됐습니다. 평일 09:00~18:00 중 정하신 시간대에 전화드리겠습니다. 급한 문의는 1666-2425로 연락해 주세요.';
       form.reset(); selectedTime = '';
       [...timeButtons, ...bizButtons].forEach(b => b.setAttribute('aria-pressed', 'false'));
       track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
@@ -204,7 +227,7 @@
       track('consultation_error', { reason }); failure(reason !== 'delivery_failed');
     } finally {
       clearTimeout(timeout); busy = false; form.removeAttribute('aria-busy'); button.disabled = false;
-      button.textContent = completed ? '신청 접수 완료' : '무료 상담 신청하기';
+      button.textContent = completed ? '신청 접수 완료' : buttonLabel;
     }
   });
 })();

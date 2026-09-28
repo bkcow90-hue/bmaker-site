@@ -1,0 +1,30 @@
+/* Decorative concept architecture, not a photograph of our offices.
+   Copy and evidence remain ordinary server-rendered HTML. */
+.hero.hero-cinematic{isolation:isolate;padding:64px 0;background:#0e1b33}
+.hero-cinematic .hero-architecture{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(9,22,43,.22),rgba(9,22,43,.08) 60%,rgba(9,22,43,.28)),url('/assets/hero-architecture-v1.webp') center/cover no-repeat}
+.hero-cinematic .hero-grid{position:relative;z-index:1;align-items:center}
+.hero-cinematic .hero-title-line{display:inline-block;animation:hero-title-enter .95s cubic-bezier(.2,.7,.2,1) both}
+.hero-cinematic .hero-title-line:nth-of-type(2){animation-delay:.12s}
+.hero-cinematic .hero-title-line:nth-of-type(3){animation-delay:.24s}
+.hero-cinematic .hero-visual{animation:hero-photo-enter 1.2s cubic-bezier(.2,.7,.2,1) .16s both}
+.hero-cinematic .hero-visual img{height:auto;object-fit:contain;box-shadow:0 24px 64px #030b1d66;border:1px solid #ffffff30}
+.hero-cinematic .hero-light{position:absolute;inset:-25% auto -25% 0;width:16%;z-index:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,transparent,#b6d4f12b,transparent);border-right:1px solid #cce6ff40;animation:hero-light-pass 4.2s ease-in-out .2s both}
+.case-proof{display:block;margin:28px 0;padding:22px 24px;border-left:3px solid #294e83;background:#edf2f8;color:#172c4b}
+.case-proof strong,.case-proof span{display:block}
+.case-proof strong{font-size:1.1rem}
+.case-proof span{margin-top:5px;font-size:.88rem}
+.case-proof .proof-link{text-decoration:underline;text-underline-offset:3px}
+.diagnosis-fee{margin-top:16px;font-size:.92rem;line-height:1.8;color:#46566c}
+@keyframes hero-title-enter{from{opacity:.9;transform:translateY(var(--hero-rise,24px))}to{opacity:1;transform:translateY(0)}}
+@keyframes hero-photo-enter{from{opacity:.9;transform:translateX(var(--hero-slide,36px))}to{opacity:1;transform:translateX(0)}}
+@keyframes hero-light-pass{0%{opacity:0;transform:translateX(-100%) skewX(-18deg)}20%{opacity:1}75%{opacity:.8}100%{opacity:0;transform:translateX(700%) skewX(-18deg)}}
+@media(max-width:860px){
+  .hero.hero-cinematic{padding:32px 0;--hero-rise:12px;--hero-slide:16px}
+  .hero-cinematic .hero-architecture{background-image:linear-gradient(180deg,rgba(9,22,43,.58),rgba(9,22,43,.3)),url('/assets/hero-architecture-mobile-v1.webp');background-position:62% center}
+  .hero-cinematic .hero-light{width:12%}
+  .case-proof{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-cinematic .hero-title-line,.hero-cinematic .hero-visual,.hero-cinematic .hero-light{animation:none;transform:none;opacity:1}
+  .hero-cinematic .hero-light{display:none}
+}

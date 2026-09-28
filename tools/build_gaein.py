@@ -158,7 +158,7 @@ def build():
     <div class="cta-box">
       <h3 class="serif">내 조건이면 어느 갈래인지</h3>
       <p>업종·매출·신용·이력을 주시면 직접대출·재단·신보 기보 중 맞는 트랙과 예상 구조를 무료로 진단해 드립니다.</p>
-      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">무료 진단 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
