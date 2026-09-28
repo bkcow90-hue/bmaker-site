@@ -51,10 +51,10 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정책자금 컨설팅 — 무엇을 하고 얼마를 받나, 업체 고르는 확인법 (2026) | 비즈니스 메이커</title>
-<meta name="description" content="정책자금 컨설팅 업체는 무엇을 하고 비용은 어떻게 받나요? 진단·설계·준비·심사 대응 4단계, 하지 않는 일 3가지, 업체 확인법 3가지 — 공개 실행 기록 {N}건({TOT})과 함께.">
+<title>정책자금 컨설팅, 무엇을 하고 어떻게 진행하나 | 비즈니스 메이커</title>
+<meta name="description" content="정책자금 컨설팅 업체는 무엇을 하고 어떻게 진행하나요? 진단·설계·준비·심사 대응 4단계, 하지 않는 일 3가지, 업체 확인법 3가지 — 공개 실행 기록 {N}건({TOT})과 함께.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="정책자금 컨설팅 — 무엇을 하고 얼마를 받나 (2026)">
+<meta property="og:title" content="정책자금 컨설팅, 무엇을 하고 어떻게 진행하나 | 비즈니스 메이커">
 <meta property="og:description" content="무료 진단 · 공개 실행 기록 {N}건">
 <meta property="og:url" content="https://bmaker.kr/consulting">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
@@ -75,7 +75,7 @@ def build():
 <section class="hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 정책자금 컨설팅</p>
-    <h1 class="serif">정책자금 컨설팅,<br class="pc"> 무엇을 하고 얼마를 받나</h1>
+    <h1 class="serif">정책자금 컨설팅,<br class="pc"> 무엇을 하고 어떻게 진행하나</h1>
     <p>승인은 기관이 하고, 컨설팅은 그 전 단계를 맡습니다. 진단은 무료입니다. 공개 실행 기록은 {N}건({TOT})입니다.</p>
   </div>
 </section>
