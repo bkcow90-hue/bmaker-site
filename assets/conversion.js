@@ -156,6 +156,9 @@
     const industry = document.getElementById('lf-biz').value.trim();
     const memo = document.getElementById('lf-memo').value.trim();
     const preferredTime = selectedTime || '아무 때나';
+    // 최상위 source 키는 /api/lead 가 화이트리스트로 걸러 알림 메일에 안 실린다
+    // (2026-09-28 메일 템플릿 렌더로 확인). 어느 폼에서 온 신청인지 남기려면 answers_text 로 보낸다.
+    const source = 'bmaker.kr 홈페이지 간편신청';
     const serviceKey = selectedService();
     const serviceLabel = serviceLabels[serviceKey];
     const payload = {
@@ -163,12 +166,12 @@
       consultation_service: serviceKey,
       name: name.value.trim(), phone: digits,
       preferred_time: preferredTime,
-      answers_text: ['[문의 분야] ' + serviceLabel, '[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
+      answers_text: ['[문의 분야] ' + serviceLabel, '[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력'), '[신청 경로] ' + source].join(' · '),
       diagnosis: { '문의 분야': serviceLabel, '통화 희망 시간': preferredTime, industry, memo },
       consent_privacy: document.getElementById('lf-consent').checked,
       consent_marketing: false, consent_version: 'v1.1-2026-09-07-service-selection',
       website: document.getElementById('lf-website').value,
-      source: 'bmaker.kr 홈페이지 간편신청'
+      source: source
     };
     // Reuse the ID and exact payload across uncertain retries; never persist contact data.
     const fingerprint = JSON.stringify(payload);

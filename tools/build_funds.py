@@ -252,6 +252,7 @@ def build():
     <div class="related">
       <p class="t">함께 보기</p>
       <a href="{inst_link}">{esc(d['기관'])} 안내</a>
+      <a href="/2026-4q-sosangin">2026년 4분기 접수 일정과 대상</a>
       <a href="/schedule">전체 접수 일정</a>
       <a href="/cases">실행 기록</a>
       <a href="/sanghwan">상환 구조 가이드</a>
@@ -326,6 +327,7 @@ def build():
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>
+      <a href="/2026-4q-sosangin">2026년 4분기 접수 일정과 대상</a>
       <a href="/gaein">개인사업자 정책자금 총정리</a>
       <a href="/cases">실행 기록</a>
       <a href="/sojingong">소상공인 정책자금</a>

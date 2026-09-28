@@ -57,6 +57,10 @@ for (const service of ['policy', 'marketing', 'startup', 'certification', 'educa
   assert.equal(f.bodies[0].consultation_service, service);
   assert.equal(f.bodies[0].service, service === 'policy' ? 'pfm' : service);
   assert.ok(f.bodies[0].answers_text.includes(f.bodies[0].service_name));
+  // /api/lead 는 최상위 키를 화이트리스트로 거른다 — 통화 희망 시간과 신청 경로가
+  // answers_text 에 없으면 운영자 알림 메일에서 사라진다(2026-09-28 메일 템플릿 렌더로 확인).
+  assert.ok(f.bodies[0].answers_text.includes(f.bodies[0].preferred_time), 'preferred_time reaches the mail body');
+  assert.ok(f.bodies[0].answers_text.includes(f.bodies[0].source), 'source reaches the mail body');
   assert.equal(f.events.find(e => e.event === 'generate_lead').service_category, service, 'category survives form reset');
 }
 const unknown = fixture('success', '__proto__');
