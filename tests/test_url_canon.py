@@ -18,6 +18,11 @@ LOAN_GUIDES = ["sme-business-loans", "microfinance-business"]
 PAGES += [f"{slug}.html" for slug in LOAN_GUIDES]
 SLUGS += LOAN_GUIDES
 
+# 분기별 접수 안내 — 손으로 만드는 정적 페이지(빌더 대상이 아님)
+QUARTERLY = ["2026-4q-sosangin"]
+PAGES += [f"{slug}.html" for slug in QUARTERLY]
+SLUGS += QUARTERLY
+
 
 def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")

@@ -9,7 +9,10 @@
   const serviceField = document.getElementById('lf-service');
   if (serviceField) {
     const requested = new URLSearchParams(location.search || '').get('service');
-    serviceField.value = requested && Object.hasOwn(serviceLabels, requested) ? requested : 'general';
+    // 쿼리 > 페이지 기본값(body[data-service]) > 종합 상담. 정책자금 전용 페이지의 폼은
+    // 문의 분야도 정책자금으로 열려야 한다(규격 4절). 홈은 data-service="general" 이라 그대로다.
+    serviceField.value = requested && Object.hasOwn(serviceLabels, requested) ? requested
+      : markedService && Object.hasOwn(serviceLabels, markedService) ? markedService : 'general';
   }
   const updateEducationHelp = () => {
     const education = serviceField?.value === 'education';
