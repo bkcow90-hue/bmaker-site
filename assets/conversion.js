@@ -119,6 +119,9 @@
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
   const sticky = document.querySelector('.sticky-cta');
+  // 헤더 버튼은 히어로 CTA 가 보이는 동안 숨긴다 — 첫 화면 CTA 를 하나로 유지한다(규격 4절).
+  // 모바일(≤840px)에서는 CSS 로 이미 감춰져 있고 펼침 메뉴의 .nav-book 이 그 자리를 대신한다.
+  const headerCta = document.querySelector('.nav-cta-book');
   const heroCta = document.getElementById('heroCta');
   function inViewport(element) {
     if (!element || typeof element.getBoundingClientRect !== 'function') return false;
@@ -126,7 +129,9 @@
     return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
   }
   function updateSticky() {
-    if (sticky) sticky.hidden = inViewport(heroCta) || inViewport(form) || form.contains(document.activeElement);
+    const heroVisible = inViewport(heroCta);
+    if (sticky) sticky.hidden = heroVisible || inViewport(form) || form.contains(document.activeElement);
+    if (headerCta) headerCta.hidden = heroVisible;
   }
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(updateSticky, { threshold: 0 });

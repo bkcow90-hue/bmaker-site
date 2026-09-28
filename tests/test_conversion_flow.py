@@ -48,7 +48,7 @@ def test_no_retired_cta_wording_anywhere():
 
 def test_header_and_sticky_cta_say_free_diagnosis():
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
-    assert '<a class="nav-cta" href="#apply" data-cta-location="header">무료 진단 신청</a>' in home
+    assert '<a class="nav-cta nav-cta-book" href="#apply" data-cta-location="header">무료 진단 신청</a>' in home
     assert '<a class="sc-apply" href="#apply" data-cta-location="mobile_sticky">무료 진단 신청</a>' in home
 
 

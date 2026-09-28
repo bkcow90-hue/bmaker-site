@@ -51,6 +51,10 @@
   "date": "2026-09-28",
   "hash": "77ee8918a389e664ac03993ba5605869a8c5bfb18bf38cd0b01a6d215ae607bc"
  },
+ "faq.html": {
+  "date": "2026-09-28",
+  "hash": "386514485461b5e92dd91d101141f243b46b2990d08a6b8525713f6275d2c663"
+ },
  "funding.html": {
   "date": "2026-09-28",
   "hash": "cc524372c290bde17e0b2f4599e9f01235da8f89fe4304ec2441568e5502b6d9"
@@ -191,6 +195,10 @@
   "date": "2026-09-28",
   "hash": "d793fed03e323999a4056599e2b9c8c7afa09b23492dcf20eec5cd37aea2cedf"
  },
+ "jungsogieop.html": {
+  "date": "2026-09-28",
+  "hash": "4f2008b9e8d9e6b98763681d1550e919b545eacf104850d8cbf7cec622269bd5"
+ },
  "marketing.html": {
   "date": "2026-09-15",
   "hash": "738a9cbf208f701d2f88a9aa87dfafb982356331729d23d55ae09c1d88c049bb"
@@ -242,6 +250,10 @@
  "sojingong.html": {
   "date": "2026-09-28",
   "hash": "034006ed2b5ef0d3a25669d9604d625a93104fe8c271a71933be9027316f2b94"
+ },
+ "sosangin.html": {
+  "date": "2026-09-28",
+  "hash": "93d32afb04d145e3b2f295e70b4d5752e8b85b0a37979258ef58b21d5a315ab8"
  },
  "startup-consulting-cost.html": {
   "date": "2026-09-15",

@@ -137,6 +137,24 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @media(max-width:680px){h2{font-size:1.3rem;margin-top:40px}.wrap .cards{border-top-width:2px}.wrap .cards{grid-template-columns:1fr}.wrap .cards .card{border-left:0;padding:14px 0;border-top:1px solid var(--line)}.wrap .cards .card:first-child{border-top:0}.wrap .related a{margin:0 8px 8px 0;padding:8px 0;border:0;border-bottom:1px solid var(--line);border-radius:0}}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+/* nav-shell v3 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다 — 헤더 띠만 넓힌다 */
+header .wrap{max-width:1180px}
+.nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
+.nav-links a{color:var(--ink-soft);text-decoration:none}
+.nav-links a:hover{color:var(--navy)}
+.nav-links .nav-book{display:none}
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다 — 여기서 되돌린다 */
+.nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
+.nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
+.nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
+.nav-links details.nav-drop>summary::after{content:"▾";font-size:.8em}
+.nav-links details.nav-drop>summary:hover{color:var(--navy)}
+.nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
+.nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
+.nav-links .nav-drop-menu a:hover{background:var(--paper)}
+/* 좁아지면 메뉴를 감춘다 — 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+@media(max-width:1100px){.nav-links{display:none}}
 </style>
 <style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}.inline-diag{border-top:2px solid var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:var(--paper,#F7F5F0);padding:26px 24px;margin:28px 0}.inline-diag h2{margin:0 0 6px;padding:0;border:0;font-size:1.18rem;line-height:1.45;color:var(--navy,#0E1B33)}.inline-diag .sub{margin:0 0 18px;font-size:.92rem;color:#4a5669;line-height:1.6}.inline-diag .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.inline-diag label,.inline-diag .field-label{display:block;font-size:.9rem;font-weight:700;color:#263951;margin:0 0 7px}.inline-diag input[type=text],.inline-diag input[type=tel]{width:100%;padding:13px 14px;border-radius:4px;border:1px solid #aeb9ca;background:#fff;color:#1A2233;font-size:1rem;font-family:inherit;min-height:46px}.inline-diag input::placeholder{color:#8792a5}.inline-diag input:focus{outline:2px solid var(--blue,#2B5BE3);border-color:var(--blue,#2B5BE3)}.inline-diag .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.inline-diag .opts button{padding:12px 4px;border-radius:4px;border:1px solid #bdc7d8;background:#fff;color:#263951;font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px}.inline-diag .opts button[aria-pressed=true]{background:#2454bc;border-color:#2454bc;color:#fff}.inline-diag .group{margin-top:16px}.inline-diag .consent{display:flex;align-items:flex-start;gap:9px;margin-top:16px;font-size:.86rem;line-height:1.6;color:#4a5669;font-weight:400}.inline-diag .consent input{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:#2454bc}.inline-diag .consent a{color:#1e44b8;text-decoration:underline}.inline-diag button[type=submit]{width:100%;margin-top:18px;background:#2454bc;color:#fff;border:1px solid #2454bc;border-radius:4px;padding:16px;font-size:1.04rem;font-weight:700;cursor:pointer;font-family:inherit}.inline-diag button[type=submit]:disabled{opacity:.65;cursor:wait}.inline-diag .note{margin-top:12px;font-size:.84rem;color:#526077;line-height:1.55}.inline-diag .apply-msg{margin-top:14px;font-size:.9rem;text-align:center;display:none}.inline-diag .apply-msg.ok{display:block;color:#126435}.inline-diag .apply-msg.err{display:block;color:#b32b28}.inline-diag .apply-fallback{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.inline-diag .apply-fallback a{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;border-radius:4px;padding:12px 8px;text-decoration:none}.inline-diag .apply-fallback .fb-kakao{background:var(--kakao,#FEE500);color:#191600}.inline-diag .apply-fallback .fb-tel{border:1px solid #aeb9ca;color:#263951}@media(max-width:680px){.inline-diag{padding:22px 18px;margin:24px 0}.inline-diag .row{grid-template-columns:1fr;gap:0}.inline-diag .row>div+div{margin-top:16px}.inline-diag .opts{grid-template-columns:1fr}}</style>
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/jaedan-jeonbuk#webpage", "url": "https://bmaker.kr/jaedan-jeonbuk", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-09-28"}</script></head>
@@ -144,12 +162,7 @@ h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo'
 <header>
   <div class="wrap nav">
     <a class="logo" href="/"><img src="assets/symbol-96.webp" alt="비즈니스 메이커 로고" width="32" height="27"><span>비즈니스<b>메이커</b></span></a>
-    <nav class="nav-menu" aria-label="주요 메뉴">
-      <a href="/cases">실행 기록</a>
-      <a href="/schedule">접수 일정</a>
-      <a href="/gaein">개인사업자</a>
-      <a href="/consulting">컨설팅</a>
-    </nav>
+    <nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a href="/sosangin">소상공인 정책자금 컨설팅</a><a href="/jungsogieop">중소기업 정책자금 컨설팅</a><a href="/cases">받은 사례</a><details class="nav-drop"><summary>자금 안내</summary><div class="nav-drop-menu"><a href="/sojingong">소상공인시장진흥공단(소진공)</a><a href="/jaedan">지역신용보증재단</a><a href="/jungjingong">중소벤처기업진흥공단(중진공)</a><a href="/sinbo">신용보증기금(신보)</a><a href="/gibo">기술보증기금(기보)</a><a href="/bojeung">보증서 대출</a><a href="/schedule">접수 일정</a><a href="/gaein">개인사업자</a></div></details><a href="/certification">기업인증</a><a href="/#about">회사소개</a><a class="nav-book" href="/#apply" data-cta-location="nav_menu">무료 진단 신청</a></nav>
     <div class="nav-actions">
       <a class="nav-tel" href="tel:1666-2425">📞 1666-2425</a>
       <a class="nav-cta" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카톡 상담</a>
