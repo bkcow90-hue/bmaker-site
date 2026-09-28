@@ -51,7 +51,8 @@ def cards(items):
 
 def stylesheet(page):
     link = '<link rel="stylesheet" href="/assets/editorial.css">'
-    return page if link in page else page.replace('</head>', link + '</head>')
+    # build_lastmod 가 ?v=<해시> 를 붙이므로 따옴표 앞까지만 비교한다
+    return page if 'href="/assets/editorial.css' in page else page.replace('</head>', link + '</head>')
 
 
 def topic_links(links, heading='지금 단계에서 함께 확인할 자료'):
@@ -95,7 +96,8 @@ def main():
         return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>'
     page = re.sub(r'<script type="application/ld\+json">(.*?)</script>', repayment_schema, page, flags=re.S)
     path.write_text(page, encoding='utf-8')
-    shell = (ROOT / 'marketing.html').read_text(encoding='utf-8').replace('<link rel="stylesheet" href="/assets/editorial.css">', '')
+    shell = re.sub(r'<link rel="stylesheet" href="/assets/editorial\.css(?:\?v=[0-9a-f]+)?">', '',
+                   (ROOT / 'marketing.html').read_text(encoding='utf-8'))
     for item in ITEMS:
         path = ROOT / (item['slug'] + '.html')
         url = 'https://bmaker.kr/' + item['slug']

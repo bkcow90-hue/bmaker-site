@@ -201,3 +201,49 @@ def test_foundation_hub_form_also_submits(browser, site):
     payload, _, _ = _submit(browser, site, "jaedan")
     assert payload["diagnosis"]["유입 페이지"] == "/jaedan (신용보증재단 사업자대출)"
     assert payload["diagnosis"]["사업자 형태"] == "법인사업자"
+
+
+# ── 선택형 그룹: 클릭 → 선택 상태 → 선택 표시 → payload ─────────────────────
+# 2026-09-28 대표 제보 "사업자 형태 선택 불가" 이후 추가. 선택지 하나하나를 실제로 눌러
+# aria-pressed(=선택 상태)·계산된 배경색(=화면 표시)·전송 payload 를 모두 본다.
+# 이 그룹들은 <input> 이 아니라 aria-pressed 토글 버튼이므로 'checked' 대신 aria-pressed 를 본다.
+SELECTED_BG = "rgb(36, 84, 188)"   # FORM CSS .opts button[aria-pressed=true] 의 #2454bc
+GROUPS = [
+    ("#lf-biztype .biz-opt", ["개인사업자", "법인사업자", "창업 예정"],
+     lambda p: p["diagnosis"].get("사업자 형태")),
+    ("#lf-time .time-opt", ["오전 (9~12시)", "오후 (12~6시)", "아무 때나"],
+     lambda p: p["preferred_time"]),
+]
+
+
+@pytest.mark.parametrize("viewport", [PHONE, {"width": 1280, "height": 800}], ids=["390", "1280"])
+@pytest.mark.parametrize("selector,labels,read", GROUPS, ids=["biztype", "time"])
+def test_every_choice_selects_shows_and_is_sent(browser, site, viewport, selector, labels, read):
+    for label in labels:
+        page = browser.new_page(viewport=viewport)
+        sent = {}
+
+        def handle(route):
+            sent["payload"] = json.loads(route.request.post_data)
+            route.fulfill(status=200, content_type="application/json",
+                          body=json.dumps({"ok": True, "delivery": "accepted"}))
+
+        page.route("**/*", lambda r: r.continue_() if r.request.url.startswith("http://127.0.0.1:") else r.abort())
+        page.route("**/api/lead", handle)
+        page.goto(f"{site}/cheongnyeon.html", wait_until="domcontentloaded")
+        target = page.locator(selector, has_text=label)
+        target.click()
+        assert target.get_attribute("aria-pressed") == "true", f"{label}: 눌러도 선택 상태가 안 됨"
+        others = [b.get_attribute("aria-pressed") for b in page.locator(selector).all()
+                  if b.inner_text().strip() != label]
+        assert others == ["false"] * (len(labels) - 1), f"{label}: 다른 선택지가 풀리지 않음 {others}"
+        bg = target.evaluate("e => getComputedStyle(e).backgroundColor")
+        assert bg == SELECTED_BG, f"{label}: 선택 표시가 안 보임 (배경 {bg})"
+        page.fill("#lf-name", "테스트")
+        page.fill("#lf-phone", "010-1234-5678")
+        page.check("#lf-consent")
+        page.locator("#leadForm button[type=submit]").click()
+        page.wait_for_function("document.getElementById('applyMsg').textContent.length > 0", timeout=5000)
+        assert sent.get("payload"), f"{label}: 제출이 /api/lead 로 나가지 않음"
+        assert read(sent["payload"]) == label, (label, sent["payload"]["answers_text"])
+        page.close()

@@ -21,7 +21,7 @@ def test_new_service_pages_have_working_routes_and_contact_intent():
     for slug in PAGES:
         source = (ROOT / f'{slug}.html').read_text(encoding='utf-8')
         assert source.count('<h1>') == 1
-        assert source.count('src="/assets/conversion.js"') == 1
+        assert source.count('src="/assets/conversion.js?v=') == 1
         for raw in re.findall(r'<script type="application/ld\+json">(.*?)</script>', source, re.S):
             data = json.loads(raw)
             if data.get('@type') == 'FAQPage':
