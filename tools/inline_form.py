@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """자금·재단 상세 페이지 본문 중간에 넣는 인라인 진단 폼.
 
-자금 15장(build_funds)과 재단 18장(build_jaedan)이 같은 마크업을 쓰도록 한 곳에서 만든다.
+자금 15장(build_funds)과 재단 18장(build_jaedan), 허브 2장(build_hubs), 4분기 안내(2026-4q-sosangin.html,
+정적 — 이 함수 출력을 그대로 붙여 넣었다)가 같은 마크업을 쓰도록 한 곳에서 만든다.
+홈(index.html) 폼은 스타일이 홈 <style> 에만 있으므로 다른 페이지로 복사하지 않는다 — 2026-09-28 허브 2장이
+홈 폼 HTML 만 복사해 브라우저 기본 모양(19px 입력칸·회색 버튼)으로 PR #7 부터 배포돼 있었다.
 문구가 두 빌더에서 갈리면 페이지별 전환율 비교가 무의미해진다.
 
 전송은 기존 assets/conversion.js 와 https://codedaum.pages.dev/api/lead 를 그대로 쓴다.
@@ -18,6 +21,7 @@ diagnosis 에 실어 보내므로 알림 메일 본문의 [진단 답변]·[진�
 import html
 
 TITLE = '이 자금, 우리 회사도 되는지 무료로 확인'
+TITLE_GENERAL = '우리 회사도 되는지 무료로 확인'   # 자금 하나가 아닌 페이지(허브·4분기)
 BUTTON = '무료 진단 신청'   # 전 사이트 통일 (규격 4절, 2026-09-28)
 BIZ_TYPES = [('개인사업자', '개인사업자'), ('법인사업자', '법인사업자'), ('창업 예정', '예정')]
 
@@ -61,7 +65,7 @@ CSS = (
 )
 
 
-def form_html(page_path, page_label):
+def form_html(page_path, page_label, title=TITLE):
     """page_path·page_label 은 어느 페이지에서 온 신청인지 알림 메일에 남기는 값이다."""
     e = lambda s: html.escape(s, quote=True)
     where = '%s (%s)' % (page_path, page_label)
@@ -71,9 +75,9 @@ def form_html(page_path, page_label):
     return (
  '<section id="apply" class="inline-diag" aria-label="무료 진단 예약">\n'
  '  <form id="leadForm" aria-labelledby="inline-diag-title">\n'
- '    <h2 id="inline-diag-title" class="serif">%s</h2>\n' % e(TITLE) +
- '    <p class="sub">연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다. '
- '진단은 무료이고, 정책자금은 착수금이 없습니다.</p>\n'
+ '    <h2 id="inline-diag-title" class="serif">%s</h2>\n' % e(title) +
+ # 비용·성과 보수 고지는 폼에 두지 않는다 — 각 페이지 본문·FAQ가 맡는다(규격 4절, 2026-09-28)
+ '    <p class="sub">연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.</p>\n'
  '    <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" '
  'style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">\n'
  '    <input type="hidden" id="lf-service" name="consultation_service" value="policy">\n'

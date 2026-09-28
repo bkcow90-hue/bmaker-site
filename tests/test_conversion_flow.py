@@ -75,16 +75,47 @@ def _section(html, start_marker):
     return html[html.rfind('<section', 0, i):html.index('</section>', i)]
 
 
+def _form(html):
+    i = html.index('id="leadForm"')
+    return html[html.rfind('<section', 0, i):html.index('</form>', i)]
+
+
 def test_forms_carry_no_fee_notice_but_home_diagnosis_and_faq_do():
     fee = _re.compile(r'착수금|성과 보수|성공보수')
-    for name in ['index.html', 'sosangin.html', 'jungsogieop.html', '2026-4q-sosangin.html']:
-        form = _section((ROOT / name).read_text(encoding='utf-8'), 'id="apply-section"')
-        assert not fee.search(form), f'{name}: 신청 폼에 비용 고지가 남아 있다'
-        assert '<button type="submit" class="btn btn-primary">무료 진단 신청</button>' in form, name
-        assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in form, name
-        assert 'data-cta-location="form_alternative"' in form, f'{name}: 폼 아래 카톡 링크가 사라졌다'
+    pages = [p for p in list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html'))
+             if 'id="leadForm"' in p.read_text(encoding='utf-8')]
+    assert len(pages) >= 36
+    for path in pages:
+        form = _form(path.read_text(encoding='utf-8'))
+        assert not fee.search(form), f'{path.name}: 신청 폼에 비용 고지가 남아 있다'
+        assert _re.search(r'<button type="submit"[^>]*>무료 진단 신청</button>', form), path.name
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
+    form = _form(home)
+    assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in home[home.index('id="leadForm"'):home.index('id="about"')]
+    assert 'data-cta-location="form_alternative"' in home[home.index('id="leadForm"'):home.index('id="about"')], '홈 폼 아래 카톡 링크가 사라졌다'
     diagnosis = _section(home, 'id="diagnosis"')
     assert '착수금·진행비 0원' in diagnosis and '성과 보수' in diagnosis, '진단 섹션에서 비용 고지가 사라졌다'
     faq = _section(home, 'id="faq"')
     assert '착수금·진행비 등 실행 전 비용은 일절 받지 않고' in faq and '성공보수' in faq, 'FAQ에서 비용 고지가 사라졌다'
+
+
+def test_inline_form_pages_keep_fee_notice_outside_the_form():
+    """폼에서 뺀 비용 고지가 인라인 폼 페이지(자금·재단·허브·4분기)에서 통째로 사라지지 않게.
+
+    화면 본문(헤더·푸터·JSON-LD 제외)의 **한 문장 안에** 착수금 없음과 성과 보수가 함께 있어야 한다.
+    "착수금 사기 구별법" 같은 링크 문구나 "실행 전 비용은 일절 없고"만으로는 통과시키지 않는다 —
+    착수금 없음은 핵심 차별점이라 명시돼야 한다(대표 지시 2026-09-28, 허브 2장이 여기 걸려 한 줄 추가).
+    """
+    missing = []
+    for path in ROOT.glob('*.html'):
+        html = path.read_text(encoding='utf-8')
+        if 'class="inline-diag"' not in html:
+            continue
+        body = html[html.find('<body'):]
+        outside = body.replace(_form(body), '')
+        outside = _re.sub(r'<(header|footer|script)\b.*?</\1>', '', outside, flags=_re.S)
+        text = _re.sub(r'\s+', ' ', _re.sub(r'<[^>]+>', ' ', outside))
+        sentences = _re.split(r'(?<=[.다])\s', text)
+        if not any('착수금' in x and _re.search(r'성과 보수|성공보수|성과로만', x) for x in sentences):
+            missing.append(path.name)
+    assert not missing, f'폼 밖 본문에 "착수금 없음 + 성과 보수" 고지가 없다: {missing}'

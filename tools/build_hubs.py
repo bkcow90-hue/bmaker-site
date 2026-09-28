@@ -7,7 +7,8 @@
 
 화면 FAQ 와 FAQPage JSON-LD 는 같은 목록에서 생성해 항상 100% 일치한다(규격 3절).
 날짜는 tools/builddate 의 build_date()·data_date() 만 쓴다 — 자체 계산 금지.
-폼은 홈(index.html)의 신청 섹션을 그대로 가져와 한 곳에서 관리한다.
+폼은 자금·재단 상세와 같은 인라인 진단 폼(tools/inline_form.py)을 쓴다. 홈 폼 HTML 을 복사하면 스타일이
+홈 <style> 에만 있어 브라우저 기본 모양으로 깨진다(2026-09-28, PR #7 부터 배포돼 있었다).
 
 실행: python tools/build_hubs.py   (빌더 체인에서 build_lastmod.py 앞)
 """
@@ -16,6 +17,7 @@ from pathlib import Path
 
 from builddate import build_date, data_date          # noqa: F401  (build_date 는 규칙상 노출)
 from build_cases import hub_of, inst_bucket, won2
+from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = 'data/cases.source.csv'
@@ -147,8 +149,6 @@ def build():
     src = (ROOT / 'jaedan.html').read_text(encoding='utf-8')
     hdr = re.search(r'<header>.*?</header>', src, re.S).group(0)
     foot = re.search(r'<footer>.*?</footer>', src, re.S).group(0)
-    form = re.search(r'<section id="apply-section".*?</section>', (ROOT / 'index.html').read_text(encoding='utf-8'),
-                     re.S).group(0)
     extra = ('<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}'
              'table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}'
              'th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}'
@@ -166,9 +166,10 @@ def build():
              '.hero .btn-hub-cta{display:inline-flex;align-items:center;justify-content:center;margin-top:24px;'
              'background:var(--blue-deep);color:#fff;border:1px solid var(--blue-deep);border-radius:4px;'
              'padding:15px 26px;font-weight:700;font-size:1rem;min-height:52px;text-decoration:none}'
+             '.fee-note{margin:0 0 12px;color:var(--navy);font-weight:700;font-size:.98rem;line-height:1.7}'
              '.who{margin:0;padding:16px 20px;background:var(--paper);border-left:3px solid var(--kakao);'
              'color:#3A4356;font-size:.94rem;line-height:1.75}'
-             '@media(max-width:680px){.hero .btn-hub-cta{width:100%}}</style>')
+             '@media(max-width:680px){.hero .btn-hub-cta{width:100%}}' + FORM_CSS + '</style>')
 
     made = []
     for slug, cfg in HUBS.items():
@@ -268,11 +269,13 @@ def build():
 </div></section>
 
 <section class="block"><div class="wrap">
+  <p class="fee-note">진단은 무료이고, 착수금·진행비 없이 자금이 실행된 경우에만 성과 보수를 받습니다.</p>
   <p class="who">전담 상담팀이 상담하고 대표 김상표가 주요 검토와 진행 관리에 참여합니다.
   세무·노무·특허·법률 전문가와 상시 협업하며, 전문가 검토가 필요한 업무의 담당과 범위·비용은 사전에 안내합니다.</p>
 </div></section>
 
-{form}
+<section class="block"><div class="wrap">
+{form_html('/' + slug, cfg['name'], title=TITLE_GENERAL)}</div></section>
 
 <section class="block"><div class="wrap">
   <h2 class="serif">함께 보면 좋은 안내</h2>
