@@ -22,7 +22,7 @@ def sched_attrs(start, passed_text, passed_cls):
             f' data-sched-passed-class="{passed_cls}"')
 
 
-FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
+FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
 BASE_RATE_ID = 'base-rate'   # 시트의 기준금리 예약 행 (사이트 공개 N)
 BASE_RATE = None             # 예: 3.85
 BASE_RATE_LABEL = ''         # 예: '2026년 3분기'
@@ -399,7 +399,7 @@ def build():
         title_txt = TITLE_OVERRIDES.get(d['자금ID'], title_txt)
         default_desc = (f"{d['자금명']} — {d['기관']} {kind_short}. "
                         f"{d['한 줄 메모'] if d['한 줄 메모'] else '대상·한도·금리·신청 기간과 공식 공고 기준 요건'}. "
-                        f"{meas_sum}. 착수금 없이 무료 진단, 실행 시에만 성공보수.")
+                        f"{meas_sum}. 무료 진단.")
         desc_txt = DESC_OVERRIDES.get(d['자금ID'], default_desc)
         og_title_txt = OG_TITLE_OVERRIDES.get(d['자금ID'], f"{d['자금명']} — 조건·실측·접수 일정 (2026)")
         Cshow=sorted(C, key=lambda r:(r["실행 연월"], r["사례ID"]), reverse=True)[:10]
