@@ -100,8 +100,9 @@ def test_llms_files_declare_utf8_charset():
 def test_assets_are_versioned_by_content():
     """페이지가 부르는 /assets/*.js·*.css 는 ?v=<현재 파일 해시> 여야 한다.
 
-    _headers 가 /assets/* 를 하루 캐시한다. 주소가 그대로면 배포 뒤 최대 24시간 동안 방문자
-    브라우저가 옛 conversion.js 를 새 HTML 과 섞어 쓴다 — 2026-09-28 인라인 폼 배포 당일 이
+    _headers 가 /assets/*.js·*.css 를 1년 immutable 로 캐시한다(해시가 있어야 안전한 설정).
+    주소가 그대로면 배포 뒤에도 방문자 브라우저가 옛 conversion.js 를 새 HTML 과 섞어 쓴다
+    — 하루 캐시였던 2026-09-28 인라인 폼 배포 당일에도 이
     조합에서 사업자 형태 버튼이 무반응이었고 제출도 조용히 실패했다. 로컬 브라우저 테스트는
     항상 최신 JS 를 받으므로 이 사고를 재현하지 못한다. 그래서 주소 자체를 검사한다.
     """
