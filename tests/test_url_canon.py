@@ -28,6 +28,11 @@ HUBS = ["sosangin", "jungsogieop", "faq"]
 PAGES += [f"{slug}.html" for slug in HUBS]
 SLUGS += HUBS
 
+# 업종 의도 랜딩 — 하위 디렉터리. 정본 URL 도 /industry/<slug> 형태다
+INDUSTRY = ["industry/eumsikjeom"]
+PAGES += [f"{slug}.html" for slug in INDUSTRY]
+SLUGS += INDUSTRY
+
 
 def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")

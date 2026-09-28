@@ -23,8 +23,15 @@ jobs:
             URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g')
           else
             FILES=$(git diff --name-only "${{ github.event.before }}" "${{ github.event.after }}" -- '*.html' 2>/dev/null || git diff --name-only HEAD~1 -- '*.html')
-            FILES=$(echo "$FILES" | grep -v '^$' | grep -v '/' | grep -v '^404\.html$' || true)
-            URLS=$(for f in $FILES; do if [ "$f" = "index.html" ]; then echo "https://bmaker.kr/"; else echo "https://bmaker.kr/${f%.html}"; fi; done)
+            FILES=$(echo "$FILES" | grep -v '^$' || true)
+            # 바뀐 HTML 을 정본 URL 로 바꾼다. 하위 디렉터리도 그대로 둔다
+            # (industry/eumsikjeom.html → https://bmaker.kr/industry/eumsikjeom).
+            CAND=$(for f in $FILES; do if [ "$f" = "index.html" ]; then echo "https://bmaker.kr/"; else echo "https://bmaker.kr/${f%.html}"; fi; done)
+            # 제출 대상은 sitemap.xml 에 실린 URL 로만 한정한다 — 색인 대상이 아닌 페이지
+            # (404 등 sitemap 에 없는 것)를 따로 거르지 않아도 되고, 루트·하위 구분이 사라진다.
+            grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g' | sort -u > sitemap-urls.txt
+            URLS=$(echo "$CAND" | sort -u | grep -Fxf sitemap-urls.txt || true)
+            rm -f sitemap-urls.txt
           fi
           URLS=$(echo "$URLS" | grep -v '^$' | sort -u)
           [ -z "$URLS" ] && { echo "핑할 URL 없음"; exit 0; }
