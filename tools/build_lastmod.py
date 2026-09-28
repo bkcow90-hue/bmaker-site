@@ -109,7 +109,8 @@ def stamp_assets(s):
             f = ROOT / path.lstrip('/')
             if not f.is_file():
                 die(f'페이지가 부르는 자산 {path} 이(가) 저장소에 없습니다.')
-            _versions[path] = hashlib.sha256(f.read_bytes()).hexdigest()[:10]
+            # 줄바꿈 무관 — Windows 체크아웃(CRLF)과 CI·배포(LF)에서 같은 값이 나와야 한다
+            _versions[path] = hashlib.sha256(f.read_bytes().replace(b'\r', b'')).hexdigest()[:10]
         return f'{ref}?v={_versions[path]}"'
     return ASSET.sub(one, s)
 

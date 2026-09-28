@@ -111,7 +111,7 @@ def test_assets_are_versioned_by_content():
     bad = []
     for p in sorted(root.glob('*.html')) + sorted(root.glob('industry/*.html')):
         for path, ver in ref.findall(p.read_text(encoding='utf-8')):
-            want = '?v=' + hashlib.sha256((root / path.lstrip('/')).read_bytes()).hexdigest()[:10]
+            want = '?v=' + hashlib.sha256((root / path.lstrip('/')).read_bytes().replace(b'\r', b'')).hexdigest()[:10]
             if ver != want:
                 bad.append(f'{p.name}: {path}{ver} (기대 {want})')
     assert not bad, '자산 버전이 파일 내용과 다르다 — python tools/build_lastmod.py 를 돌릴 것:\n' + '\n'.join(bad[:10])
