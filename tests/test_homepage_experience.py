@@ -89,7 +89,8 @@ class HomepageExperienceTests(unittest.TestCase):
             element
             for element in self.elements
             if element["tag"] in {"a", "button"}
-            and "상담 신청" in " ".join(element["text"].split())
+            # "무료 진단 신청" 통일(2026-09-28) 뒤로 홈 제출 버튼은 "진단 신청" 이다 — 빠뜨리면 검사에서 조용히 빠진다
+            and any(w in " ".join(element["text"].split()) for w in ("상담 신청", "진단 신청"))
         ]
 
         self.assertGreaterEqual(len(reservation_actions), 3)
