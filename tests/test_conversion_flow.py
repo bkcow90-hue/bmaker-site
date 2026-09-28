@@ -31,12 +31,15 @@ def test_budget_exhaustion_cannot_be_inferred_from_calendar():
 # ── CTA 문구·색 통일 (규격 4절, 2026-09-28 대표 지시) ──────────────────────
 # 신청 CTA 는 전 사이트 "무료 진단 신청"·브랜드 블루 하나로 맞춘다. 카카오 옐로는 실제
 # 카카오 이동 버튼에만 남긴다. 54곳·49곳으로 흩어져 있던 문구가 다시 갈라지는 것을 막는다.
-RETIRED_CTA = ['내 조건 무료 상담 신청', '무료 진단 예약하기']
+# '무료 상담 신청하기' — 홈 폼 제출 버튼(허브 2장이 복사, 4분기 페이지가 정적 복사)에 남아 있었다.
+# 9/28 통일 때 이 목록이 옛 헤더·고정바 문구 둘만 담아 제출 버튼 문구를 검사하지 못했다.
+RETIRED_CTA = ['내 조건 무료 상담 신청', '무료 진단 예약하기', '무료 상담 신청하기']
 
 
 def test_no_retired_cta_wording_anywhere():
     """폐기한 CTA 문구가 산출물·빌더·템플릿 어디에도 남아 있지 않아야 한다."""
-    targets = list(ROOT.glob('*.html')) + list(ROOT.glob('tools/build_*.py')) + [ROOT / 'tools/cases_tpl.html']
+    targets = (list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html'))
+               + list(ROOT.glob('tools/build_*.py')) + [ROOT / 'tools/cases_tpl.html'])
     hits = []
     for path in targets:
         body = path.read_text(encoding='utf-8')
@@ -59,3 +62,29 @@ def test_form_success_message_matches_standard():
             '급한 문의는 1666-2425로 연락해 주세요.') in js
     # 버튼 문구는 폼마다 다르므로 하드코딩하지 않는다
     assert "'무료 상담 신청하기'" not in js
+
+
+# ── 비용 고지 위치 (규격 1절·4절, 2026-09-28 대표 승인) ─────────────────────
+# 비용·성과 보수 고지는 신청 폼에서 빼고 진단 섹션·FAQ에만 둔다. 폼에서 뺀 뒤 사이트에서
+# 고지가 통째로 사라지지 않도록, 폼 밖 두 곳에 남아 있는지도 함께 고정한다.
+import re as _re
+
+
+def _section(html, start_marker):
+    i = html.index(start_marker)
+    return html[html.rfind('<section', 0, i):html.index('</section>', i)]
+
+
+def test_forms_carry_no_fee_notice_but_home_diagnosis_and_faq_do():
+    fee = _re.compile(r'착수금|성과 보수|성공보수')
+    for name in ['index.html', 'sosangin.html', 'jungsogieop.html', '2026-4q-sosangin.html']:
+        form = _section((ROOT / name).read_text(encoding='utf-8'), 'id="apply-section"')
+        assert not fee.search(form), f'{name}: 신청 폼에 비용 고지가 남아 있다'
+        assert '<button type="submit" class="btn btn-primary">무료 진단 신청</button>' in form, name
+        assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in form, name
+        assert 'data-cta-location="form_alternative"' in form, f'{name}: 폼 아래 카톡 링크가 사라졌다'
+    home = (ROOT / 'index.html').read_text(encoding='utf-8')
+    diagnosis = _section(home, 'id="diagnosis"')
+    assert '착수금·진행비 0원' in diagnosis and '성과 보수' in diagnosis, '진단 섹션에서 비용 고지가 사라졌다'
+    faq = _section(home, 'id="faq"')
+    assert '착수금·진행비 등 실행 전 비용은 일절 받지 않고' in faq and '성공보수' in faq, 'FAQ에서 비용 고지가 사라졌다'
