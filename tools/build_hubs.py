@@ -166,6 +166,7 @@ def build():
              '.hero .btn-hub-cta{display:inline-flex;align-items:center;justify-content:center;margin-top:24px;'
              'background:var(--blue-deep);color:#fff;border:1px solid var(--blue-deep);border-radius:4px;'
              'padding:15px 26px;font-weight:700;font-size:1rem;min-height:52px;text-decoration:none}'
+             '.fee-note{margin:0 0 12px;color:var(--navy);font-weight:700;font-size:.98rem;line-height:1.7}'
              '.who{margin:0;padding:16px 20px;background:var(--paper);border-left:3px solid var(--kakao);'
              'color:#3A4356;font-size:.94rem;line-height:1.75}'
              '@media(max-width:680px){.hero .btn-hub-cta{width:100%}}' + FORM_CSS + '</style>')
@@ -268,6 +269,7 @@ def build():
 </div></section>
 
 <section class="block"><div class="wrap">
+  <p class="fee-note">진단은 무료이고, 착수금·진행비 없이 자금이 실행된 경우에만 성과 보수를 받습니다.</p>
   <p class="who">전담 상담팀이 상담하고 대표 김상표가 주요 검토와 진행 관리에 참여합니다.
   세무·노무·특허·법률 전문가와 상시 협업하며, 전문가 검토가 필요한 업무의 담당과 범위·비용은 사전에 안내합니다.</p>
 </div></section>

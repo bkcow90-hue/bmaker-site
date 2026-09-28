@@ -100,14 +100,22 @@ def test_forms_carry_no_fee_notice_but_home_diagnosis_and_faq_do():
 
 
 def test_inline_form_pages_keep_fee_notice_outside_the_form():
-    """폼에서 뺀 비용 고지가 인라인 폼 페이지(자금·재단·허브·4분기)에서 통째로 사라지지 않게."""
-    fee = _re.compile(r'착수금|성공보수|성과로만')
+    """폼에서 뺀 비용 고지가 인라인 폼 페이지(자금·재단·허브·4분기)에서 통째로 사라지지 않게.
+
+    화면 본문(헤더·푸터·JSON-LD 제외)의 **한 문장 안에** 착수금 없음과 성과 보수가 함께 있어야 한다.
+    "착수금 사기 구별법" 같은 링크 문구나 "실행 전 비용은 일절 없고"만으로는 통과시키지 않는다 —
+    착수금 없음은 핵심 차별점이라 명시돼야 한다(대표 지시 2026-09-28, 허브 2장이 여기 걸려 한 줄 추가).
+    """
+    missing = []
     for path in ROOT.glob('*.html'):
         html = path.read_text(encoding='utf-8')
         if 'class="inline-diag"' not in html:
             continue
         body = html[html.find('<body'):]
-        form = _form(body)
-        outside = body.replace(form, '')
-        outside = _re.sub(r'<(header|footer).*?</>', '', outside, flags=_re.S)
-        assert fee.search(outside), f'{path.name}: 폼 밖 본문에 비용 고지가 없다'
+        outside = body.replace(_form(body), '')
+        outside = _re.sub(r'<(header|footer|script)\b.*?</\1>', '', outside, flags=_re.S)
+        text = _re.sub(r'\s+', ' ', _re.sub(r'<[^>]+>', ' ', outside))
+        sentences = _re.split(r'(?<=[.다])\s', text)
+        if not any('착수금' in x and _re.search(r'성과 보수|성공보수|성과로만', x) for x in sentences):
+            missing.append(path.name)
+    assert not missing, f'폼 밖 본문에 "착수금 없음 + 성과 보수" 고지가 없다: {missing}'
