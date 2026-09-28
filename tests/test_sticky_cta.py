@@ -96,7 +96,7 @@ def test_policy_cta_preserves_intent_through_form_and_delivery(browser_page, sit
     page.locator("#lf-consent").check()
     page.route("**/api/lead", lambda r: r.fulfill(status=200, content_type="application/json", body='{"ok":true,"delivery":"accepted"}'))
     page.locator("#leadForm button[type=submit]").click()
-    expect(page.locator("#applyMsg")).to_contain_text("상담 신청이 접수됐습니다")
+    expect(page.locator("#applyMsg")).to_contain_text("신청이 접수됐습니다")
     leads = page.evaluate("window.dataLayer.filter(e=>e.event==='generate_lead')")
     assert len(leads) == 1
     assert leads[0]["service_category"] == "policy"

@@ -92,6 +92,8 @@
   if (!form) return;
   const message = document.getElementById('applyMsg');
   const button = form.querySelector('[type=submit]');
+  // 폼마다 버튼 문구가 다르다(홈·인라인 진단 폼). 하드코딩하면 전송 실패 뒤 문구가 바뀌어버린다.
+  const buttonLabel = button.textContent;
   const phone = document.getElementById('lf-phone');
   const name = document.getElementById('lf-name');
   let started = false, busy = false, completed = false, selectedTime = '';
@@ -193,7 +195,7 @@
       if (!response.ok || result.ok !== true || result.delivery !== 'accepted') throw new Error('delivery_failed');
       completed = true;
       message.className = 'apply-msg ok';
-      message.textContent = '상담 신청이 접수됐습니다. 평일 09:00–18:00에 연락드리며, 선택하신 통화 시간대를 참고합니다. 급한 문의는 1666-2425로 연락해 주세요.';
+      message.textContent = '신청이 접수됐습니다. 평일 09:00~18:00 중 정하신 시간대에 전화드리겠습니다. 급한 문의는 1666-2425로 연락해 주세요.';
       form.reset(); selectedTime = ''; timeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
       track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
       message.focus();
@@ -202,7 +204,7 @@
       track('consultation_error', { reason }); failure(reason !== 'delivery_failed');
     } finally {
       clearTimeout(timeout); busy = false; form.removeAttribute('aria-busy'); button.disabled = false;
-      button.textContent = completed ? '신청 접수 완료' : '무료 상담 신청하기';
+      button.textContent = completed ? '신청 접수 완료' : buttonLabel;
     }
   });
 })();
