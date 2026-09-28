@@ -93,7 +93,7 @@
   const message = document.getElementById('applyMsg');
   const button = form.querySelector('[type=submit]');
   // 폼마다 버튼 문구가 다르다(홈·인라인 진단 폼). 하드코딩하면 전송 실패 뒤 문구가 바뀌어버린다.
-  const buttonLabel = button.textContent;
+  const buttonLabel = button?.textContent || '';
   const phone = document.getElementById('lf-phone');
   const name = document.getElementById('lf-name');
   let started = false, busy = false, completed = false, selectedTime = '';
@@ -113,8 +113,8 @@
     if (!started) { started = true; track('consultation_start', { cta_location: ctaLocation }); }
   }));
   form.addEventListener('input', () => {
-    phone.setCustomValidity(''); name.setCustomValidity('');
-    if (completed) { completed = false; message.textContent = ''; }
+    phone?.setCustomValidity(''); name?.setCustomValidity('');
+    if (completed && message) { completed = false; message.textContent = ''; }
     if (!started) { started = true; track('consultation_start', { cta_location: ctaLocation }); }
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
@@ -146,9 +146,12 @@
   updateSticky();
   form.addEventListener('focusin', updateSticky);
   form.addEventListener('focusout', () => setTimeout(updateSticky, 0));
-  function failure(uncertain) {
+  function failure(uncertain, crashed) {
+    if (!message) return;
     message.className = 'apply-msg err';
-    message.textContent = uncertain
+    message.textContent = crashed
+      ? '전송에 실패했습니다. 1666-2425 또는 카카오톡으로 연락 주세요.'
+      : uncertain
       ? '접수 결과를 확인하지 못했습니다. 입력 내용은 유지됩니다. 재시도하거나 카톡·전화로 접수 여부를 확인해 주세요.'
       : '상담 신청을 전달하지 못했습니다. 입력 내용은 유지됩니다. 다시 시도하거나 아래로 연락해 주세요.';
     const links = document.createElement('div'); links.className = 'apply-fallback';
@@ -160,9 +163,23 @@
     }
     message.appendChild(links); message.focus();
   }
+  // 제출 처리 전체를 감싼다. 2026-09-28 옛 캐시 JS 가 없는 칸(lf-biz)을 읽다 멈춰 전송도 안내도
+  // 없이 조용히 실패했다 — 어떤 오류든 연락처 안내를 띄우고 form_error 로 숫자를 남긴다.
   form.addEventListener('submit', async e => {
     e.preventDefault();
+    try {
+      await submitLead();
+    } catch (error) {
+      busy = false; form.removeAttribute('aria-busy');
+      if (button) { button.disabled = false; button.textContent = buttonLabel; }
+      try { track('form_error', { error_message: String(error?.message || error).slice(0, 100) }); } catch (_) { /* 계측 실패가 안내를 막지 않게 */ }
+      failure(false, true);
+    }
+  });
+  async function submitLead() {
     if (busy || completed) return;
+    // 성함·연락처는 없으면 보낼 수 없다 — 조용히 넘기지 말고 오류로 올려 안내·form_error 로 보낸다.
+    if (!name || !phone) throw new Error('필수 칸 없음: ' + (name ? 'lf-phone' : 'lf-name'));
     name.setCustomValidity(name.value.trim() ? '' : '성함을 입력해 주세요.');
     const digits = phone.value.replace(/[\s()-]/g, '');
     phone.setCustomValidity(/^0\d{8,10}$/.test(digits) ? '' : '연락 가능한 전화번호를 확인해 주세요.');
@@ -197,9 +214,9 @@
         bizType ? { '사업자 형태': bizType } : null,
         { '통화 희망 시간': preferredTime, industry, memo },
         leadPage ? { '유입 페이지': leadPage } : null),
-      consent_privacy: document.getElementById('lf-consent').checked,
+      consent_privacy: document.getElementById('lf-consent')?.checked === true,
       consent_marketing: false, consent_version: 'v1.1-2026-09-07-service-selection',
-      website: document.getElementById('lf-website').value,
+      website: document.getElementById('lf-website')?.value || '',
       source: source
     };
     // Reuse the ID and exact payload across uncertain retries; never persist contact data.
@@ -234,7 +251,7 @@
       clearTimeout(timeout); busy = false; form.removeAttribute('aria-busy'); button.disabled = false;
       button.textContent = completed ? '신청 접수 완료' : buttonLabel;
     }
-  });
+  }
 })();
 
 /* Scroll reveal — 전 페이지 공통. CSS 를 주입해 정적 페이지까지 커버한다.
