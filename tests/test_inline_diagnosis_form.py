@@ -59,7 +59,7 @@ def test_every_fund_and_foundation_page_has_exactly_one_form():
 def test_no_other_page_gained_a_form():
     """폼은 홈 + 자금·재단 33장에만 있어야 한다 — conversion.js 는 페이지당 폼 1개를 전제한다."""
     # 홈 + 자금·재단 33장 + 분기별 접수 안내(자체 폼을 가진 정적 페이지)
-    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin"}
+    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop"}
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 
@@ -94,8 +94,10 @@ def test_page_marks_policy_service_so_form_opens_as_policy():
 
 def test_bottom_cta_points_at_the_on_page_form():
     """폼이 생겼으니 하단 CTA 는 홈이 아니라 이 페이지 폼으로 내려가야 한다."""
+    shell = re.compile('<(header|footer)\\b.*?</\\1>', re.S)
     for slug in ("cheongnyeon", "jaedan-seoul", "jaedan"):
-        s = (ROOT / f"{slug}.html").read_text(encoding="utf-8")
+        # 전역 내비의 /#apply 는 메뉴라서 대상이 아니다 — 본문 CTA 만 본다
+        s = shell.sub('', (ROOT / f"{slug}.html").read_text(encoding="utf-8"))
         assert 'href="/#apply"' not in s, f"{slug}: 홈 폼으로 나가는 CTA 가 남아 있다"
         assert 'href="#apply"' in s, slug
 

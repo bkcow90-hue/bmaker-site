@@ -54,8 +54,13 @@ def text(s):
     return re.sub(r'\s+', ' ', html.unescape(TAG.sub('', s))).strip()
 
 
+SHELL = re.compile(r'<(header|footer)\b.*?</\1>', re.S)
+
+
 def screen_faq(s):
-    return [(text(m.group(1)), text(m.group(3))) for m in DETAILS.finditer(s)]
+    # 내비의 '자금 안내' 드롭다운도 <details><summary> 라, 헤더를 남겨 두면 DETAILS 가
+    # 그 summary 부터 첫 FAQ 본문까지 한 덩어리로 삼킨다. FAQ 는 본문에만 있으므로 셸을 뺀다.
+    return [(text(m.group(1)), text(m.group(3))) for m in DETAILS.finditer(SHELL.sub('', s))]
 
 
 def ld_faq(s):

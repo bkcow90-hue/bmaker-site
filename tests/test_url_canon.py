@@ -23,6 +23,11 @@ QUARTERLY = ["2026-4q-sosangin"]
 PAGES += [f"{slug}.html" for slug in QUARTERLY]
 SLUGS += QUARTERLY
 
+# 정책자금 컨설팅 허브 2장(빌더 생성) + 전체 FAQ
+HUBS = ["sosangin", "jungsogieop", "faq"]
+PAGES += [f"{slug}.html" for slug in HUBS]
+SLUGS += HUBS
+
 
 def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")
