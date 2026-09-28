@@ -35,6 +35,7 @@ GA4 관리자 접근은 없으므로 실시간 보고서 수신, 향상된 측�
 | consultation_validation_error | 필수값 검증 실패 |
 | consultation_submit | 유효한 폼 전송 시도 |
 | consultation_error | 전송/응답 확인 실패 (원인 코드만) |
+| form_error | 제출 처리 중 예상 못 한 JS 오류 (오류 문구 앞 100자, 2026-09-28 추가 — 칸 누락·옛 캐시 JS 로 조용히 막히는 것을 숫자로 보기 위함) |
 | generate_lead | 메일 서비스가 접수한 상담 신청 |
 | kakao_click | 카톡 링크 클릭 (상담 완료와 다름) |
 | phone_click | 전화 링크 클릭 (실제 연결과 다름) |

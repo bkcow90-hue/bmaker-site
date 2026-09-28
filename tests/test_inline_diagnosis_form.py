@@ -247,3 +247,78 @@ def test_every_choice_selects_shows_and_is_sent(browser, site, viewport, selecto
         assert sent.get("payload"), f"{label}: 제출이 /api/lead 로 나가지 않음"
         assert read(sent["payload"]) == label, (label, sent["payload"]["answers_text"])
         page.close()
+
+
+# ── 방어 코드: 칸이 없거나 예상 못 한 오류가 나도 조용히 멈추지 않는다 ────────────
+# 2026-09-28 옛 캐시 JS 가 없는 칸을 읽다 멈춰 전송도 안내도 없었다. 이제는 어떤 오류든
+# 연락처 안내(전화·카톡 버튼)를 띄우고 GA4 form_error(페이지 경로·오류 앞 100자)를 남긴다.
+CRASH_TEXT = "전송에 실패했습니다. 1666-2425 또는 카카오톡으로 연락 주세요."
+
+
+def _submit_broken(browser, site, *, remove=(), init_script=None):
+    page = browser.new_page(viewport=PHONE)
+    sent = []
+
+    def serve_page(route):
+        body = route.fetch().text()
+        for pattern in remove:
+            body, n = re.subn(pattern, "", body, count=1)
+            assert n == 1, f"지울 칸을 찾지 못함: {pattern}"
+        route.fulfill(status=200, content_type="text/html; charset=utf-8", body=body)
+
+    def handle(route):
+        sent.append(json.loads(route.request.post_data))
+        route.fulfill(status=200, content_type="application/json",
+                      body=json.dumps({"ok": True, "delivery": "accepted"}))
+
+    page.route("**/*", lambda r: r.continue_() if r.request.url.startswith("http://127.0.0.1:") else r.abort())
+    page.route("**/cheongnyeon.html", serve_page)
+    page.route("**/api/lead", handle)
+    if init_script:
+        page.add_init_script(init_script)
+    page.goto(f"{site}/cheongnyeon.html", wait_until="domcontentloaded")
+    page.evaluate("window.gtag = (kind, name, params) => (window.__ev ||= []).push([name, params])")
+    if page.locator("#lf-name").count():
+        page.fill("#lf-name", "테스트")
+    if page.locator("#lf-phone").count():
+        page.fill("#lf-phone", "010-1234-5678")
+    page.check("#lf-consent")
+    page.locator("#leadForm button[type=submit]").click()
+    page.wait_for_function("document.getElementById('applyMsg').textContent.length > 0", timeout=5000)
+    result = {
+        "sent": sent,
+        "message": page.locator("#applyMsg").inner_text(),
+        "fallback": page.locator("#applyMsg .apply-fallback a").evaluate_all("as => as.map(a => a.getAttribute('href'))"),
+        "errors": [p for n, p in page.evaluate("window.__ev || []") if n == "form_error"],
+        "button": page.locator("#leadForm button[type=submit]").evaluate("b => [b.disabled, b.textContent]"),
+    }
+    page.close()
+    return result
+
+
+def test_missing_required_field_shows_contact_fallback_and_reports_form_error(browser, site):
+    r = _submit_broken(browser, site, remove=[r'<input id="lf-phone"[^>]*>'])
+    assert not r["sent"], "연락처 칸이 없는데 전송됐다"
+    assert CRASH_TEXT in r["message"], r["message"]
+    assert r["fallback"] == ["https://pf.kakao.com/_GKuxfn/chat", "tel:1666-2425"], r["fallback"]
+    assert len(r["errors"]) == 1, r["errors"]
+    assert r["errors"][0]["page_path"] == "/cheongnyeon.html"
+    assert "lf-phone" in r["errors"][0]["error_message"]
+    assert r["button"] == [False, "무료 진단 신청"], "버튼이 '전송 중' 에 묶였다"
+
+
+def test_unexpected_runtime_error_is_caught_too(browser, site):
+    """칸 누락이 아닌 임의의 오류도 같은 경로로 — 오류 문구는 앞 100자만 보낸다."""
+    r = _submit_broken(browser, site, init_script="crypto.randomUUID = () => { throw new Error('x'.repeat(300)) }")
+    assert not r["sent"] and CRASH_TEXT in r["message"], r
+    assert len(r["errors"]) == 1 and r["errors"][0]["error_message"] == "x" * 100, r["errors"]
+
+
+def test_missing_optional_fields_do_not_block_submission(browser, site):
+    """허니팟·유입 페이지·사업자 형태 칸이 없어도 null 로 처리하고 전송은 나간다."""
+    r = _submit_broken(browser, site, remove=[r'<input type="text" name="website" id="lf-website"[^>]*>',
+                                              r'<input type="hidden" id="lf-page"[^>]*>',
+                                              r'<div class="opts" role="group" aria-labelledby="lf-biztype-label" id="lf-biztype">.*?</div>'])
+    assert len(r["sent"]) == 1 and not r["errors"], r
+    assert r["sent"][0]["website"] == ""
+    assert "접수됐습니다" in r["message"]
