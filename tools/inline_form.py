@@ -76,8 +76,8 @@ def form_html(page_path, page_label, title=TITLE):
  '<section id="apply" class="inline-diag" aria-label="무료 진단 예약">\n'
  '  <form id="leadForm" aria-labelledby="inline-diag-title">\n'
  '    <h2 id="inline-diag-title" class="serif">%s</h2>\n' % e(title) +
- '    <p class="sub">연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다. '
- '진단은 무료이고, 정책자금은 착수금이 없습니다.</p>\n'
+ # 비용·성과 보수 고지는 폼에 두지 않는다 — 각 페이지 본문·FAQ가 맡는다(규격 4절, 2026-09-28)
+ '    <p class="sub">연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.</p>\n'
  '    <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" '
  'style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">\n'
  '    <input type="hidden" id="lf-service" name="consultation_service" value="policy">\n'
