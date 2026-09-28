@@ -9,7 +9,10 @@
   const serviceField = document.getElementById('lf-service');
   if (serviceField) {
     const requested = new URLSearchParams(location.search || '').get('service');
-    serviceField.value = requested && Object.hasOwn(serviceLabels, requested) ? requested : 'general';
+    // 쿼리 > 페이지 기본값(body[data-service]) > 종합 상담. 정책자금 전용 페이지의 폼은
+    // 문의 분야도 정책자금으로 열려야 한다(규격 4절). 홈은 data-service="general" 이라 그대로다.
+    serviceField.value = requested && Object.hasOwn(serviceLabels, requested) ? requested
+      : markedService && Object.hasOwn(serviceLabels, markedService) ? markedService : 'general';
   }
   const updateEducationHelp = () => {
     const education = serviceField?.value === 'education';
@@ -95,6 +98,13 @@
     selectedTime = wasSelected ? '' : b.textContent.trim();
     if (!wasSelected) b.setAttribute('aria-pressed', 'true');
   }));
+  const bizButtons = [...document.querySelectorAll('#lf-biztype .biz-opt')];
+  bizButtons.forEach(b => b.addEventListener('click', () => {
+    const wasSelected = b.getAttribute('aria-pressed') === 'true';
+    bizButtons.forEach(t => t.setAttribute('aria-pressed', 'false'));
+    if (!wasSelected) b.setAttribute('aria-pressed', 'true');
+    if (!started) { started = true; track('consultation_start', { cta_location: ctaLocation }); }
+  }));
   form.addEventListener('input', () => {
     phone.setCustomValidity(''); name.setCustomValidity('');
     if (completed) { completed = false; message.textContent = ''; }
@@ -134,8 +144,15 @@
     const digits = phone.value.replace(/[\s()-]/g, '');
     phone.setCustomValidity(/^0\d{8,10}$/.test(digits) ? '' : '연락 가능한 전화번호를 확인해 주세요.');
     if (!form.reportValidity()) return;
-    const industry = document.getElementById('lf-biz').value.trim();
-    const memo = document.getElementById('lf-memo').value.trim();
+    // 인라인 진단 폼(자금·재단 상세)에는 업종·문의 칸이 없다. 없는 칸은 빈 값으로 둔다.
+    const fieldValue = id => document.getElementById(id)?.value.trim() || '';
+    const industry = fieldValue('lf-biz');
+    const memo = fieldValue('lf-memo');
+    // 사업자 형태와 유입 페이지는 /api/lead 가 화이트리스트로 거르는 최상위 키로는 전달되지
+    // 않는다(2026-09-28 메일 템플릿 렌더로 확인). 업종·통화시간과 같이 answers_text 와
+    // diagnosis 에 실어야 알림 메일 본문에 찍힌다.
+    const bizType = document.querySelector('#lf-biztype .biz-opt[aria-pressed="true"]')?.textContent.trim() || '';
+    const leadPage = fieldValue('lf-page');
     const preferredTime = selectedTime || '아무 때나';
     const serviceKey = selectedService();
     const serviceLabel = serviceLabels[serviceKey];
@@ -144,12 +161,18 @@
       consultation_service: serviceKey,
       name: name.value.trim(), phone: digits,
       preferred_time: preferredTime,
-      answers_text: ['[문의 분야] ' + serviceLabel, '[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')].join(' · '),
-      diagnosis: { '문의 분야': serviceLabel, '통화 희망 시간': preferredTime, industry, memo },
+      answers_text: ['[문의 분야] ' + serviceLabel]
+        .concat(bizType ? ['[사업자 형태] ' + bizType] : [])
+        .concat(['[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')])
+        .concat(leadPage ? ['[유입] ' + leadPage] : []).join(' · '),
+      diagnosis: Object.assign({ '문의 분야': serviceLabel },
+        bizType ? { '사업자 형태': bizType } : null,
+        { '통화 희망 시간': preferredTime, industry, memo },
+        leadPage ? { '유입 페이지': leadPage } : null),
       consent_privacy: document.getElementById('lf-consent').checked,
       consent_marketing: false, consent_version: 'v1.1-2026-09-07-service-selection',
       website: document.getElementById('lf-website').value,
-      source: 'bmaker.kr 홈페이지 간편신청'
+      source: leadPage ? 'bmaker.kr 자금 페이지 인라인 진단 (' + leadPage + ')' : 'bmaker.kr 홈페이지 간편신청'
     };
     // Reuse the ID and exact payload across uncertain retries; never persist contact data.
     const fingerprint = JSON.stringify(payload);
@@ -172,7 +195,8 @@
       completed = true;
       message.className = 'apply-msg ok';
       message.textContent = '상담 신청이 접수됐습니다. 평일 09:00–18:00에 연락드리며, 선택하신 통화 시간대를 참고합니다. 급한 문의는 1666-2425로 연락해 주세요.';
-      form.reset(); selectedTime = ''; timeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      form.reset(); selectedTime = '';
+      [...timeButtons, ...bizButtons].forEach(b => b.setAttribute('aria-pressed', 'false'));
       track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
       message.focus();
     } catch (error) {

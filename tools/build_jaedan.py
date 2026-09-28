@@ -6,6 +6,7 @@
 import csv, json, re, sys, datetime
 from pathlib import Path
 from builddate import build_date
+from inline_form import form_html, CSS as FORM_CSS
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
@@ -68,7 +69,7 @@ def build():
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', src, re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}'+FORM_CSS+'</style>'
     for d in J:
         C=cases_for(d['지역(시도)'])
         amts=[int(r['실행 금액(만원)']) for r in C]
@@ -95,6 +96,7 @@ def build():
         ck=d['최종 확인일']
         asof_ym=f"{ck[:4]}년 {int(ck[5:7])}월" if len(ck)>=7 else '미확인'
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"신용보증재단","item":"https://bmaker.kr/jaedan"},{"@type":"ListItem","position":3,"name":d['재단명'],"item":f"https://bmaker.kr/{d['재단ID']}"}]}, ensure_ascii=False)
+        inline_form = form_html('/' + d['재단ID'], d['재단명'])
         faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("저신용·재창업 가이드", chr(60)+chr(97)+chr(32)+"href=\'/jeosinyong\'"+chr(62)+"저신용·재창업 가이드"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
         memo=(' — '+esc(d['한 줄 메모'])) if d['한 줄 메모'] else ''
         page=f'''<!DOCTYPE html>
@@ -121,7 +123,7 @@ def build():
 {style}
 {TBL}
 </head>
-<body>
+<body data-service="policy">
 {hdr}
 <section class="hero">
   <div class="wrap">
@@ -135,6 +137,7 @@ def build():
     <p><b>짧은 답:</b> {esc(d['지역(시도)'])} 소상공인 대출·사업자 대출을 알아보는 사장님들이 실제로 가장 많이 쓰는 공적 경로가 이 재단입니다. {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업을 위한 보증 기관입니다. 재단이 보증서를 발급하면 은행이 대출을 실행하는 구조라, 담보가 없어도 은행 대출이 열립니다. 지자체 이차보전(이자 지원) 상품이 결합되면 체감 금리가 크게 내려가며, 이용 자격의 핵심은 하나 — <b>사업장 소재지가 {esc(d['지역(시도)'])}인가</b>입니다.</p>
     <p class="asof">본 안내는 {asof_ym} 기준입니다. 최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
+    {inline_form}
     <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="proof"><p><b>저신용·재창업이어도 재단 경로는 열려 있는 편입니다.</b> 실행 기록의 재단 실행 건에는 신용 600점대, 폐업 후 재창업 사례가 포함돼 있습니다 — <a href="/jeosinyong">저신용·재창업 가이드</a>에서 실측으로 확인하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
@@ -151,7 +154,7 @@ def build():
     <div class="cta-box">
       <h3 class="serif">{esc(d['지역(시도)'])} 사업장, 내 조건이면 되는지</h3>
       <p>업종·매출·신용·이력을 주시면 재단 트랙 가능성과 예상 구조를 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>

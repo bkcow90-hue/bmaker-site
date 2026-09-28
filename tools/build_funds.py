@@ -8,6 +8,7 @@
 import csv, json, re, sys, datetime
 from pathlib import Path
 from builddate import build_date, data_date
+from inline_form import form_html, CSS as FORM_CSS
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 FASOF = data_date('data/funds.source.csv', 'data/funds.verification.json')  # 일정 페이지 기준일 = 자금 소스가 바뀐 날
@@ -381,12 +382,13 @@ def build():
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     hdr=re.search(r'<header>.*?</header>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}p.lead{font-size:1.02rem;line-height:1.75;color:var(--ink);margin:0 0 18px;padding-left:14px;border-left:3px solid var(--kakao,#FEE500)}p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}p.lead{font-size:1.02rem;line-height:1.75;color:var(--ink);margin:0 0 18px;padding-left:14px;border-left:3px solid var(--kakao,#FEE500)}p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}'+FORM_CSS+'</style>'
     inst_page={'소상공인시장진흥공단':'/sojingong'}
     for d in F:
         C=cases_for(d['원장 키워드'])
         badge_cls, badge_txt, _, badge_start, badge_passed, badge_pcls = schedule_status(d)
-        badge_attrs = sched_attrs(badge_start, badge_passed, badge_pcls)   # 날짜로 갈리는 건에만 붙는다
+        badge_attrs = sched_attrs(badge_start, badge_passed, badge_pcls)
+        inline_form = form_html('/' + d['자금ID'], d['자금명'])   # 날짜로 갈리는 건에만 붙는다
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=sorted({r['금리'].split('(')[0].strip() for r in C if r['금리']})
         rng=(won2(min(amts)) if min(amts)==max(amts) else f"{won2(min(amts))}~{won2(max(amts))}") if C else ""
@@ -461,7 +463,7 @@ def build():
 {style}
 {TBL}
 </head>
-<body>
+<body data-service="policy">
 {hdr}
 <section class="hero">
   <div class="wrap">
@@ -476,6 +478,7 @@ def build():
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
     <p class="asof">상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요.</p>
     <p class="asof">본 안내는 {asof_ym} 기준입니다. 기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
+    {inline_form}
     {meas_html}
     {EXTRA_SECTIONS.get(d["자금ID"],"")}
     {faq_html}
@@ -492,7 +495,7 @@ def build():
     <div class="cta-box">
       <h3 class="serif">이 자금, 내 조건이면 되는지</h3>
       <p>업종·매출·신용·이력을 주시면 이 자금이 맞는 트랙인지, 아니면 다른 경로가 나은지 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
+      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">내 조건 무료 상담 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
