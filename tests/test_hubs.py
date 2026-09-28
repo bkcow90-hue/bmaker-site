@@ -94,3 +94,10 @@ def test_compliance_wording(page):
     for word in ('강서구', '마곡', '서울특별시'):
         head = text[:text.index('<footer')] if '<footer' in text else text
         assert word not in head, f'{page}: 본문에 지역어 — {word}'
+
+
+def test_hub_form_opens_as_policy():
+    """허브는 정책자금 전용 페이지 — 폼 문의 분야도 정책자금으로 열려야 한다(규격 4절)."""
+    for slug in ('sosangin', 'jungsogieop'):
+        s = (ROOT / f'{slug}.html').read_text(encoding='utf-8')
+        assert '<body data-service="policy">' in s, slug

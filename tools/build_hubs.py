@@ -236,7 +236,7 @@ def build():
 {style}
 {extra}
 </head>
-<body>
+<body data-service="policy">
 {hdr}
 <main>
 <section class="hero"><div class="wrap">
