@@ -26,7 +26,7 @@ TILE_ORDER = ['eumsikjeom', 'jejo', 'dosomae', 'online-shoppingmall', 'miyong', 
 BY_SLUG = {i['slug']: i for i in INDUSTRIES}
 ANSWER_MAX = 40  # 첫 문단 직답 글자 수 상한
 
-FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
+FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
 TBL = ('<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.88rem}'
        'th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}'
        'tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}'

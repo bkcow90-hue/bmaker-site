@@ -64,9 +64,9 @@ def test_form_success_message_matches_standard():
     assert "'무료 상담 신청하기'" not in js
 
 
-# ── 비용 고지 위치 (규격 1절·4절, 2026-09-28 대표 승인) ─────────────────────
-# 비용·성과 보수 고지는 신청 폼에서 빼고 진단 섹션·FAQ에만 둔다. 폼에서 뺀 뒤 사이트에서
-# 고지가 통째로 사라지지 않도록, 폼 밖 두 곳에 남아 있는지도 함께 고정한다.
+# ── 비용 고지 위치 (규격 1절·4절, 2026-09-28 대표 결정 1B) ──────────────────
+# 비용 구조 설명은 FAQ 비용 답·llms 에만. 폼·진단 섹션은 '진단은 무료입니다.'까지. 홈 FAQ 의 비용 답은
+# 사이트에 남는 유일한 화면 고지이므로 사라지지 않게 고정한다. 전 사이트 검사는 test_fee_copy.py.
 import re as _re
 
 
@@ -80,7 +80,7 @@ def _form(html):
     return html[html.rfind('<section', 0, i):html.index('</form>', i)]
 
 
-def test_forms_carry_no_fee_notice_but_home_diagnosis_and_faq_do():
+def test_forms_carry_no_fee_notice_but_home_faq_does():
     fee = _re.compile(r'착수금|성과 보수|성공보수')
     pages = [p for p in list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html'))
              if 'id="leadForm"' in p.read_text(encoding='utf-8')]
@@ -94,7 +94,7 @@ def test_forms_carry_no_fee_notice_but_home_diagnosis_and_faq_do():
     assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in home[home.index('id="leadForm"'):home.index('id="about"')]
     assert 'data-cta-location="form_alternative"' in home[home.index('id="leadForm"'):home.index('id="about"')], '홈 폼 아래 카톡 링크가 사라졌다'
     diagnosis = _section(home, 'id="diagnosis"')
-    assert '착수금·진행비 0원' in diagnosis and '성과 보수' in diagnosis, '진단 섹션에서 비용 고지가 사라졌다'
+    assert '진단은 무료입니다.' in diagnosis and not fee.search(diagnosis), '진단 섹션은 "진단은 무료입니다."까지'
     faq = _section(home, 'id="faq"')
     assert '착수금·진행비 등 실행 전 비용은 일절 받지 않고' in faq and '성공보수' in faq, 'FAQ에서 비용 고지가 사라졌다'
 

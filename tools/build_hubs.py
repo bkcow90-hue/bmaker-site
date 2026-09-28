@@ -181,7 +181,7 @@ def build():
         rng = money_range(amts)
         url = f'https://bmaker.kr/{slug}'
         desc = (f"{cfg['desc_head']} 받은 사례 {n}건({won2(total)}), 익명으로 일부 공개합니다. "
-                f"진단은 무료, 착수금 없이 성과로만 보수를 받습니다.")
+                f"진단은 무료입니다.")
 
         trs = ''
         for key, label, track in cfg['rows']:
@@ -206,7 +206,7 @@ def build():
                              "provider": {"@type": "Organization", "@id": "https://bmaker.kr/#org",
                                           "name": "비즈니스 메이커", "url": "https://bmaker.kr/"},
                              "offers": {"@type": "Offer", "priceCurrency": "KRW",
-                                        "description": "실행 전 비용 0원, 자금 실행 시에만 성공보수"}}, ensure_ascii=False)
+                                        "description": "진단은 무료입니다."}}, ensure_ascii=False)
         crumb_ld = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
             {"@type": "ListItem", "position": 2, "name": cfg['name'], "item": url}]}, ensure_ascii=False)

@@ -10,7 +10,7 @@ from builddate import build_date
 from inline_form import form_html, CSS as FORM_CSS
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
-FEE = '착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다.'
+FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
 def die(m): print(f"[재단 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
     e,man=divmod(int(m),10000)
