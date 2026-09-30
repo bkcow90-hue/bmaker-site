@@ -1,6 +1,7 @@
 """도시 페이지(/region/<city>) 생성 규칙 — 규격 8-1 (도어웨이 방지).
 
-1. 공식 출처 사실 3개 이상, 그중 1개 이상은 연락처(재단 지점·소진공 센터)가 아님
+1. 공식 출처 사실 3개 이상, 그중 시·군 자금(공고 단위) 1건 이상. 도 전체 사업(province-fund)은 세지 않음.
+   재단 지점 근거는 재단·지자체 공식 도메인
 2. 도시 페이지끼리 사실 조합(data-fact-id 집합) 중복 금지
 3. 도시명을 지운 본문의 5어절 조각 자카드 유사도 0.6 초과 실패
 4. 도시 → /jaedan-<시도>, 그 재단 페이지 → 도시 페이지 양방향 링크
@@ -22,15 +23,17 @@ MIN_FACTS = 3
 MAX_SIMILARITY = 0.6
 MAX_AGE_DAYS = 90
 SHINGLE = 5
-CONTACT_KINDS = {'jaedan-branch', 'semas-center'}
+CITY_FUND = 'city-fund'
+COUNTED_KINDS = {'jaedan-branch', 'semas-center', CITY_FUND}   # 그 외(province-fund 등 "참고")는 세지 않는다
 # 정부(*.go.kr, 서울 자치구 *.seoul.kr) · 소진공 · 17개 광역 신용보증재단 공식 도메인 (docs/region/ 조사 2026-09-30)
-OFFICIAL_DOMAINS = (
-    'go.kr', 'seoul.kr', 'semas.or.kr',
+GOV_DOMAINS = ('go.kr', 'seoul.kr')
+JAEDAN_DOMAINS = (
     'seoulshinbo.co.kr', 'busansinbo.or.kr', 'dgsinbo.or.kr', 'icsinbo.or.kr', 'gjsinbo.or.kr',
     'sinbo.or.kr', 'ulsanshinbo.co.kr', 'sjsinbo.or.kr', 'gcgf.or.kr', 'gwsinbo.or.kr',
     'cbsinbo.or.kr', 'cnsinbo.co.kr', 'jbcredit.or.kr', 'jnsinbo.or.kr', 'gbsinbo.co.kr',
     'gnsinbo.or.kr', 'jcgf.or.kr',
 )
+OFFICIAL_DOMAINS = GOV_DOMAINS + ('semas.or.kr',) + JAEDAN_DOMAINS
 
 
 # ── 페이지 파싱 ─────────────────────────────────────────────
@@ -74,13 +77,18 @@ def parse(html, slug='?'):
 
 
 # ── 규칙 (오류 문자열 목록을 돌려준다) ─────────────────────────
-def is_official(url):
+def is_official(url, domains=OFFICIAL_DOMAINS):
     m = re.match(r'^https://([^/:?#]+)', url or '')
-    return bool(m) and any(m.group(1) == d or m.group(1).endswith('.' + d) for d in OFFICIAL_DOMAINS)
+    return bool(m) and any(m.group(1) == d or m.group(1).endswith('.' + d) for d in domains)
+
+
+def fact_key(f):
+    """사실의 동일성. 시·군 자금은 공고 단위(출처 URL)로 센다 — 한 공고의 세부 항목을 따로 세지 않음."""
+    return (f['kind'], f['source'] if f['kind'] == CITY_FUND else f['id'])
 
 
 def fact_errors(page, today):
-    """규칙 1·5 — 공식 출처 사실 수, 비연락처 1개 이상, 확인일."""
+    """규칙 1·5 — 공식 출처 사실 수, 시·군 자금 1건 이상, 지점 근거 도메인, 확인일."""
     errs, ok = [], []
     for f in page['facts']:
         tag = f"{page['slug']} 사실 {f['kind']}:{f['id'] or '?'}"
@@ -88,6 +96,8 @@ def fact_errors(page, today):
             errs.append(f'{tag} — data-fact·data-fact-id 누락'); continue
         if not is_official(f['source']):
             errs.append(f"{tag} — 공식 출처 아님: {f['source'] or '(없음)'}"); continue
+        if f['kind'] == 'jaedan-branch' and not is_official(f['source'], GOV_DOMAINS + JAEDAN_DOMAINS):
+            errs.append(f"{tag} — 지점 관할 근거는 재단 공식 사이트 또는 지자체 공고여야 함: {f['source']}"); continue
         try:
             checked = datetime.date.fromisoformat(f['checked'])
         except ValueError:
@@ -95,16 +105,16 @@ def fact_errors(page, today):
         if (today - checked).days > MAX_AGE_DAYS:
             errs.append(f'{tag} — 확인일 {checked} 이 {MAX_AGE_DAYS}일 초과, 재확인 필요')
         ok.append(f)
-    ids = {(f['kind'], f['id']) for f in ok}
-    if len(ids) < MIN_FACTS:
-        errs.append(f"{page['slug']} — 공식 출처 사실 {len(ids)}개 (최소 {MIN_FACTS})")
-    if not any(k not in CONTACT_KINDS for k, _ in ids):
-        errs.append(f"{page['slug']} — 연락처(재단 지점·소진공 센터)가 아닌 사실이 없음")
+    keys = {fact_key(f) for f in ok if f['kind'] in COUNTED_KINDS}
+    if len(keys) < MIN_FACTS:
+        errs.append(f"{page['slug']} — 공식 출처 사실 {len(keys)}개 (최소 {MIN_FACTS}, 도 전체 사업 제외)")
+    if not any(k == CITY_FUND for k, _ in keys):
+        errs.append(f"{page['slug']} — 시·군 자금 공고가 없음 (1건 이상 필수)")
     return errs
 
 
 def fact_set(page):
-    return frozenset((f['kind'], f['id']) for f in page['facts'])
+    return frozenset(fact_key(f) for f in page['facts'] if f['kind'] in COUNTED_KINDS)
 
 
 def duplicate_errors(pages):
@@ -216,7 +226,28 @@ def test_rule1_three_official_facts_pass():
 
 def test_rule1_contacts_only_fails():
     p = _page('suwon', '수원시', SUWON[:2] + [_fact('semas-center', '소진공/수원남부센터', SEMAS)], '본문')
-    assert any('연락처' in e for e in fact_errors(p, TODAY))
+    assert any('시·군 자금 공고가 없음' in e for e in fact_errors(p, TODAY))
+
+
+def test_rule1_city_funds_count_per_notice():
+    notice = 'https://www.suwon.go.kr/notice/2'
+    p = _page('suwon', '수원시', [SUWON[0], _fact('city-fund', '수원시/소상공인 특례보증', notice),
+                                  _fact('city-fund', '수원시/특례보증 수수료 지원', notice)], '본문')
+    assert any('사실 2개' in e for e in fact_errors(p, TODAY))   # 한 공고의 세부 항목 2개 = 1건
+
+
+def test_rule1_province_fund_not_counted():
+    gg = _fact('province-fund', '경기도/소상공인 경영자금', 'https://www.gg.go.kr/notice/9')
+    p = _page('suwon', '수원시', SUWON[:1] + SUWON[2:] + [gg], '본문')
+    assert any('사실 2개' in e for e in fact_errors(p, TODAY))
+    assert fact_errors(_page('suwon', '수원시', SUWON + [gg], '본문'), TODAY) == []   # 참고 표시는 허용
+
+
+def test_rule1_branch_evidence_must_be_jaedan_or_gov():
+    p = _page('suwon', '수원시', [_fact('jaedan-branch', '경기신보/수원지점', SEMAS)] + SUWON[1:], '본문')
+    assert any('지점 관할 근거' in e for e in fact_errors(p, TODAY))
+    gov = _page('suwon', '수원시', [_fact('jaedan-branch', '경기신보/수원지점', 'https://www.suwon.go.kr/notice/1')] + SUWON[1:], '본문')
+    assert fact_errors(gov, TODAY) == []
 
 
 def test_rule1_too_few_or_unofficial_fails():
