@@ -16,7 +16,7 @@ STAMP = re.compile(r'<p class="lastmod" data-lastmod="(\d{4}-\d{2}-\d{2})"[^>]*>
 def pages():
     # 업종 의도 랜딩(/industry/<slug>)도 스탬프 대상이다 — 빌더와 같은 목록을 본다
     return (sorted(p for p in ROOT.glob('*.html') if p.name not in B.SKIP)
-            + sorted(ROOT.glob('industry/*.html')))
+            + sorted(ROOT.glob('industry/*.html')) + sorted(ROOT.glob('region/*.html')))
 
 
 def key(p):
@@ -110,7 +110,7 @@ def test_assets_are_versioned_by_content():
     root = Path(__file__).resolve().parents[1]
     ref = re.compile(r'(?:src|href)="(/assets/(?!fonts/)[\w./-]+\.(?:js|css))(\?v=[0-9a-f]+)?"')
     bad = []
-    for p in sorted(root.glob('*.html')) + sorted(root.glob('industry/*.html')):
+    for p in sorted(root.glob('*.html')) + sorted(root.glob('industry/*.html')) + sorted(root.glob('region/*.html')):
         for path, ver in ref.findall(p.read_text(encoding='utf-8')):
             want = '?v=' + hashlib.sha256((root / path.lstrip('/')).read_bytes().replace(b'\r', b'')).hexdigest()[:10]
             if ver != want:

@@ -66,9 +66,10 @@ def load():
             j = ' '.join(v for k, v in d.items() if isinstance(v, str))
             if '갚' in j or re.search(r'보장', j):
                 die(f"{i}행: '갚다'·'보장' 계열 금지.")
-            c = cities.setdefault(d['도시ID'], {k: d[k] for k in ('도시ID', '도시명', '짧은이름', '시도', '재단ID')} | {'facts': []})
-            for k in ('도시명', '짧은이름', '시도', '재단ID'):
-                if c[k] != d[k]:
+            CITY_KEYS = ('도시명', '짧은이름', '시도', '재단ID', '지점 축약', '담당 문장', '담당 질문')
+            c = cities.setdefault(d['도시ID'], {'도시ID': d['도시ID']} | {k: d.get(k, '') for k in CITY_KEYS} | {'facts': []})
+            for k in CITY_KEYS:
+                if c[k] != d.get(k, ''):
                     die(f"{i}행: {d['도시ID']} 의 '{k}' 가 앞 행과 다릅니다.")
             c['facts'].append(d)
     return cities
@@ -127,6 +128,16 @@ def branch_label(names):
     return org + ' ' + '·'.join(n.split(' ', 1)[1] for n in names)
 
 
+def is_gov(url):
+    return bool(re.match(r'^https://([^/]+\.)?(go\.kr|seoul\.kr)(/|$)', url or ''))
+
+
+def subj(word):
+    """주격 조사 — 받침 있으면 '이', 없으면 '가'."""
+    ch = word.rstrip(')')[-1:] if word else ''
+    return '이' if ch and '가' <= ch <= '힣' and (ord(ch) - 0xAC00) % 28 else '가'
+
+
 def notices(facts):
     """시 자금 행을 공고(출처 URL) 단위로 묶는다 — 순서 유지."""
     out = {}
@@ -145,38 +156,50 @@ def page_html(c, style, hdr, foot):
     nts = notices(F)
     prov = [d for d in F if d['종류'] == 'province-fund']
     url = f"https://bmaker.kr/region/{c['도시ID']}"
-    fund_word = '육성기금' if any('육성기금' in d['이름'] for d in F) else '육성자금'
-    blabel = branch_label([d['이름'] for d in br]) if br else jname
-    title = f"{city} 소상공인 정책자금·대출 — {blabel}·{short} {fund_word} | 비즈니스 메이커"
+    abbr, override = c['지점 축약'], c['담당 문장']
+    # title 규칙(대표 2026-10-01): 도시는 검색어 형태(짧은이름), 지점은 축약, 자체 자금 명칭은 title 에서 뺀다
+    title = f"{short} 소상공인 정책자금·대출 — {jname}{' ' + abbr if abbr else ''} 안내 | 비즈니스 메이커"
+    # 지점 창구 요약: 담당 문장을 따로 둔 도시(근거가 좁은 강서구·표기가 갈리는 청주)는 표로 넘긴다
+    window = f"{jname} 창구(아래 표)" if override or not abbr else f"{jname} {abbr}"
     newest = max(d['_checked'] for d in F)
-    desc = (f"{city} 사업장이 확인할 정책자금 창구: {blabel}, 소상공인시장진흥공단 "
-            f"{'·'.join(d['이름'].split(' ', 1)[1] for d in ce)}, {short} 자체 자금 공고 {len(nts)}건. "
+    names = list(dict.fromkeys(re.sub(r'^2026년도? (상반기 |하반기 )?', '', ns[0]['이름']) for ns in nts))
+    fund_names = '·'.join(names[:2]) + (' 등' if len(names) > 2 else '')   # description 150자 내외(규격 2절)
+    desc = (f"{city} 사업장이 확인할 정책자금 창구: {window}, 소상공인시장진흥공단 "
+            f"{'·'.join(d['이름'].split(' ', 1)[1] for d in ce)}, {short} 자체 자금 공고 {len(nts)}건({fund_names}). "
             f"공식 공고의 한도·금리·접수기간과 출처를 {newest.year}년 {newest.month}월 기준으로 정리했습니다.")
 
     # ① 이 도시 사업자가 볼 자금 — 짧은 답
+    first = f"신용보증재단은 {esc(window)}" if override or not abbr else f"보증부 대출은 {esc(window)}"
     answer = (f"<b>짧은 답:</b> {esc(city)} 사업장이라면 세 곳을 확인하세요. "
-              f"① 보증부 대출은 {esc(blabel)}, ② 소상공인시장진흥공단(소진공) 소상공인지원센터는 "
-              f"{esc('·'.join(d['이름'].split(' ', 1)[1] for d in ce))}, ③ {esc(short)} 자체 자금은 올해 공고 {len(nts)}건입니다. "
-              f"아래 숫자는 모두 기관 공고의 기준이며, 우리 회사가 받을 조건은 심사로 정해집니다.")
+              f"① {first}, ② 소상공인시장진흥공단(소진공) 소상공인지원센터는 "
+              f"{esc('·'.join(d['이름'].split(' ', 1)[1] for d in ce))}, ③ {esc(short)} 자체 자금은 올해 공고 {len(nts)}건입니다.")
 
-    # ② 재단 지점
-    sentence = f"{esc(city)}의 신용보증재단 업무는 {esc(blabel)}{'이' if blabel.endswith(('점', '부')) else '가'} 담당합니다."
+    # ② 재단 지점 — 담당 문장은 근거 범위를 넘지 않는다(강서구 = 특별신용보증 접수처)
+    blabel = branch_label([d['이름'] for d in br]) if br else jname
+    sentence_txt = override or f"{city}의 신용보증재단 업무는 {blabel}{subj(blabel)} 담당합니다."
+    sentence = esc(sentence_txt)
     brows = []
     for d in br:
         area = esc(d['관할']) if d['관할'] else '재단 사이트 미공개 — 아래 공고 근거 참고'
-        src = link(d['출처 URL'], '재단 지점 안내' if d['관할'] else f'{esc(short)} 공고')
-        brows.append(f'<tr{attrs(d)}><td>{esc(d["이름"].split(" ", 1)[1])}</td><td>{area}</td><td>{esc(d["주소"])}</td>'
-                     f'<td style="white-space:nowrap">{esc(d["전화"])}</td><td>{src} · {esc(d["확인일"])}</td></tr>')
-    ev = next((d for d in br if d['근거 문장']), None)
+        links = [link(d['출처 URL'], f'{esc(short)} 공고' if is_gov(d['출처 URL']) else '재단 지점 안내')]
+        if d['근거 URL'] and d['근거 URL'] != d['출처 URL']:
+            links.append(link(d['근거 URL'], f'{esc(short)} 공고' if is_gov(d['근거 URL']) else '재단 사이트'))
+        name = d['표시 이름'] or d['이름'].split(' ', 1)[1]
+        brows.append(f'<tr{attrs(d)}><td>{esc(name)}</td><td>{area}</td><td>{esc(d["주소"])}</td>'
+                     f'<td>{esc(d["전화"])}</td><td>{" · ".join(links)} · {esc(d["확인일"])}</td></tr>')
     ev_html = ''
-    if ev:
-        ev_url = ev['근거 URL'] if ev['관할'] else ev['출처 URL']
-        ev_html = (f'<p class="basis">{esc(short)} 공고 원문: “{esc(ev["근거 문장"])}” — {link(ev_url, "공고 보기")}</p>')
-    sec_branch = (f'<h2>{esc(jname)} — {esc(city)} 담당 지점</h2>\n<p>{sentence} 보증 심사는 재단이, 대출 실행은 은행이 합니다. '
-                  f'보증서가 나와도 은행 대출이 확정되는 것은 아닙니다.</p>\n'
+    seen_q = set()
+    for d in br:
+        if not d['근거 문장'] or d['근거 문장'] in seen_q:
+            continue
+        seen_q.add(d['근거 문장'])
+        ev_url = d['출처 URL'] if is_gov(d['출처 URL']) else d['근거 URL']
+        ev_html += f'<p class="basis">{esc(short)} 공고 원문: “{esc(d["근거 문장"])}” — {link(ev_url, "공고 보기")}</p>'
+    ev = next((d for d in br if d['근거 문장']), None)
+    sec_branch = (f'<h2>{esc(jname)} — {esc(city)} 담당 지점</h2>\n<p>{sentence}</p>\n'
                   '<div class="tablewrap"><table><thead><tr><th>지점</th><th>관할(공식)</th><th>주소</th><th>전화</th><th>출처·확인일</th></tr></thead><tbody>'
                   + ''.join(brows) + '</tbody></table></div>\n' + ev_html
-                  + f'<p>재단 상품·절차와 {esc(sido)} 받은 사례는 <a href="/{jid}">{esc(jname)} 안내</a>에 모아 두었습니다.</p>')
+                  + f'<p>보증 절차·상품: <a href="/{jid}">{esc(jname)} 안내</a></p>')
 
     # ③ 시 자체 자금 공고 (공고 단위)
     nrows = []
@@ -188,8 +211,7 @@ def page_html(c, style, hdr, foot):
         nrows.append(f'<tr{attrs(head)}><td>{cells}</td><td>{esc(head["접수기간"]) or "공고 참고"}</td>'
                      f'<td>{link(head["출처 URL"], "공고 원문")} · {esc(head["확인일"])}</td></tr>')
     sec_fund = (f'<h2>{esc(short)} 자체 자금 — 2026년 공고 {len(nts)}건</h2>\n'
-                f'<p>{esc(city)}가 직접 낸 공고만 모았습니다. 한도·금리는 공고에 적힌 사업 기준(상한·지원율)이며, '
-                f'실제 금액과 대상 여부는 시·재단·은행 심사로 정해집니다. 예산이 소진되면 접수기간 전에 끝날 수 있습니다.</p>\n'
+                f'<p>{esc(city)}{subj(city)} 직접 낸 공고입니다. 한도·금리는 사업 기준이며 예산이 소진되면 일찍 끝날 수 있습니다.</p>\n'
                 '<div class="tablewrap"><table><thead><tr><th>자금(공고 기준)</th><th>접수기간(공고 문구)</th><th>출처·확인일</th></tr></thead><tbody>'
                 + ''.join(nrows) + '</tbody></table></div>')
 
@@ -207,9 +229,8 @@ def page_html(c, style, hdr, foot):
     if rows:
         total = sum(int(r['실행 금액(만원)']) for r in rows)
         jd = sum(1 for r in rows if '신용보증재단' in r['기관'])
-        sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>공개 원장에서 {esc(sido)} 사업장이 받은 사례는 {len(rows)}건, 합계 {won2(total)}입니다'
-                     f'(그중 신용보증재단 경로 {jd}건). 원장은 익명화를 위해 지역을 시도 단위로만 적기 때문에 {esc(short)} 사례만 따로 나누지 않습니다. '
-                     f'과거 사례는 현재 한도·금리·승인 가능성을 뜻하지 않습니다. <a href="/cases">받은 사례 전체</a> · <a href="/{jid}">{esc(jname)} 사례</a></p>')
+        sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>{esc(sido)} 받은 사례 {len(rows)}건·{won2(total)}(재단 경로 {jd}건). '
+                     f'원장은 시도 단위라 {esc(short)}만 나누지 않고, 과거 사례는 현재 조건이 아닙니다. <a href="/{jid}">{esc(sido)} 사례 보기</a></p>')
     else:
         sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>현재 공개 원장에 {esc(sido)} 사례는 없습니다. '
                      f'<a href="/cases">다른 지역 받은 사례</a>를 참고하세요. 해당 지역 실적이 아닙니다.</p>')
@@ -219,22 +240,18 @@ def page_html(c, style, hdr, foot):
         plist = ''.join(f'<li{attrs(d)}>{esc(d["이름"])} — {link(d["출처 URL"], "공고 원문")} · {esc(d["확인일"])}</li>' for d in prov)
         sec_prov = f'<h2>참고 — {esc(sido)} 전체 사업</h2>\n<p>{esc(sido)} 전역에 적용되는 사업입니다. {esc(city)}만의 제도는 아닙니다.</p><ul class="facts">{plist}</ul>'
     else:
-        sec_prov = (f'<h2>참고 — {esc(sido)} 전체 사업</h2>\n<p>{esc(sido)} 전역에 적용되는 사업은 이 페이지에서 따로 세지 않습니다. '
-                    f'<a href="/{jid}">{esc(jname)} 안내</a>와 <a href="/schedule">정책자금 접수 일정</a>에서 확인하세요.</p>')
+        sec_prov = (f'<h2>참고 — {esc(sido)} 전체 사업</h2>\n<p><a href="/schedule">정책자금 접수 일정</a></p>')
 
     # ⑥ FAQ — 이 도시 사실로만 답한다
     ev_q = ev['근거 문장'] if ev else ''
     faq = [
-        (f"{city} 사업장은 신용보증재단 어느 지점에 문의하나요?",
-         f"{city}의 신용보증재단 업무는 {blabel}{'이' if blabel.endswith(('점', '부')) else '가'} 담당합니다. "
-         + (f"{short} 공고에도 “{ev_q}”라고 적혀 있습니다. " if ev_q else '')
-         + "보증 상담 전 사업자등록·매출 자료와 기존 대출·보증 현황을 준비하세요."),
+        (c['담당 질문'] or f"{city} 사업장은 신용보증재단 어느 지점에 문의하나요?",
+         (sentence_txt + ' ' + (f"{short} 공고 원문은 “{ev_q}”입니다." if ev_q else '')).strip()),
         (f"{short} 자체 자금 한도·금리가 우리 회사 조건인가요?",
-         f"아닙니다. {short} 공고의 한도·금리는 사업 전체의 상한과 지원 기준입니다. "
-         "실제 보증·대출 여부와 금액은 시·재단·은행 심사로 정해지며, 공고 대상·제외 조건을 먼저 확인해야 합니다. " + FEE),
+         f"아닙니다. 예를 들어 {nts[0][0]['이름']} 공고의 한도 '{nts[0][0]['한도'] or '공고 미기재'}'는 사업 전체 기준입니다. "
+         "실제 금액과 대상 여부는 심사로 정해집니다. " + FEE),
         (f"{short} 자금 접수는 언제까지인가요?",
-         ' '.join(f"{items[0]['이름']}: {items[0]['접수기간'] or '공고 참고'}." for items in nts)
-         + " 예산이 소진되면 일찍 끝날 수 있어 공고 원문과 담당 기관에 확인하세요."),
+         ' '.join(f"{items[0]['이름']}: {items[0]['접수기간'] or '공고 참고'}." for items in nts)),
         (f"{city} 소상공인지원센터는 어디인가요?",
          ' '.join(f"{d['이름']}이며 담당지역은 {d['관할']}, 주소는 {d['주소']}, 전화는 {d['전화']}입니다." for d in ce)
          + " 소진공이 운영하는 공식 기관이며 비즈니스 메이커와 무관합니다."),

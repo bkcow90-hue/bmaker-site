@@ -38,7 +38,7 @@ RETIRED_CTA = ['내 조건 무료 상담 신청', '무료 진단 예약하기', 
 
 def test_no_retired_cta_wording_anywhere():
     """폐기한 CTA 문구가 산출물·빌더·템플릿 어디에도 남아 있지 않아야 한다."""
-    targets = (list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html'))
+    targets = (list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html'))
                + list(ROOT.glob('tools/build_*.py')) + [ROOT / 'tools/cases_tpl.html'])
     hits = []
     for path in targets:
@@ -82,7 +82,7 @@ def _form(html):
 
 def test_forms_carry_no_fee_notice_but_home_faq_does():
     fee = _re.compile(r'착수금|성과 보수|성공보수')
-    pages = [p for p in list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html'))
+    pages = [p for p in list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html'))
              if 'id="leadForm"' in p.read_text(encoding='utf-8')]
     assert len(pages) >= 36
     for path in pages:
