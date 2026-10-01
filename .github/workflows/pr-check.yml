@@ -20,6 +20,8 @@ jobs:
     # playwright 1.59 의 --with-deps 가 새 배포판 패키지를 못 받으면 이 잡이 깨진다.
     # 런너 업그레이드는 playwright 버전을 올릴 때 같이 한다(그때 env 와 함께 수정).
     runs-on: ubuntu-24.04
+    # 평소 2분대. 멈춘 잡이 기본값 6시간을 잡아먹지 않게 상한을 둔다(2026-10-02, 미러 지연 사례 12분).
+    timeout-minutes: 20
     # ledger 봇이 main 에 올리는 원장 갱신 커밋으로는 돌리지 않는다. PR 이벤트는 항상 돌린다.
     if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
     steps:
@@ -38,7 +40,16 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ env.PLAYWRIGHT_VERSION }}
+      # --with-deps 는 내부에서 sudo apt-get 을 부른다 — 명령줄 옵션을 넘길 수 없으므로 apt 설정 파일로 재시도·타임아웃을 건다.
+      # 2026-10-01 PR #24: Azure Ubuntu 미러가 54 kB/s 로 느려 같은 32 MB 를 9분 53초에 받았다(평소 3초).
+      - name: apt 재시도·타임아웃 설정
+        run: |
+          echo 'Acquire::Retries "3";' | sudo tee /etc/apt/apt.conf.d/80-ci-retries
+          echo 'Acquire::http::Timeout "30";' | sudo tee -a /etc/apt/apt.conf.d/80-ci-retries
+          apt-config dump | grep -E '^Acquire::(Retries|http::Timeout) '
       - name: Chromium 설치
+        # 8분이면 PR #24(9분 53초, 성공)를 실패로 만든다 — 그 사례가 통과하는 12분
+        timeout-minutes: 12
         run: python -m playwright install --with-deps chromium
       - name: 브라우저 동작 테스트 (고정바 노출 규칙 — 로그에 이름별로, 실행 요약에 표로)
         env:
