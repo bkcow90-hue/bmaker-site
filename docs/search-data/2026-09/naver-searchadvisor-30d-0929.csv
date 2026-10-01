@@ -1,0 +1,35 @@
+# 네이버 서치어드바이저 콘텐츠 노출/클릭, 최근 30일(2026-08-31 ~ 09-29), 2026-09-29 스냅샷 · 대표 제공(2026-10-01)
+# 총계: 클릭 약 180 · 노출 약 6,600 · 평균 CTR 2.7%
+# 주요 검색어(클릭/노출): 신용보증기금 사업자대출 1/408 · 신용보증기금 대출 조건 1/66 · 상환계획서 쓰는 법 1/48 · 정책자금 착수금 1/31 · 소상공인 졸업후보기업 7/31 · 소상공인졸업후보기업 3/29 · 지역신용보증재단 보증부 사업자대출 3/4 · 인천신용보증재단 사업자대출 1/10
+# 30일 창만 제공됨 — 14일 구간 비교는 9/20 스냅샷(naver-searchadvisor-30d.csv, 8/21~9/19)과의 차이로 근사
+page,clicks,impressions,ctr_pct
+/,60,668,9
+/hyeoksin-jolup,40,431,9.3
+/hyeoksin-sahoe,9,652,1.4
+/gyehoekseo,9,249,3.6
+/sinbo,7,786,0.9
+/jaedan,7,572,1.2
+/sanghwan,7,361,1.9
+/chaksugeum,7,176,4
+/sojingong,5,282,1.8
+/jaedojeon,4,144,2.8
+/bojeung,3,549,0.5
+/jungjingong,3,430,0.7
+/matching,3,75,4
+/consulting,2,36,5.6
+/geojeol,2,26,7.7
+/jaedan-incheon,2,15,13.3
+/education,1,67,1.5
+/ilsijeok-homeplus,1,42,2.4
+/cases,1,29,3.4
+/jeosinyong,1,25,4
+/sosangin,1,1,100
+/hyeoksin,0,268,0
+/cheongnyeon,0,222,0
+/sangsaeng,0,120,0
+/gibo,0,56,0
+/certification,0,50,0
+/working-capital-facility,0,24,0
+/gaein,0,22,0
+/schedule,0,15,0
+/sinyongchwiyak,0,14,0
