@@ -272,6 +272,28 @@ def test_region_fund_items_labelled():
     assert not bad, '\n'.join(bad)
 
 
+def test_region_notice_intake_shown():
+    """공고마다 접수처(공고 기준) 칸 — 은행 접수인데 은행명이 공고에 없으면 지정 문구(대표 2026-10-01)."""
+    import csv, html as _h
+    src = ROOT / 'data' / 'region-intake.source.csv'
+    bad = []
+    if src.exists():
+        for r in csv.DictReader(open(src, encoding='utf-8-sig')):
+            d = r['접수처 표시']
+            if r['접수처구분'] == '은행' and not ('(공고 기재)' in d or d == '은행(취급 은행은 공고 확인)' or '자동 적용' in d):
+                bad.append(f'은행 표시 규칙 위반: {d}')
+            if re.search(r'대출\s*실행|선정 후', r['세부 사업'] + d):
+                bad.append(f'대출 실행 은행이 접수처로 실림: {r["세부 사업"]}')
+    for p in sorted((ROOT / 'region').glob('*.html')):
+        s = p.read_text(encoding='utf-8')
+        fund_table = re.search(r'지원사업·지원금 — 2026년 공고</h2>.*?</table>', s, re.S).group(0)
+        n_rows = len(re.findall(r'<tr data-fact="city-fund"', fund_table))
+        cells = [_h.unescape(c) for c in re.findall(r'<td class="intake">(.*?)</td>', fund_table)]
+        if n_rows != len(cells) or any(not c.strip() for c in cells):
+            bad.append(f'{p.stem}: 공고 {n_rows}행 · 접수처 칸 {len(cells)}개')
+    assert not bad, '\n'.join(bad)
+
+
 def test_sitemap_region_urls_match_pages():
     """sitemap 의 /region/ URL 과 region/*.html 이 1:1 — 생성 금지된 도시가 sitemap 에 남지 않게."""
     sm = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')
