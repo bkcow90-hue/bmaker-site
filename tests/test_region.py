@@ -259,6 +259,19 @@ def test_region_description_short_and_keyword_first():
     assert not bad, '\n'.join(bad)
 
 
+def test_region_fund_items_labelled():
+    """자금 항목마다 [소상공인 전용]·[중소기업 육성자금] 등 대상 구분을 단다(대표 2026-10-01)."""
+    labels = ('소상공인 전용', '중소기업 육성자금', '중소기업 대상', '중소기업·소상공인 공통', '대상은 공고 확인')
+    bad = []
+    for p in sorted((ROOT / 'region').glob('*.html')):
+        s = p.read_text(encoding='utf-8')
+        fund_table = re.search(r'지원사업·지원금 — 2026년 공고</h2>.*?</table>', s, re.S).group(0)
+        items = re.findall(r'(?:<td>|<br>)(?:<span class="tag">\[([^\]]+)\]</span> )?<b>', fund_table)
+        if not items or any(i not in labels for i in items):
+            bad.append(f'{p.stem}: {items}')
+    assert not bad, '\n'.join(bad)
+
+
 def test_sitemap_region_urls_match_pages():
     """sitemap 의 /region/ URL 과 region/*.html 이 1:1 — 생성 금지된 도시가 sitemap 에 남지 않게."""
     sm = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')

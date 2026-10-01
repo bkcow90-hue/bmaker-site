@@ -139,6 +139,20 @@ def subj(word):
     return '이' if ch and '가' <= ch <= '힣' and (ord(ch) - 0xAC00) % 28 else '가'
 
 
+def fund_target(name):
+    """자금 구분(대표 2026-10-01): 본문에서 소상공인 전용 자금과 중소기업 육성자금을 구분해 표기한다. 공고명 기준."""
+    sme, small = '중소기업' in name, '소상공인' in name
+    if small and not sme:
+        return '소상공인 전용'
+    if small and sme:
+        return '중소기업·소상공인 공통'
+    if sme and re.search(r'육성(자금|기금)', name):
+        return '중소기업 육성자금'
+    if sme:
+        return '중소기업 대상'
+    return '대상은 공고 확인'
+
+
 def notices(facts):
     """시 자금 행을 공고(출처 URL) 단위로 묶는다 — 순서 유지."""
     out = {}
@@ -190,7 +204,7 @@ def page_html(c, style, hdr, foot):
             links.append(link(d['근거 URL'], f'{esc(short)} 공고' if is_gov(d['근거 URL']) else '재단 사이트'))
         name = d['표시 이름'] or d['이름'].split(' ', 1)[1]
         brows.append(f'<tr{attrs(d)}><td>{esc(name)}</td><td>{area}</td><td>{esc(d["주소"])}</td>'
-                     f'<td>{esc(d["전화"])}</td><td>{" · ".join(links)} · {esc(d["확인일"])}</td></tr>')
+                     f'<td>{esc(d["전화"]) or "출처 간 번호 불일치 — 재단 사이트에서 확인"}</td><td>{" · ".join(links)} · {esc(d["확인일"])}</td></tr>')
     ev_html = ''
     seen_q = set()
     for d in br:
@@ -210,12 +224,12 @@ def page_html(c, style, hdr, foot):
     for items in nts:
         head = items[0]
         cells = '<br>'.join(
-            f'<b>{esc(d["이름"])}</b> — 한도 {esc(d["한도"]) or "공고 미기재"} · 금리·이자지원 {esc(d["금리"]) or "공고 미기재"}'
+            f'<span class="tag">[{fund_target(d["이름"])}]</span> <b>{esc(d["이름"])}</b> — 한도 {esc(d["한도"]) or "공고 미기재"} · 금리·이자지원 {esc(d["금리"]) or "공고 미기재"}'
             for d in items)
         nrows.append(f'<tr{attrs(head)}><td>{cells}</td><td>{esc(head["접수기간"]) or "공고 참고"}</td>'
                      f'<td>{link(head["출처 URL"], "공고 원문")} · {esc(head["확인일"])}</td></tr>')
     sec_fund = (f'<h2>{esc(short)} 소상공인 지원사업·지원금 — 2026년 공고</h2>\n'
-                f'<p>대부분 융자·보증·이자지원 방식이며, 무상 지원금은 공고별로 다릅니다. '
+                f'<p>대부분 융자·보증·이자지원 방식이며, 무상 지원금은 공고별로 다릅니다. 자금마다 [소상공인 전용]·[중소기업 육성자금] 등 대상을 표시했습니다. '
                 f'{esc(city)}{subj(city)} 직접 낸 공고 {len(nts)}건이며, 한도·금리는 사업 기준이고 예산이 소진되면 일찍 끝날 수 있습니다.</p>\n'
                 '<div class="tablewrap"><table><thead><tr><th>자금(공고 기준)</th><th>접수기간(공고 문구)</th><th>출처·확인일</th></tr></thead><tbody>'
                 + ''.join(nrows) + '</tbody></table></div>')
@@ -349,7 +363,7 @@ TBL = ('.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12
        'tr:nth-child(even) td{background:#FAFBFD}td a,.facts a,.basis a{color:var(--blue-deep);text-decoration:underline}'
        'main .facts{padding-left:18px;line-height:1.7}main .facts li{margin:6px 0}'
        'main p.basis{font-size:.88rem;color:var(--ink-soft);border-left:3px solid var(--line);padding-left:12px}'
-       'main p.office{font-size:.9rem;color:var(--ink-soft)}main p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}')
+       'main p.office{font-size:.9rem;color:var(--ink-soft)}main p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}main .tag{font-size:.82rem;color:var(--ink-soft);white-space:nowrap}')
 
 
 def _abs_assets(html):
