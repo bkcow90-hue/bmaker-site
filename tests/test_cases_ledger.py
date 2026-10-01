@@ -69,9 +69,32 @@ def test_home_evidence_and_card_anchors_match_source():
         assert key in rows
         assert f'id="case-{key}"' in cases
     matches = re.findall(r'<a href="/cases#case-([^\"]+)"><img src="assets/cases/thumb/([^\"]+)"', home)
-    assert len(matches) == 2
+    # 홈 증빙 4장 이상 — 2026-09-21 개편에서 6→2장으로 근거 없이 줄었던 것을 복원(대표 2026-10-02). 축소는 대표 승인 필요(규격 4-1)
+    assert len(matches) >= HOME_EVIDENCE_MIN, f"홈 증빙 {len(matches)}장 — {HOME_EVIDENCE_MIN}장 이상이어야 합니다"
     for key, thumbnail in matches:
-        assert Path(thumbnail).stem == Path(rows[key]["증빙 파일"]).stem
+        assert Path(thumbnail).stem == Path(rows[key]["증빙 파일"]).stem, f"{key}: 썸네일과 원장 증빙 파일 불일치"
+        kind = EVIDENCE_KIND.get(Path(thumbnail).stem)
+        assert kind == "기관 안내문", f"{key} {thumbnail}: 홈에는 기관 안내문·약정 캡처만 — 유형 {kind or '미분류'}"
+
+
+HOME_EVIDENCE_MIN = 4
+# 증빙 캡처 유형(눈으로 확인한 것만 등록, 2026-10-02). 홈에 새 캡처를 올리려면 먼저 여기 "기관 안내문"으로 등록한다.
+# "계산서·송금" = 수수료 계산서 발급·송금 대화 — /cases 공개는 유지하되 홈에는 싣지 않는다(대표 2026-10-02).
+EVIDENCE_KIND = {
+    "ev-2026-07-sojingong-sinyongchwiyak-2000": "기관 안내문",   # E13 소진공 대출실행 안내
+    "ev-2026-09-jaedan-3000": "기관 안내문",                     # E1 경남신용보증재단 보증 승인 안내
+    "ev-E1-sojingong-jaedojeon-5300": "기관 안내문",             # E9 소진공 대출약정내역 안내
+    "ev-E2-sojingong-sinyongchwiyak-2000": "기관 안내문",        # E18 소진공 약정 안내 화면
+    "ev-2026-03-jaedan-2000": "계산서·송금",                     # E17
+    "ev-2026-10-jaedan-4000": "계산서·송금",                     # E2
+}
+
+
+def test_home_evidence_rule_rejects_billing_capture():
+    """유형 검사가 실제로 계산서·송금 캡처를 걸러내는지 고정."""
+    assert EVIDENCE_KIND["ev-2026-03-jaedan-2000"] != "기관 안내문"
+    assert EVIDENCE_KIND["ev-2026-10-jaedan-4000"] != "기관 안내문"
+    assert EVIDENCE_KIND.get("ev-E3-sojingong-4000") is None   # 미분류는 홈 금지
 
 def test_ledger_compliance_wording():
     for name in ("cases.html", "stats.html", "llms-full.txt"):
