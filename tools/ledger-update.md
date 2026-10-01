@@ -4,6 +4,7 @@
 
 ## A. 구글시트가 연결된 뒤 (평상시)
 대표가 시트를 고치면 매시 17분 GitHub Actions(ledger)가 자동으로 반영한다 — 할 일 없음.
+실행 경로(2026-10-01~): n8n 「bmaker ledger 매시 실행」이 매시 정각 workflow_dispatch(force=false — 시트가 바뀐 경우만 빌드)를 호출한다. GitHub 예약 cron(17분)은 지연·생략이 잦아 안전망으로만 남긴다. GitHub 화면의 수동 실행은 force 기본값 true = 강제 재빌드.
 "지금 바로 반영해줘" 요청을 받으면: `gh workflow run ledger` (gh 없으면 GitHub 웹 Actions 탭 → ledger → Run workflow 안내), 이후 https://bmaker.kr/data/ledger-status.txt 로 결과 확인.
 
 ## B. 구글시트 최초 연결 (한 번)
