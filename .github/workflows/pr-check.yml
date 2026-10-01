@@ -45,19 +45,19 @@ jobs:
       - name: apt 재시도·타임아웃 설정
         run: |
           # 러너 이미지가 apt.conf.d 에 Retries 1·Timeout 15 를 이미 넣어 두어, 새 파일을 추가해도(이름순 99zz 포함) 그 값이 이겼다.
-          # 순서에 기대지 않고 해당 줄을 가진 파일들을 직접 3·30 으로 바꾼다(전·후를 파일명과 함께 로그에 남김).
+          # 순서에 기대지 않고 해당 줄을 가진 파일들을 직접 재시도 3·타임아웃 15 로 바꾼다(전·후를 파일명과 함께 로그에 남김).
           files=$(grep -rlE 'Acquire::(Retries|http::Timeout)' /etc/apt/apt.conf.d/ || true)
           echo "변경 전:"; grep -rHE 'Acquire::(Retries|http::Timeout)' /etc/apt/apt.conf.d/ || true
           if [ -n "$files" ]; then
-            sudo sed -i -E 's/(Acquire::Retries[[:space:]]+)"[0-9]+"/\1"3"/; s/(Acquire::http::Timeout[[:space:]]+)"[0-9]+"/\1"30"/' $files
+            sudo sed -i -E 's/(Acquire::Retries[[:space:]]+)"[0-9]+"/\1"3"/; s/(Acquire::http::Timeout[[:space:]]+)"[0-9]+"/\1"15"/' $files
           fi
           echo 'Acquire::Retries "3";' | sudo tee /etc/apt/apt.conf.d/99zz-ci-retries
-          echo 'Acquire::http::Timeout "30";' | sudo tee -a /etc/apt/apt.conf.d/99zz-ci-retries
+          echo 'Acquire::http::Timeout "15";' | sudo tee -a /etc/apt/apt.conf.d/99zz-ci-retries
           echo "변경 후:"; grep -rHE 'Acquire::(Retries|http::Timeout)' /etc/apt/apt.conf.d/
-          # 최종 적용값 — 3·30 이 아니면 실패시킨다
+          # 최종 적용값 — 재시도 3·타임아웃 15 가 아니면 실패시킨다(타임아웃은 러너 기본 15 유지, 대표 2026-10-02)
           eval "$(apt-config shell R Acquire::Retries T Acquire::http::Timeout)"
           echo "적용값: Acquire::Retries=$R Acquire::http::Timeout=$T"
-          test "$R" = 3 && test "$T" = 30
+          test "$R" = 3 && test "$T" = 15
       - name: Chromium 설치
         # 8분이면 PR #24(9분 53초, 성공)를 실패로 만든다 — 그 사례가 통과하는 12분
         timeout-minutes: 12
