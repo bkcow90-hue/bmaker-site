@@ -7,6 +7,14 @@ on:
     - cron: '17 * * * *'
     - cron: '7 21 * * *'   # 매일 06:07 KST — 접수 배지 날짜 재계산
   workflow_dispatch:
+    inputs:
+      force:
+        # 기본값 true = 기존 수동 실행 동작(시트가 그대로여도 강제 재빌드).
+        # n8n 매시 호출(2026-10-01~)은 force=false 로 보내 시트가 바뀐 경우에만 빌드한다 — GitHub 예약 실행이
+        # 지연·생략돼(7일간 168회 중 42회) 정각 호출을 n8n 이 맡고, 예약 cron 은 안전망으로 남긴다.
+        description: '시트가 그대로여도 빌드'
+        type: boolean
+        default: true
   push:
     branches: [main]
     paths: ['data/ledger-source.url', 'data/funds-source.url', 'data/jaedan-source.url']
@@ -58,7 +66,7 @@ jobs:
           echo "changed=$CH" >> "$GITHUB_OUTPUT"
       - name: 빌드
         id: build
-        if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
+        if: steps.fetch.outputs.changed == 'yes' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force != 'false')
         run: |
           pip -q install openpyxl pillow pytest
           set +e
@@ -87,7 +95,7 @@ jobs:
           fi
       - name: 커밋·푸시 (변경 있을 때만)
         id: commit
-        if: steps.fetch.outputs.changed == 'yes' || github.event_name == 'workflow_dispatch'
+        if: steps.fetch.outputs.changed == 'yes' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force != 'false')
         run: |
           git config user.name "ledger-bot"
           git config user.email "ledger-bot@users.noreply.github.com"
