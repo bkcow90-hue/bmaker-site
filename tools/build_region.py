@@ -153,6 +153,27 @@ def fund_target(name):
     return '대상은 공고 확인'
 
 
+INTAKE_SRC = ROOT / 'data' / 'region-intake.source.csv'
+_INTAKE = None
+
+
+def intake_html(notice_url):
+    """공고별 접수처(대표 2026-10-01): 재단 지점·은행·시청 등 공고 원문 기준. 은행 접수인데 은행명이 공고에 없으면
+    '은행(취급 은행은 공고 확인)'. 대출만 실행하는 은행은 접수처로 싣지 않는다(data/region-intake.source.csv 생성 단계에서 제외)."""
+    global _INTAKE
+    if _INTAKE is None:
+        _INTAKE = {}
+        if INTAKE_SRC.exists():
+            with open(INTAKE_SRC, encoding='utf-8-sig', newline='') as f:
+                for r in csv.DictReader(f):
+                    _INTAKE.setdefault(r['공고 URL'].strip(), []).append(r)
+    rows = _INTAKE.get(notice_url, [])
+    if not rows:
+        return '공고 원문 확인'
+    lines = list(dict.fromkeys(f"{r['세부 사업'].strip()}: {r['접수처 표시'].strip()}" for r in rows))
+    return '<br>'.join(esc(x) for x in lines)
+
+
 def notices(facts):
     """시 자금 행을 공고(출처 URL) 단위로 묶는다 — 순서 유지."""
     out = {}
@@ -227,11 +248,13 @@ def page_html(c, style, hdr, foot):
             f'<span class="tag">[{fund_target(d["이름"])}]</span> <b>{esc(d["이름"])}</b> — 한도 {esc(d["한도"]) or "공고 미기재"} · 금리·이자지원 {esc(d["금리"]) or "공고 미기재"}'
             for d in items)
         nrows.append(f'<tr{attrs(head)}><td>{cells}</td><td>{esc(head["접수기간"]) or "공고 참고"}</td>'
+                     f'<td class="intake">{intake_html(head["출처 URL"])}</td>'
                      f'<td>{link(head["출처 URL"], "공고 원문")} · {esc(head["확인일"])}</td></tr>')
     sec_fund = (f'<h2>{esc(short)} 소상공인 지원사업·지원금 — 2026년 공고</h2>\n'
                 f'<p>대부분 융자·보증·이자지원 방식이며, 무상 지원금은 공고별로 다릅니다. 자금마다 [소상공인 전용]·[중소기업 육성자금] 등 대상을 표시했습니다. '
-                f'{esc(city)}{subj(city)} 직접 낸 공고 {len(nts)}건이며, 한도·금리는 사업 기준이고 예산이 소진되면 일찍 끝날 수 있습니다.</p>\n'
-                '<div class="tablewrap"><table><thead><tr><th>자금(공고 기준)</th><th>접수기간(공고 문구)</th><th>출처·확인일</th></tr></thead><tbody>'
+                f'{esc(city)}{subj(city)} 직접 낸 공고 {len(nts)}건이며, 한도·금리는 사업 기준이고 예산이 소진되면 일찍 끝날 수 있습니다. '
+                f'접수처는 공고마다 다릅니다(재단 지점·은행·{esc(city.split()[-1])}청 등).</p>\n'
+                '<div class="tablewrap"><table><thead><tr><th>자금(공고 기준)</th><th>접수기간(공고 문구)</th><th>접수처(공고 기준)</th><th>출처·확인일</th></tr></thead><tbody>'
                 + ''.join(nrows) + '</tbody></table></div>')
 
     # ④ 소상공인지원센터 (공식)
