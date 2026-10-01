@@ -22,6 +22,7 @@ TODAY = build_date()
 FEE = '진단은 무료입니다.'
 BYLINE = '작성 비즈니스 메이커 · 검토 김상표(대표) · 최종 확인 {}'
 MIN_FACTS, MAX_AGE_DAYS = 3, 90
+MAX_DESC = 150   # description 글자 수 상한(대표 2026-10-01)
 COUNTED = {'jaedan-branch', 'semas-center', 'city-fund'}
 KINDS = COUNTED | {'province-fund'}
 OFFICE = '비즈니스 메이커 사무실(마곡): 서울 강서구 공항대로 213'   # 규격 3절 표기
@@ -162,11 +163,14 @@ def page_html(c, style, hdr, foot):
     # 지점 창구 요약: 담당 문장을 따로 둔 도시(근거가 좁은 강서구·표기가 갈리는 청주)는 표로 넘긴다
     window = f"{jname} 창구(아래 표)" if override or not abbr else f"{jname} {abbr}"
     newest = max(d['_checked'] for d in F)
-    names = list(dict.fromkeys(re.sub(r'^2026년도? (상반기 |하반기 )?', '', ns[0]['이름']) for ns in nts))
-    fund_names = '·'.join(names[:2]) + (' 등' if len(names) > 2 else '')   # description 150자 내외(규격 2절)
-    desc = (f"{city} 사업장이 확인할 정책자금 창구: {window}, 소상공인시장진흥공단 "
-            f"{'·'.join(d['이름'].split(' ', 1)[1] for d in ce)}, {short} 자체 자금 공고 {len(nts)}건({fund_names}). "
-            f"공식 공고의 한도·금리·접수기간과 출처를 {newest.year}년 {newest.month}월 기준으로 정리했습니다.")
+    # 키워드 보강(대표 2026-10-01): 끝 문장에 지원사업·지원금·소상공인지원센터 — title 은 대출·정책자금 그대로
+    # description 규칙(대표 2026-10-01): 150자 이내, 키워드 앞쪽, 자금명은 본문·표에만
+    desc = (f"{short} 소상공인 정책자금·대출·지원사업 창구: {jname}{' ' + abbr if abbr else ''}, "
+            f"소상공인지원센터({'·'.join(d['이름'].split(' ', 1)[1] for d in ce)}), {short} 공고 {len(nts)}건. "
+            "한도·금리·접수기간을 공고 원문과 함께 정리했습니다.")
+    if len(desc) > MAX_DESC:
+        die(f"{c['도시ID']}: description {len(desc)}자 — {MAX_DESC}자 이내여야 합니다.")
+    office = city.split()[-1] + '청'   # 수원시청 · 강서구청 · ○○군청
 
     # ① 이 도시 사업자가 볼 자금 — 짧은 답
     first = f"신용보증재단은 {esc(window)}" if override or not abbr else f"보증부 대출은 {esc(window)}"
@@ -210,8 +214,9 @@ def page_html(c, style, hdr, foot):
             for d in items)
         nrows.append(f'<tr{attrs(head)}><td>{cells}</td><td>{esc(head["접수기간"]) or "공고 참고"}</td>'
                      f'<td>{link(head["출처 URL"], "공고 원문")} · {esc(head["확인일"])}</td></tr>')
-    sec_fund = (f'<h2>{esc(short)} 자체 자금 — 2026년 공고 {len(nts)}건</h2>\n'
-                f'<p>{esc(city)}{subj(city)} 직접 낸 공고입니다. 한도·금리는 사업 기준이며 예산이 소진되면 일찍 끝날 수 있습니다.</p>\n'
+    sec_fund = (f'<h2>{esc(short)} 소상공인 지원사업·지원금 — 2026년 공고</h2>\n'
+                f'<p>대부분 융자·보증·이자지원 방식이며, 무상 지원금은 공고별로 다릅니다. '
+                f'{esc(city)}{subj(city)} 직접 낸 공고 {len(nts)}건이며, 한도·금리는 사업 기준이고 예산이 소진되면 일찍 끝날 수 있습니다.</p>\n'
                 '<div class="tablewrap"><table><thead><tr><th>자금(공고 기준)</th><th>접수기간(공고 문구)</th><th>출처·확인일</th></tr></thead><tbody>'
                 + ''.join(nrows) + '</tbody></table></div>')
 
@@ -219,7 +224,7 @@ def page_html(c, style, hdr, foot):
     crows = ''.join(
         f'<li{attrs(d)}><b>{esc(d["이름"])}</b> — 담당지역 {esc(d["관할"])} · {esc(d["주소"])} · {esc(d["전화"])} '
         f'({link(d["출처 URL"], "소진공 센터 안내")}, 확인일 {esc(d["확인일"])})</li>' for d in ce)
-    sec_center = (f'<h2>소상공인지원센터 — 소진공 공식 창구</h2>\n'
+    sec_center = (f'<h2>{esc(short)} 소상공인지원센터(소상공인센터) 위치·연락처</h2>\n'
                   f'<p>소상공인시장진흥공단(소진공)이 운영하는 공식 소상공인지원센터입니다. <b>공식 기관이며 비즈니스 메이커와 무관합니다.</b> '
                   f'소진공 안내에 따르면 담당지역과 관계없이 가까운 센터를 방문할 수 있습니다.</p>\n'
                   f'<ul class="facts">{crows}</ul>')
@@ -247,13 +252,17 @@ def page_html(c, style, hdr, foot):
     faq = [
         (c['담당 질문'] or f"{city} 사업장은 신용보증재단 어느 지점에 문의하나요?",
          (sentence_txt + ' ' + (f"{short} 공고 원문은 “{ev_q}”입니다." if ev_q else '')).strip()),
+        (f"{short} 소상공인 지원금은 어디서 확인하나요?",
+         f"{office} 고시·공고, 기업마당(bizinfo.go.kr), 소상공인24(sbiz24.kr)에서 확인합니다. "
+         f"이 페이지 '{short} 소상공인 지원사업·지원금' 표에 2026년 {short} 공고 {len(nts)}건을 공고 원문 링크와 함께 정리했습니다. "
+         "대부분 융자·보증·이자지원 방식이며, 무상 지원금은 공고별로 다릅니다."),
         (f"{short} 자체 자금 한도·금리가 우리 회사 조건인가요?",
          f"아닙니다. 예를 들어 {nts[0][0]['이름']} 공고의 한도 '{nts[0][0]['한도'] or '공고 미기재'}'는 사업 전체 기준입니다. "
          "실제 금액과 대상 여부는 심사로 정해집니다. " + FEE),
         (f"{short} 자금 접수는 언제까지인가요?",
          ' '.join(f"{items[0]['이름']}: {items[0]['접수기간'] or '공고 참고'}." for items in nts)),
-        (f"{city} 소상공인지원센터는 어디인가요?",
-         ' '.join(f"{d['이름']}이며 담당지역은 {d['관할']}, 주소는 {d['주소']}, 전화는 {d['전화']}입니다." for d in ce)
+        (f"{short} 소상공인센터는 어디에 있나요?",   # 기존 "소상공인지원센터는 어디인가요?"를 대체(중복 방지)
+         ' '.join(f"{d['이름']}(소상공인지원센터)이며 주소는 {d['주소']}, 전화는 {d['전화']}, 담당지역은 {d['관할']}입니다." for d in ce)
          + " 소진공이 운영하는 공식 기관이며 비즈니스 메이커와 무관합니다."),
     ]
     faq_html = ''.join(f'<details><summary>{esc(q)}</summary><div class="body">{esc(a)}</div></details>' for q, a in faq)

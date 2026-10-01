@@ -190,6 +190,75 @@ def test_region_pages_follow_rules():
     assert not errs, '규격 8-1 위반:\n' + '\n'.join(errs)
 
 
+def _all_pages():
+    return sorted(list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html')))
+
+
+def _visible_text(path):
+    import html as _h
+    s = path.read_text(encoding='utf-8')
+    s = re.sub(r'<script\b.*?</script>|<style\b.*?</style>', ' ', s, flags=re.S)
+    return _h.unescape(re.sub(r'<[^>]+>', ' ', s))
+
+
+def _official_center_names():
+    """공식 기관명·주소에 들어 있는 '…지원센터' 낱말(예: 강서종합지원센터, 주소의 중소기업지원센터)."""
+    import csv
+    src = ROOT / 'data' / 'region.source.csv'
+    if not src.exists():
+        return set()
+    names = set()
+    with open(src, encoding='utf-8-sig', newline='') as f:
+        for r in csv.DictReader(f):
+            for k in ('이름', '표시 이름', '주소'):
+                names.update(re.findall(r'[가-힣]+지원센터', r.get(k) or ''))
+    return names
+
+
+def test_support_center_word_only_for_official_centers():
+    """'지원센터'는 공식 센터(소진공 소상공인지원센터·재단 공식 지점명·주소의 건물명)에만 쓴다 —
+    비즈니스 메이커를 지원센터로 부르지 않는다(대표 2026-10-01, 도시 페이지 키워드 보강)."""
+    allowed = _official_center_names()
+    bad = []
+    for p in _all_pages():
+        t = _visible_text(p)
+        for m in re.finditer(r'[가-힣]*지원센터', t):
+            w = m.group(0)
+            if not (w.endswith('소상공인지원센터') or w in allowed):
+                bad.append(f'{p.relative_to(ROOT).as_posix()}: "{w}"')
+        for m in SELF_AS_CENTER.finditer(t):
+            bad.append(f'{p.relative_to(ROOT).as_posix()}: 비즈니스 메이커를 지원센터로 지칭 — {m.group(0)}')
+    assert not bad, '\n'.join(bad)
+
+
+# "비즈니스 메이커 (는/의) … 지원센터" — 회사명 뒤 짧은 거리 안에 지원센터가 오면 자기 지칭으로 본다.
+# 공식 지점명이 회사명 앞에 오는 title("… 강서종합지원센터 안내 | 비즈니스 메이커")은 걸리지 않는다.
+SELF_AS_CENTER = re.compile(r'비즈니스\s*메이커[^.|·,\n]{0,12}지원센터')
+
+
+def test_support_center_rule_catches_misuse():
+    assert '강서종합지원센터' in _official_center_names() or not (ROOT / 'data' / 'region.source.csv').exists()
+    assert SELF_AS_CENTER.search('비즈니스 메이커 정책자금 지원센터에 문의하세요.')
+    assert SELF_AS_CENTER.search('비즈니스 메이커 소상공인지원센터')
+    assert not SELF_AS_CENTER.search('서울신용보증재단 강서종합지원센터 안내 | 비즈니스 메이커')
+    assert not SELF_AS_CENTER.search('소진공이 운영하는 공식 기관이며 비즈니스 메이커와 무관합니다.')
+    assert not '정책자금지원센터'.endswith('소상공인지원센터')
+
+
+def test_region_description_short_and_keyword_first():
+    """description 150자 이내, '{도시} 소상공인 정책자금·대출·지원사업 창구:'로 시작(대표 2026-10-01)."""
+    import html as _h
+    bad = []
+    for p in sorted((ROOT / 'region').glob('*.html')):
+        s = p.read_text(encoding='utf-8')
+        d = _h.unescape(re.search(r'<meta name="description" content="([^"]*)"', s).group(1))
+        if len(d) > 150:
+            bad.append(f'{p.stem}: {len(d)}자')
+        if not re.match(r'^\S+ 소상공인 정책자금·대출·지원사업 창구: ', d):
+            bad.append(f'{p.stem}: 시작 문형 불일치 — {d[:30]}')
+    assert not bad, '\n'.join(bad)
+
+
 def test_sitemap_region_urls_match_pages():
     """sitemap 의 /region/ URL 과 region/*.html 이 1:1 — 생성 금지된 도시가 sitemap 에 남지 않게."""
     sm = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')
