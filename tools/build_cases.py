@@ -328,6 +328,26 @@ td a{color:var(--blue-deep);text-decoration:underline}
         s0=p.read_text(encoding='utf-8'); s=s0
         for k,v in STATS.items(): s=re.sub(r'(data-stat="'+k+r'">)[^<]*(</span>)', lambda mm: mm.group(1)+v+mm.group(2), s)
         if s!=s0: p.write_text(s, encoding='utf-8')
+    # 정적 페이지 메타(title·description·og)의 받은 사례 숫자 — 원장 사례 한 건에서 생성한다. 손으로 쓰지 않는다(2026-10-01 /sinbo v2).
+    # og:title = title, og:description = description (규격 2절)
+    META_CASE={'sinbo.html':('E55',
+        '신용보증기금 사업자대출 조건·한도 2026 — 신청 순서와 받은 사례 | 비즈니스 메이커',
+        '신용보증기금(신보) 사업자대출은 신보 보증서로 은행에서 대출받는 구조입니다. 대상·한도·금리와 신청 순서를 정리하고, '
+        '받은 사례({won}·{rate})를 공개합니다. 지역신용보증재단·기술보증기금 중 어디가 맞는지부터 확인하세요.')}
+    for f,(cid,title,desc_t) in META_CASE.items():
+        p=ROOT/f
+        if not p.exists(): continue
+        c=next((r for r in D if r['사례ID']==cid), None)
+        if c is None: die(f"{f} 메타 사례 {cid} 가 공개 원장에 없습니다 — META_CASE 를 고치세요.")
+        if not (c['금리'] or '').strip(): die(f"{f} 메타 사례 {cid} 의 금리가 비어 있습니다.")
+        desc=desc_t.format(won=won2(int(c['실행 금액(만원)'])), rate=c['금리'].strip())
+        t,d=escape(title, quote=True), escape(desc, quote=True)
+        s0=p.read_text(encoding='utf-8'); s=s0
+        s=re.sub(r'<title>[^<]*</title>', lambda _: f'<title>{t}</title>', s, count=1)
+        s=re.sub(r'(<meta name="description" content=")[^"]*(")', lambda m: m.group(1)+d+m.group(2), s, count=1)
+        s=re.sub(r'(<meta property="og:title" content=")[^"]*(")', lambda m: m.group(1)+t+m.group(2), s, count=1)
+        s=re.sub(r'(<meta property="og:description" content=")[^"]*(")', lambda m: m.group(1)+d+m.group(2), s, count=1)
+        if s!=s0: p.write_text(s, encoding='utf-8')
     business_summary = (f'- 기업 형태별 받은 사례: {T["PERIOD_SHORT"]} 공개 원장 기준, '
                         f'개인사업자 {STATS["ind-n"]}건 · {STATS["ind-won"]}, '
                         f'법인사업자 {STATS["corp-n"]}건 · {STATS["corp-won"]}. '
