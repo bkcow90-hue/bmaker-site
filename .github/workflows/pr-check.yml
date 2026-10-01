@@ -44,9 +44,14 @@ jobs:
       # 2026-10-01 PR #24: Azure Ubuntu 미러가 54 kB/s 로 느려 같은 32 MB 를 9분 53초에 받았다(평소 3초).
       - name: apt 재시도·타임아웃 설정
         run: |
-          echo 'Acquire::Retries "3";' | sudo tee /etc/apt/apt.conf.d/80-ci-retries
-          echo 'Acquire::http::Timeout "30";' | sudo tee -a /etc/apt/apt.conf.d/80-ci-retries
-          apt-config dump | grep -E '^Acquire::(Retries|http::Timeout) '
+          # apt.conf.d 는 파일명 순으로 읽고 나중 값이 이긴다 — 러너 이미지 자체 설정(Retries 1·Timeout 15)보다 뒤에 오도록 99zz
+          grep -rhE 'Acquire::(Retries|http::Timeout)' /etc/apt/apt.conf.d/ || true
+          echo 'Acquire::Retries "3";' | sudo tee /etc/apt/apt.conf.d/99zz-ci-retries
+          echo 'Acquire::http::Timeout "30";' | sudo tee -a /etc/apt/apt.conf.d/99zz-ci-retries
+          # 최종 적용값 — 3·30 이 아니면 실패시킨다
+          eval "$(apt-config shell R Acquire::Retries T Acquire::http::Timeout)"
+          echo "적용값: Acquire::Retries=$R Acquire::http::Timeout=$T"
+          test "$R" = 3 && test "$T" = 30
       - name: Chromium 설치
         # 8분이면 PR #24(9분 53초, 성공)를 실패로 만든다 — 그 사례가 통과하는 12분
         timeout-minutes: 12
