@@ -202,6 +202,7 @@ def main():
             die(f'{REG.name} 을 읽을 수 없습니다. 파일을 지우고 다시 실행하면 git 기록으로 다시 채웁니다.')
     pages = sorted(p for p in ROOT.glob('*.html') if p.name not in SKIP)
     pages += sorted(ROOT.glob('industry/*.html'))
+    pages += sorted(ROOT.glob('region/*.html'))    # 도시 페이지(/region/<slug>, 규격 8-1)
     if not pages:
         die('저장소 루트에 페이지가 없습니다.')
     out, touched, seeded = {}, [], []

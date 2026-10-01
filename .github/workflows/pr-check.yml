@@ -171,6 +171,7 @@ jobs:
           python tools/build_cases.py
           python tools/build_funds.py
           python tools/build_jaedan.py
+          python tools/build_region.py
           python tools/build_gaein.py
           python tools/build_consulting.py
           python tools/build_jungjin.py

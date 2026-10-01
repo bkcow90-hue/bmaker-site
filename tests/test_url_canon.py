@@ -33,6 +33,11 @@ INDUSTRY = ["industry/eumsikjeom"]
 PAGES += [f"{slug}.html" for slug in INDUSTRY]
 SLUGS += INDUSTRY
 
+# 도시 페이지 — 하위 디렉터리 /region/<slug> (규격 8-1). 생성된 파일 전부
+REGION = sorted(f"region/{p.stem}" for p in (ROOT / "region").glob("*.html"))
+PAGES += [f"{slug}.html" for slug in REGION]
+SLUGS += REGION
+
 
 def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")

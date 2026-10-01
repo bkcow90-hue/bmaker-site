@@ -23,7 +23,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 VIEWPORTS = [{"width": 390, "height": 844}, {"width": 1280, "height": 800}]
-FORM_PAGES = sorted(p.relative_to(ROOT).as_posix() for p in list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html'))
+FORM_PAGES = sorted(p.relative_to(ROOT).as_posix() for p in list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html'))
                     if 'id="leadForm"' in p.read_text(encoding='utf-8'))
 
 try:

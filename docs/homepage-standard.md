@@ -165,7 +165,7 @@
 ## 9. 빌드·코드 규칙
 
 - 데이터 원본은 구글시트 3탭(원장·자금·재단). ledger 워크플로가 매시 동기화한다. 로컬 CSV·xlsx는 폴백이며 손으로 고치지 않는다.
-- 빌더 체인 순서: cases → funds → jaedan → gaein → consulting → jungjin → editorial → education → hubs → build_lastmod. 마지막이 항상 build_lastmod. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
+- 빌더 체인 순서: cases → funds → jaedan → region → gaein → consulting → jungjin → editorial → education → hubs → build_lastmod. 마지막이 항상 build_lastmod. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
 - 날짜는 `tools/builddate.build_date()`만 쓴다. 빌더에서 date.today()·datetime.now()를 직접 호출하지 않는다.
 - CSS: 페이지마다 스타일 블록이 2~3개다. 첫 블록에 넣는 전역 규칙은 반드시 부모 선택자(.wrap/main/body)로 명시도를 올린다. 전파 순서: sojingong 첫 블록 + tools/cases_tpl.html → 8빌더 실행 → 남은 정적 페이지 일괄 치환.
 - 저장소 루트가 Worker 정적 에셋으로 통째로 서빙된다. 비공개 파일(문서·테스트·설정·지침)은 반드시 .assetsignore에 넣는다. 호스팅 설정은 wrangler.jsonc(not_found_handling=404-page)가 기준.

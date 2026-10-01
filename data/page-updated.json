@@ -117,7 +117,7 @@
  },
  "jaedan-chungbuk.html": {
   "date": "2026-10-01",
-  "hash": "b89d3dd1b68957aff030719ca01b83cd8c5b9dee1e59ed2123a96f3325d6811e"
+  "hash": "9ae22589e098174797cec0f9d26cdcec616f09248270a7e47f7fce91996dc211"
  },
  "jaedan-chungnam.html": {
   "date": "2026-10-01",
@@ -141,15 +141,15 @@
  },
  "jaedan-gyeongbuk.html": {
   "date": "2026-10-01",
-  "hash": "76b2070dcc18ab857af55aec7e5347751db26100bf539577f552e059c0497fe3"
+  "hash": "81229e8c762390361b3882c85c3afed144eaeb030ee2589bbacf3a41914fbafd"
  },
  "jaedan-gyeonggi.html": {
   "date": "2026-10-01",
-  "hash": "4a1d6f2e8b8a010047c1e0ff1fb7fa5eae090690c117274e6c86ee19cbc9200f"
+  "hash": "5c26a1200f635a85997a7da6df96de7024085e9af5d3a9366696fac93a27cba4"
  },
  "jaedan-gyeongnam.html": {
   "date": "2026-10-01",
-  "hash": "b41ac7f40cbb5b8bd960c88b99cfd0e0b8b5795e71423a11cd513ea1aae9a8f5"
+  "hash": "6ace070c0a3c64a1d1081e93c9ac4f06806ce1a9b247e4563170ccf27c2ae0dd"
  },
  "jaedan-incheon.html": {
   "date": "2026-10-01",
@@ -161,7 +161,7 @@
  },
  "jaedan-jeonbuk.html": {
   "date": "2026-10-01",
-  "hash": "2612b2c6299a46c8ceee39af35382e34da101a1bc3f504314a64c9108ebdc025"
+  "hash": "280f2c44135deb5f0d12149bd252540a8e83df5dca46cead3ca5ebdfad8ce854"
  },
  "jaedan-jeonnam.html": {
   "date": "2026-10-01",
@@ -173,7 +173,7 @@
  },
  "jaedan-seoul.html": {
   "date": "2026-10-01",
-  "hash": "a944cae5efa0a209440ff06abfa6e75e6d17b78e4089206c495e7f573c296eb7"
+  "hash": "b811abae83f0db2248b1272650102d070147eb37e3293e2a8261d175b0e1781c"
  },
  "jaedan-ulsan.html": {
   "date": "2026-10-01",
@@ -222,6 +222,82 @@
  "privacy.html": {
   "date": "2026-09-15",
   "hash": "1ddc7aebb4df52ea24ab7b80478e034f32926e6e120772ed5c445010bc4ac198"
+ },
+ "region/ansan.html": {
+  "date": "2026-10-01",
+  "hash": "e5ca7f5a4fa564aaca991963230b4b0f3a45bdb26b0f584371e725ab695e1b85"
+ },
+ "region/anyang.html": {
+  "date": "2026-10-01",
+  "hash": "6dd22f2df8f5aa834534f71a181b2e104560de423231434cb90056a25f248b60"
+ },
+ "region/bucheon.html": {
+  "date": "2026-10-01",
+  "hash": "2d9a603bbfb1b1528c99631a5462e2d7128a55742d0df7987fc263f3ea8b201d"
+ },
+ "region/changwon.html": {
+  "date": "2026-10-01",
+  "hash": "ddae72a97bf4a9c67dd5d9f650cd8f7a7cbcc974f4e7ccd73af39e3bc43712e5"
+ },
+ "region/cheongju.html": {
+  "date": "2026-10-01",
+  "hash": "ee4a5f5a9054ab0cbb8c3a22979cd6f4379d02e7642d80df78a8b4107fe59a96"
+ },
+ "region/gimhae.html": {
+  "date": "2026-10-01",
+  "hash": "393ed2ca5428e7f81fd450e803e7256755bd4c0e559fbb788856e871689b5bca"
+ },
+ "region/gimpo.html": {
+  "date": "2026-10-01",
+  "hash": "142d24c7322c0848fe7c7fd2cd8d23a5a4432f950eba51c224f3012b670106fb"
+ },
+ "region/goyang.html": {
+  "date": "2026-10-01",
+  "hash": "9717c43873c10e35653a8543d8b6878a3e99aae48d311b7550e079fd6ec2fd52"
+ },
+ "region/hwaseong.html": {
+  "date": "2026-10-01",
+  "hash": "5e3257808e5c790dfd9f597d339bf2d4d9e1733d91f6f86905c049e6ea4f5f03"
+ },
+ "region/jeonju.html": {
+  "date": "2026-10-01",
+  "hash": "91be1cca7824beabfa97223afcc8ef103d5db2ceacb9a1f7afb3751bd1c7d2cc"
+ },
+ "region/namyangju.html": {
+  "date": "2026-10-01",
+  "hash": "4e0d6a915d744d1ae7f71c6a7b066441577430d3afc1303ad641542477e2a46d"
+ },
+ "region/paju.html": {
+  "date": "2026-10-01",
+  "hash": "167adffef4131749aa73175e268324e6053774718183cd8f0c36c0b23b7e1242"
+ },
+ "region/pohang.html": {
+  "date": "2026-10-01",
+  "hash": "38812258ac16491376ec195ca5f5a4e6aa5fba86b6f1a94f9643e269d126b79b"
+ },
+ "region/pyeongtaek.html": {
+  "date": "2026-10-01",
+  "hash": "60a395073b7ec5b58f215ff84a885ecf039c6e724310f1b420fff820cd0d8ecb"
+ },
+ "region/seongnam.html": {
+  "date": "2026-10-01",
+  "hash": "1302cf600f0abeed5f67af6ca287f5f4b64574a39b6d4e3caab8449c2e9b20ba"
+ },
+ "region/seoul-gangseo.html": {
+  "date": "2026-10-01",
+  "hash": "46827ee2cd432fcd6ee7b46254c2c9c3af21a8d363442f82ac504e3443d2c946"
+ },
+ "region/siheung.html": {
+  "date": "2026-10-01",
+  "hash": "0ad4a1c103d2b4ea0d2aba4a4cfd8bdea0806236157aed33e1e13a3d3c4a3e3e"
+ },
+ "region/suwon.html": {
+  "date": "2026-10-01",
+  "hash": "6e61d216a5747b8f9f44480f75e2bcb0fdd8955355628639b72e57cd417ca35d"
+ },
+ "region/yongin.html": {
+  "date": "2026-10-01",
+  "hash": "bf0c15a813703b967215bfe86bacab60016378ad41f1817ffa479e4066e5bb08"
  },
  "sanghwan.html": {
   "date": "2026-09-28",
