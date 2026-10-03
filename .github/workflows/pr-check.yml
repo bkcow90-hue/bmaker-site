@@ -165,7 +165,7 @@ jobs:
           fi
           exit $RC
       - name: node 테스트
-        run: node tests/test_conversion.mjs && node tests/test_analytics.mjs
+        run: node tests/test_conversion.mjs && node tests/test_analytics.mjs && node tests/test_blog_redirect.mjs
       # 커밋된 산출물이 곧 1회차 기준이므로, 체인을 한 번만 돌려 git status 로 판정하면
       # "커밋 전에 체인을 돌렸는가" 와 "체인이 결정적인가" 를 한 번에 본다.
       # 입력은 커밋된 소스뿐이다 — 빌더에는 네트워크 호출이 없고(시트 fetch 는 ledger.yml 의
@@ -200,6 +200,7 @@ jobs:
           python tools/build_editorial.py
           python tools/build_education.py
           python tools/build_hubs.py
+          python tools/build_blog.py
           python tools/build_lastmod.py
           # 바이너리 제외 목록 — 지금은 비어 있다. 빌더는 이미지를 만들지 않고 PIL 로 크기만
           # 읽으므로 체인의 산출물은 전부 텍스트다(html·xml·txt·json·csv). pillow·libwebp

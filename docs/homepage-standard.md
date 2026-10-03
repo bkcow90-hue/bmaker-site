@@ -166,7 +166,8 @@
 ## 9. 빌드·코드 규칙
 
 - 데이터 원본은 구글시트 3탭(원장·자금·재단). ledger 워크플로가 매시 동기화한다. 로컬 CSV·xlsx는 폴백이며 손으로 고치지 않는다.
-- 빌더 체인 순서: cases → funds → jaedan → region → gaein → consulting → jungjin → editorial → education → hubs → build_lastmod. 마지막이 항상 build_lastmod. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
+- 빌더 체인 순서: cases → funds → jaedan → region → gaein → consulting → jungjin → editorial → education → hubs → blog → build_lastmod. 마지막이 항상 build_lastmod. (pr-check·ledger 두 워크플로가 같은 순서)
+- 블로그(`/blog`, `tools/build_blog.py`): 원본은 `posts/YYYY-MM-DD-slug.md`(비공개). 날짜는 frontmatter(date·updated)만 쓰고 빌드일을 쓰지 않는다. 첫 문단 직답·작성자 줄·면책·기준일·FAQ↔FAQPage 일치는 빌더가 만든다. **블로그 제목은 자금 정식명으로 시작하지 않는다** — 자금 검색어는 자금 페이지 몫이고, 블로그는 상황·절차·사례 관점으로 쓴다(2026-10-04 WordPress 카니발 진단). 금칙어·비용 구조 문구가 있으면 빌더가 멈춘다. 검사 `tests/test_blog.py`. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
 - 날짜는 `tools/builddate.build_date()`만 쓴다. 빌더에서 date.today()·datetime.now()를 직접 호출하지 않는다.
 - CSS: 페이지마다 스타일 블록이 2~3개다. 첫 블록에 넣는 전역 규칙은 반드시 부모 선택자(.wrap/main/body)로 명시도를 올린다. 전파 순서: sojingong 첫 블록 + tools/cases_tpl.html → 8빌더 실행 → 남은 정적 페이지 일괄 치환.
 - 저장소 루트가 Worker 정적 에셋으로 통째로 서빙된다. 비공개 파일(문서·테스트·설정·지침)은 반드시 .assetsignore에 넣는다. 호스팅 설정은 wrangler.jsonc(not_found_handling=404-page)가 기준.
@@ -233,3 +234,4 @@
   재단 공식 사이트 또는 지자체 공고의 명시 문장(추정 금지), 도 전체 사업은 개수 제외·"참고" 표시만. 승인: 대표 2026-10-01
 - 2026-10-02 4-1 홈 증빙 규칙: 기관 안내문·약정 캡처 4장 이상, 축소는 대표 승인 필요, 계산서·송금 캡처 홈 제외. 2026-09-21 개편(`56b1307`)에서 근거 없이 6→2장으로 줄었던 것을 E13·E1 복원으로 4장. 승인: 대표 2026-10-02
 - 2026-10-02 10절 pr-check 보험(잡 20분·Chromium 설치 12분·apt 재시도 3·타임아웃 15)과 컨테이너 전환 기준(설치 5분 초과 7일 내 2회) 기록. 승인: 대표 2026-10-02
+- 2026-10-04 blog.bmaker.kr(WordPress.com) 통합(A안) — `/blog` 정적 블로그 신설, 9절 체인에 blog 추가, 블로그 제목 규칙(자금 정식명으로 시작 금지). 근거 docs/wp-audit-2026-10.md. 승인: 대표 2026-10-04

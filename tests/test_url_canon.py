@@ -38,6 +38,11 @@ REGION = sorted(f"region/{p.stem}" for p in (ROOT / "region").glob("*.html"))
 PAGES += [f"{slug}.html" for slug in REGION]
 SLUGS += REGION
 
+# 블로그 — 목록 /blog(루트 blog.html), 글 /blog/<slug>, 카테고리 /blog/category/<cat> (build_blog)
+BLOG = ["blog"] + sorted(p.relative_to(ROOT).with_suffix("").as_posix() for p in (ROOT / "blog").glob("**/*.html"))
+PAGES += [f"{slug}.html" for slug in BLOG]
+SLUGS += BLOG
+
 
 def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")

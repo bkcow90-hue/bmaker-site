@@ -1,0 +1,41 @@
+﻿type,id,slug,url,title,date,modified,categories,content_bytes,sha1_12
+page,5,guides,https://blog.bmaker.kr/,정책자금·사업자대출 실무 가이드,2026-09-21T18:29:31,2026-10-01T23:20:57,,18030,44868b752573
+page,26,about-editorial,https://blog.bmaker.kr/about-editorial/,운영자와 편집 기준,2026-09-21T18:38:33,2026-09-22T00:00:29,,7709,070cb0d03a0e
+page,28,diagnosis,https://blog.bmaker.kr/diagnosis/,무료 진단은 어떻게 진행되나요?,2026-09-21T18:38:39,2026-09-22T00:00:47,,7593,1c225d166767
+page,30,privacy,https://blog.bmaker.kr/privacy/,개인정보·이용 안내,2026-09-21T18:38:44,2026-09-22T00:01:16,,9270,eb45a8cc15fa
+page,47,funding-guide,https://blog.bmaker.kr/funding-guide/,정책자금·사업자대출 안내,2026-09-21T23:32:04,2026-10-01T21:30:54,,14264,58c54661dc7a
+page,49,practical-guides,https://blog.bmaker.kr/practical-guides/,실무 가이드,2026-09-21T23:33:31,2026-10-01T23:22:17,,13002,658035523e84
+page,51,policy-news,https://blog.bmaker.kr/policy-news/,사업자 정책·지원사업 뉴스,2026-09-21T23:34:02,2026-10-01T23:24:11,,12845,15126cf8e477
+page,53,support-programs,https://blog.bmaker.kr/support-programs/,사업자 지원정보 찾기,2026-09-21T23:34:28,2026-10-01T23:38:13,,18233,d1f451073580
+page,55,application-calendar,https://blog.bmaker.kr/application-calendar/,정책자금 접수 일정,2026-09-21T23:35:28,2026-10-01T23:39:39,,15481,70d6fb9c4ce2
+post,9,loan-consultation-brief,https://blog.bmaker.kr/loan-consultation-brief/,"사업자대출 상담 전, 한 장으로 정리할 7가지",2026-09-21T18:35:35,2026-09-21T23:56:44,%ec%82%ac%ec%97%85%ec%9e%90%eb%8c%80%ec%b6%9c-%ec%a4%80%eb%b9%84,9084,86f340d78603
+post,12,guarantee-bank-questions,https://blog.bmaker.kr/guarantee-bank-questions/,"보증서 대출 상담, 보증기관과 은행에 따로 물어볼 질문",2026-09-21T18:36:25,2026-09-21T23:57:09,%eb%b3%b4%ec%a6%9d%c2%b7%ea%b8%b0%ea%b4%80-%ec%9d%b4%ed%95%b4,8703,b9931ce2e80e
+post,14,cash-flow-13-weeks,https://blog.bmaker.kr/cash-flow-13-weeks/,사업자대출 신청 전 13주 자금계획표 만드는 법,2026-09-21T18:36:45,2026-09-21T23:57:37,%ec%9e%90%ea%b8%88%ea%b3%84%ed%9a%8d%c2%b7%ec%84%9c%eb%a5%98,8964,a943bf56bc75
+post,16,equipment-funding-evidence,https://blog.bmaker.kr/equipment-funding-evidence/,"시설자금 상담 전, 장비 견적서에서 확인할 8가지",2026-09-21T18:37:11,2026-09-21T23:58:03,%ec%9e%90%ea%b8%88%ea%b3%84%ed%9a%8d%c2%b7%ec%84%9c%eb%a5%98,8776,6e660c642e3d
+post,18,application-supplement-log,https://blog.bmaker.kr/application-supplement-log/,정책자금 서류 보완 요청을 받았을 때 정리하는 방법,2026-09-21T18:37:30,2026-09-21T23:58:22,%ec%82%ac%ec%97%85%ec%9e%90%eb%8c%80%ec%b6%9c-%ec%a4%80%eb%b9%84,8956,9d88993b2bc6
+post,20,business-funding-workshop,https://blog.bmaker.kr/business-funding-workshop/,"기업 정책자금 교육, 대표와 실무자가 함께 준비할 워크숍",2026-09-21T18:37:42,2026-09-21T23:59:15,%ec%83%81%eb%8b%b4%c2%b7%ea%b5%90%ec%9c%a1-%ec%95%88%eb%82%b4,8599,7a6fc93b7065
+post,22,existing-business-loans-list,https://blog.bmaker.kr/existing-business-loans-list/,"기존 사업자대출이 있을 때, 추가 상담 전 정리할 부채 목록",2026-09-21T18:37:56,2026-09-21T23:59:33,%ec%82%ac%ec%97%85%ec%9e%90%eb%8c%80%ec%b6%9c-%ec%a4%80%eb%b9%84,8807,af7f2fdf0d81
+post,24,consulting-scope-checklist,https://blog.bmaker.kr/consulting-scope-checklist/,정책자금 컨설팅 계약 전 확인할 업무 범위와 비용 질문,2026-09-21T18:38:05,2026-09-22T00:00:08,%ec%83%81%eb%8b%b4%c2%b7%ea%b5%90%ec%9c%a1-%ec%95%88%eb%82%b4,8836,5d6101862332
+post,58,innovation-growth-funding,https://blog.bmaker.kr/innovation-growth-funding/,혁신성장촉진자금 신청 안내: 대상·한도·기관·접수 방식,2026-09-21T23:38:35,2026-09-21T23:38:37,funding,9717,ab4b7b2f0e96
+post,60,restart-special-funding,https://blog.bmaker.kr/restart-special-funding/,재도전특별자금 신청 안내: 일반형·희망형·도약형 차이,2026-09-21T23:39:25,2026-09-21T23:39:26,funding,9462,0777eae11bc0
+post,62,youth-employment-funding,https://blog.bmaker.kr/youth-employment-funding/,청년고용연계자금 신청 안내: 대상·4분기 일정·확인서 이후 절차,2026-09-21T23:41:22,2026-09-21T23:41:24,funding,9598,591bc98f9e27
+post,64,manufacturing-small-business-funding,https://blog.bmaker.kr/manufacturing-small-business-funding/,소공인특화자금 일반 유형: 제조업 대상·한도·신청 방법,2026-09-21T23:41:45,2026-09-21T23:41:47,funding,9623,0623d9207e20
+post,66,2026-q4-policy-funding-schedule,https://blog.bmaker.kr/2026-q4-policy-funding-schedule/,2026년 4분기 소상공인 정책자금 접수 일정: 10월 준비사항,2026-09-21T23:43:25,2026-09-21T23:43:27,policy-news,8974,2133984b12e3
+post,68,2026-product-improvement-round5,https://blog.bmaker.kr/2026-product-improvement-round5/,2026년 5차 소상공인 상품개선 지원사업: 대상·기간·신청 경로,2026-09-21T23:43:49,2026-10-01T21:18:53,support-programs,8892,d90bed2eb0dc
+post,70,general-business-stability-funding,https://blog.bmaker.kr/general-business-stability-funding/,일반경영안정자금 신청 안내: 업력·접수기관·대리대출 절차,2026-09-21T23:45:23,2026-09-21T23:45:24,funding,8925,b45f38a89165
+post,72,emergency-business-stability-funding,https://blog.bmaker.kr/emergency-business-stability-funding/,소상공인 긴급경영안정자금: 재해피해·일시적경영애로 신청 경로,2026-09-21T23:45:43,2026-09-21T23:45:45,funding,8962,f7eed9b30904
+post,74,kosmes-startup-commercialization,https://blog.bmaker.kr/kosmes-startup-commercialization/,중진공 혁신창업사업화자금: 창업기반지원·개발기술사업화 준비,2026-09-21T23:47:53,2026-09-21T23:47:54,funding,9095,125444d5560a
+post,76,kosmes-growth-foundation,https://blog.bmaker.kr/kosmes-growth-foundation/,중진공 신성장기반자금: 제조업·시설투자 기업의 준비 순서,2026-09-21T23:48:13,2026-09-21T23:48:14,funding,9235,e866a16e515f
+post,78,kosmes-business-rebound,https://blog.bmaker.kr/kosmes-business-rebound/,중진공 재도약지원자금: 재창업·구조개선·사업전환 구분,2026-09-21T23:48:32,2026-09-21T23:48:33,funding,9446,8967ddd3c4e4
+post,80,kodit-business-guarantee,https://blog.bmaker.kr/kodit-business-guarantee/,신용보증기금 사업자대출: 보증 상담부터 은행 실행까지,2026-09-21T23:53:23,2026-09-28T17:04:01,funding,9255,21ab0fae0a89
+post,82,kibo-technology-guarantee,https://blog.bmaker.kr/kibo-technology-guarantee/,기술보증기금 대출 준비: 기술평가·보증·은행 절차,2026-09-21T23:55:01,2026-09-28T17:04:48,funding,9403,3010be0d39e2
+post,84,regional-credit-guarantee,https://blog.bmaker.kr/regional-credit-guarantee/,지역신용보증재단 사업자대출: 관할·보증료·신청 방법,2026-09-21T23:56:02,2026-10-01T21:26:16,funding,9563,0df89d75af96
+post,107,small-business-policy-loans,https://blog.bmaker.kr/small-business-policy-loans/,소상공인 정책자금 대출·소진공 대출 신청 전 확인표,2026-09-22T00:36:27,2026-09-22T00:36:28,funding,9452,e1f15b5dbbd9
+post,109,sme-policy-loan-guide,https://blog.bmaker.kr/sme-policy-loan-guide/,중소기업 대출·중진공 정책자금 대출 비교 질문 7가지,2026-09-22T00:38:20,2026-09-22T00:38:22,funding,9606,2f9a89c63cbe
+post,111,government-business-loans,https://blog.bmaker.kr/government-business-loans/,정부지원대출·정부정책자금: 사업자 신청기관 찾는 법,2026-09-22T00:39:35,2026-09-22T00:39:37,funding,9488,55a81ef9f824
+post,113,microfinance-business-guide,https://blog.bmaker.kr/microfinance-business-guide/,미소금융재단·미소금융 대출: 공식 상담 전 준비 질문,2026-09-22T00:41:03,2026-09-22T00:41:05,funding,9083,81897f82ce31
+post,121,2026-kodit-woori-youth-guarantee,https://blog.bmaker.kr/2026-kodit-woori-youth-guarantee/,신보·우리은행 청년창업 보증 협약: 대상·비용·접수 전 확인사항,2026-09-28T16:55:56,2026-09-28T16:55:58,policy-news,8087,7688c64a233f
+post,124,2026-kodit-ibk-startup-buildup,https://blog.bmaker.kr/2026-kodit-ibk-startup-buildup/,신보·기업은행 스타트업 빌드업: 단계별 보증과 신청 전 확인사항,2026-09-28T17:00:18,2026-09-28T17:00:20,policy-news,8093,11d9c05bcaa8
+post,127,2026-kibo-factoring-september-october,https://blog.bmaker.kr/2026-kibo-factoring-september-october/,기보 중소기업팩토링 10월 심사 재개: 처리 순서와 실행 지연 안내,2026-09-28T17:02:02,2026-10-01T21:15:34,policy-news,8767,f76518aefa09
+post,141,2026-october-regional-business-funding,https://blog.bmaker.kr/2026-october-regional-business-funding/,10월 지역 소상공인 정책자금: 서울 중구·순천·양산·충주 신청 경로,2026-10-01T21:23:15,2026-10-01T21:23:16,policy-news,10402,24d8cf88eb46
+post,156,2027-kriss-technology-home-doctor,https://blog.bmaker.kr/2027-kriss-technology-home-doctor/,2027 KRISS 기술홈닥터: 제조 중소기업 기술지원 신청 준비,2026-10-01T23:36:52,2026-10-01T23:42:11,policy-news|support-programs,8984,25c0922d180b

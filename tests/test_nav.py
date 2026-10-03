@@ -20,7 +20,7 @@ TAG = re.compile(r'<[^>]+>')
 
 
 def pages():
-    found = sorted(ROOT.glob('*.html')) + sorted(ROOT.glob('industry/*.html')) + sorted(ROOT.glob('region/*.html'))
+    found = sorted(ROOT.glob('*.html')) + sorted(ROOT.glob('industry/*.html')) + sorted(ROOT.glob('region/*.html')) + sorted(ROOT.glob('blog/**/*.html'))
     return [p for p in found if p.name not in SKIP]
 
 

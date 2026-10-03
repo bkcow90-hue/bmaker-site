@@ -1,3 +1,6 @@
 __pycache__/
 *.py[cod]
 .worktrees/
+
+# wrangler dev 로컬 상태 (저장소 루트가 정적 에셋 폴더라 감시 대상이 된다)
+.wrangler/
