@@ -60,7 +60,8 @@ def test_no_other_page_gained_a_form():
     """폼은 홈 + 자금·재단 33장에만 있어야 한다 — conversion.js 는 페이지당 폼 1개를 전제한다."""
     # 홈 + 자금·재단 33장 + 분기별 접수 안내(자체 폼을 가진 정적 페이지)
     # 블로그 목록(blog.html)도 허브와 같은 인라인 폼 1개 — 글·카테고리 페이지(blog/**)는 루트 glob 밖이라 여기서 세지 않는다
-    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog"}
+    # 지역별 창구 목록(region.html, build_region)도 도시 페이지와 같은 인라인 폼 1개(2026-10-04)
+    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog", "region"}
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 

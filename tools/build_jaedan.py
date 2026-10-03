@@ -8,6 +8,7 @@ from html import escape
 from pathlib import Path
 from builddate import build_date
 from inline_form import form_html, CSS as FORM_CSS
+from reviewer import byline_html
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
@@ -167,6 +168,7 @@ def build():
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
     {faq_html}
+    {byline_html(esc(d['최종 확인일']))}
     <div class="related">
       <p class="t">함께 보기</p>
       <a href="/jaedan">신용보증재단 안내와 지역별 받은 사례</a>

@@ -3,6 +3,7 @@
 import csv, json, re, sys, datetime, statistics
 from pathlib import Path
 from builddate import build_date, data_date
+from reviewer import byline_html
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 소스가 바뀐 날
@@ -106,6 +107,7 @@ def build():
     <h2>자주 묻는 질문</h2>
     {faq_html}
 
+    {byline_html(ASOF.isoformat())}
     <div class="related">
       <p class="t">함께 보기</p>
       <a href="/chaksugeum">착수금·수수료 사기 구별법</a>

@@ -51,6 +51,8 @@ def _page_nodes(s):
         nodes = d.get('@graph') if isinstance(d, dict) and '@graph' in d else (d if isinstance(d, list) else [d])
         for n in nodes:
             if isinstance(n, dict) and n.get('@type') in B.LD_TYPES:
+                if 'reviewedBy' in n and 'dateModified' not in n:   # 검토자 노드(tools/reviewer.py)는 날짜 보유 노드가 아니다
+                    continue
                 yield n
 
 
