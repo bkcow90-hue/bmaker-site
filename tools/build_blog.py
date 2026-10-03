@@ -34,6 +34,7 @@ from pathlib import Path
 
 from builddate import KST   # feed 의 RFC 822 표기용 시간대 — 날짜 계산은 하지 않는다(글 날짜는 frontmatter)
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
+from reviewer import PERSON
 
 ROOT = Path(__file__).resolve().parent.parent
 POSTS = ROOT / 'posts'
@@ -475,7 +476,10 @@ def build_post(p, posts, terms, style, hdr, foot):
             "publisher": {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND,
                           "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/logo.png"}}},
            crumb_ld([('홈', SITE + '/'), ('블로그', SITE + '/blog'),
-                     (cat_label, f"{SITE}/blog/category/{p['category']}"), (p['title'], url)])]
+                     (cat_label, f"{SITE}/blog/category/{p['category']}"), (p['title'], url)]),
+           # 검토자(대표 2026-10-04 저자 신호 D): reviewedBy 는 WebPage 속성이라 같은 주소의 WebPage 노드로 둔다
+           {"@context": "https://schema.org", "@type": "WebPage", "@id": url + "#webpage", "url": url,
+            "reviewedBy": PERSON, "lastReviewed": p["updated"][:7]}]
     if faq:
         lds.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": faq_text(a)}}
@@ -491,7 +495,7 @@ def build_post(p, posts, terms, style, hdr, foot):
 {article}
 {faq_html}
 <p class="asof">※ 본 안내는 {ym(p["updated"])} 기준이며, 조건·일정은 각 기관의 최신 공고를 기준으로 확인해야 합니다.</p>
-<p class="disclaimer">이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 민간 컨설팅 회사이며 정부기관·금융기관이 아닙니다.</p>
+<p class="disclaimer">이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다.</p>
 <p class="byline">작성 {BRAND} · 검토 김상표(대표) · 최종 확인 {p["updated"][:7]}</p>
 </article>
 </div></section>

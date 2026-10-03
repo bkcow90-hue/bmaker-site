@@ -34,7 +34,8 @@ PAGES += [f"{slug}.html" for slug in INDUSTRY]
 SLUGS += INDUSTRY
 
 # 도시 페이지 — 하위 디렉터리 /region/<slug> (규격 8-1). 생성된 파일 전부
-REGION = sorted(f"region/{p.stem}" for p in (ROOT / "region").glob("*.html"))
+# + 지역별 창구 목록 /region(루트 region.html, build_region, 2026-10-04)
+REGION = ["region"] + sorted(f"region/{p.stem}" for p in (ROOT / "region").glob("*.html"))
 PAGES += [f"{slug}.html" for slug in REGION]
 SLUGS += REGION
 

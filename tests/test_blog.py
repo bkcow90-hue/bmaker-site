@@ -130,7 +130,8 @@ def test_article_contract(path):
     assert art.startswith('<p class="answer">'), f'{path.name}: 첫 문단 직답이 아니다'
     assert re.search(r'<p class="byline">작성 비즈니스 메이커 · 검토 김상표\(대표\) · 최종 확인 \d{4}-\d{2}</p>', art), path.name
     assert re.search(r'본 안내는 \d{4}년 \d{1,2}월 기준', art), f'{path.name}: 기준일 문장 없음'
-    assert '정부기관·금융기관이 아닙니다' in art, f'{path.name}: 면책 없음'
+    # 고지 문장 통일(규격 3절, 2026-10-04): 정부·공공기관 아님 + 금융기관 아님
+    assert '정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다' in art, f'{path.name}: 면책 없음'
     assert len(re.findall(r'<h1\b', s)) == 1, f'{path.name}: h1 이 1개가 아니다'
     post = [d for d in lds(s) if d.get('@type') == 'BlogPosting']
     assert len(post) == 1 and post[0]['url'] == f'https://bmaker.kr/blog/{path.stem}', path.name

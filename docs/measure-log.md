@@ -316,3 +316,26 @@ title·description·og:* 는 그대로다. CTR 판정 구간(9/14~9/27, 9/21·9/
 2. `/blog`·글 16편 색인 상태(URL 검사) — 색인 비율.
 3. blog.bmaker.kr 옛 URL 이 GSC 에서 빠졌는지(301 처리) — blog.bmaker.kr 속성은 조작하지 않고 보기만.
 4. 같은 날 도시 확장 재개 판정(`docs/region-expansion.md`).
+
+---
+
+## 2026-10-04 — 중간 점검 후속 변경(브랜치 `audit-fixes-2026-10`, 머지일 = 변경 적용일)
+
+근거: `docs/search-data/audit-2026-10.md`. 11/1 재확인 때 아래 범위의 변화는 이 변경과 겹친다 — 블로그 301(같은 날)과 구분해서 본다.
+메타(title·description) 변경 없음 — 동결 6장 포함 전 페이지의 title·description 은 그대로다(단, 신규 `/region` 1장 추가).
+
+| 묶음 | 범위 | 페이지 수 |
+|---|---|---|
+| A 회사 정의 | 홈 히어로 설명 첫 문장을 정의 문장으로, "민간 경영컨설팅/컨설팅/진단 회사" → "정책자금 경영컨설팅 회사"·고지 문장 통일. 홈·llms 2종·Organization description·푸터 고지(전 페이지)·블로그 면책 | 본문 문구 전 페이지(푸터), 정의 문장 홈·llms |
+| B 내부링크 | 공통 푸터에 `/region`·`/faq`, 허브 2장 "함께 보면" 에 `/region`(+`/sosangin` 에 `/industry/eumsikjeom`), 도시 17장 → 소진공 자금 1~2개, 도시 19장 → `/region` | 신규 URL `/region` 1장 |
+| D 저자 신호 | 재단 18·서비스 6(consulting·startup·marketing·certification·work·education)·허브 2 에 "작성·검토·최종 확인" 줄, 바이라인 있는 전 페이지 JSON-LD reviewedBy(Person `#founder`)·lastReviewed, 홈 `#founder` 에 경력·설명 | 바이라인 페이지 전부(JSON-LD) |
+
+내부링크 전후(sitemap 페이지 기준, 다른 페이지에서 들어오는 링크 페이지 수 합): 2,023 → 2,302. 들어오는 링크 0개였던
+`/faq`·`/industry/eumsikjeom` → 109·1. 도시 페이지 평균 1.0 → 2.0. `/ilban-gyeongyeong` 4 → 20.
+도시 유사도 최고(안산↔성남) 0.543 → 0.556(기준 0.6).
+
+### 11/1 재확인 때 추가로 볼 것
+1. `/region` 색인 여부·노출(신규 URL).
+2. `/faq`·`/industry/eumsikjeom` 노출 변화(들어오는 링크 0 → 있음).
+3. 도시 페이지 미색인 3장(김해·전주·서울 강서) — 들어오는 링크 2배 뒤 색인 여부.
+4. AI 인용 8문항(audit 2026-10 B절) 재측정 — 정의 문장("정책자금 경영컨설팅 회사")이 답에 쓰이는지.

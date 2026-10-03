@@ -24,6 +24,7 @@ sitemap.xml 의 lastmod 도 같은 값으로 맞춘다. 다른 빌더들은 last
 import datetime, hashlib, json, os, re, subprocess, sys
 from pathlib import Path
 from builddate import build_date
+from reviewer import BYLINE_RE, reviewed_ld
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / 'data' / 'page-updated.json'
@@ -36,6 +37,7 @@ LABEL = '최종 업데이트'
 LD_TYPES = {'WebPage', 'Article', 'BlogPosting', 'NewsArticle'}
 
 STAMP = re.compile(r'<p class="lastmod"[^>]*>.*?</p>', re.S)
+REVIEWED_LD = re.compile(r'<script type="application/ld\+json" data-reviewed>.*?</script>', re.S)
 WEBPAGE_LD = re.compile(r'<script type="application/ld\+json" data-webpage>.*?</script>', re.S)
 ANY_LD = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 DATEMOD = re.compile(r'"dateModified"\s*:\s*"\d{4}-\d{2}-\d{2}"')
@@ -67,6 +69,7 @@ def content_hash(s):
     s = (m.group(1) if m else s) + '\n<!--head-->' + head
     s = STAMP.sub('', s)
     s = WEBPAGE_LD.sub('', s)
+    s = REVIEWED_LD.sub('', s)
     s = DATEMOD.sub('"dateModified":"-"', s)
     s = ASSET.sub(r'"', s)
     return hashlib.sha256(s.encode('utf-8')).hexdigest()
@@ -164,6 +167,20 @@ def stamp_jsonld(s, date):
     return s.replace('</head>', block + '</head>', 1)
 
 
+def stamp_reviewed(s):
+    """본문에 검토자 바이라인('검토 김상표(대표) · 최종 확인 …')이 있으면 같은 날짜로 reviewedBy JSON-LD 를 단다.
+    바이라인이 없으면 블록도 없앤다 — 본문 표기와 구조화 데이터가 어긋나지 않게(tools/reviewer.py, 2026-10-04)."""
+    s = REVIEWED_LD.sub('', s)                # 복사돼 온 것·지난 값 모두 걷어내고 다시 만든다
+    m = MAIN.search(s)
+    b = BYLINE_RE.search(m.group(1) if m else s)
+    url = canonical_of(s)
+    if not b or not url or '</head>' not in s or 'name="robots" content="noindex' in s:
+        return s
+    if '"reviewedBy"' in s:                   # 빌더가 직접 단 페이지(블로그 build_blog)는 그대로 둔다
+        return s
+    return s.replace('</head>', reviewed_ld(url, b.group(1)) + '</head>', 1)
+
+
 def page_of(loc):
     """sitemap 의 loc → 저장소의 페이지 파일명. 홈은 index.html."""
     if not loc.startswith(PREFIX):
@@ -223,7 +240,7 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_assets(stamp_jsonld(stamp_footer(s0, date), date))
+        s = stamp_assets(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date)))
         if content_hash(s) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
         if s != s0:
