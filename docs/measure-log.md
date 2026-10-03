@@ -269,6 +269,12 @@ title·description·og:* 는 그대로다. CTR 판정 구간(9/14~9/27, 9/21·9/
 | WordPress.com 비공개 | 2026-10-18 예정 | 그 전까지 비공개·삭제 금지 |
 | **재측정** | **2026-11-01** | 아래 기준선과 같은 지표로 비교 |
 
+### 비고
+
+- **네이버 서치어드바이저(대표 직접 — 확장 차단으로 Claude 불가):** 요청 → 사이트맵 제출 → `https://bmaker.kr/sitemap.xml` 재제출, 요청 → 웹 페이지 수집 → `https://bmaker.kr/blog` 제출. 완료하면 이 줄 끝에 날짜를 적는다.
+- **www.blog.bmaker.kr:** Worker 라우트 `www.blog.bmaker.kr/*` 는 배포됨(c9fed167). CNAME 프록시는 켜지 않음 — Universal SSL 이 2단계 하위 도메인을 덮지 않아 켜면 HTTPS 가 깨졌다(2026-10-04 실측, 즉시 원복). 현재 체인: www.blog → WordPress.com(본문 없이 경로 유지 301) → blog.bmaker.kr → Worker → 목적지(https 2단계, http 3단계). **10/18 비공개 전환 전에 결정 필요**(유료 인증서+프록시 / 레코드 삭제 / 비공개 보류).
+- **예약 알림(클라우드, bkcow90@gmail.com 메일):** 2026-10-05 10:00 KST 남은 GSC 색인 요청 6건(+확인 끊긴 2건) — https://claude.ai/code/routines/trig_01MKDKkz2pFduQfDEXiKfpTD · 2026-10-18 10:00 KST WordPress.com 비공개 전환 결정(301 40건 재검증 포함) — https://claude.ai/code/routines/trig_012rBM8jGpzNabyceWHmZs1j
+
 ### 기준선
 
 **blog.bmaker.kr (GSC, 2026-10-04 확인)**
