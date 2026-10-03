@@ -1,13 +1,14 @@
 // blog.bmaker.kr 301 전용 Worker — 저장소 루트 wrangler.jsonc(사이트 정적 에셋)와 별개다.
 // 배포 금지(대표 승인 전). 배포: cd workers/blog-redirect && npx wrangler deploy
-// 라우트가 동작하려면 blog.bmaker.kr DNS 레코드의 프록시(주황 구름)가 켜져 있어야 한다.
+// 라우트가 동작하려면 blog.bmaker.kr(A 2개)·www.blog.bmaker.kr(CNAME) 레코드의 프록시(주황 구름)가 켜져 있어야 한다.
 {
   "name": "blog-redirect",
   "main": "src/index.js",
   "compatibility_date": "2026-08-26",
   "workers_dev": false,
   "routes": [
-    { "pattern": "blog.bmaker.kr/*", "zone_name": "bmaker.kr" }
+    { "pattern": "blog.bmaker.kr/*", "zone_name": "bmaker.kr" },
+    { "pattern": "www.blog.bmaker.kr/*", "zone_name": "bmaker.kr" }
   ],
   "rules": [
     { "type": "Text", "globs": ["**/*.csv"], "fallthrough": false }

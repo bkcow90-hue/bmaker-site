@@ -31,6 +31,8 @@ for (const [path, dest] of map) {
 // 3) 루트와 변형 주소
 const R = (u) => route(u, map);
 ok(R('https://blog.bmaker.kr/').location === 'https://bmaker.kr/blog', '루트 → /blog');
+ok(R('https://www.blog.bmaker.kr/').location === 'https://bmaker.kr/blog', 'www 루트 → /blog');
+ok(R('https://www.blog.bmaker.kr/restart-special-funding/').location === 'https://bmaker.kr/jaedojeon', 'www 글 주소');
 ok(R('https://blog.bmaker.kr/restart-special-funding').location === 'https://bmaker.kr/jaedojeon', '끝 슬래시 없음');
 ok(R('https://blog.bmaker.kr/Restart-Special-Funding/?utm_source=x').location === 'https://bmaker.kr/jaedojeon', '대문자·쿼리');
 ok(R('https://blog.bmaker.kr/cash-flow-13-weeks/amp/').location === 'https://bmaker.kr/blog/cash-flow-13-weeks', 'AMP');
@@ -46,4 +48,4 @@ ok(robots.status === 200 && robots.body.includes('Allow: /'), 'robots.txt 는 20
 for (const dest of map.values()) ok(!dest.includes('blog.bmaker.kr'), `체인: ${dest}`);
 
 if (fail) { console.error(`blog-redirect: ${fail}건 실패`); process.exit(1); }
-console.log(`blog-redirect OK — 맵 ${map.size}행 · 백업 ${idx.length} URL · 변형 10건`);
+console.log(`blog-redirect OK — 맵 ${map.size}행 · 백업 ${idx.length} URL · 변형 12건`);
