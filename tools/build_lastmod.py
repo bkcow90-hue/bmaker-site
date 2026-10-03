@@ -203,6 +203,7 @@ def main():
     pages = sorted(p for p in ROOT.glob('*.html') if p.name not in SKIP)
     pages += sorted(ROOT.glob('industry/*.html'))
     pages += sorted(ROOT.glob('region/*.html'))    # 도시 페이지(/region/<slug>, 규격 8-1)
+    pages += sorted(ROOT.glob('blog/**/*.html'))   # 블로그 글·카테고리(/blog/<slug>, build_blog)
     if not pages:
         die('저장소 루트에 페이지가 없습니다.')
     out, touched, seeded = {}, [], []

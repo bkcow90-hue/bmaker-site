@@ -32,3 +32,7 @@
   Content-Type: text/plain; charset=utf-8
 /llms-full.txt
   Content-Type: text/plain; charset=utf-8
+
+# 블로그 RSS (build_blog) — 한글 제목이라 charset 명시
+/blog/feed.xml
+  Content-Type: application/rss+xml; charset=utf-8

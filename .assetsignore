@@ -17,3 +17,6 @@ data/jaedan-source.url
 data/page-updated.json
 CLAUDE.md
 AGENTS.md
+posts/
+redirects/
+workers/

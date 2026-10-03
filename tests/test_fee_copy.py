@@ -136,7 +136,7 @@ def violations(path):
 
 
 def pages():
-    return sorted(list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html')))
+    return sorted(list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html')) + list(ROOT.glob('blog/**/*.html')))
 
 
 def test_fee_structure_only_in_faq_and_llms():

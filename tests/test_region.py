@@ -191,7 +191,7 @@ def test_region_pages_follow_rules():
 
 
 def _all_pages():
-    return sorted(list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html')))
+    return sorted(list(ROOT.glob('*.html')) + list(ROOT.glob('industry/*.html')) + list(ROOT.glob('region/*.html')) + list(ROOT.glob('blog/**/*.html')))
 
 
 def _visible_text(path):
