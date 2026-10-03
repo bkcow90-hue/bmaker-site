@@ -55,7 +55,7 @@ def test_faq_screen_matches_faqpage_schema():
         r'<script type="application/ld\+json">(.*?)</script>', PAGE, re.S)
         if '"FAQPage"' in m)
     screen = re.findall(r"<details><summary>(.*?)</summary><div class=\"body\">(.*?)</div></details>", PAGE, re.S)
-    assert len(screen) == 5, len(screen)
+    assert len(screen) == 7, len(screen)   # 2026-10-04 WordPress 통합 합치기로 2문항 추가(선착순 여부·분기 금리)
     pairs = [(q["name"], q["acceptedAnswer"]["text"]) for q in ld["mainEntity"]]
     assert pairs == [(q.replace("&amp;", "&"), a.replace("&amp;", "&")) for q, a in screen]
 
