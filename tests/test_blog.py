@@ -71,8 +71,8 @@ def test_no_banned_or_fee_words(path):
     main = re.sub(r'<form\b.*?</form>', '', main, flags=re.S)
     head = ' '.join(re.findall(r'<(?:title|meta[^>]+content=")([^<">]*)', s))
     body = text(main) + ' ' + head
-    for pat in (B.BANNED, B.FEE):
-        m = pat.search(body)
+    for find in (B.banned_hit, B.FEE.search):   # 공식 기관 고유명사(B.OFFICIAL_NAMES)는 예외
+        m = find(body)
         assert not m, f'{path.name}: 금칙어 "{m.group(0)}" — …{body[max(0, m.start() - 30):m.end() + 30]}…'
 
 
@@ -191,3 +191,10 @@ def test_no_relative_asset_paths(path):
     """헤더·푸터를 루트 페이지에서 복사하므로 assets/ 상대 경로가 남으면 /blog/<slug> 에서 로고가 깨진다(2026-10-04 실측)."""
     bad = re.findall(r'(?:src|href)="(?!/|https?:|#|mailto:|tel:)([^"]+)"', read(path))
     assert not bad, f'{path.name}: 상대 경로 {bad[:5]}'
+
+
+def test_official_name_exception_is_narrow():
+    """예외는 공식 기관 고유명사 그 자체만 — 같은 금칙어를 자사 표현으로 쓰면 여전히 걸린다."""
+    assert B.banned_hit('순천시 소상공인원스톱지원센터 061-752-8590') is None
+    assert B.banned_hit('비즈니스 메이커 지원센터에 문의하세요')
+    assert B.banned_hit('승인을 보장합니다')

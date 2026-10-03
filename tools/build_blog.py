@@ -51,6 +51,20 @@ REQUIRED = ('title', 'date', 'category', 'summary')
 
 # 규격 1절 금칙어 + 사용자 지정 목록. 블로그 본문·제목·요약 어디에도 쓰지 않는다.
 BANNED = re.compile(r'갚|지원센터|100%|보장|무조건|실행 기록|중앙값|비즈니스메이커|BUSINESS MAKER')
+# 금칙어 예외 — 공식 기관 고유명사. 금칙어 규칙은 자사 표현에만 적용한다(대표 2026-10-04).
+# 실제 기관명을 바꾸면 독자가 그 이름으로 기관을 찾을 수 없다. 추가할 때는 출처 공고와 함께 적는다.
+OFFICIAL_NAMES = (
+    '소상공인원스톱지원센터',   # 순천시 — 기업마당 PBLN_000000000126724 공고 접수처
+)
+
+
+def banned_hit(text):
+    """금칙어 첫 일치(없으면 None). 공식 기관 고유명사는 지운 뒤 검사한다."""
+    for name in OFFICIAL_NAMES:
+        text = text.replace(name, ' ')
+    return BANNED.search(text)
+
+
 # 규격 4절 — 비용 구조 설명은 FAQ 비용 답·llms 에만. 블로그에는 두지 않는다.
 FEE = re.compile(r'착수금|진행비|성과\s?보수|성공\s?보수|실행 전 비용|비용은 0원|비용 0원')
 
@@ -415,8 +429,8 @@ def check(posts):
     funds, titles = fund_names(), page_titles()
     for p in posts:
         text = ' '.join([p['title'], p['summary'], p['body']])
-        for pat, why in ((BANNED, '금칙어(규격 1절)'), (FEE, '비용 구조 문구(규격 4절 — FAQ·llms 에만)')):
-            m = pat.search(text)
+        for find, why in ((banned_hit, '금칙어(규격 1절)'), (FEE.search, '비용 구조 문구(규격 4절 — FAQ·llms 에만)')):
+            m = find(text)
             if m:
                 die(f"{p['file']}: {why} '{m.group(0)}' — 문장을 고쳐 주세요.")
         for n in funds:

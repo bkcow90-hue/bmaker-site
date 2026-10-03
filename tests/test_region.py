@@ -219,6 +219,9 @@ def test_support_center_word_only_for_official_centers():
     """'지원센터'는 공식 센터(소진공 소상공인지원센터·재단 공식 지점명·주소의 건물명)에만 쓴다 —
     비즈니스 메이커를 지원센터로 부르지 않는다(대표 2026-10-01, 도시 페이지 키워드 보강)."""
     allowed = _official_center_names()
+    # 블로그 글의 공식 기관 고유명사(예: 순천시 소상공인원스톱지원센터) — 예외 목록은 build_blog.OFFICIAL_NAMES 한 곳
+    import build_blog
+    allowed |= set(build_blog.OFFICIAL_NAMES)
     bad = []
     for p in _all_pages():
         t = _visible_text(p)
