@@ -20,7 +20,7 @@ from build_cases import hub_of, inst_bucket, won2
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 from reviewer import byline_html
 
-REVIEWED = '2026-10'   # 대표 검토 반영 월(2026-10-04 저자 신호 D) — 본문을 고치고 다시 검토받으면 함께 올린다
+REVIEWED = '2026-10-04'   # 대표 검토일 = PR #27 머지일(대표 2026-10-04: 월 아닌 YYYY-MM-DD) — 본문을 고치고 다시 검토받으면 함께 올린다
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = 'data/cases.source.csv'
