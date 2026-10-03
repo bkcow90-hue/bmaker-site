@@ -198,3 +198,15 @@ def test_official_name_exception_is_narrow():
     assert B.banned_hit('순천시 소상공인원스톱지원센터 061-752-8590') is None
     assert B.banned_hit('비즈니스 메이커 지원센터에 문의하세요')
     assert B.banned_hit('승인을 보장합니다')
+
+
+@pytest.mark.parametrize('path', ALL + [ROOT / 'tools' / 'build_blog.py'], ids=lambda p: p.relative_to(ROOT).as_posix())
+def test_no_control_chars_and_images_keep_src(path):
+    """2026-10-04 배포 사고: 치환식의 \1 이 제어문자(0x01)로 들어가 <img src> 의 속성 이름이 사라졌다(로고 깨짐).
+    '상대 경로가 없다' 검사는 통과했으므로, 제어문자와 src 없는 img 를 직접 잡는다."""
+    s = read(path)
+    ctrl = re.findall(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', s)
+    assert not ctrl, f'{path.name}: 제어문자 {len(ctrl)}개'
+    if path.suffix == '.html':
+        no_src = [m for m in re.findall(r'<img\b[^>]*>', s) if not re.search(r'\ssrc="[^"]+"', m)]
+        assert not no_src, f'{path.name}: src 없는 img {no_src[:2]}'

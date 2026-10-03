@@ -632,7 +632,7 @@ def main():
     for rel, page in made.items():
         # 헤더·푸터를 루트 페이지(jaedan)에서 복사해 오므로 assets/ 상대 경로를 루트 절대 경로로(허브 빌더와 같은 처리).
         # /blog/<slug> 에서는 상대 경로가 /blog/assets/… 로 풀려 로고가 깨진다.
-        page = re.sub(r'(href|src)="assets/', r'="/assets/', page)
+        page = re.sub(r'(href|src)="assets/', lambda m: m.group(1) + '="/assets/', page)
         target = ROOT / rel
         # build_lastmod 가 넣은 스탬프는 다음 실행에서 다시 붙는다. 내용이 같으면 쓰지 않아 churn 을 막는다
         if target.exists():
