@@ -1157,7 +1157,7 @@ fetch('data/feed.json').then(r=>r.json()).then(feed=>{
 }).catch(()=>{});
 </script>
 
-<script src="/assets/conversion.js?v=4e3ce3efb3" defer></script>
+<script src="/assets/conversion.js?v=82f7a41ec0" defer></script>
 <script>(function(){var els=document.querySelectorAll('.hero .count');if(!els.length)return;var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;els.forEach(function(el){var end=parseInt(el.getAttribute('data-count'),10)||0,suf=el.getAttribute('data-suffix')||'';if(rm||!end)return;var t0=null,dur=1100;el.textContent='0'+suf;function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(end*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);});})();</script>
 </body>
 </html>
