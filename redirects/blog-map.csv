@@ -1,0 +1,41 @@
+wp_path,destination,action,reason
+/,https://bmaker.kr/blog,index,블로그 홈 → bmaker.kr 블로그 목록
+/policy-news/,https://bmaker.kr/blog/category/news,index,정책뉴스 목록 → 블로그 소식 카테고리
+/practical-guides/,https://bmaker.kr/blog/category/guide,index,실무 가이드 목록 → 블로그 가이드 카테고리
+/privacy/,https://bmaker.kr/privacy,index,개인정보 안내 → 회사 개인정보처리방침
+/support-programs/,https://bmaker.kr/blog/support-programs,move,고유 — 지원정보 찾기 안내 이전(링크는 bmaker.kr 자금 페이지로 교체)
+/about-editorial/,https://bmaker.kr/blog/about-editorial,move,고유 — 편집 기준 이전
+/existing-business-loans-list/,https://bmaker.kr/blog/existing-business-loans-list,move,"인접 — 주제 유지, /daehwan 링크"
+/equipment-funding-evidence/,https://bmaker.kr/blog/equipment-funding-evidence,move,"인접 — 주제 유지, /working-capital-facility 와 역할 구분"
+/guarantee-bank-questions/,https://bmaker.kr/blog/guarantee-bank-questions,move,인접 — 유지
+/application-supplement-log/,https://bmaker.kr/blog/application-supplement-log,move,인접 — 유지
+/cash-flow-13-weeks/,https://bmaker.kr/blog/cash-flow-13-weeks,move,고유 — 유지
+/loan-consultation-brief/,https://bmaker.kr/blog/loan-consultation-brief,move,고유 — 유지
+/2026-kibo-factoring-september-october/,https://bmaker.kr/blog/2026-kibo-factoring-september-october,move,소식 — 유지
+/2026-kodit-woori-youth-guarantee/,https://bmaker.kr/blog/2026-kodit-woori-youth-guarantee,move,소식 — 유지
+/2026-kodit-ibk-startup-buildup/,https://bmaker.kr/blog/2026-kodit-ibk-startup-buildup,move,소식 — 유지
+/2026-product-improvement-round5/,https://bmaker.kr/blog/2026-product-improvement-round5,move,소식 — 공고 기간 종료 표시 후 유지
+/2026-october-regional-business-funding/,https://bmaker.kr/blog/2026-october-regional-business-funding,move,소식 — 유지
+/2027-kriss-technology-home-doctor/,https://bmaker.kr/blog/2027-kriss-technology-home-doctor,move,소식 — 유지
+/kosmes-startup-commercialization/,https://bmaker.kr/blog/kosmes-startup-commercialization,move,주제 변경 — 자금 소개 → 사업계획 작성 실무
+/kosmes-growth-foundation/,https://bmaker.kr/blog/kosmes-growth-foundation,move,주제 변경 — 자금 소개 → 시설투자 계획 실무
+/application-calendar/,https://bmaker.kr/schedule,merge,합치기 — /schedule 본문 보강
+/innovation-growth-funding/,https://bmaker.kr/hyeoksin,merge,합치기 — /hyeoksin FAQ·본문 보강
+/restart-special-funding/,https://bmaker.kr/jaedojeon,merge,합치기 — /jaedojeon FAQ·본문 보강
+/youth-employment-funding/,https://bmaker.kr/cheongnyeon,merge,합치기 — /cheongnyeon FAQ·본문 보강
+/manufacturing-small-business-funding/,https://bmaker.kr/sogongin,merge,합치기 — /sogongin FAQ·본문 보강
+/general-business-stability-funding/,https://bmaker.kr/ilban-gyeongyeong,merge,합치기 — /ilban-gyeongyeong FAQ·본문 보강
+/emergency-business-stability-funding/,https://bmaker.kr/gingeup,merge,합치기 — /gingeup FAQ·본문 보강
+/kosmes-business-rebound/,https://bmaker.kr/jungjingong,merge,합치기 — /jungjingong FAQ·본문 보강
+/kodit-business-guarantee/,https://bmaker.kr/sinbo,merge,합치기 — /sinbo FAQ·본문 보강
+/kibo-technology-guarantee/,https://bmaker.kr/gibo,merge,합치기 — /gibo FAQ·본문 보강
+/regional-credit-guarantee/,https://bmaker.kr/jaedan,merge,합치기 — /jaedan FAQ·본문 보강
+/2026-q4-policy-funding-schedule/,https://bmaker.kr/2026-4q-sosangin,merge,합치기 — /2026-4q-sosangin FAQ·본문 보강
+/consulting-scope-checklist/,https://bmaker.kr/chaksugeum,merge,합치기 — /chaksugeum FAQ·본문 보강
+/funding-guide/,https://bmaker.kr/funding,delete,삭제 — 같은 의도의 대표 페이지 /funding
+/diagnosis/,https://bmaker.kr/consulting,delete,삭제 — 진단 절차는 /consulting 이 대표
+/small-business-policy-loans/,https://bmaker.kr/sojingong,delete,삭제 — 소진공 대출 대표 페이지 /sojingong
+/sme-policy-loan-guide/,https://bmaker.kr/sme-business-loans,delete,삭제 — 같은 날 생긴 /sme-business-loans 가 대표
+/government-business-loans/,https://bmaker.kr/funding,delete,삭제 — 제목 앞부분이 /funding 과 동일
+/microfinance-business-guide/,https://bmaker.kr/microfinance-business,delete,삭제 — 같은 날 생긴 /microfinance-business 가 대표
+/business-funding-workshop/,https://bmaker.kr/education,delete,삭제 — 교육·출강 대표 페이지 /education
