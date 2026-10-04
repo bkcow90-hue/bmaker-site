@@ -18,6 +18,9 @@ from pathlib import Path
 from builddate import build_date, data_date          # noqa: F401  (build_date 는 규칙상 노출)
 from build_cases import hub_of, inst_bucket, won2
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
+from reviewer import byline_html
+
+REVIEWED = '2026-10-04'   # 대표 검토일 = PR #27 머지일(대표 2026-10-04: 월 아닌 YYYY-MM-DD) — 본문을 고치고 다시 검토받으면 함께 올린다
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = 'data/cases.source.csv'
@@ -76,7 +79,8 @@ HUBS = {
              '약속하지 않습니다.'),
         ],
         'related': [('/sojingong', '소상공인시장진흥공단(소진공) 정책자금'), ('/jaedan', '지역신용보증재단 보증'),
-                    ('/gaein', '개인사업자 정책자금'), ('/cases', '받은 사례 전체'), ('/chaksugeum', '착수금 사기 구별법')],
+                    ('/gaein', '개인사업자 정책자금'), ('/cases', '받은 사례 전체'), ('/chaksugeum', '착수금 사기 구별법'),
+                    ('/industry/eumsikjeom', '음식점 정책자금 안내'), ('/region', '지역별 신용보증재단·센터 창구')],
     },
     'jungsogieop': {
         'hub': '중소기업',
@@ -119,7 +123,8 @@ HUBS = {
              '약속하지 않습니다.'),
         ],
         'related': [('/jungjingong', '중소기업 정책자금(중진공)'), ('/sinbo', '신용보증기금(신보) 보증'),
-                    ('/gibo', '기술보증기금(기보) 보증'), ('/bojeung', '보증서 대출'), ('/cases', '받은 사례 전체')],
+                    ('/gibo', '기술보증기금(기보) 보증'), ('/bojeung', '보증서 대출'), ('/cases', '받은 사례 전체'),
+                    ('/region', '지역별 신용보증재단·센터 창구')],
     },
 }
 
@@ -280,6 +285,7 @@ def build():
 <section class="block"><div class="wrap">
   <h2 class="serif">함께 보면 좋은 안내</h2>
   <p class="related">{related}</p>
+  {byline_html(REVIEWED)}
 </div></section>
 </main>
 {foot}

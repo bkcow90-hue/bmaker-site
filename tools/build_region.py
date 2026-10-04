@@ -153,6 +153,31 @@ def fund_target(name):
     return '대상은 공고 확인'
 
 
+# 도시 공고 → 성격이 비슷한 소진공 자금 페이지(대표 2026-10-04 "공고 성격이 맞는 것만").
+# 소상공인 대상 공고(이름에 소상공인·미소금융·청년창업)만 보고, 위에서부터 첫 일치 하나로 분류한다. 중소기업 공고는 잇지 않는다.
+FUND_PAGES = [
+    (r'저신용|미소금융', '/sinyongchwiyak', '신용취약소상공인자금'),
+    (r'청년', '/cheongnyeon', '청년고용연계자금'),
+    (r'화재|피해|재해|긴급', '/gingeup', '긴급경영안정자금'),
+    (r'특례보증|육성|운전|이자|이차|프리미엄|자금지원|희망', '/ilban-gyeongyeong', '일반경영안정자금'),
+]
+MAX_FUND_LINKS = 3
+
+
+def fund_links(nts):
+    out = {}
+    for items in nts:
+        for d in items:
+            n = d['이름']
+            if not re.search(r'소상공인|미소금융|청년창업', n):
+                continue
+            for pat, href, label in FUND_PAGES:
+                if re.search(pat, n):
+                    out.setdefault(href, label)
+                    break
+    return list(out.items())[:MAX_FUND_LINKS]
+
+
 INTAKE_SRC = ROOT / 'data' / 'region-intake.source.csv'
 _INTAKE = None
 
@@ -256,6 +281,10 @@ def page_html(c, style, hdr, foot):
                 f'접수처는 공고마다 다릅니다(재단 지점·은행·{esc(city.split()[-1])}청 등).</p>\n'
                 '<div class="tablewrap"><table><thead><tr><th>자금(공고 기준)</th><th>접수기간(공고 문구)</th><th>접수처(공고 기준)</th><th>출처·확인일</th></tr></thead><tbody>'
                 + ''.join(nrows) + '</tbody></table></div>')
+    fl = fund_links(nts)
+    if fl:
+        sec_fund += (f'\n<p>{esc(short)} 공고 가운데 소상공인 대상 사업과 성격이 비슷한 소상공인시장진흥공단(소진공) 자금: '
+                     + ' · '.join(f'<a href="{h}">{esc(t)}</a>' for h, t in fl) + '. 시 자금과 별개 제도라 조건과 접수처가 다릅니다.</p>')
 
     # ④ 소상공인지원센터 (공식)
     crows = ''.join(
@@ -360,7 +389,7 @@ def page_html(c, style, hdr, foot):
     {faq_html}
     {form_html('/region/' + c['도시ID'], city, TITLE_GENERAL)}
     {sec_prov}
-    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 민간 컨설팅 회사이며 위 공공기관과 무관합니다. {FEE}</p></div>
+    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사입니다. {FEE}</p></div>
     {office}
     <p class="byline">{BYLINE.format(newest)}</p>
     <div class="related">
@@ -369,6 +398,7 @@ def page_html(c, style, hdr, foot):
       <a href="/jaedan">신용보증재단 사업자대출</a>
       <a href="/sojingong">소상공인시장진흥공단 정책자금</a>
       <a href="/schedule">정책자금 접수 일정</a>
+      <a href="/region">다른 지역 창구 보기</a>
     </div>
   </div>
 </main>
@@ -387,6 +417,99 @@ TBL = ('.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12
        'main .facts{padding-left:18px;line-height:1.7}main .facts li{margin:6px 0}'
        'main p.basis{font-size:.88rem;color:var(--ink-soft);border-left:3px solid var(--line);padding-left:12px}'
        'main p.office{font-size:.9rem;color:var(--ink-soft)}main p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}main .tag{font-size:.82rem;color:var(--ink-soft);white-space:nowrap}')
+
+
+SIDO_ORDER = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원',
+              '충북', '충남', '전북', '전남', '경북', '경남', '제주']
+HUB_URL = 'https://bmaker.kr/region'
+
+
+def hub_html(cities, style, hdr, foot):
+    """/region 목록 허브(대표 2026-10-04 내부링크 B) — 도시 페이지 사실을 시도별로 모아 링크만 단다. 새 사실을 쓰지 않는다."""
+    groups = {}
+    for c in cities.values():
+        groups.setdefault(c['시도'], []).append(c)
+    order = sorted(groups, key=lambda x: SIDO_ORDER.index(x) if x in SIDO_ORDER else 99)
+    newest = max(d['_checked'] for c in cities.values() for d in c['facts'])
+    secs, items = [], []
+    for sido in order:
+        lis = []
+        for c in groups[sido]:
+            jname = jaedan_name(c['재단ID'])
+            ce = [d['이름'].split(' ', 1)[1] for d in c['facts'] if d['종류'] == 'semas-center']
+            n = len(notices(c['facts']))
+            items.append((c['도시명'], f"{HUB_URL}/{c['도시ID']}"))
+            lis.append(f'<li><a href="/region/{c["도시ID"]}"><b>{esc(c["도시명"])}</b></a> — '
+                       f'{esc(jname)}{" " + esc(c["지점 축약"]) if c["지점 축약"] else ""} · '
+                       f'소상공인지원센터 {esc("·".join(ce))} · {esc(c["짧은이름"])} 공고 {n}건</li>')
+        jid = groups[sido][0]['재단ID']
+        secs.append(f'<h2>{esc(sido)} ({len(groups[sido])}곳)</h2>\n<ul class="facts">{"".join(lis)}</ul>\n'
+                    f'<p>{esc(sido)} 보증 절차·상품: <a href="/{jid}">{esc(jaedan_name(jid))} 안내</a></p>')
+    title = f"지역별 소상공인 정책자금 창구 {len(cities)}개 도시 — 신용보증재단 지점·소진공 센터 | 비즈니스 메이커"
+    desc = (f"지역별 소상공인 정책자금 창구 {len(cities)}개 도시 목록. 도시마다 신용보증재단 담당 지점, "
+            "소상공인지원센터, 시 자체 자금 공고를 공식 출처와 함께 정리한 페이지로 연결합니다.")
+    if len(desc) > MAX_DESC:
+        die(f"/region: description {len(desc)}자 — {MAX_DESC}자 이내여야 합니다.")
+    crumb = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
+        {"@type": "ListItem", "position": 2, "name": "지역별 창구", "item": HUB_URL}]}, ensure_ascii=False)
+    il = json.dumps({"@context": "https://schema.org", "@type": "ItemList", "name": "지역별 소상공인 정책자금 창구",
+                     "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "url": u}
+                                         for i, (n, u) in enumerate(items, start=1)]}, ensure_ascii=False)
+    return f'''<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{esc(title)}</title>
+<meta name="description" content="{esc(desc)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:url" content="{HUB_URL}">
+<meta property="og:image" content="https://bmaker.kr/assets/og.png">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="{HUB_URL}">
+<link rel="icon" type="image/png" href="/assets/icon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap">
+<script type="application/ld+json">{crumb}</script>
+<script type="application/ld+json">{il}</script>
+{style}
+<style>{TBL}{FORM_CSS}main p a{{color:var(--blue-deep);text-decoration:underline}}</style>
+</head>
+<body data-service="policy">
+{hdr}
+<section class="hero">
+  <div class="wrap">
+    <p class="crumb"><a href="/">홈</a> › 지역별 창구</p>
+    <h1 class="serif">지역별 소상공인 정책자금 창구 — {len(cities)}개 도시</h1>
+    <p>도시마다 신용보증재단 담당 지점, 소상공인지원센터, 시 자체 자금 공고를 공식 출처와 함께 정리했습니다.</p>
+  </div>
+</section>
+<main>
+  <div class="wrap">
+    <p><b>짧은 답:</b> 사업장 주소가 있는 도시를 고르세요. 도시 페이지마다 보증부 대출 창구(신용보증재단 지점), 소상공인시장진흥공단(소진공) 소상공인지원센터, 올해 시·군이 직접 낸 자금 공고를 확인일·원문 링크와 함께 적었습니다. 목록에 없는 지역은 <a href="/jaedan">시도별 신용보증재단 안내</a>에서 확인하세요.</p>
+    <p class="asof">본 목록은 {newest.year}년 {newest.month}월 기준입니다. 공고 수는 각 도시 페이지의 공고 표와 같습니다.</p>
+    {"".join(secs)}
+    {form_html('/region', '지역별 창구', TITLE_GENERAL)}
+    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사입니다. {FEE}</p></div>
+    <p class="byline">{BYLINE.format(newest)}</p>
+    <div class="related">
+      <p class="t">함께 보기</p>
+      <a href="/sosangin">소상공인 정책자금 컨설팅</a>
+      <a href="/jaedan">신용보증재단 사업자대출</a>
+      <a href="/sojingong">소상공인시장진흥공단 정책자금</a>
+      <a href="/schedule">정책자금 접수 일정</a>
+    </div>
+  </div>
+</main>
+{foot}
+<script src="/assets/conversion.js" defer></script>
+</body>
+</html>
+'''
 
 
 def _abs_assets(html):
@@ -414,18 +537,22 @@ def build():
         if '실행 기록' in page or '중앙값' in page:
             die(f"{c['도시ID']}: 금칙어('실행 기록'·'중앙값') 포함")
         (out_dir / f"{c['도시ID']}.html").write_text(page, encoding='utf-8')
+    hub = hub_html(cities, style, hdr, foot)
+    if '갚' in hub or re.search(r'보장(?!하지)', hub) or '실행 기록' in hub or '중앙값' in hub:
+        die("/region: 금칙어 포함")
+    (ROOT / 'region.html').write_text(hub, encoding='utf-8')
     for p in out_dir.glob('*.html'):          # 데이터에서 빠진 도시 페이지는 지운다(sitemap 과 1:1)
         if p.stem not in cities:
             p.unlink()
     sm = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')
     sm = re.sub(r'  <url><loc>https://bmaker\.kr/region/(?!(?:' + '|'.join(map(re.escape, cities)) + r')</loc>)[^<]+</loc>.*?</url>\n', '', sm)
-    for cid in cities:
-        loc = f"https://bmaker.kr/region/{cid}"
+    for cid in [None, *cities]:
+        loc = HUB_URL if cid is None else f"https://bmaker.kr/region/{cid}"
         if loc + '</loc>' not in sm:
             sm = sm.replace('</urlset>', f'  <url><loc>{loc}</loc><lastmod>{TODAY}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n</urlset>')
     (ROOT / 'sitemap.xml').write_text(sm, encoding='utf-8')
     lt = (ROOT / 'llms.txt').read_text(encoding='utf-8')
-    line = (f"- [도시별 소상공인 정책자금 창구 {len(cities)}곳](https://bmaker.kr/region/{next(iter(cities))}): "
+    line = (f"- [도시별 소상공인 정책자금 창구 {len(cities)}곳]({HUB_URL}): "
             f"도시마다 신용보증재단 담당 지점·소진공 센터·시 자체 자금 공고를 공식 출처와 함께 정리 — "
             + '·'.join(c['도시명'] for c in cities.values()))
     if '- [도시별 소상공인 정책자금 창구' in lt:
