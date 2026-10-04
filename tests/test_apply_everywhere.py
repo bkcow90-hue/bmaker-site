@@ -44,3 +44,26 @@ def test_every_inline_form_page_uses_the_one_apply_color():
         if not rules or any(BRAND not in r or '#2454bc' in r for r in rules):
             wrong.append(path)
     assert not wrong, wrong
+
+
+# ── Task 2: 인라인 폼 템플릿은 inline_form.py 가 정본, conversion.js 는 build_lastmod 가 동기화 ─────
+
+def test_conversion_js_carries_the_inline_form_template_from_inline_form_py():
+    import sync_inline_form_js as sync
+    js = (ROOT / 'assets' / 'conversion.js').read_text(encoding='utf-8')
+    block = sync.BLOCK.search(js)
+    assert block, 'conversion.js 에 @inline-form 구간이 없다'
+    # 작업 사본은 CRLF 일 수 있다(autocrlf) — 줄바꿈을 맞춘 뒤 비교한다
+    assert block.group(0).replace('\r\n', '\n') == sync.render(), 'inline_form.py 를 고친 뒤 python tools/build_lastmod.py 를 돌리지 않았다'
+
+
+def test_template_follows_the_source_when_it_changes():
+    import sync_inline_form_js as sync
+    original = inline_form.TITLE_GENERAL
+    try:
+        inline_form.TITLE_GENERAL = '바뀐 제목'
+        assert '바뀐 제목' in sync.render()
+    finally:
+        inline_form.TITLE_GENERAL = original
+    js = (ROOT / 'assets' / 'conversion.js').read_text(encoding='utf-8')
+    assert sync.replace(js) == js, '동기화를 두 번 해도 같아야 한다(churn 0)'
