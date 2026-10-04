@@ -206,13 +206,13 @@
     + '.mid-apply p{margin:8px 0 0;font-size:.86rem;color:#526077}'
     + '.apply-sheet{position:fixed;inset:0;z-index:80}.apply-sheet[hidden]{display:none}'
     + '.apply-sheet-backdrop{position:absolute;inset:0;background:rgba(14,27,51,.45)}'
-    + '.apply-sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:92svh;overflow:auto;background:#fff;'
+    + '.apply-sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:92svh;overflow:auto;background:var(--paper,#F7F5F0);'
     + 'border-radius:14px 14px 0 0;padding:14px 0 calc(8px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(14,27,51,.2);'
     + 'overscroll-behavior:contain;box-sizing:border-box}'
     + '.apply-sheet-panel::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:#C9CED8;margin:0 auto 6px}'
     + '.apply-sheet-close{position:absolute;top:6px;right:8px;z-index:1;border:0;background:none;font:inherit;font-size:.92rem;'
     + 'font-weight:700;color:#263951;padding:10px 12px;cursor:pointer}'
-    + '.apply-sheet-body .inline-diag,.apply-sheet-body .apply-section{margin:0;border-top:0;padding-top:12px}'
+    + '.apply-sheet-body .inline-diag,.apply-sheet-body .apply-section{margin:0;border-top:0;border-bottom:0;padding-top:12px}'
     + '@media (min-width:841px){.apply-sheet-panel{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);'
     + 'width:min(480px,92vw);max-height:88vh;border-radius:12px;padding-top:18px}.apply-sheet-panel::before{display:none}}'
     + 'html.apply-sheet-open,html.apply-sheet-open body{overflow:hidden}';
@@ -291,9 +291,14 @@
     return [...sheetPanel.querySelectorAll('button, [href], input:not([type=hidden]):not([tabindex="-1"]), select, textarea')]
       .filter(el => !el.disabled && el.getAttribute('aria-hidden') !== 'true' && el.offsetParent !== null);
   }
+  // 키보드가 올라오면(iOS 는 화면 아래가 키보드에 덮인다) 창 아래끝을 키보드 바로 위로 올리고 높이를 그만큼 줄인다.
   function fitToViewport() {
     const vv = window.visualViewport;
-    if (sheetPanel && vv) sheetPanel.style.maxHeight = Math.max(240, Math.floor(vv.height - 12)) + 'px';
+    if (!sheetPanel || !vv) return;
+    const covered = Math.max(0, Math.round(window.innerHeight - vv.height - (vv.offsetTop || 0)));
+    const phone = window.innerWidth <= 840;
+    sheetPanel.style.bottom = phone && covered > 40 ? covered + 'px' : '';
+    sheetPanel.style.maxHeight = Math.max(240, Math.floor(vv.height - 12)) + 'px';
   }
   function openSheet(where, service) {
     if (!useSheet || sheetIsOpen) return;

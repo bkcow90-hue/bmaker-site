@@ -372,3 +372,23 @@ def test_hash_entry_lands_on_the_new_form_and_pc_box(browser, site):
     box = pc.locator('.sticky-cta').bounding_box()
     assert box and box['x'] > 900 and box['width'] < 400, box
     pc.close()
+
+
+def test_sheet_stays_above_the_keyboard(browser, site):
+    page = phone(browser)
+    page.goto(file_url(site, '/sojingong'), wait_until='load')
+    page.evaluate('scrollTo(0, 1500)')
+    page.wait_for_timeout(60)
+    page.click('.sticky-cta .sc-apply')
+    page.wait_for_timeout(80)
+    page.click('#lf-name')
+    # iOS: 키보드가 화면 아래 330px 을 덮는다 — visualViewport 만 줄어든다
+    page.evaluate("""() => { Object.defineProperty(window.visualViewport, 'height', { configurable: true, get: () => innerHeight - 330 });
+      window.visualViewport.dispatchEvent(new Event('resize')) }""")
+    page.wait_for_timeout(400)
+    m = page.evaluate("""() => { const panel = document.querySelector('.apply-sheet-panel').getBoundingClientRect();
+      const input = document.getElementById('lf-name').getBoundingClientRect(); const kbTop = innerHeight - 330;
+      return { panelBottom: panel.bottom, inputTop: input.top, inputBottom: input.bottom, kbTop } }""")
+    assert m['panelBottom'] <= m['kbTop'] + 1, f'창이 키보드 밑으로 들어간다 {m}'
+    assert m['inputTop'] >= 0 and m['inputBottom'] <= m['kbTop'], f'초점 칸이 키보드에 가린다 {m}'
+    page.close()
