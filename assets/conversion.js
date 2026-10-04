@@ -66,6 +66,36 @@
     if (typeof window.gtag === 'function') window.gtag('event', event, safe);
     else { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event, ...safe }); }
   };
+  // 유입 경로 — 신청과 함께 /api/lead 로 보내 CRM 이 출처(6.홈페이지·7.메타)와 근거(파워링크/자연
+  // 유입)를 가린다. 우리 Referrer-Policy(strict-origin-when-cross-origin) 때문에 codedaum 이 받는
+  // Referer 헤더에는 https://bmaker.kr/ 까지만 실려, utm·n_media 가 CRM 에 한 번도 닿지 않았다(2026-10-04).
+  // 광고로 /jungjingong?n_media=… 에 착지한 뒤 홈으로 옮겨 신청해도 남도록 탭 단위로 기억한다.
+  // 광고 파라미터만 남기고 나머지 쿼리·해시는 버린다(분석과 같은 원칙). 연락처는 담지 않는다.
+  const AD_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content',
+    'n_media', 'n_query', 'n_rank', 'n_ad_group', 'n_ad', 'n_keyword_id', 'n_keyword', 'n_campaign_type', 'napm',
+    'gclid', 'gbraid', 'wbraid', 'fbclid'];
+  const LANDING_KEY = 'bmaker_landing_url';
+  const landingNow = () => {
+    if (!location.origin) return '';
+    const url = new URL(location.origin + location.pathname);
+    const incoming = new URLSearchParams(location.search || '');
+    for (const key of AD_PARAMS) if (incoming.has(key)) url.searchParams.set(key, incoming.get(key));
+    return url.href;
+  };
+  const hasAdParams = () => AD_PARAMS.some(key => new URLSearchParams(location.search || '').has(key));
+  // 광고를 타고 온 착지는 늘 덮어쓴다(같은 탭에서 다른 광고를 다시 누르면 그 광고가 근거).
+  // 광고 없는 페이지 이동은 첫 착지를 덮지 않는다 — 그래야 광고 착지 → 홈 → 신청이 파워링크로 남는다.
+  try {
+    const store = window.sessionStorage;
+    if (store && (hasAdParams() || !store.getItem(LANDING_KEY))) {
+      const now = landingNow();
+      if (now) store.setItem(LANDING_KEY, now);
+    }
+  } catch (_) { /* 저장소를 못 쓰면(사생활 모드 등) 신청 시점 주소로 대신한다 */ }
+  const landingUrl = () => {
+    try { const saved = window.sessionStorage?.getItem(LANDING_KEY); if (saved) return saved; } catch (_) { /* 위와 같다 */ }
+    return landingNow();
+  };
   const form = document.getElementById('leadForm');
   let ctaLocation = 'direct_form';
   if (serviceField) serviceField.addEventListener('change', () => {
@@ -217,7 +247,8 @@
       consent_privacy: document.getElementById('lf-consent')?.checked === true,
       consent_marketing: false, consent_version: 'v1.1-2026-09-07-service-selection',
       website: document.getElementById('lf-website')?.value || '',
-      source: source
+      source: source,
+      landing_url: landingUrl()
     };
     // Reuse the ID and exact payload across uncertain retries; never persist contact data.
     const fingerprint = JSON.stringify(payload);
