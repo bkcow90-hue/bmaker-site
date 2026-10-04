@@ -377,3 +377,4 @@ AI 인용 8문항 재측정 — 질문·표기는 `docs/search-data/audit-2026-1
 
 11/1 에 볼 것: 두 질문("업체 고르는 법"·"컨설팅 비용")의 구글 AI 개요·네이버 인용 주소 유지 여부, `/chaksugeum` 노출(신규 질문
 "브로커 구별"·"컨설팅 비용 방식" 유입 여부), `/consulting` CTR.
+- 10/4 description 숫자 7→8 수정: `/chaksugeum` meta description·og:description 의 "위험 신호 7가지" → "8가지"(다른 글자 그대로). 같은 날 히어로 문장·홈 가이드 카드·llms 2종의 같은 숫자도 8로 맞춤.
