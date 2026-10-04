@@ -1,6 +1,6 @@
 # 어느 페이지에서도 바로 신청 — bmaker.kr 설계 세부
 
-- 날짜: 2026-10-04 · 상태: **설계 세부 검토 대기**(1단계). 2단계(구현 계획)·3단계(구현)는 대표 지시대로 PR #31 머지 후 —
+- 날짜: 2026-10-04 · 상태: **대표 승인**(2026-10-04) — 구현 진행. 2단계(구현 계획)·3단계(구현)는 대표 지시대로 PR #31 머지 후 —
   PR #31(`trust-pages-2026-10`)은 2026-10-04 `a3ef76a` 로 **이미 머지됨**을 확인했다.
 - 상위 설계(승인됨): policy-fund-crm `docs/superpowers/specs/2026-10-04-landing-conversion-design.md` 2-4절.
   codedaum(파워링크 랜딩)은 그 설계로 먼저 배포됐다(`lp.js`, 2026-10-04).
@@ -125,18 +125,21 @@ CRM 출처 규칙도 그대로(`n_media`/`utm_source=powerlink` → 6.홈페이�
 구현 PR 에서 아래 칸을 `docs/measure-log.md` 에 옮겨 적는다(이 PR 은 measure-log 를 건드리지 않는다 — PR #31 이 같은 파일을
 고쳤다). **구현 배포 직전**에 값을 채우고, 배포 +14일·+28일에 같은 방법으로 다시 잰다.
 
+**기준선 결정(대표, 2026-10-04): 배포를 미루지 않는다.**
+- **주 기준선 = GA4 지난 28일 `generate_lead`(호스트 `bmaker.kr`)** — bmaker.kr 은 GA4 `G-DBGR3P6ZHD` 가 예전부터 붙어 있어 28일이
+  온전히 있다. (codedaum 은 2026-10-04 에 붙어 같은 속성에 섞이므로 **호스트 필터가 필수**)
+- **CRM 은 2026-10-04 부터 쌓이는 것으로 본다** — 유입 경로 기록이 그날 시작됐다(그 전 홈페이지 신청은 메일 → 손 입력이라 경로가
+  없고, 있었다 해도 Referrer-Policy 때문에 `https://bmaker.kr/` 로만 남았다). 배포 전 CRM 값은 '10/04 ~ 배포 전날' 기간으로 적는다.
+
 | 지표 | 기간 | 값 | 재는 방법 |
 |---|---|---|---|
-| bmaker.kr 경유 신청 수 (CRM) | 배포 전 28일 | ⬜ | `auto_intake_records` 중 `source_kind='mail-homepage'` 이고 `payload.fields.유입 페이지` 가 `bmaker.kr` 로 시작, 상태 `inserted`/`reinflow`(테스트 번호 `010-0000-00xx` 제외) |
-| 참고: 출처 6.홈페이지 신규 고객 (CRM, 경로 구분 없음) | 배포 전 28일 | ⬜ (2026-10-04 기준 11) | `leads` × `sources.intake_role='homepage'`, `created_at` 28일 |
-| GA4 `generate_lead` (호스트 bmaker.kr) | 배포 전 28일 | ⬜ | GA4 → 탐색 → 이벤트 이름 `generate_lead`, 필터 `hostname = bmaker.kr` |
+| **GA4 `generate_lead` (호스트 bmaker.kr) — 주 기준선** | 배포 전날까지 28일 | ⬜ | GA4 → 탐색 → 이벤트 이름 `generate_lead`, 필터 `hostname = bmaker.kr`(정확히 일치) |
 | GA4 `generate_lead` 위치별 | 배포 후 | ⬜ | 같은 보고서에 `cta_location` 측정기준(sticky_bar · mid_content · page_end · 기존 값) |
-| 참고: codedaum `generate_lead` | 배포 후 | ⬜ | 같은 속성, `hostname = codedaum.pages.dev` (2026-10-04 부터 측정) |
+| bmaker.kr 경유 신청 수 (CRM) | 2026-10-04 ~ 배포 전날 | ⬜ (10/04 현재 실신청 0 · 테스트 2) | `auto_intake_records` 중 `source_kind='mail-homepage'` 이고 `payload.fields.유입 페이지` 가 `bmaker.kr` 로 시작, 상태 `inserted`/`reinflow`(테스트 번호 `010-0000-00xx` 제외) |
+| 참고: 출처 6.홈페이지 신규 고객 (CRM, 경로 구분 없음) | 배포 전 28일 | ⬜ (2026-10-04 기준 11) | `leads` × `sources.intake_role='homepage'`, `created_at` 28일 |
+| 참고: codedaum `generate_lead` | 2026-10-04 ~ | ⬜ | 같은 속성, `hostname = codedaum.pages.dev` |
 
-⚠️ **기준선의 한계(확인된 사실)**: CRM 의 유입 경로 기록은 **2026-10-04 부터**다(그 전 홈페이지 신청은 메일 → 손 입력이라
-경로가 없고, 있었다 해도 Referrer-Policy 때문에 `https://bmaker.kr/` 로만 남았다). 그래서 '배포 전 28일'을 2026-10-04 이후로
-채우려면 **구현 배포를 2026-11-01 이후로 미루거나**, 그보다 이르면 짧은 기간(예: 14일)으로 기준선을 잡고 그 사실을 적는다.
-2026-10-04 현재 bmaker.kr 경유 자동 등록은 테스트 2건(C·D)뿐이다.
+재측정: 배포 +14일·+28일에 같은 보고서·같은 필터로. GA4 는 같은 길이(28일)끼리, CRM 은 같은 길이 구간끼리 비교한다.
 
 ## 6. 테스트 (구현 PR 에서 — 규격 10절: 전환 동작은 브라우저 동작 검사)
 
@@ -167,7 +170,9 @@ CRM 출처 규칙도 그대로(`n_media`/`utm_source=powerlink` → 6.홈페이�
 - 새 스크립트 파일·빌더 체인 변경(빌더는 손대지 않는다. `?v=` 해시 갱신만 `build_lastmod`).
 - 페이지별 카피·메타 변경.
 
-## 9. 열린 질문
+## 9. 결정 (대표, 2026-10-04)
 
-- 신청 버튼 색: 대표 지정 `#234780`(홈 `--blue-deep`)으로 한다. 기존 인라인 폼 제출 버튼은 `#2454bc` 라 **같은 화면에 파랑 두 가지**가
-  보인다(창 안 제출 버튼 `#2454bc`, 바 `#234780`). 인라인 폼도 `#234780` 으로 맞출지는 구현 계획에서 대표 확인.
+- **신청 버튼은 한 가지 색 `#234780`** — 바·중간 버튼·창은 물론 **기존 인라인 폼 제출 버튼도** `#2454bc` → `#234780`.
+  정본은 `tools/inline_form.py` `CSS` 의 `button[type=submit]` 규칙이고, 그 CSS 를 쓰는 생성 페이지는 빌더로 다시 만든다
+  (손으로 고치지 않는다). 선택된 옵션 버튼(`aria-pressed=true`)·동의 체크 색은 신청 버튼이 아니므로 그대로 둔다.
+- 측정 기준선: 5절(배포를 미루지 않음, GA4 28일이 주 기준선, CRM 은 10/04 부터).
