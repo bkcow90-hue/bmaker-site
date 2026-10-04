@@ -25,6 +25,7 @@ import datetime, hashlib, json, os, re, subprocess, sys
 from pathlib import Path
 from builddate import build_date
 from reviewer import BYLINE_RE, reviewed_ld
+import sync_inline_form_js
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / 'data' / 'page-updated.json'
@@ -211,6 +212,8 @@ def stamp_sitemap(dates):
 
 
 def main():
+    # 인라인 폼 사본을 conversion.js 에 먼저 맞춘다 — 그다음에 자산 해시를 찍어야 바뀐 내용이 ?v= 에 반영된다.
+    sync_inline_form_js.sync()
     reg = {}
     if REG.exists():
         try:

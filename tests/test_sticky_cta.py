@@ -65,7 +65,9 @@ def test_sticky_tracks_hero_form_focus_and_history(browser_page, site, without_o
     expect(hero).to_have_count(1)
     expect(hero).to_be_in_viewport()
     expect(sticky).to_be_hidden()
-    expect(sticky.locator("a")).to_have_count(1)
+    # 신청 버튼은 하나(크게) + 카톡·전화 작은 아이콘 둘 — 규격 4절 2026-10-04 개정
+    expect(sticky.locator("a.sc-apply")).to_have_count(1)
+    expect(sticky.locator("a.sc-icon")).to_have_count(2)
     page.locator("#cases").scroll_into_view_if_needed()
     expect(sticky).to_be_visible()
     page.locator("#leadForm").scroll_into_view_if_needed()

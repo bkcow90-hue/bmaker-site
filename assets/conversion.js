@@ -1,6 +1,36 @@
 /* Shared conversion events. No form values or arbitrary URL query strings in analytics. */
 (function () {
   'use strict';
+  /* @inline-form:start — tools/sync_inline_form_js.py 가 tools/inline_form.py 에서 만든다. 손으로 고치지 않는다. */
+  const INLINE_FORM_HTML = "<section id=\"apply\" class=\"inline-diag\" aria-label=\"무료 진단 예약\">\n  <form id=\"leadForm\" aria-labelledby=\"inline-diag-title\">\n    <h2 id=\"inline-diag-title\" class=\"serif\">우리 회사도 되는지 무료로 확인</h2>\n    <p class=\"sub\">연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.</p>\n    <input type=\"text\" name=\"website\" id=\"lf-website\" tabindex=\"-1\" autocomplete=\"off\" style=\"position:absolute;left:-9999px;opacity:0\" aria-hidden=\"true\">\n    <input type=\"hidden\" id=\"lf-service\" name=\"consultation_service\" value=\"policy\">\n    <input type=\"hidden\" id=\"lf-page\" value=\"__PATH__ (__LABEL__)\">\n    <p class=\"field-label\" id=\"lf-biztype-label\">사업자 형태</p>\n    <div class=\"opts\" role=\"group\" aria-labelledby=\"lf-biztype-label\" id=\"lf-biztype\"><button type=\"button\" class=\"biz-opt\" aria-pressed=\"false\">개인사업자</button><button type=\"button\" class=\"biz-opt\" aria-pressed=\"false\">법인사업자</button><button type=\"button\" class=\"biz-opt\" aria-pressed=\"false\">창업 예정</button></div>\n    <div class=\"row group\">\n      <div><label for=\"lf-name\">성함 (필수)</label><input id=\"lf-name\" name=\"name\" type=\"text\" placeholder=\"홍길동\" required autocomplete=\"name\"></div>\n      <div><label for=\"lf-phone\">연락처 (필수)</label><input id=\"lf-phone\" name=\"phone\" type=\"tel\" placeholder=\"010-0000-0000\" required autocomplete=\"tel\" inputmode=\"tel\" maxlength=\"20\"></div>\n    </div>\n    <div class=\"group\">\n      <p class=\"field-label\" id=\"lf-time-label\">통화 희망 시간</p>\n      <div class=\"opts\" role=\"group\" aria-labelledby=\"lf-time-label\" id=\"lf-time\"><button type=\"button\" class=\"time-opt\" aria-pressed=\"false\">오전 (9~12시)</button><button type=\"button\" class=\"time-opt\" aria-pressed=\"false\">오후 (12~6시)</button><button type=\"button\" class=\"time-opt\" aria-pressed=\"false\">아무 때나</button></div>\n    </div>\n    <label class=\"consent\"><input type=\"checkbox\" id=\"lf-consent\" required> <span>개인정보 수집·이용에 동의합니다. 상담 목적으로만 사용됩니다. <a href=\"/privacy\" target=\"_blank\" rel=\"noopener\">개인정보처리방침 보기</a></span></label>\n    <button type=\"submit\">무료 진단 신청</button>\n    <p class=\"apply-msg\" id=\"applyMsg\" role=\"status\" aria-live=\"polite\" tabindex=\"-1\"></p>\n    <p class=\"note\">서류 첨부는 필요하지 않습니다. 평일 09:00–18:00에 연락드립니다. 승인 여부와 조건은 각 심사 기관이 결정합니다.</p>\n    <noscript>온라인 신청에는 자바스크립트가 필요합니다. 전화 1666-2425 또는 카톡 상담을 이용해 주세요.</noscript>\n  </form>\n</section>\n";
+  const INLINE_FORM_CSS = ".inline-diag{border-top:2px solid var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:var(--paper,#F7F5F0);padding:26px 24px;margin:28px 0}.inline-diag h2{margin:0 0 6px;padding:0;border:0;font-size:1.18rem;line-height:1.45;color:var(--navy,#0E1B33)}.inline-diag .sub{margin:0 0 18px;font-size:.92rem;color:#4a5669;line-height:1.6}.inline-diag .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.inline-diag label,.inline-diag .field-label{display:block;font-size:.9rem;font-weight:700;color:#263951;margin:0 0 7px}.inline-diag input[type=text],.inline-diag input[type=tel]{width:100%;padding:13px 14px;border-radius:4px;border:1px solid #aeb9ca;background:#fff;color:#1A2233;font-size:1rem;font-family:inherit;min-height:46px}.inline-diag input::placeholder{color:#8792a5}.inline-diag input:focus{outline:2px solid var(--blue,#2B5BE3);border-color:var(--blue,#2B5BE3)}.inline-diag .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.inline-diag .opts button{padding:12px 4px;border-radius:4px;border:1px solid #bdc7d8;background:#fff;color:#263951;font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px}.inline-diag .opts button[aria-pressed=true]{background:#2454bc;border-color:#2454bc;color:#fff}.inline-diag .group{margin-top:16px}.inline-diag .consent{display:flex;align-items:flex-start;gap:9px;margin-top:16px;font-size:.86rem;line-height:1.6;color:#4a5669;font-weight:400}.inline-diag .consent input{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:#2454bc}.inline-diag .consent a{color:#1e44b8;text-decoration:underline}.inline-diag button[type=submit]{width:100%;margin-top:18px;background:#234780;color:#fff;border:1px solid #234780;border-radius:4px;padding:16px;font-size:1.04rem;font-weight:700;cursor:pointer;font-family:inherit}.inline-diag button[type=submit]:disabled{opacity:.65;cursor:wait}.inline-diag .note{margin-top:12px;font-size:.84rem;color:#526077;line-height:1.55}.inline-diag .apply-msg{margin-top:14px;font-size:.9rem;text-align:center;display:none}.inline-diag .apply-msg.ok{display:block;color:#126435}.inline-diag .apply-msg.err{display:block;color:#b32b28}.inline-diag .apply-fallback{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.inline-diag .apply-fallback a{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;border-radius:4px;padding:12px 8px;text-decoration:none}.inline-diag .apply-fallback .fb-kakao{background:var(--kakao,#FEE500);color:#191600}.inline-diag .apply-fallback .fb-tel{border:1px solid #aeb9ca;color:#263951}@media(max-width:680px){.inline-diag{padding:22px 18px;margin:24px 0}.inline-diag .row{grid-template-columns:1fr;gap:0}.inline-diag .row>div+div{margin-top:16px}.inline-diag .opts{grid-template-columns:1fr}}";
+  /* @inline-form:end */
+  // 페이지 끝 간편 신청 폼 — 폼이 없는 페이지(33장)에만. 인라인 폼(76장)·홈 폼이 있으면 만들지 않는다(폼은 페이지마다 하나).
+  // 설계 docs/superpowers/specs/2026-10-04-apply-everywhere-design.md 3-2. 아래 기존 코드가 #lf-service·#leadForm 을
+  // 맨 처음에 찾으므로 그보다 먼저 만든다. 마크업·CSS 는 위 구간(정본 tools/inline_form.py) 그대로다.
+  (function pageEndForm() {
+    if (document.getElementById('leadForm') || typeof INLINE_FORM_HTML !== 'string' || !document.body) return;
+    const footer = document.querySelector('body > footer') || document.querySelector('footer');
+    if (!footer || typeof footer.insertAdjacentHTML !== 'function') return;
+    // 문의 분야는 그 페이지의 것을 그대로 쓴다 — 예전엔 신청 링크를 /?service=<분야>#apply 로 바꿔 홈 폼에 넘겼다.
+    if (!document.body.dataset.service) {
+      document.body.dataset.service = /^\/certification(?:\.html)?\/?$/.test(location.pathname) ? 'certification'
+        : ['/', '/index.html', '/privacy', '/404'].includes(location.pathname) ? 'general' : 'policy';
+    }
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' }[c]));
+    const h1 = (document.querySelector('h1')?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40);
+    const path = location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/';
+    const style = document.createElement('style');
+    style.setAttribute('data-inline-form', '');
+    style.textContent = INLINE_FORM_CSS;
+    document.head.appendChild(style);
+    footer.insertAdjacentHTML('beforebegin', '<div class="wrap page-end-apply">'
+      + INLINE_FORM_HTML.replace('__PATH__ (__LABEL__)', esc(path + ' (' + h1 + ')')) + '</div>');
+    const section = document.getElementById('apply');
+    if (section) section.setAttribute('data-page-end', '');
+    // /sojingong#apply 처럼 폼을 가리켜 들어왔으면, 폼이 이제 생겼으니 그 자리로 간다.
+    if (location.hash === '#apply' && section) setTimeout(() => section.scrollIntoView(), 0);
+  })();
   const serviceLabels = { general: '종합 상담', policy: '정책자금·사업자대출', marketing: '기업광고·마케팅', startup: '창업컨설팅', certification: '기업인증·연구소', education: '교육·출강' };
   const markedService = document.body?.dataset?.service;
   const pageService = markedService && Object.hasOwn(serviceLabels, markedService) ? markedService
@@ -148,7 +178,68 @@
     if (!started) { started = true; track('consultation_start', { cta_location: ctaLocation }); }
   });
   form.addEventListener('invalid', () => track('consultation_validation_error'), true);
-  const sticky = document.querySelector('.sticky-cta');
+  // ── 하단 신청 바 · 본문 중간 버튼 · 그 자리 신청 창 (설계 3-1·3-3·3-4, 규격 4절 2026-10-04 개정) ──
+  // 신청 버튼 1개(크게, #234780) + 카톡·전화 작은 아이콘. 신청은 다른 페이지로 보내지 않고 그 페이지 폼을 창으로 연다
+  // (홈은 기존처럼 폼으로 스크롤). 히어로 CTA·폼이 보이거나, 창이 열렸거나, 키보드가 올라와 있으면 바를 숨긴다.
+  const isHome = ['/', '/index.html'].includes(location.pathname);
+  const ICON_KAKAO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.5 2 10.8c0 2.8 1.9 5.2 4.7 6.6l-1 3.6c-.1.3.3.6.6.4l4.2-2.8c.5.1 1 .1 1.5.1 5.5 0 10-3.5 10-7.9S17.5 3 12 3z"/></svg>';
+  const ICON_TEL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>';
+  const APPLY_CSS = '.sticky-cta.apply-bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex!important;align-items:center;gap:8px;'
+    + 'padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #E1DED6;'
+    + 'box-shadow:0 -6px 18px rgba(14,27,51,.08);box-sizing:border-box;grid-template-columns:none!important}'
+    + '.sticky-cta.apply-bar[hidden]{display:none!important}'
+    + '.sticky-cta.apply-bar .sc-apply{flex:1;display:flex;align-items:center;justify-content:center;min-height:52px;margin:0;'
+    + 'max-width:none;width:auto;padding:0 12px;border:0;border-radius:6px;background:#234780;color:#fff;font-weight:700;'
+    + 'font-size:1.02rem;text-decoration:none;box-shadow:0 4px 12px rgba(35,71,128,.25)}'
+    + '.sticky-cta.apply-bar .sc-icon{flex:none;width:46px;height:46px;min-height:0;margin:0;padding:0;border-radius:50%;'
+    + 'display:flex;align-items:center;justify-content:center;box-sizing:border-box;text-decoration:none;box-shadow:none}'
+    + '.sticky-cta.apply-bar .sc-kakao{background:#FEE500;color:#191600;border:0}'
+    + '.sticky-cta.apply-bar .sc-tel{background:#fff;border:1.5px solid #0E1B33;color:#0E1B33}'
+    + '.sticky-cta.apply-bar svg{width:21px;height:21px;display:block}'
+    + '@media (max-width:840px){html.has-apply-bar body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}'
+    + 'html.has-apply-bar{scroll-padding-bottom:84px}}'
+    + '@media (min-width:841px){.sticky-cta.apply-bar{left:auto;right:24px;bottom:24px;width:300px;border:1px solid #E1DED6;'
+    + 'border-radius:12px;padding:12px;box-shadow:0 12px 32px rgba(14,27,51,.18)}}'
+    + '.mid-apply{margin:28px 0;text-align:center}'
+    + '.mid-apply .mid-apply-btn{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:6px;'
+    + 'background:#234780;color:#fff;font-weight:700;font-size:1.02rem;text-decoration:none}'
+    + '.mid-apply p{margin:8px 0 0;font-size:.86rem;color:#526077}'
+    + '.apply-sheet{position:fixed;inset:0;z-index:80}.apply-sheet[hidden]{display:none}'
+    + '.apply-sheet-backdrop{position:absolute;inset:0;background:rgba(14,27,51,.45)}'
+    + '.apply-sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:92svh;overflow:auto;background:var(--paper,#F7F5F0);'
+    + 'border-radius:14px 14px 0 0;padding:14px 0 calc(8px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(14,27,51,.2);'
+    + 'overscroll-behavior:contain;box-sizing:border-box}'
+    + '.apply-sheet-panel::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:#C9CED8;margin:0 auto 6px}'
+    + '.apply-sheet-close{position:absolute;top:6px;right:8px;z-index:1;border:0;background:none;font:inherit;font-size:.92rem;'
+    + 'font-weight:700;color:#263951;padding:10px 12px;cursor:pointer}'
+    + '.apply-sheet-body .inline-diag,.apply-sheet-body .apply-section{margin:0;border-top:0;border-bottom:0;padding-top:12px}'
+    + '@media (min-width:841px){.apply-sheet-panel{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);'
+    + 'width:min(480px,92vw);max-height:88vh;border-radius:12px;padding-top:18px}.apply-sheet-panel::before{display:none}}'
+    + 'html.apply-sheet-open,html.apply-sheet-open body{overflow:hidden}';
+  const applyStyle = document.createElement('style');
+  applyStyle.setAttribute('data-apply-everywhere', '');
+  applyStyle.textContent = APPLY_CSS;
+  document.head?.appendChild(applyStyle);
+
+  let sticky = document.querySelector('.sticky-cta');
+  if (!sticky && document.body) {
+    sticky = document.createElement('div');
+    sticky.className = 'sticky-cta';
+    sticky.setAttribute('role', 'navigation');
+    sticky.setAttribute('aria-label', '무료 진단 신청');
+    sticky.hidden = true;
+    document.body.appendChild(sticky);
+  }
+  if (sticky) {
+    // 홈의 기존 바는 GA 에 'mobile_sticky' 로 쌓여 왔다 — 집계가 끊기지 않게 그 이름을 이어 쓴다. 나머지는 'sticky_bar'.
+    const barWhere = sticky.querySelector('.sc-apply')?.dataset.ctaLocation || 'sticky_bar';
+    sticky.classList.add('apply-bar');
+    sticky.innerHTML = '<a class="sc-apply" href="#apply" data-cta-location="' + barWhere + '">무료 진단 신청</a>'
+      + '<a class="sc-icon sc-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener" '
+      + 'aria-label="카카오톡 상담" data-cta-location="sticky_bar">' + ICON_KAKAO + '</a>'
+      + '<a class="sc-icon sc-tel" href="tel:1666-2425" aria-label="전화 상담 1666-2425" data-cta-location="sticky_bar">' + ICON_TEL + '</a>';
+    document.documentElement.classList.add('has-apply-bar');
+  }
   // 헤더 버튼은 히어로 CTA 가 보이는 동안 숨긴다 — 첫 화면 CTA 를 하나로 유지한다(규격 4절).
   // 모바일(≤840px)에서는 CSS 로 이미 감춰져 있고 펼침 메뉴의 .nav-book 이 그 자리를 대신한다.
   const headerCta = document.querySelector('.nav-cta-book');
@@ -158,9 +249,19 @@
     const r = element.getBoundingClientRect();
     return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
   }
+  // 키보드: 입력칸에 초점이 있거나(체크박스 제외), iOS 처럼 초점 없이 키보드가 남아 화면이 줄어든 경우.
+  // 키보드 위로 바가 떠서 입력칸·제출 버튼을 가리지 않게 한다.
+  function keyboardUp() {
+    const a = document.activeElement;
+    if (a && typeof a.matches === 'function'
+      && a.matches('input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=submit]), textarea, select')) return true;
+    const vv = window.visualViewport;
+    return !!(vv && window.innerHeight && vv.height < window.innerHeight * 0.75);
+  }
+  let sheetIsOpen = false;
   function updateSticky() {
     const heroVisible = inViewport(heroCta);
-    if (sticky) sticky.hidden = heroVisible || inViewport(form) || form.contains(document.activeElement);
+    if (sticky) sticky.hidden = heroVisible || inViewport(form) || form.contains(document.activeElement) || sheetIsOpen || keyboardUp();
     if (headerCta) headerCta.hidden = heroVisible;
   }
   if ('IntersectionObserver' in window) {
@@ -173,9 +274,152 @@
       window.addEventListener(event, updateSticky, { passive: true });
     }
   }
+  window.visualViewport?.addEventListener?.('resize', updateSticky);
+  document.addEventListener('focusin', updateSticky);
+  document.addEventListener('focusout', () => setTimeout(updateSticky, 0));
   updateSticky();
-  form.addEventListener('focusin', updateSticky);
-  form.addEventListener('focusout', () => setTimeout(updateSticky, 0));
+
+  // 그 자리 신청 창 — 폼은 페이지마다 하나라, 창을 열면 그 폼(#apply)을 창 안으로 옮기고 닫으면 제자리로 돌려놓는다.
+  // 그래서 입력하던 값·완료 상태가 그대로 따라가고, 제출 코드(/api/lead·요청 ID·landing_url·generate_lead)는 그대로다.
+  const applySection = document.getElementById('apply');
+  const useSheet = !isHome && !!applySection && applySection.contains(form) && !!document.body;
+  let sheet = null, sheetBody = null, sheetPanel = null, placeholder = null, opener = null, savedScroll = 0, pushedState = false;
+  // 닫을 때 보낸 history.back() 의 popstate 가 아직 안 왔는데 다시 열면, 늦게 온 popstate 가 새 창을 닫아 버린다.
+  // 그 신호가 올 때까지 다시 열기를 미뤘다가 이어서 연다(닫기를 잘못 누르고 곧바로 다시 누르는 경우).
+  let backPending = false, reopen = null;
+  function focusables() {
+    return [...sheetPanel.querySelectorAll('button, [href], input:not([type=hidden]):not([tabindex="-1"]), select, textarea')]
+      .filter(el => !el.disabled && el.getAttribute('aria-hidden') !== 'true' && el.offsetParent !== null);
+  }
+  // 키보드가 올라오면(iOS 는 화면 아래가 키보드에 덮인다) 창 아래끝을 키보드 바로 위로 올리고 높이를 그만큼 줄인다.
+  function fitToViewport() {
+    const vv = window.visualViewport;
+    if (!sheetPanel || !vv) return;
+    const covered = Math.max(0, Math.round(window.innerHeight - vv.height - (vv.offsetTop || 0)));
+    const phone = window.innerWidth <= 840;
+    sheetPanel.style.bottom = phone && covered > 40 ? covered + 'px' : '';
+    sheetPanel.style.maxHeight = Math.max(240, Math.floor(vv.height - 12)) + 'px';
+  }
+  function openSheet(where, service) {
+    if (!useSheet || sheetIsOpen) return;
+    if (backPending) { reopen = [where, service]; return; }
+    if (!sheet) {
+      sheet = document.createElement('div');
+      sheet.className = 'apply-sheet';
+      sheet.hidden = true;
+      sheet.innerHTML = '<div class="apply-sheet-backdrop" data-close></div>'
+        + '<div class="apply-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="inline-diag-title">'
+        + '<button type="button" class="apply-sheet-close" data-close>닫기</button><div class="apply-sheet-body"></div></div>';
+      document.body.appendChild(sheet);
+      sheetPanel = sheet.querySelector('.apply-sheet-panel');
+      sheetBody = sheet.querySelector('.apply-sheet-body');
+      sheet.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeSheet(false); });
+      sheet.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { e.preventDefault(); closeSheet(false); return; }
+        if (e.key !== 'Tab') return;
+        const items = focusables();
+        if (!items.length) return;
+        const first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+      sheet.addEventListener('focusin', e => {
+        // 키보드가 올라온 뒤 그 칸이 보이게. 그 사이 창이 닫혔으면(폼이 페이지 끝으로 돌아갔으면) 페이지를 끌고 가지 않는다.
+        if (e.target.matches?.('input, textarea, select')) setTimeout(() => {
+          if (sheetIsOpen && sheet.contains(e.target)) e.target.scrollIntoView?.({ block: 'center' });
+        }, 250);
+      });
+    }
+    if (service && serviceField && Object.hasOwn(serviceLabels, service)) {
+      serviceField.value = service;
+      updateEducationHelp();
+    }
+    opener = document.activeElement;
+    savedScroll = window.scrollY || 0;
+    placeholder = document.createElement('div');
+    placeholder.className = 'apply-placeholder';
+    applySection.parentNode.insertBefore(placeholder, applySection);
+    sheetBody.appendChild(applySection);
+    sheet.hidden = false;
+    sheetIsOpen = true;
+    document.documentElement.classList.add('apply-sheet-open');
+    fitToViewport();
+    ctaLocation = where;
+    track('apply_sheet_open', { cta_location: where });
+    // 휴대폰 뒤로가기로 페이지를 떠나지 않고 창만 닫히게 한다.
+    try {
+      // 창 때문에 생긴 기록을 되돌릴 때 브라우저가 스크롤 위치를 엉뚱하게 복원하지 않게 한다(닫은 뒤 직접 되돌린다).
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      history.pushState({ applySheet: true }, ''); pushedState = true;
+    } catch (_) { pushedState = false; }
+    updateSticky();
+    setTimeout(() => { const items = focusables(); (items.find(el => el !== sheetPanel.querySelector('.apply-sheet-close')) || items[0])?.focus(); }, 0);
+  }
+  function closeSheet(fromHistory) {
+    if (!sheetIsOpen) return;
+    sheetIsOpen = false;
+    placeholder.parentNode.insertBefore(applySection, placeholder);
+    placeholder.remove();
+    sheet.hidden = true;
+    document.documentElement.classList.remove('apply-sheet-open');
+    window.scrollTo(0, savedScroll);
+    if (!fromHistory && pushedState) {
+      pushedState = false;
+      try {
+        backPending = true;
+        history.back();
+        // popstate 가 끝내 안 오는 환경에서도 다시 열 수 있게
+        setTimeout(() => { if (backPending) { backPending = false; const r = reopen; reopen = null; if (r) openSheet(...r); } }, 600);
+      } catch (_) { backPending = false; /* 주소 기록을 못 되돌려도 창은 닫혔다 */ }
+    }
+    pushedState = false;
+    updateSticky();
+    try { opener?.focus?.({ preventScroll: true }); } catch (_) { /* 연 버튼이 없어졌으면 그대로 둔다 */ }
+  }
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('popstate', () => {
+      if (backPending) {
+        backPending = false;
+        window.scrollTo(0, savedScroll);
+        const r = reopen; reopen = null;
+        if (r) openSheet(...r);
+        return;
+      }
+      if (sheetIsOpen) { pushedState = false; closeSheet(true); }
+    });
+  }
+  window.visualViewport?.addEventListener?.('resize', fitToViewport);
+  // 신청 버튼은 다른 페이지로 보내지 않는다 — 바·중간 버튼·다른 페이지의 #apply 링크는 이 창을 연다.
+  // 링크 href 는 그대로 둔다(자바스크립트가 없으면 예전처럼 홈 폼으로 간다). 같은 페이지 #apply 앵커는 지금처럼 스크롤.
+  document.addEventListener('click', e => {
+    if (!useSheet) return;
+    const link = e.target instanceof Element ? e.target.closest('a') : null;
+    if (!link || link.closest('.apply-sheet')) return;
+    const href = link.getAttribute('href') || '';
+    if (!href.endsWith('#apply')) return;
+    let url;
+    try { url = new URL(href, location.href); } catch (_) { return; }
+    const norm = p => p.replace(/\.html$/, '').replace(/\/index$/, '/');
+    const ours = link.closest('.sticky-cta, .mid-apply');
+    if (!ours && norm(url.pathname) === norm(location.pathname)) return;
+    e.preventDefault();
+    openSheet(link.dataset.ctaLocation || (link.closest('header') ? 'header' : 'content'),
+      url.searchParams.get('service') || link.dataset.consultationService || '');
+  }, true);
+
+  // 본문 중간 신청 버튼 — 폼 없던 페이지(페이지 끝 폼)가 휴대폰 5화면을 넘을 때만, 문서 40% 지점 h2 앞에 한 번.
+  if (applySection?.hasAttribute('data-page-end') && document.documentElement.scrollHeight > window.innerHeight * 5) {
+    const target = document.documentElement.scrollHeight * 0.4;
+    const heads = [...document.querySelectorAll('h2')].filter(h => !h.closest('#apply, footer, header, details, table, .sticky-cta, .apply-sheet'));
+    let best = null, gap = Infinity;
+    for (const h of heads) {
+      const d = Math.abs(h.getBoundingClientRect().top + window.scrollY - target);
+      if (d < gap) { gap = d; best = h; }
+    }
+    if (best) best.insertAdjacentHTML('beforebegin', '<div class="mid-apply">'
+      + '<a class="mid-apply-btn" href="#apply" data-cta-location="mid_content">무료 진단 신청</a>'
+      + '<p>진단은 무료입니다.</p></div>');
+  }
   function failure(uncertain, crashed) {
     if (!message) return;
     message.className = 'apply-msg err';
