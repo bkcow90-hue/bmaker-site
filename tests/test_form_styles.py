@@ -108,9 +108,10 @@ def test_every_form_is_styled(browser, site, viewport):
         for s in m["selects"]:
             if s["h"] < 44 or s["pad"] < 8:
                 bad.append(f"{path}: select #{s['id']} 기본 모양(높이 {s['h']:.0f}px·여백 {s['pad']:.0f}px)")
-        r, g, b = (int(x) for x in re.findall(r"\d+", m["btn"])[:3])
-        if not (b - r >= 60 and b - g >= 60):
-            bad.append(f"{path}: 제출 버튼 배경 {m['btn']} — 브랜드 블루 아님")
+        # 신청 버튼은 전 사이트 한 색 #234780 (대표 결정 2026-10-04 — 하단 바·신청 창과 같다).
+        # 예전에는 '파랑 계열인가'(B−R·B−G ≥ 60)만 봐서 #2454bc 와 #234780 이 섞여도 통과했다.
+        if tuple(int(x) for x in re.findall(r"\d+", m["btn"])[:3]) != (35, 71, 128):
+            bad.append(f"{path}: 제출 버튼 배경 {m['btn']} — 신청 버튼 색 #234780 아님")
         if not m["inputs"]:
             bad.append(f"{path}: 보이는 입력칸이 없다")
     page.close()

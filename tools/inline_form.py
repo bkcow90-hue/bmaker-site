@@ -46,8 +46,9 @@ CSS = (
  'line-height:1.6;color:#4a5669;font-weight:400}'
  '.inline-diag .consent input{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:#2454bc}'
  '.inline-diag .consent a{color:#1e44b8;text-decoration:underline}'
- '.inline-diag button[type=submit]{width:100%;margin-top:18px;background:#2454bc;color:#fff;'
- 'border:1px solid #2454bc;border-radius:4px;padding:16px;font-size:1.04rem;font-weight:700;'
+ # 신청 버튼은 사이트 전체 한 색 #234780 — 하단 바·신청 창과 같다(대표 결정 2026-10-04)
+ '.inline-diag button[type=submit]{width:100%;margin-top:18px;background:#234780;color:#fff;'
+ 'border:1px solid #234780;border-radius:4px;padding:16px;font-size:1.04rem;font-weight:700;'
  'cursor:pointer;font-family:inherit}'
  '.inline-diag button[type=submit]:disabled{opacity:.65;cursor:wait}'
  '.inline-diag .note{margin-top:12px;font-size:.84rem;color:#526077;line-height:1.55}'
