@@ -9,6 +9,7 @@
   // 설계 docs/superpowers/specs/2026-10-04-apply-everywhere-design.md 3-2. 아래 기존 코드가 #lf-service·#leadForm 을
   // 맨 처음에 찾으므로 그보다 먼저 만든다. 마크업·CSS 는 위 구간(정본 tools/inline_form.py) 그대로다.
   (function pageEndForm() {
+    if (document.body?.dataset?.blogCarousel === 'true') return;
     if (document.getElementById('leadForm') || typeof INLINE_FORM_HTML !== 'string' || !document.body) return;
     const footer = document.querySelector('body > footer') || document.querySelector('footer');
     if (!footer || typeof footer.insertAdjacentHTML !== 'function') return;
@@ -56,7 +57,7 @@
   updateEducationHelp();
   const selectedService = () => serviceField && Object.hasOwn(serviceLabels, serviceField.value) ? serviceField.value : pageService;
   // Existing policy pages also use this shared file; keep their consultation intent.
-  if (!serviceField) document.querySelectorAll('a[href="/#apply"], a[href="#apply"]').forEach(link => {
+  if (!serviceField && document.body?.dataset?.blogCarousel !== 'true') document.querySelectorAll('a[href="/#apply"], a[href="#apply"]').forEach(link => {
     link.setAttribute('href', '/?service=' + pageService + '#apply');
   });
   // Shared by all static pages and their generators. Do not measure previews.
