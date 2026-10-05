@@ -55,6 +55,8 @@ BANNED = re.compile(r'갚|지원센터|100%|보장|무조건|실행 기록|중�
 # 금칙어 예외 — 공식 기관 고유명사. 금칙어 규칙은 자사 표현에만 적용한다(대표 2026-10-04).
 # 실제 기관명을 바꾸면 독자가 그 이름으로 기관을 찾을 수 없다. 추가할 때는 출처 공고와 함께 적는다.
 OFFICIAL_NAMES = (
+    '근로자퇴직급여 보장법',   # 법령 정식 명칭: 자사 결과 보장 표현이 아님
+    '근로자퇴직급여보장법',
     '소상공인원스톱지원센터',   # 순천시 — 기업마당 PBLN_000000000126724 공고 접수처
 )
 
@@ -128,7 +130,7 @@ def read_post(path):
     if meta['category'] not in CATEGORIES:
         die(f'{path.name}: category 는 {"/".join(CATEGORIES)} 중 하나 — {meta["category"]!r}')
     meta['tags'] = meta.get('tags') or []
-    meta['image'] = meta.get('image') or '/assets/og.png'
+    meta['image'] = asset_path(meta.get('image') or '/assets/og.png')
     meta['slug'] = m.group(2)
     meta['file'] = path.name
     meta['body'] = text[fm.end():].strip() + '\n'
@@ -137,6 +139,17 @@ def read_post(path):
 
 # ── markdown (이 저장소에 필요한 만큼만) ─────────────────────
 LINK = re.compile(r'\[([^\]]+)\]\(([^)\s]+)\)')
+IMAGE = re.compile(r'!\[([^\]]+)\]\(([^)\s]+)\)')
+
+
+def asset_path(value):
+    """Local public assets only; keep metadata and nested-page URLs consistent."""
+    value = '/' + str(value).lstrip('/')
+    if not re.fullmatch(r'/assets/[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|webp)', value) or '..' in value:
+        die(f'이미지 경로는 assets 아래의 로컬 이미지여야 합니다: {value}')
+    if not (ROOT / value.lstrip('/')).is_file():
+        die(f'이미지 파일이 없습니다: {value}')
+    return value
 
 
 def inline(s):
@@ -170,7 +183,10 @@ def blocks(body):
     for raw in re.split(r'\n\s*\n', body.strip()):
         lines = raw.strip('\n').split('\n')
         first = lines[0]
-        if first.startswith('### '):
+        image = IMAGE.fullmatch(raw.strip())
+        if image:
+            out.append(('image', (image[1], asset_path(image[2]))))
+        elif first.startswith('### '):
             out.append(('h3', first[4:].strip()))
             rest = '\n'.join(lines[1:]).strip()
             if rest:
@@ -199,7 +215,14 @@ def blocks(body):
 def render(bl):
     h = []
     for kind, v in bl:
-        if kind == 'h2':
+        if kind == 'image':
+            alt, src = v
+            from PIL import Image
+            with Image.open(ROOT / src.lstrip('/')) as im:
+                width, height = im.size
+            h.append(f'<figure class="post-card"><img src="{esc(src)}" alt="{esc(alt)}" '
+                     f'width="{width}" height="{height}" loading="lazy" decoding="async"></figure>')
+        elif kind == 'h2':
             h.append(f'<h2 class="serif">{inline(v)}</h2>')
         elif kind == 'h3':
             h.append(f'<h3>{inline(v)}</h3>')
@@ -226,7 +249,7 @@ def split_post(post):
     body, faq, i = [], [], 0
     while i < len(rest):
         kind, v = rest[i]
-        if kind == 'h2' and v == '자주 묻는 질문':
+        if kind == 'h2' and v in ('자주 묻는 질문', '자주 묻는 내용은 무엇인가요?'):
             i += 1
             while i < len(rest) and rest[i][0] != 'h2':
                 if rest[i][0] != 'h3':
@@ -319,6 +342,7 @@ EXTRA_CSS = ('<style>'
              'border-left:3px solid var(--navy);font-size:1.02rem;line-height:1.8;color:var(--ink)}'
              'main .post h2{margin:38px 0 12px}main .post h3{margin:24px 0 8px;font-size:1.08rem;color:var(--navy)}'
              'main .post p,main .post li{line-height:1.85;color:#2E3748}main .post li{margin:0 0 8px}'
+             '.post-card{margin:18px 0 24px}.post-card img{display:block;width:100%;height:auto;border-radius:12px}'
              'main .post blockquote{margin:18px 0;padding:14px 18px;border-left:3px solid var(--line);'
              'background:#FAFBFD;color:#3A4356}'
              'main .post .disclaimer{margin:26px 0 0;font-size:.88rem;color:#4a5669;line-height:1.7}'
@@ -334,7 +358,7 @@ EXTRA_CSS = ('<style>'
              '@media(max-width:680px){.hero .btn-hub-cta{width:100%}}' + FORM_CSS + '</style>')
 
 
-def head(title, desc, url, og_type, lds, style):
+def head(title, desc, url, og_type, lds, style, image='/assets/og.png'):
     full = f'{title} | {BRAND}'
     ld = ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in lds)
     return f'''<!DOCTYPE html>
@@ -350,7 +374,7 @@ def head(title, desc, url, og_type, lds, style):
 <meta property="og:title" content="{esc(full)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE}/assets/og.png">
+<meta property="og:image" content="{SITE}{esc(image)}">
 <link rel="icon" type="image/png" href="/assets/icon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="alternate" type="application/rss+xml" title="{BRAND} 블로그" href="{SITE}/blog/feed.xml">
@@ -459,7 +483,8 @@ def build_post(p, posts, terms, style, hdr, foot):
     article = f'<p class="answer">{inline(answer)}</p>\n' + render(body)
     faq_html = ''
     if faq:
-        faq_html = '<h2 class="serif">자주 묻는 질문</h2>\n' + ''.join(
+        faq_title = '자주 묻는 내용은 무엇인가요?' if p.get('carousel') else '자주 묻는 질문'
+        faq_html = f'<h2 class="serif">{faq_title}</h2>\n' + ''.join(
             f'<details><summary>{esc(q)}</summary><div class="body">{render(a)}</div></details>' for q, a in faq)
     already = set(re.findall(r'href="(/[a-z0-9-]+)"', article + faq_html))
     linked = autolink(article + '\n<!--faq-->\n' + faq_html, terms, already)
@@ -472,7 +497,8 @@ def build_post(p, posts, terms, style, hdr, foot):
             "description": p['summary'], "inLanguage": "ko", "mainEntityOfPage": url, "url": url,
             "image": SITE + p['image'], "datePublished": p['date'], "dateModified": p['updated'],
             "articleSection": cat_label, "keywords": p['tags'],
-            "author": {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND, "url": SITE + "/"},
+            "author": ({"@type": "Person", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/#about"}
+                       if p.get('carousel') else {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND, "url": SITE + "/"}),
             "publisher": {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND,
                           "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/logo.png"}}},
            crumb_ld([('홈', SITE + '/'), ('블로그', SITE + '/blog'),
@@ -488,8 +514,26 @@ def build_post(p, posts, terms, style, hdr, foot):
     crumb = (f'<a href="/">홈</a> › <a href="/blog">블로그</a> › '
              f'<a href="/blog/category/{p["category"]}">{esc(cat_label)}</a>')
     meta = f'\n  <p class="post-meta">발행 {p["date"]} · 내용 확인 {p["updated"]}</p>'
-    page = head(p['title'], p['summary'], url, 'article', lds, style) + hdr + '\n<main>\n'
-    page += hero(crumb, cat_label, p['title'], p['summary'], meta)
+    page = head(p['title'], p['summary'], url, 'article', lds, style, p['image']) + hdr + '\n<main>\n'
+    intro = hero(crumb, cat_label, p['title'], p['summary'], meta)
+    if p.get('carousel'):
+        page = page.replace('<body data-service="policy">', '<body data-service="policy" data-blog-carousel="true">')
+        intro = re.sub(r'\s*<a class="btn btn-hub-cta".*?</a>', '', intro)
+    page += intro
+    if p.get('carousel'):
+        page += f'''<section class="block"><div class="wrap post"><article>
+{article}
+{faq_html}
+<p class="blog-cta"><a href="/#apply">무료 진단 예약하기</a></p>
+<p class="asof">※ 본 안내는 {ym(p["updated"])} 기준입니다. 공식 기관의 최신 안내를 확인하세요.</p>
+<p class="byline">김상표 | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}</p>
+<p class="disclaimer">{esc(p.get('disclaimer', '이 글은 일반 정보이며, 개별 사안은 해당 기관 또는 전문가에게 확인해야 합니다.'))}</p>
+</article></div></section>
+<section class="block"><div class="wrap"><h2 class="serif">함께 읽으면 좋은 글은 무엇인가요?</h2>
+<p class="related">{related_html}</p></div></section>
+</main>{foot}<script src="/assets/conversion.js" defer></script></body></html>
+'''
+        return page
     page += f'''<section class="block"><div class="wrap post">
 <article>
 {article}

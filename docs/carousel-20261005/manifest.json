@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-05",
+  "posts": [
+    {
+      "source_content_id": "20261005-morning-c02",
+      "slug": "new-card-merchant-fee-refund",
+      "state": "pr_prepared_not_published",
+      "files": [
+        {
+          "path": "assets/blog/new-card-merchant-fee-refund/01.png",
+          "sha256": "25c2b04d203866b50465a4d9c98dd7c38947174ddd648eeaf8085d1b671d6ead"
+        },
+        {
+          "path": "assets/blog/new-card-merchant-fee-refund/02.png",
+          "sha256": "82ea0dc045d59c9430b78e28cf17b06d488567b8d0517eec1a9ad35051c10963"
+        },
+        {
+          "path": "assets/blog/new-card-merchant-fee-refund/03.png",
+          "sha256": "57cd066675f081b5c667f5a915ae5b005e48488654c4f20da99c39f202c87f06"
+        },
+        {
+          "path": "assets/blog/new-card-merchant-fee-refund/04.png",
+          "sha256": "5c3e21ada0be67361c9316d626cd29204c6c757879ea5896a96b1a3bdadc6586"
+        },
+        {
+          "path": "assets/blog/new-card-merchant-fee-refund/05.png",
+          "sha256": "6a7195f47ec76b7808ceba133784c83274864211f01329deb8f562be8838f86e"
+        }
+      ]
+    },
+    {
+      "source_content_id": "20261005-late_morning-c03",
+      "slug": "vat-preliminary-notice-sales-drop",
+      "state": "pr_prepared_not_published",
+      "files": [
+        {
+          "path": "assets/blog/vat-preliminary-notice-sales-drop/01.png",
+          "sha256": "d13af08da82ba90bb05d44c5cbe03ab281e7da4bb320b3cd00b4a01dcb515157"
+        },
+        {
+          "path": "assets/blog/vat-preliminary-notice-sales-drop/02.png",
+          "sha256": "3895bf51eba9c166e338124fed74353444e98a98bf19cdee08496a8fa7b6be94"
+        },
+        {
+          "path": "assets/blog/vat-preliminary-notice-sales-drop/03.png",
+          "sha256": "a620566fbc24d79fb5389b8e5461eef80356c90820625c43affc8db45bdd4699"
+        },
+        {
+          "path": "assets/blog/vat-preliminary-notice-sales-drop/04.png",
+          "sha256": "7e63b8dd973af9a526940c750c83bd74f8055837b6b4ad7a094706763b72f59f"
+        },
+        {
+          "path": "assets/blog/vat-preliminary-notice-sales-drop/05.png",
+          "sha256": "262820280a7162153c59405fbca3424fa18a62207213b60d44a16482c5603dd7"
+        }
+      ]
+    },
+    {
+      "source_content_id": "20261005-afternoon-c01",
+      "slug": "withholding-worker-severance-pay",
+      "state": "pr_prepared_not_published",
+      "files": [
+        {
+          "path": "assets/blog/withholding-worker-severance-pay/01.png",
+          "sha256": "5bf7abb5d29051727277bff1e321c5b50ae66120cf8852fba636b8db8bb66dc6"
+        },
+        {
+          "path": "assets/blog/withholding-worker-severance-pay/02.png",
+          "sha256": "8882399abca21d9186665822f1b52c346ed96862447f749e285e88b42b877e94"
+        },
+        {
+          "path": "assets/blog/withholding-worker-severance-pay/03.png",
+          "sha256": "6b0d1ac9104ec5c9875b91ade427f9ece1a6e9644dfa89563ae5bcad4c8f8d47"
+        },
+        {
+          "path": "assets/blog/withholding-worker-severance-pay/04.png",
+          "sha256": "65229626f4f222e83eae1edda5d0f338e059b062a32a6e91e93c0be40214741f"
+        },
+        {
+          "path": "assets/blog/withholding-worker-severance-pay/05.png",
+          "sha256": "b10972c5f237512630d206af9707652562e25fa4ad9f386bda23dc1d0e6895e4"
+        }
+      ]
+    }
+  ],
+  "claude_review": "response captured; required and optional copy changes applied",
+  "content_review": "Three rendered article texts and CTA links inspected. Reuses approved carousel images. Full-page screenshot includes lazy images not loaded offscreen; not evidence of all-image browser review.",
+  "code_checks": "143 focused tests passed before latest user preference. Full suite was interrupted at user request; failure markers were present but no final result. No full-suite rerun or new routine code validation. Final required content build completed.",
+  "published": false
+}

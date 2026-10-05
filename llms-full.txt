@@ -435,6 +435,9 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [3.3% 떼는 직원도 퇴직금을 줘야 하나요?](https://bmaker.kr/blog/withholding-worker-severance-pay): 실제 근로자이고 지급 요건을 충족하면 퇴직금 대상입니다.
+- [매출이 줄었는데 부가세 예정고지액을 그대로 내야 하나요?](https://bmaker.kr/blog/vat-preliminary-notice-sales-drop): 사업 부진 요건에 맞으면 실제 실적으로 예정신고할 수 있습니다.
+- [올해 개업한 가게, 카드 수수료 환급은 어디서 확인하나요?](https://bmaker.kr/blog/new-card-merchant-fee-refund): 대상 가맹점은 카드사 환급 내역과 입금 계좌를 확인하세요.
 - [2027 KRISS 기술홈닥터: 제조 중소기업 기술지원 신청 준비](https://bmaker.kr/blog/2027-kriss-technology-home-doctor): 2027년 KRISS 기술홈닥터의 제조 중소기업 대상, 연구인력 요건, 2026년 모집기간과 제출서류를 정리합니다. 대출·현금 지원이 아닌 무상 기술지도 사업입니다.
 - [10월 지역 소상공인 정책자금: 서울 중구·순천·양산·충주 신청 경로](https://bmaker.kr/blog/2026-october-regional-business-funding): 서울 중구·순천·양산·충주의 지역 정책자금 공고를 비교합니다. 10월 신청 일정, 사업장·업력 요건, 방문·온라인 경로와 이자지원 주의사항을 확인하세요.
 - [신보·우리은행 청년창업 보증 협약: 대상·비용·접수 전 확인사항](https://bmaker.kr/blog/2026-kodit-woori-youth-guarantee): 신보·우리은행 청년창업 보증 협약의 대상·보증료 지원과 접수 전 확인사항. 협약 발표와 실제 접수 개시를 구분합니다.
