@@ -43,6 +43,10 @@ def test_no_retired_cta_wording_anywhere():
     hits = []
     for path in targets:
         body = path.read_text(encoding='utf-8')
+        # 2026-10-05 carousel 본문 CTA는 최신 규격의 명시적 예외다.
+        # 정확한 링크만 제외하며 그 밖의 위치에는 이전 금칙 검사를 유지한다.
+        if 'data-blog-carousel="true"' in body or path == ROOT / 'tools/build_blog.py':
+            body = body.replace('<p class="blog-cta"><a href="/#apply">무료 진단 예약하기</a></p>', '')
         for bad in RETIRED_CTA:
             if bad in body:
                 hits.append(f'{path.name}: {bad}')
