@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-07",
-  "hash": "59dbc812544c4e3cced5b6caf189f673aed701f1110466128e89f066a15b521a"
+  "hash": "5b422df4515e4558fa3e6d6c32f12561126dceba51d8f9be4c73ddfcedc45e75"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-04",
@@ -37,19 +37,19 @@
  },
  "blog/about-editorial.html": {
   "date": "2026-10-07",
-  "hash": "557b2f5ec3b55cb469e9e850a285d1abf1ed361aaa9bd82817736d65381f7753"
+  "hash": "02045004006720cc9981bf40758dc0c0857bd02fe6418e7a3505f1f02e5f1572"
  },
  "blog/ai-store-closure-notice.html": {
   "date": "2026-10-07",
-  "hash": "86c1f79e2da51812142a0fada77bca459e787c0953afd69a56a4b66470cd2a30"
+  "hash": "7db90aefff47432700d6bc84e23fc11bd4220bc123e03af65386c2201b52fae1"
  },
  "blog/application-supplement-log.html": {
   "date": "2026-10-07",
-  "hash": "0dd089f72a2123c40af21f5d92543fe629867e32c3461b16ef9246d80a21dddb"
+  "hash": "1ed79078fef8c6986c92fd0b80f9976c4f2eeeb1cdc3ecce1377451488550b8a"
  },
  "blog/cash-flow-13-weeks.html": {
   "date": "2026-10-07",
-  "hash": "eaabefec7fa597a26c9976884ab5994169b4c6068cbd90155e5ceda70585bbda"
+  "hash": "6b3bbc6928ac5cdd6b8c9a8023fadd80d1aa855ef937bcb70c5012bb94dd5029"
  },
  "blog/category/fund.html": {
   "date": "2026-10-04",
@@ -57,27 +57,31 @@
  },
  "blog/category/guide.html": {
   "date": "2026-10-07",
-  "hash": "584d6bb0d0bc63e2db74a20b29fe25a15d5afab3bd160975056da316f4c3a3fd"
+  "hash": "13008d2eb9bd91662525cc10ba81a3792dedf0041570cd582283812d2dddd07e"
  },
  "blog/category/news.html": {
   "date": "2026-10-04",
   "hash": "f7eff276cdd771cca56cbbf24effb08642d99b67f233a3fb698e4da2d7f69e7b"
  },
+ "blog/customer-discount-request-quote-scope.html": {
+  "date": "2026-10-07",
+  "hash": "ff2a1a1d9d722be8de3f1e2b14ffd08fc8f2df3e7f7ede1a3dede094c757b9a1"
+ },
  "blog/employee-reporting-examples.html": {
   "date": "2026-10-07",
-  "hash": "d9536277e9d08b3200e2029892d3714b36260d7d1298d4b2ee6ec66479e1f5f5"
+  "hash": "d4523828ce42a272a5d41d238c35697b6f7cffa159a25e431533016a1341ab47"
  },
  "blog/equipment-funding-evidence.html": {
   "date": "2026-10-07",
-  "hash": "a3b7b9c38fd532ee32e00782dcd10157a5f791176d54a11ae7cd286dde8549c1"
+  "hash": "ff3cdbd4ef27a99e01a55f823bcef0f46affedd293fee1d630c4a84b6d5c8776"
  },
  "blog/existing-business-loans-list.html": {
   "date": "2026-10-07",
-  "hash": "1d3382b45f3cece6803dcffdef27b881be8989e1270e2ab610d586b1ad6490d9"
+  "hash": "cd0186a34ece6cb3a324a8fd95f9146ffea7d23ead8137ff76ef5b1fad93e57d"
  },
  "blog/guarantee-bank-questions.html": {
   "date": "2026-10-07",
-  "hash": "0869365ef18ea2efbf94f1c506ca15688cbd81acf47527471aa512dbe3ccd886"
+  "hash": "d7b7d07102136aa345bf7f9d8187b6d098a9ff67ef6f8a256180370f87414407"
  },
  "blog/kosmes-growth-foundation.html": {
   "date": "2026-10-04",
@@ -89,23 +93,23 @@
  },
  "blog/loan-consultation-brief.html": {
   "date": "2026-10-07",
-  "hash": "9d7676558a8c2b601094b6a83a519cc5d819fe9c25b67f32c2b9fa6a8f2fdc3a"
+  "hash": "17d888cd64d29bcac76cbeb2ea3b5704434520793b5166b6d30715a90c88f3fd"
  },
  "blog/menu-ideas-from-customer-reviews.html": {
   "date": "2026-10-07",
-  "hash": "a6218bcf71c694fe003ea1cbda11a4880e3d51e9e41dac93b98f5683c3fa82bc"
+  "hash": "dc8220e768c22cfe7d5425bbdca5bb63cd7f03b89e5a71215635b017d402e9e3"
  },
  "blog/new-card-merchant-fee-refund.html": {
   "date": "2026-10-07",
-  "hash": "1883dd9fefc9bb76bd1c374c44b5816722c4011ae5bf9e03abb9295acb8a2caa"
+  "hash": "b81690467f352aa2fb7bc288cfcd2f6da5c654294950a491f2a90f2efb972609"
  },
  "blog/product-page-repeated-questions.html": {
   "date": "2026-10-07",
-  "hash": "11a3e303752fe27f6b1bb5b589746ad08df470bcd5a1189f5e3dfc4eac28288f"
+  "hash": "eb3f3401a62112e0d0cc8df4706faec3e32012b94697f48ca7980b4830276584"
  },
  "blog/small-service-business-ideas.html": {
   "date": "2026-10-07",
-  "hash": "da57fa8a19cce99f6bb94799ded4bb8e4aaead707b646f5b16c4d92d5da49679"
+  "hash": "8145626346feab13191719006fb45541d4f615a4b3c7ab0e053a199c0abcfa82"
  },
  "blog/support-programs.html": {
   "date": "2026-10-04",
@@ -113,11 +117,11 @@
  },
  "blog/vat-preliminary-notice-sales-drop.html": {
   "date": "2026-10-07",
-  "hash": "9af08d782be79f1ffbe6228000649a8a32a922d22f80fe3e5768177f7d88e959"
+  "hash": "23f710d1c2e56536887f2c1a5e98bbd3aaf93a18a620506b4dc6782e3a8be432"
  },
  "blog/withholding-worker-severance-pay.html": {
   "date": "2026-10-07",
-  "hash": "12ce1e4ecb456122e298c39c41e1aa7ff048deec3a653a4b996f703393a5a00d"
+  "hash": "9ed46809d944adf3c660cd7bfc57b8c25ececacc0759f666347cd725d573ba67"
  },
  "bojeung.html": {
   "date": "2026-09-28",
@@ -125,7 +129,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-07",
-  "hash": "773f1b23fcabe7608008ff40dcea9d75e80f0df9dc1f014d5102f1947121f4ff"
+  "hash": "8d04196a2cff7f23f369f9dd735631db4ae09e4fa92f5a2018a812c96161b2b2"
  },
  "cases.html": {
   "date": "2026-09-13",
