@@ -1,5 +1,7 @@
 # 실행 사례 원장 갱신 절차
 
+실패 복구 및 CRM 공개 입력 명세는 [`docs/ledger-crm-sync.md`](../docs/ledger-crm-sync.md)를 따른다. `BMAKER_CRM_LEDGER_URL`은 공개 필드·접근권한·기존 사례 ID 대조 방식 승인 전 설정하지 않는다.
+
 원본 우선순위: 구글시트(연결돼 있으면) → data/cases.source.csv → data/cases.xlsx
 
 ## A. 구글시트가 연결된 뒤 (평상시)
