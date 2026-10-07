@@ -20,6 +20,8 @@ CASE_COLUMNS = {'사례ID', '실행 연월', '기관', '자금명', '실행 금�
                 '폐업 이력', '체납 이력', '기존 정책자금', '동시 진행 자금', '소요일', '한 줄 메모', '증빙 파일', '사이트 공개'}
 # CRM transport may not add the historical sheet's sensitive buckets or free text.
 CRM_COLUMNS = {'사례ID', '실행 연월', '기관', '자금명', '실행 금액(만원)', '지역(시도)', '사이트 공개', '업종', '사업 형태'}
+CRM_REGIONS = {'서울','부산','대구','인천','광주','대전','울산','세종','경기','강원','충북','충남','전북','전남','경북','경남','제주'}
+CRM_INDUSTRIES = {'','도소매업','제조업','음식점업','서비스업','건설업','운수업','교육서비스업','기타'}
 CASE_REQUIRED = {'사례ID', '실행 연월', '기관', '자금명', '실행 금액(만원)', '지역(시도)', '사이트 공개'}
 STATUS_FILES = {'data/ledger-status.txt', 'data/ledger-sync-status.json'}
 
@@ -57,6 +59,13 @@ def validate(payload, kind, crm=False):
         ids.add(row[id_column])
         if row['사이트 공개'].upper() not in ('Y', 'N') or (crm and row['사이트 공개'] != 'Y'):
             raise SyncError('PUBLIC_APPROVAL_REQUIRED')
+        if crm:
+            if row['지역(시도)'] not in CRM_REGIONS or row.get('업종', '') not in CRM_INDUSTRIES or row.get('사업 형태', '') not in ('','개인','법인'):
+                raise SyncError('INVALID_PUBLIC_CATEGORY')
+            for key, maximum in [('기관', 100), ('자금명', 120)]:
+                value = row[key]
+                if not value.strip() or len(value) > maximum or re.search(r'^[=+@-]|[<>\r\n@]|\d(?:[ -]?\d){6,}', value):
+                    raise SyncError('INVALID_PUBLIC_LABEL')
         if kind == 'cases':
             if not re.fullmatch(r'\d{4}-(0[1-9]|1[0-2])', row['실행 연월']):
                 raise SyncError('INVALID_EXECUTION_MONTH')

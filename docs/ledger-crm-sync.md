@@ -20,6 +20,8 @@ CRM 연결 URL과 토큰은 미설정 상태다. 승인된 CRM `/api/public-ledg
 
 그 외 열은 거부한다. CRM 경로에 수수료·입금액·입금일·신용·매출·체납·폐업 구간, 자유 메모를 새로 싣지 않는다. CSV는 검수된 공개 행만 보내며 기존 마지막 정상 원장에 신규 `CRM-<무작위 32 hex>` ID를 추가한다. 기존 사례와 같은 ID·같은 입력은 재추가하지 않고, 값이 달라지면 `EXISTING_CASE_CHANGED`, 없는 기존 ID이면 `UNKNOWN_LEGACY_CASE`로 중단한다. 승인 0건의 헤더 CSV는 정상으로 받아 기존 전체 원장을 보존한다. 데이터 정정·비공개 전환·기존 사례 철회는 별도 검토 후 처리하며 이 옵션으로 묵시 삭제하지 않는다. CRM과 기존 원장의 중복 대조를 확정한 뒤 연결한다.
 
+수집기에서도 시도17개·업종8개·사업 형태 범주를 독립적으로 검사하고, 기관·자금명의 전화번호/이메일/CSV 수식 입력을 거부한다. 이름·전화번호·담당자·상호·연락처·내부 메모·수수료·정확한 실행일의 열은 승인 목록 밖으로 거부한다. 실제 CRM exporter의 가상 데이터 CSV→수집기→실제 빌더 흐름에서 source/public CSV·HTML·홈 카드·LLM·빌드 로그에 개인정보 sentinel, 수수료 값과 정확한 실행일이 남지 않는 것을 검증한다. 실제 고객 원문을 이 검증에 사용하지 않는다. 기관·자금명 같은 공개용 자유 입력은 관리자 검수에서 식별 정보와 기존 사례 중복을 함께 확인한다.
+
 운영 CRM `nthguforuefgczlbfitk`에는 실제 실행 필드/공개 endpoint가 아직 없다. 별도 CRM PR은 `lead_fund_executions` 저장 구조, 실제 실행 입력, 관리자 익명 검수·승인, 전용 토큰 CSV endpoint를 준비하며 기본 비활성이다. `lead_funds.received_amount`·`paid_at`·`base_amount`는 수수료 기록으로 절대 이관하지 않는다. 운영 migration/RLS·비밀 설정·endpoint 활성화·머지/배포·고객 공개는 승인 전 실행하지 않는다. 적용 절차와 미실행 DB 검증은 CRM의 `docs/public-ledger-integration.md`에 있다.
 
 진단 근거:

@@ -94,6 +94,32 @@ def test_crm_legacy_id_must_already_exist_and_fees_are_never_public(tmp_path):
     assert (tmp_path / 'data/cases.source.csv').read_bytes() == cases()
 
 
+@pytest.mark.parametrize('column', ['name','phone','assignee_name','business_name','contact','internal_note','commission',
+                                  '이름','전화번호','담당자','상호','연락처','내부메모','수수료','executed_on','lead_id','extra'])
+def test_crm_private_columns_never_reach_source_or_public_status(tmp_path, column, capsys):
+    setup_sources(tmp_path)
+    original = (tmp_path / 'data/cases.source.csv').read_bytes()
+    payload = cases('CRM-' + 'a' * 32, **{column: 'SYNTHETIC_PRIVATE_SENTINEL'})
+    sync = module()
+    with pytest.raises(sync.SyncError, match='UNAPPROVED_COLUMN'):
+        sync.sync_sources(tmp_path, crm_url='https://example.org/crm', crm_token='test-only', fetcher=lambda _, **kw: payload)
+    sync.record_status(tmp_path, False, 'fetch:UNAPPROVED_COLUMN')
+    assert (tmp_path / 'data/cases.source.csv').read_bytes() == original
+    for name in sync.STATUS_FILES:
+        assert 'SYNTHETIC_PRIVATE_SENTINEL' not in (tmp_path / name).read_text(encoding='utf-8')
+    assert capsys.readouterr().out == ''
+
+
+@pytest.mark.parametrize('extra', [{'지역(시도)':'서울 강서구 상세주소'}, {'업종':'개인 특정 상호'}, {'사업 형태':'대표자 실명'},
+                                  {'기관':'담당 010-1234-5678'}, {'자금명':'private@example.invalid'}, {'실행 연월':'2026-10-01'}])
+def test_crm_categorical_privacy_boundary_rejects_detail(tmp_path, extra):
+    setup_sources(tmp_path)
+    original = (tmp_path / 'data/cases.source.csv').read_bytes()
+    with pytest.raises(module().SyncError):
+        module().sync_sources(tmp_path, crm_url='https://example.org/crm', crm_token='test-only', fetcher=lambda _, **kw: cases('CRM-' + 'a' * 32, **extra))
+    assert (tmp_path / 'data/cases.source.csv').read_bytes() == original
+
+
 def test_crm_header_only_keeps_historical_cases_and_secret_is_scoped(tmp_path):
     setup_sources(tmp_path)
     (tmp_path / 'data/funds-source.url').write_text('https://example.org/funds', encoding='utf-8')
@@ -170,3 +196,37 @@ def test_failure_rolls_back_sources_and_generated_pages_but_preserves_last_succe
 def test_bom_and_newline_changes_do_not_trigger_a_build(tmp_path):
     setup_sources(tmp_path)
     assert module().sync_sources(tmp_path, fetcher=lambda _: b'\xef\xbb\xbf' + cases().replace(b'\r\n', b'\n')) is False
+
+
+def test_anonymous_crm_flow_reaches_generated_csv_html_llm_and_logs_without_private_values(tmp_path, monkeypatch, capsys):
+    import datetime
+    import os
+    import shutil
+    setup_sources(tmp_path)
+    for relative in ['tools/cases_tpl.html', 'sojingong.html']:
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / relative, target)
+    (tmp_path / 'llms-full.txt').write_text('## 실행 기록\nold\n\n## 다음\n', encoding='utf-8')
+    (tmp_path / 'llms.txt').write_text('- 실행 사례(old): old\n', encoding='utf-8')
+    (tmp_path / 'sitemap.xml').write_text('<loc>https://bmaker.kr/cases</loc><lastmod>2026-09-01</lastmod>', encoding='utf-8')
+    (tmp_path / 'index.html').write_text('<!-- home-proof:start -->old<!-- home-proof:end --><!-- home-matched-cases:start -->old<!-- home-matched-cases:end -->', encoding='utf-8')
+    fixture = os.environ.get('LEDGER_PRIVACY_CRM_CSV_FIXTURE')
+    incoming = Path(fixture).read_bytes() if fixture else cases('CRM-' + 'a' * 32, **{'업종':'제조업','사업 형태':'개인'})
+    module().sync_sources(tmp_path, crm_url='https://example.org/crm', crm_token='test-only', fetcher=lambda _, **kw: incoming)
+    monkeypatch.syspath_prepend(str(ROOT / 'tools'))
+    spec = importlib.util.spec_from_file_location('privacy_cases_builder', ROOT / 'tools/build_cases.py')
+    builder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(builder)
+    monkeypatch.setattr(builder, 'ROOT', tmp_path)
+    monkeypatch.setattr(builder, 'data_date', lambda *args: datetime.date(2026,10,7))
+    builder.build()
+    generated = '\n'.join((tmp_path / p).read_text(encoding='utf-8-sig') for p in
+        ['data/cases.source.csv','data/cases.csv','cases.html','index.html','llms.txt','llms-full.txt','sitemap.xml'])
+    generated += capsys.readouterr().out
+    for needle in ['SYNTHETIC_PRIVATE_', 'private-fixture@example.invalid', '01012345678', '01087654321', '990000', '90000000', '2026-09-12', '2026-10-01', 'received_amount', 'paid_at', 'base_amount']:
+        assert needle not in generated
+    assert 'CRM-' + 'a' * 32 in generated
+    assert '서울' in generated and '제조업' in generated and '2026-10' in generated
+    public_rows = list(csv.DictReader(io.StringIO((tmp_path / 'data/cases.csv').read_text(encoding='utf-8-sig'))))
+    assert public_rows[-1]['실행 금액(만원)'] == '3000'
