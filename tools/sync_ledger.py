@@ -12,15 +12,14 @@ import subprocess
 import sys
 import time
 from urllib.parse import urlsplit
-from urllib.request import urlopen
+from urllib.request import urlopen, Request, build_opener, HTTPRedirectHandler
 
 ROOT = Path(__file__).resolve().parents[1]
 CASE_COLUMNS = {'사례ID', '실행 연월', '기관', '자금명', '실행 금액(만원)', '금리', '상환 조건',
                 '지역(시도)', '업종', '사업 형태', '업력(년)', '신용점수 구간', '연매출 구간',
                 '폐업 이력', '체납 이력', '기존 정책자금', '동시 진행 자금', '소요일', '한 줄 메모', '증빙 파일', '사이트 공개'}
 # CRM transport may not add the historical sheet's sensitive buckets or free text.
-CRM_COLUMNS = CASE_COLUMNS - {'신용점수 구간', '연매출 구간', '폐업 이력', '체납 이력',
-                              '기존 정책자금', '동시 진행 자금', '소요일', '한 줄 메모'}
+CRM_COLUMNS = {'사례ID', '실행 연월', '기관', '자금명', '실행 금액(만원)', '지역(시도)', '사이트 공개', '업종', '사업 형태'}
 CASE_REQUIRED = {'사례ID', '실행 연월', '기관', '자금명', '실행 금액(만원)', '지역(시도)', '사이트 공개'}
 STATUS_FILES = {'data/ledger-status.txt', 'data/ledger-sync-status.json'}
 
@@ -46,7 +45,7 @@ def validate(payload, kind, crm=False):
     if kind == 'cases' and not set(header).issubset(CRM_COLUMNS if crm else CASE_COLUMNS):
         raise SyncError('UNAPPROVED_COLUMN')
     rows = list(reader)
-    if not rows:
+    if not rows and not crm:
         raise SyncError('EMPTY_SOURCE')
     ids = set()
     id_column = '사례ID' if kind == 'cases' else ('자금ID' if kind == 'funds' else '재단ID')
@@ -70,13 +69,23 @@ def validate(payload, kind, crm=False):
     return text
 
 
-def fetch(url):
+class NoCredentialRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        # Never forward the CRM bearer token, including to the same host.
+        raise SyncError('AUTH_REDIRECT_BLOCKED')
+
+
+def fetch(url, token=''):
     parts = urlsplit(url)
     if parts.scheme != 'https' or not parts.hostname or parts.username or parts.password:
         raise SyncError('HTTPS_SOURCE_REQUIRED')
+    if token and (parts.query or parts.fragment or '\r' in token or '\n' in token):
+        raise SyncError('INVALID_AUTH_SOURCE')
+    request = Request(url, headers={'Authorization': 'Bearer ' + token} if token else {})
+    open_request = build_opener(NoCredentialRedirect()).open if token else urlopen
     for attempt in range(3):
         try:
-            with urlopen(url, timeout=30) as response:
+            with open_request(request, timeout=30) as response:
                 if urlsplit(response.geturl()).scheme != 'https':
                     raise SyncError('HTTPS_SOURCE_REQUIRED')
                 payload = response.read(10 * 1024 * 1024 + 1)
@@ -105,6 +114,8 @@ def merge_crm(existing, incoming):
             if any(previous.get(key, '') != value for key, value in row.items()):
                 raise SyncError('EXISTING_CASE_CHANGED')
         else:
+            if not re.fullmatch(r'CRM-[0-9a-f]{32}', row['사례ID']):
+                raise SyncError('UNKNOWN_LEGACY_CASE')
             added.append(row)
     if not added:
         return existing
@@ -116,7 +127,9 @@ def merge_crm(existing, incoming):
     return out.getvalue()
 
 
-def sync_sources(root, crm_url='', fetcher=fetch):
+def sync_sources(root, crm_url='', crm_token='', fetcher=fetch):
+    if crm_url and not crm_token:
+        raise SyncError('CRM_TOKEN_NOT_CONFIGURED')
     staged = []
     for kind, url_name in [('cases', 'ledger'), ('funds', 'funds'), ('jaedan', 'jaedan')]:
         url_file = root / f'data/{url_name}-source.url'
@@ -126,7 +139,7 @@ def sync_sources(root, crm_url='', fetcher=fetch):
                 raise SyncError('SOURCE_NOT_CONFIGURED')
             continue
         try:
-            payload = fetcher(url)
+            payload = fetcher(url, token=crm_token) if kind == 'cases' and crm_url else fetcher(url)
         except SyncError:
             raise
         except OSError:
@@ -135,7 +148,9 @@ def sync_sources(root, crm_url='', fetcher=fetch):
         target = root / f'data/{kind}.source.csv'
         # CRM's approved subset appends to the last successful historical source.
         # Old fields survive; matching IDs are immutable until separately reviewed.
-        if kind == 'cases' and crm_url and target.exists():
+        if kind == 'cases' and crm_url:
+            if not target.exists():
+                raise SyncError('HISTORICAL_SOURCE_REQUIRED')
             text = merge_crm(normalize(target.read_bytes()), text)
         if not target.exists() or normalize(target.read_bytes()) != text:
             staged.append((target, text))
@@ -187,7 +202,8 @@ def main():
     action = sys.argv[1]
     if action == 'fetch':
         try:
-            changed = sync_sources(ROOT, crm_url=os.environ.get('BMAKER_CRM_LEDGER_URL', '').strip())
+            changed = sync_sources(ROOT, crm_url=os.environ.get('BMAKER_CRM_LEDGER_URL', '').strip(),
+                                   crm_token=os.environ.get('BMAKER_CRM_LEDGER_TOKEN', '').strip())
             rebuild = needs_rebuild(ROOT, changed, force=os.environ.get('LEDGER_FORCE') == 'true', daily=os.environ.get('LEDGER_DAILY') == 'true')
             with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
                 out.write(f"changed={'yes' if rebuild else 'no'}\n")

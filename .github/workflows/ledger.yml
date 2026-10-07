@@ -38,6 +38,7 @@ jobs:
         env:
           # 승인 전 미설정. CRM 원본은 공개 검수된 사례만. 기존 원장은 보존한다.
           BMAKER_CRM_LEDGER_URL: ${{ vars.BMAKER_CRM_LEDGER_URL }}
+          BMAKER_CRM_LEDGER_TOKEN: ${{ secrets.BMAKER_CRM_LEDGER_TOKEN }}
           LEDGER_FORCE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force != 'false' }}
           LEDGER_DAILY: ${{ github.event.schedule == '7 21 * * *' }}
         run: python tools/sync_ledger.py fetch
