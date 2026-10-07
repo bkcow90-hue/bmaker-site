@@ -33,37 +33,14 @@ jobs:
           # 못 찾아 '오늘' 로 떨어진다 — 시트가 안 바뀐 날에도 기준일이 매일 올라가고,
           # pr-check(fetch-depth 0)는 진짜 데이터 날짜를 계산하므로 churn 으로 잡힌다.
           fetch-depth: 0
-      - name: 시트 게시본 가져오기
+      - name: 승인된 원본 가져오기
         id: fetch
-        run: |
-          if [ ! -f data/ledger-source.url ]; then echo "changed=skip" >> "$GITHUB_OUTPUT"; exit 0; fi
-          URL=$(tr -d ' \r\n' < data/ledger-source.url)
-          curl -fsSL "$URL" -o /tmp/sheet.csv
-          sed -i 's/\r$//' /tmp/sheet.csv
-          printf '\xEF\xBB\xBF' | cat - /tmp/sheet.csv > /tmp/sheet.bom.csv 2>/dev/null || cp /tmp/sheet.csv /tmp/sheet.bom.csv
-          head -c 3 data/cases.source.csv | od -An -tx1 | grep -qi 'ef bb bf' && CUR=data/cases.source.csv || CUR=data/cases.source.csv
-          CH=no
-          if ! cmp -s <(sed 's/^\xEF\xBB\xBF//' /tmp/sheet.csv) <(sed 's/^\xEF\xBB\xBF//' data/cases.source.csv); then
-            cp /tmp/sheet.bom.csv data/cases.source.csv; CH=yes
-          fi
-          if [ -f data/funds-source.url ]; then
-            FURL=$(tr -d ' \r\n' < data/funds-source.url)
-            curl -fsSL "$FURL" -o /tmp/funds.csv && sed -i 's/\r$//' /tmp/funds.csv
-            printf '\xEF\xBB\xBF' | cat - /tmp/funds.csv > /tmp/funds.bom.csv 2>/dev/null || cp /tmp/funds.csv /tmp/funds.bom.csv
-            if ! cmp -s <(sed 's/^\xEF\xBB\xBF//' /tmp/funds.csv) <(sed 's/^\xEF\xBB\xBF//' data/funds.source.csv); then
-              cp /tmp/funds.bom.csv data/funds.source.csv; CH=yes
-            fi
-          fi
-          if [ -f data/jaedan-source.url ]; then
-            JURL=$(tr -d ' \r\n' < data/jaedan-source.url)
-            curl -fsSL "$JURL" -o /tmp/jaedan.csv && sed -i 's/\r$//' /tmp/jaedan.csv
-            printf '\xEF\xBB\xBF' | cat - /tmp/jaedan.csv > /tmp/jaedan.bom.csv 2>/dev/null || cp /tmp/jaedan.csv /tmp/jaedan.bom.csv
-            if ! cmp -s <(sed 's/^\xEF\xBB\xBF//' /tmp/jaedan.csv) <(sed 's/^\xEF\xBB\xBF//' data/jaedan.source.csv); then
-              cp /tmp/jaedan.bom.csv data/jaedan.source.csv; CH=yes
-            fi
-          fi
-          if [ "${{ github.event.schedule }}" = "7 21 * * *" ]; then CH=yes; fi
-          echo "changed=$CH" >> "$GITHUB_OUTPUT"
+        env:
+          # 승인 전 미설정. CRM 원본은 공개 검수된 사례만. 기존 원장은 보존한다.
+          BMAKER_CRM_LEDGER_URL: ${{ vars.BMAKER_CRM_LEDGER_URL }}
+          LEDGER_FORCE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force != 'false' }}
+          LEDGER_DAILY: ${{ github.event.schedule == '7 21 * * *' }}
+        run: python tools/sync_ledger.py fetch
       - name: 빌드
         id: build
         if: steps.fetch.outputs.changed == 'yes' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force != 'false')
@@ -74,35 +51,36 @@ jobs:
           set -e
           echo "$OUT"
           if [ $RC -ne 0 ]; then
-            printf 'FAIL\n%s\n' "$OUT" > data/ledger-status.txt
             echo "ok=no" >> "$GITHUB_OUTPUT"
+            echo "failure_stage=build" >> "$GITHUB_OUTPUT"
           else
             set +e
             POUT=$(python -m pytest -q 2>&1); PRC=$?
             set -e
             echo "$POUT"
             if [ $PRC -ne 0 ]; then
-              # 소스 2개·상태 파일만 남기고 수정분 전부 복원 (자금 페이지는 시트 행이 늘면 파일명도 늘어 고정 목록으로는 구멍이 생긴다)
-              git ls-files -m | grep -v -E '^data/(cases|funds|jaedan)\.source\.csv$|^data/ledger-status\.txt$' | xargs -r git checkout -- || true
-              # 새로 생성된 미추적 자금 페이지 제거 — 신규 자금이 테스트 실패와 함께 배포되는 것도 막는다
-              git clean -f ':(glob)*.html' || true
-              printf 'FAIL\n%s\n[pytest 실패]\n%s\n' "$OUT" "$POUT" > data/ledger-status.txt
               echo "ok=no" >> "$GITHUB_OUTPUT"
+              echo "failure_stage=tests" >> "$GITHUB_OUTPUT"
             else
-              printf 'OK\n%s\n' "$OUT" > data/ledger-status.txt
+              python tools/sync_ledger.py success
               echo "ok=yes" >> "$GITHUB_OUTPUT"
             fi
           fi
+      - name: 실패 시 마지막 정상 원장 보존
+        if: failure() || steps.build.outputs.ok == 'no'
+        env:
+          LEDGER_FAILURE_STAGE: ${{ steps.fetch.outcome == 'failure' && 'fetch' || steps.build.outputs.failure_stage || 'workflow' }}
+        run: python tools/sync_ledger.py failure
       - name: 커밋·푸시 (변경 있을 때만)
         id: commit
-        if: steps.fetch.outputs.changed == 'yes' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force != 'false')
+        if: always() && (steps.fetch.outputs.changed == 'yes' || steps.fetch.outcome == 'failure' || steps.build.outcome == 'failure')
         run: |
           git config user.name "ledger-bot"
           git config user.email "ledger-bot@users.noreply.github.com"
-          git add -A || true
+          git add -A
           git diff --cached --quiet && { echo "변경 없음"; exit 0; }
           if [ "${{ steps.build.outputs.ok }}" = "yes" ]; then
-            git commit -m "chore(cases): 원장 자동 갱신 (구글시트)"
+            git commit -m "chore(cases): 원장 자동 갱신 (승인 원본)"
           else
             git commit -m "chore(cases): 원장 갱신 실패 기록 — bmaker.kr/data/ledger-status.txt 확인"
           fi
@@ -124,5 +102,5 @@ jobs:
             -d "{\"host\":\"bmaker.kr\",\"key\":\"$KEY\",\"keyLocation\":\"https://bmaker.kr/$KEYFILE\",\"urlList\":[$LIST]}" \
             || echo "IndexNow 핑 실패 — 무시 (다음 갱신 때 자연 재시도)"
       - name: 실패 시 액션도 실패로
-        if: steps.build.outputs.ok == 'no'
+        if: always() && (steps.fetch.outcome == 'failure' || steps.build.outcome == 'failure' || steps.build.outputs.ok == 'no')
         run: exit 1

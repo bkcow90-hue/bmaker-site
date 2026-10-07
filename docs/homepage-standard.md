@@ -192,7 +192,7 @@
 
 ## 9. 빌드·코드 규칙
 
-- 데이터 원본은 구글시트 3탭(원장·자금·재단). ledger 워크플로가 매시 동기화한다. 로컬 CSV·xlsx는 폴백이며 손으로 고치지 않는다.
+- 데이터 원본은 구글시트 3탭(원장·자금·재단). ledger 워크플로가 매시 동기화한다. 로컬 CSV·xlsx는 폴백이며 손으로 고치지 않는다. CRM 공개 원본은 실행액·실행일·공개승인과 익명화 필드가 확정된 CSV에 한해 별도 승인 후 `BMAKER_CRM_LEDGER_URL`로 연결할 수 있다. 설정 전에는 기존 시트를 유지한다. CRM 경로는 기존 원장을 보존하고 신규 공개 사례 ID만 추가한다. 기존 사례 변경·철회는 별도 검토로 처리한다. 모든 소스 검증과 빌드·테스트 성공 후에만 새 원본·산출물을 커밋한다. 실패에는 마지막 정상 원장을 보존하고 실패 단계·시각을 별도로 기록한다. 기존 실패는 데이터 변경 없이도 재시도한다.
 - 빌더 체인 순서: cases → funds → jaedan → region → gaein → consulting → jungjin → editorial → education → hubs → blog → build_lastmod. 마지막이 항상 build_lastmod. (pr-check·ledger 두 워크플로가 같은 순서)
 - 블로그(`/blog`, `tools/build_blog.py`): 원본은 `posts/YYYY-MM-DD-slug.md`(비공개). 날짜는 frontmatter(date·updated)만 쓰고 빌드일을 쓰지 않는다. 첫 문단 직답·작성자 줄·면책·기준일·FAQ↔FAQPage 일치는 빌더가 만든다. **블로그 제목은 자금 정식명으로 시작하지 않는다** — 자금 검색어는 자금 페이지 몫이고, 블로그는 상황·절차·사례 관점으로 쓴다(2026-10-04 WordPress 카니발 진단). 금칙어·비용 구조 문구가 있으면 빌더가 멈춘다. 검사 `tests/test_blog.py`. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
 - 날짜는 `tools/builddate.build_date()`만 쓴다. 빌더에서 date.today()·datetime.now()를 직접 호출하지 않는다.
