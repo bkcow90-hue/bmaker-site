@@ -71,6 +71,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [이케아 중고 거래에서 작은 매장은 어떤 재구매 전략을 배울까?](https://bmaker.kr/blog/ikea-resale-customer-return-strategy): 판매 이후에도 고객이 다시 찾을 이유를 마련하세요.
 - [작은 카페를 열 때, 좌석은 얼마나 남겨야 할까요?](https://bmaker.kr/blog/small-cafe-seating-customer-flow): 좌석 수보다 손님의 방문 목적과 이동 경로를 먼저 보세요.
 - [식당 단체 주문을 받기 전에 무엇을 확인해야 할까요?](https://bmaker.kr/blog/restaurant-corporate-meal-order-capacity): 주문 금액보다 약속 시간에 준비할 양과 추가 비용을 먼저 보세요.
 - [AI가 상품을 찾는 시대, 상세페이지에서 무엇을 바꿔야 할까요?](https://bmaker.kr/blog/ai-shopping-product-information-consistency): 중요한 상품 정보는 글로도 제공하고 실제 판매 조건과 맞추세요.
