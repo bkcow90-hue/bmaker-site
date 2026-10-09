@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-08",
-  "hash": "e966b98b11a819f2a18d28d1abfe50e63730f0645764f5860885f36b4c7140ef"
+  "date": "2026-10-09",
+  "hash": "36b32ac120c6fa2890cee8b5a7da7c75b00f57e0f24ca2e5b2a9d1e2f5128b38"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-04",
@@ -56,8 +56,8 @@
   "hash": "35a73adb7ba8f04849d6478440cb453a0e4838dac8d2d18232cde4579fe6dd87"
  },
  "blog/category/case.html": {
-  "date": "2026-10-08",
-  "hash": "e9edc1f332f06877003ff2d999f8a6a7cffdb6fcdb6b2f16a65b3bead235d66e"
+  "date": "2026-10-09",
+  "hash": "3cad230474e518f6bbd1c47ef2c74dcc7b159e33772bbdd642a91f645e83a9ea"
  },
  "blog/category/fund.html": {
   "date": "2026-10-08",
@@ -91,6 +91,10 @@
   "date": "2026-10-08",
   "hash": "c0768b9abe3f5d276f6bb97d205a00dbd291c13862399ffcefb29e5b1596e0dd"
  },
+ "blog/ikea-resale-customer-return-strategy.html": {
+  "date": "2026-10-09",
+  "hash": "4bfccbc616933f938ee7d3bf2f304975a7c45d5f5fe8dc4c1de32f01230c15be"
+ },
  "blog/kosmes-growth-foundation.html": {
   "date": "2026-10-04",
   "hash": "5cff42560ed02dddfbf314abaa156e1765e6dfe7c02e1226690f827b8525229d"
@@ -116,12 +120,12 @@
   "hash": "e3f4d5eba60d83359fea9437b01a461edcb4de9f9781cdf1b69e0161bb00c863"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
-  "date": "2026-10-08",
-  "hash": "0712e05bb6e5c996aab9a0d299f2fa6f803c06ac84fdacd5f5bd6fa773d23a6b"
+  "date": "2026-10-09",
+  "hash": "48b77669e0a768553e9016232bd84eba856dbc895a7f72a607ca4d246e5a21d9"
  },
  "blog/small-cafe-seating-customer-flow.html": {
-  "date": "2026-10-08",
-  "hash": "26dadcad584e12b74d0188ab8e6dbc7cfd92d6388a5d55cf76d79a4b2c140aea"
+  "date": "2026-10-09",
+  "hash": "4069a4aa1de240e43a45199693abf3c37160fe59ddf41cd83e61aa573d3573fe"
  },
  "blog/small-service-business-ideas.html": {
   "date": "2026-10-08",
@@ -144,8 +148,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-08",
-  "hash": "834ccf319c0363d596b41e9fec16eb17ec37f6e21b1d31540eb60fa6b2d3ac8e"
+  "date": "2026-10-09",
+  "hash": "f58e62a1a28d14219c4a3eb37818e4d2d44850db471a6c1071d986fbf60271c8"
  },
  "cases.html": {
   "date": "2026-09-13",
