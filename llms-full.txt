@@ -435,6 +435,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [대출 선입금 요구, 은행 사칭 보이스피싱은 어떻게 확인할까?](https://bmaker.kr/blog/loan-impersonation-upfront-payment-warning): 송금을 멈추고 금융회사 공식 창구에 직접 확인하세요.
 - [GU 상품 집중 전략, 메뉴를 줄이기 전에 무엇을 봐야 할까?](https://bmaker.kr/blog/gu-product-focus-profit-business-insight): 종류보다 비용과 손님의 선택을 함께 보세요.
 - [온라인몰 회원탈퇴 버튼은 어디에 두어야 하나요?](https://bmaker.kr/blog/online-store-cancellation-dark-pattern-guide): 로그인 첫 화면 등 찾기 쉬운 위치를 권고합니다.
 - [10월 신용취약소상공인자금, 먼저 신청하면 먼저 승인될까요?](https://bmaker.kr/blog/october-vulnerable-credit-loan-application): 기간 내 신청을 모아 평가하며 선정은 승인이 아닙니다.
