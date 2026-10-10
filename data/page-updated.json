@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-10",
-  "hash": "35c0d0e89ca42e0754cb5f5f9cdda52d7399c9e27eecb0404680521d7379a12b"
+  "date": "2026-10-11",
+  "hash": "54c88cd2eff4058fb4526bc1e7080b1181d8e85fa087c28e94343243512be51c"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-10",
@@ -60,8 +60,8 @@
   "hash": "f947320222dabd6769d97e7121915f06d5dea15a120893a45b773b123de1a6f3"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-10",
-  "hash": "20d6ed650f2f1b77d787e3c05465e9406b13b37cb1cb2df0a06dbb965f03f646"
+  "date": "2026-10-11",
+  "hash": "b3763b7c2e7209367f2efb565dde530d26ab3f5aa804372d827460ec2ed2c158"
  },
  "blog/category/guide.html": {
   "date": "2026-10-09",
@@ -99,13 +99,17 @@
   "date": "2026-10-10",
   "hash": "d8fdaf2bedba54247f48b36b95dd8fff61cee2bb02e94ef50bae19a58e9d6ab3"
  },
+ "blog/innovation-loan-smart-technology-use-2026-q4.html": {
+  "date": "2026-10-11",
+  "hash": "689995ae7cadfacaccba3018ea997bfb771810fffc643995770e9d4ea33262bb"
+ },
  "blog/kosmes-growth-foundation.html": {
-  "date": "2026-10-10",
-  "hash": "9a13ef1cbd2717de5f88920369fbe3afa4ee0a5a489681a24c79c27073ad37d0"
+  "date": "2026-10-11",
+  "hash": "3fd4d4d737be473a3d3b18bed7cc040b51797afc0f46d51b03e09e7e542ede34"
  },
  "blog/kosmes-startup-commercialization.html": {
-  "date": "2026-10-10",
-  "hash": "52af8acade3637f8308dfed5195bc2a295fb61b6bba3ee6179c0159d62dcbed4"
+  "date": "2026-10-11",
+  "hash": "8aea0a58b45b0002e87edb57ddbcc31526aed6e3bfacd2b5af888ae8e4d50cd1"
  },
  "blog/loan-consultation-brief.html": {
   "date": "2026-10-09",
@@ -124,8 +128,8 @@
   "hash": "74cbeedc73dda3b4f09480e551a0e05f3fdcbb95e940c5f71f96fc0fbb39d99c"
  },
  "blog/october-vulnerable-credit-loan-application.html": {
-  "date": "2026-10-10",
-  "hash": "d8448cbaebafad31d0d51ac2160c7ba56319e56976b72dfc9e65e4b13fcb44c8"
+  "date": "2026-10-11",
+  "hash": "0577fcd3c07b722ea5de537850b097aacdc45d5efdefbcbb81c8feb29f74f964"
  },
  "blog/online-store-cancellation-dark-pattern-guide.html": {
   "date": "2026-10-09",
@@ -136,8 +140,8 @@
   "hash": "6c6610c48d8bd313209230d859168aedd774901106d1ca3e554cbf7f34500f9f"
  },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
-  "date": "2026-10-10",
-  "hash": "15cd71ede974b8cf6118d8e40cb22692234a912011156bf1271ae59ccd2e62f4"
+  "date": "2026-10-11",
+  "hash": "43d98b075c1c6b0535030fdffe508a3dfa1971405b6aa1f9be2addb00510a688"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
   "date": "2026-10-10",
@@ -152,8 +156,8 @@
   "hash": "33149265294c00318367e0987ec608fa4719bac664fca158be159e817ec14d6b"
  },
  "blog/support-programs.html": {
-  "date": "2026-10-10",
-  "hash": "8ee2bffaffac6f2d98991e1123740af96862d80f6f13a569ae068a33157e8bc1"
+  "date": "2026-10-11",
+  "hash": "1b39064557ba12a654c5687419a5c3792aed9e91396a30632cbf59dc93736724"
  },
  "blog/vat-preliminary-notice-sales-drop.html": {
   "date": "2026-10-09",
@@ -168,8 +172,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-10",
-  "hash": "af65b190898c0c2d0b9e6352c511b80b5ff2e4ebad25ef9be0ce0bd5c61c2ca0"
+  "date": "2026-10-11",
+  "hash": "6d22917952241ff0b3b753bddd27ccc3f8ecad547adef1bb2281fd83b4b961bc"
  },
  "cases.html": {
   "date": "2026-09-13",
