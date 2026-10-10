@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-11",
-  "hash": "e7ad5500226f0037f9e1c3c9e21aed62841bbd37241bf8f48bdd228d91c3b6b4"
+  "hash": "74d36036fe3745398cf12a0113432a3105796d6c30afe13cb10408be864d0ae0"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-10",
@@ -56,8 +56,8 @@
   "hash": "c11e0fd48917651132bba1d26cbe65f3413ed1a399fd806bc99919ff19f2f686"
  },
  "blog/category/case.html": {
-  "date": "2026-10-10",
-  "hash": "f947320222dabd6769d97e7121915f06d5dea15a120893a45b773b123de1a6f3"
+  "date": "2026-10-11",
+  "hash": "cdf56bd80c79e3029775f1cdcbfbf852c80078c1fbd133bf748363d30c8bd570"
  },
  "blog/category/fund.html": {
   "date": "2026-10-10",
@@ -88,16 +88,16 @@
   "hash": "4484c7dcac65f649156fc38aa094fc427e01ec98fb07706167bf759a452dc751"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
-  "date": "2026-10-10",
-  "hash": "b7cb643816ae8a2058690e4d17f87f5852c0c65f0676ed7af6660e0d232cee53"
+  "date": "2026-10-11",
+  "hash": "99a382bf149db0fce591f22e055a9940519cae2989da12edbcae2aa6eb835434"
  },
  "blog/guarantee-bank-questions.html": {
   "date": "2026-10-11",
   "hash": "1cfd60628d3e9b76c81cde9808dba4c67d6e8b962cad6f53103881a0fe1ef9bd"
  },
  "blog/ikea-resale-customer-return-strategy.html": {
-  "date": "2026-10-10",
-  "hash": "d8fdaf2bedba54247f48b36b95dd8fff61cee2bb02e94ef50bae19a58e9d6ab3"
+  "date": "2026-10-11",
+  "hash": "eb6769144afead0311a80187922693a68443439d25b72bee7f0ee3d1de213d69"
  },
  "blog/kosmes-growth-foundation.html": {
   "date": "2026-10-10",
@@ -140,12 +140,12 @@
   "hash": "15cd71ede974b8cf6118d8e40cb22692234a912011156bf1271ae59ccd2e62f4"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
-  "date": "2026-10-10",
-  "hash": "123d007c1da1ed56b7cdf513c14885285daee7c56b3bf0c4705fcf000b272dc5"
+  "date": "2026-10-11",
+  "hash": "d28e0511a274f88275e9c215dae2427a64aa24d7df150b6760fbd11db014463b"
  },
  "blog/small-cafe-seating-customer-flow.html": {
-  "date": "2026-10-10",
-  "hash": "70ebbab50e39233990c84c0fcdf75073053c1965daa1c974b01c270020379fac"
+  "date": "2026-10-11",
+  "hash": "8df3c98168d13d26a490c47dcf585df173f8edaea4ba23f60b09df1d27ba4097"
  },
  "blog/small-service-business-ideas.html": {
   "date": "2026-10-11",
@@ -154,6 +154,10 @@
  "blog/support-programs.html": {
   "date": "2026-10-10",
   "hash": "8ee2bffaffac6f2d98991e1123740af96862d80f6f13a569ae068a33157e8bc1"
+ },
+ "blog/tesco-ai-meal-planner-customer-choice.html": {
+  "date": "2026-10-11",
+  "hash": "71781602197b1a417289e7b45f4d462ea661f4a6e8f5e5f0541eaaa6cb3b30c3"
  },
  "blog/vat-preliminary-notice-sales-drop.html": {
   "date": "2026-10-11",
@@ -164,7 +168,7 @@
   "hash": "e75ea02ff5113adf6ef3041f98339fb5ae364cd891da05d3400afc9d651e70af"
  },
  "blog/youth-savings-small-business-certificate-october-2026.html": {
-  "date": "2026-10-11",
+  "date": "2026-10-10",
   "hash": "4335c9a2cef9b687cc0105e46425ae634a40f3c76ab994eb2e243d637d80fcc7"
  },
  "bojeung.html": {
@@ -173,7 +177,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-11",
-  "hash": "a9ed8138e9884a73701422791b6bf88f79f4e5fe83c617ee887915a451998f40"
+  "hash": "9cc8256275d5776c434e4e7e6e1f7499f12a9e305d33e7a30c0a03afd82c143e"
  },
  "cases.html": {
   "date": "2026-09-13",
