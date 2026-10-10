@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-10",
-  "hash": "824c0a29cc6343dc52c3612baa39081ece14bea38cb56cca4d0895b2a2ff125f"
+  "hash": "35c0d0e89ca42e0754cb5f5f9cdda52d7399c9e27eecb0404680521d7379a12b"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-10",
@@ -60,8 +60,8 @@
   "hash": "f947320222dabd6769d97e7121915f06d5dea15a120893a45b773b123de1a6f3"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-09",
-  "hash": "decf1f42f83977d79c08e0f353fa6157cb45dde3abee2227c97ef4cfa4493e8e"
+  "date": "2026-10-10",
+  "hash": "20d6ed650f2f1b77d787e3c05465e9406b13b37cb1cb2df0a06dbb965f03f646"
  },
  "blog/category/guide.html": {
   "date": "2026-10-09",
@@ -100,12 +100,12 @@
   "hash": "d8fdaf2bedba54247f48b36b95dd8fff61cee2bb02e94ef50bae19a58e9d6ab3"
  },
  "blog/kosmes-growth-foundation.html": {
-  "date": "2026-10-09",
-  "hash": "6e97fb81c1936a224c332d6bb942b7df38b493aded3c4dd112b87e52cf0b6acd"
+  "date": "2026-10-10",
+  "hash": "9a13ef1cbd2717de5f88920369fbe3afa4ee0a5a489681a24c79c27073ad37d0"
  },
  "blog/kosmes-startup-commercialization.html": {
-  "date": "2026-10-09",
-  "hash": "978fd02f0fcee9ad20d530deed0a428acd139d59ad92db10d693295db9218bbd"
+  "date": "2026-10-10",
+  "hash": "52af8acade3637f8308dfed5195bc2a295fb61b6bba3ee6179c0159d62dcbed4"
  },
  "blog/loan-consultation-brief.html": {
   "date": "2026-10-09",
@@ -124,8 +124,8 @@
   "hash": "74cbeedc73dda3b4f09480e551a0e05f3fdcbb95e940c5f71f96fc0fbb39d99c"
  },
  "blog/october-vulnerable-credit-loan-application.html": {
-  "date": "2026-10-09",
-  "hash": "1a40d2dd078d18d0b7226cac8be844bd93cea671723890f01ff8523e3d01fbba"
+  "date": "2026-10-10",
+  "hash": "d8448cbaebafad31d0d51ac2160c7ba56319e56976b72dfc9e65e4b13fcb44c8"
  },
  "blog/online-store-cancellation-dark-pattern-guide.html": {
   "date": "2026-10-09",
@@ -134,6 +134,10 @@
  "blog/product-page-repeated-questions.html": {
   "date": "2026-10-09",
   "hash": "6c6610c48d8bd313209230d859168aedd774901106d1ca3e554cbf7f34500f9f"
+ },
+ "blog/restart-special-loan-2026-fourth-quarter.html": {
+  "date": "2026-10-10",
+  "hash": "dc61c47f03b4f1b68604089d9aaaaa61a05d34044497048ca964d189c76c2152"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
   "date": "2026-10-10",
@@ -148,8 +152,8 @@
   "hash": "33149265294c00318367e0987ec608fa4719bac664fca158be159e817ec14d6b"
  },
  "blog/support-programs.html": {
-  "date": "2026-10-09",
-  "hash": "f3f2be075ac9c9ba06ef143822e9a49aec7eb61b7269a45b349b55573e7ac490"
+  "date": "2026-10-10",
+  "hash": "8ee2bffaffac6f2d98991e1123740af96862d80f6f13a569ae068a33157e8bc1"
  },
  "blog/vat-preliminary-notice-sales-drop.html": {
   "date": "2026-10-09",
@@ -165,7 +169,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-10",
-  "hash": "5c359c44680e78a1024ff26e95e72c45ad75ed5099e8aff6154e91fa2dc59ec2"
+  "hash": "af65b190898c0c2d0b9e6352c511b80b5ff2e4ebad25ef9be0ce0bd5c61c2ca0"
  },
  "cases.html": {
   "date": "2026-09-13",
