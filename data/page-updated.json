@@ -9,31 +9,31 @@
  },
  "blog.html": {
   "date": "2026-10-15",
-  "hash": "b5fa15bd11bb0db1f1788d8e682f7b3884126fdb975b8f438e6b30220020bd3c"
+  "hash": "acb50c27b7ab6e7963318483e0fb6e34e6c65fe5fe27223fb0d2713c8a627787"
  },
  "blog/2026-kibo-factoring-september-october.html": {
-  "date": "2026-10-10",
-  "hash": "7111f2f376f98485cc2cead8c801226a48cb0f206ccf129ff67399f3a9a9aacb"
+  "date": "2026-10-15",
+  "hash": "2bea771f3b15eeaa2bf06f2433561626abdc21417bbdb302cfce4e8be26f5c6e"
  },
  "blog/2026-kodit-ibk-startup-buildup.html": {
-  "date": "2026-10-10",
-  "hash": "53fea2deaac4835e8808ff23fcf061a1e38b584e501cea893e68841aeaaea3eb"
+  "date": "2026-10-15",
+  "hash": "af69a5f36139821c6ccfd4918e15aa1f0bdada072addef8ef27131c4db90b8ef"
  },
  "blog/2026-kodit-woori-youth-guarantee.html": {
-  "date": "2026-10-10",
-  "hash": "171bfedeadfd171607b4c667b55e09193794130c083dbbaef5d04937959316e2"
+  "date": "2026-10-15",
+  "hash": "d2b326965bcf4056d76af3c6d563c1bed2153f86d20038d1477329b8035851f2"
  },
  "blog/2026-october-regional-business-funding.html": {
-  "date": "2026-10-10",
-  "hash": "5b139929a12c8ad345c962c49545b6257dae80a9a408ddde2bb3f7115cd2ae94"
+  "date": "2026-10-15",
+  "hash": "b2e57720bd840d8ef598f1e1ebf3ed8fd3df4733191bda1dd383b5ea1eb2c1a9"
  },
  "blog/2026-product-improvement-round5.html": {
-  "date": "2026-10-10",
-  "hash": "1eb116938631eb1e0e6937b5f5f667766fe2d8943e0b07175e5c4efeba7f8dc6"
+  "date": "2026-10-15",
+  "hash": "17e9ba1552f4cd05967c8efd62db3214ba50de3916d8e7682f889c5e78190f7f"
  },
  "blog/2027-kriss-technology-home-doctor.html": {
-  "date": "2026-10-10",
-  "hash": "5d0f310193f139a94c980c2fbbe4dbd9125337e99aaa5e7a67c8d0a845125b18"
+  "date": "2026-10-15",
+  "hash": "20dfc93c0fccedc0414bad73cc927ca733136a0a133a951fde9e08cf0730dbe1"
  },
  "blog/about-editorial.html": {
   "date": "2026-10-12",
@@ -68,8 +68,12 @@
   "hash": "0167ebfa5c9404de03ff2b65466957cbd3b919009a62e888fef8339b7badac6f"
  },
  "blog/category/news.html": {
-  "date": "2026-10-10",
-  "hash": "27024143f116ad72c712f5ae17c314200b7dccd13b233f8ceb7b3d84cb70ee9d"
+  "date": "2026-10-15",
+  "hash": "e8eebfb8a98e5717897ef1f2ede8db88799b79af9760f8227bd3faf450acdef4"
+ },
+ "blog/conditional-bad-debt-recognition-2026.html": {
+  "date": "2026-10-15",
+  "hash": "9d987bf5bc08dddd6a5ee1acf9240474470441f6fbe5bfc4bfd939ef58d9f3fb"
  },
  "blog/customer-discount-request-quote-scope.html": {
   "date": "2026-10-12",
@@ -116,8 +120,8 @@
   "hash": "7d0fd8dce1da36b586fbe0fa39bb9c48f827b80110363d82b214fc0c4d3f1903"
  },
  "blog/loan-impersonation-upfront-payment-warning.html": {
-  "date": "2026-10-10",
-  "hash": "2217b07dcb063db1288d7b4fc11dbc8fdd2c94c83fb43cc5513031a42b5d8273"
+  "date": "2026-10-15",
+  "hash": "9a032e01371c8e038863918b4827d85c0eb1439e4c6d53f023a4889e84e38dff"
  },
  "blog/menu-ideas-from-customer-reviews.html": {
   "date": "2026-10-12",
@@ -197,7 +201,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-15",
-  "hash": "8fca4d60dd4e9aac5a2a7096cc9f6a03b7f6f2f60741017dcfa72344ba5e2d96"
+  "hash": "c666d79dd3e4a8d91513f5b9b8bc275af24c545781dbda689a499239a36c4cfd"
  },
  "cases.html": {
   "date": "2026-09-13",
