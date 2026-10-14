@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-12",
-  "hash": "56fd0ef220d11c6234e9f54ee3080e048ff1c4f31a9db4bfad24c76aca97d061"
+  "date": "2026-10-15",
+  "hash": "b5fa15bd11bb0db1f1788d8e682f7b3884126fdb975b8f438e6b30220020bd3c"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-10",
@@ -56,8 +56,8 @@
   "hash": "d86e6a714728a311d631f6843ee6453557bf2067dd58b6ccd2e637f5c1f1070d"
  },
  "blog/category/case.html": {
-  "date": "2026-10-12",
-  "hash": "b448adc1d49aa47bb51f4f32b780d8f0c2f6a5aa7a2ba4921f7126a48c35ed18"
+  "date": "2026-10-15",
+  "hash": "bd2741dfb752407b9c3756526b4b6a37db2ee4113600c21709943ebc4bb6a158"
  },
  "blog/category/fund.html": {
   "date": "2026-10-12",
@@ -88,16 +88,16 @@
   "hash": "05f4b47fa86383101199901dc44708a6c7dca6756322ea98bab71115480fccca"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
-  "date": "2026-10-12",
-  "hash": "f54e18d0ed1ef9cbdee6e0a2145a8a10269f8f927b6e1da9bd1ea462ea097b13"
+  "date": "2026-10-15",
+  "hash": "666a942d4d53bf6eee7b4151dd3a22fc81e326ca4436e75e37355a2fda768ef5"
  },
  "blog/guarantee-bank-questions.html": {
   "date": "2026-10-12",
   "hash": "25ca912478c2e604025f47e17e251597104cfc589cf2f303ba98bc908b4a1b92"
  },
  "blog/ikea-resale-customer-return-strategy.html": {
-  "date": "2026-10-12",
-  "hash": "df2cac38e5e43047b8bbb07b3b7186b0e616e12ca4e1e9f75b25f2435af6ddb1"
+  "date": "2026-10-15",
+  "hash": "0f0cf56b1198c763bbdb51350e6cf79ead3e74f086d9584c1fdca438a6322cc4"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
   "date": "2026-10-12",
@@ -123,6 +123,10 @@
   "date": "2026-10-12",
   "hash": "b5a3443306bbbcbc4c41a53e836cebe5d9c93aec4974951436cfab438ded2826"
  },
+ "blog/mty-store-closures-expansion-decision.html": {
+  "date": "2026-10-15",
+  "hash": "9fcd34e01f49188d3cab44c20ebb1fa8d091b8bf66e8463c2b4de96bbfe4c217"
+ },
  "blog/new-card-merchant-fee-refund.html": {
   "date": "2026-10-12",
   "hash": "cd12de2a3214c28e0fd3e71a6659b9283904ce8bd7253e6fcc365ed4e915213c"
@@ -144,12 +148,12 @@
   "hash": "959296e08a8f51dfb1c4b23a83a5413266291ddfae9bb2221219b0a5c79c1b76"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
-  "date": "2026-10-12",
-  "hash": "188e00db21054c31f1c3c949d48b7a6e1c0f74d5ebac8bfdfae1d0ab8df5d08b"
+  "date": "2026-10-15",
+  "hash": "a061887c713e68c5ae1c2285a47b076a19d7131ab569aedf902bd0f7f5ed472b"
  },
  "blog/small-cafe-seating-customer-flow.html": {
-  "date": "2026-10-12",
-  "hash": "207ee72c620572c06067354f6cf4e9da5df973a568c945d8bb010c240622d17b"
+  "date": "2026-10-15",
+  "hash": "8cccf0d6a96bf9824b3b064b05d114de25fd84ba1c512f95135a95da4d743671"
  },
  "blog/small-service-business-ideas.html": {
   "date": "2026-10-12",
@@ -164,12 +168,12 @@
   "hash": "f98962e22a8be7649e856d4869173972952a55de4bd29cc0ea635c3a3914f81c"
  },
  "blog/tesco-ai-meal-planner-customer-choice.html": {
-  "date": "2026-10-12",
-  "hash": "e5f401e6725e9d17f212cc5726fc8c4f4f3facb354af194818a9784249c1abc9"
+  "date": "2026-10-15",
+  "hash": "35adc4aa5c2223d20f11924a92a046d79e1645e671d0bf8f39ea91eae6f87557"
  },
  "blog/uniqlo-2026-results-product-display-message.html": {
-  "date": "2026-10-12",
-  "hash": "82ea22ecf8d735be0fa8bc5f5bb0111475b58d664fd18b26d1c7d76d5558b2a6"
+  "date": "2026-10-15",
+  "hash": "654828bf588d5ab05445d4135a4e78137d637838fa1e39602da2498ac8d5e24b"
  },
  "blog/vat-october-2026-return-notice-deadlines.html": {
   "date": "2026-10-12",
@@ -192,8 +196,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-12",
-  "hash": "f802f7253c21238f92fe367469304f088f80705e167cc3ebffaa3892289c9578"
+  "date": "2026-10-15",
+  "hash": "8fca4d60dd4e9aac5a2a7096cc9f6a03b7f6f2f60741017dcfa72344ba5e2d96"
  },
  "cases.html": {
   "date": "2026-09-13",

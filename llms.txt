@@ -71,6 +71,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [MTY의 직영점 축소와 가맹 중심 계획, 매장 확장은 어떻게 판단할까요?](https://bmaker.kr/blog/mty-store-closures-expansion-decision): 매장 수보다 운영 부담과 남는 돈을 함께 봅니다.
 - [2026년 10월 부가세 예정신고와 예정고지 기한은 어떻게 다른가요?](https://bmaker.kr/blog/vat-october-2026-return-notice-deadlines): 예정신고는 10월 26일, 예정고지 납부는 11월 2일입니다.
 - [유니클로 북미·유럽 매출이 중화권을 넘은 사례에서 매장은 무엇을 볼까요?](https://bmaker.kr/blog/uniqlo-2026-results-product-display-message): 지역 매출의 변화와 회사가 설명한 운영 방식을 나누어 봅니다.
 - [2026년 10월 일시적경영애로자금 직접대출 대상과 매출 감소 기준은 무엇인가요?](https://bmaker.kr/blog/temporary-business-difficulty-loan-october-2026): 매출 감소 외에 연매출·업력·소상공인 요건을 함께 봅니다.
