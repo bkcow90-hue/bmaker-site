@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-15",
-  "hash": "acb50c27b7ab6e7963318483e0fb6e34e6c65fe5fe27223fb0d2713c8a627787"
+  "hash": "d18992c48547aaa21263289110200c4adc85a2b5a59ec6bc13daa5dceeced984"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-15",
@@ -60,8 +60,8 @@
   "hash": "bd2741dfb752407b9c3756526b4b6a37db2ee4113600c21709943ebc4bb6a158"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-12",
-  "hash": "f77bcc7e1733b4b57c04633fcce3d49eb7b9bc3b31f2a01e334464c04b4fb6ec"
+  "date": "2026-10-15",
+  "hash": "b947703d250bd3a96b173148669c5d0e4ebdca844fd9da77625b02c7ab09822b"
  },
  "blog/category/guide.html": {
   "date": "2026-10-12",
@@ -99,21 +99,25 @@
   "date": "2026-10-12",
   "hash": "25ca912478c2e604025f47e17e251597104cfc589cf2f303ba98bc908b4a1b92"
  },
+ "blog/homeplus-direct-loan-repayment-deferral.html": {
+  "date": "2026-10-15",
+  "hash": "3917729822bd672b1419f8bc879098e4b7d1261f2d81f6adfc6c1c03f92dbcc7"
+ },
  "blog/ikea-resale-customer-return-strategy.html": {
   "date": "2026-10-15",
   "hash": "0f0cf56b1198c763bbdb51350e6cf79ead3e74f086d9584c1fdca438a6322cc4"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
-  "date": "2026-10-12",
-  "hash": "ef0a017caecc6e200ed92a10c7b6d73aacef6d9a16dfdeb09fc8bb68bb5a0ab4"
+  "date": "2026-10-15",
+  "hash": "1939d6e0ae1007d924276542e311ff9ecb6ddb071f7f275b01b5e9c7eea472bc"
  },
  "blog/kosmes-growth-foundation.html": {
-  "date": "2026-10-12",
-  "hash": "3def60a7e97451bbf959104e2e10f64a341d7b65662dc630ee5cd52eedeecb60"
+  "date": "2026-10-15",
+  "hash": "d09e01bb6fc0abb9b05c19d1e3f6c80fd202235571bd709de302b7e1cbf33c90"
  },
  "blog/kosmes-startup-commercialization.html": {
-  "date": "2026-10-12",
-  "hash": "3e4ec0f72791d6363df46c8ce96ec8a61b1289fe28ce465842e2a4da75fcb283"
+  "date": "2026-10-15",
+  "hash": "6344b1140d6b12332713bb55efc7bdbd9779613f2dc138be91612ef21acb0f40"
  },
  "blog/loan-consultation-brief.html": {
   "date": "2026-10-12",
@@ -136,8 +140,8 @@
   "hash": "cd12de2a3214c28e0fd3e71a6659b9283904ce8bd7253e6fcc365ed4e915213c"
  },
  "blog/october-vulnerable-credit-loan-application.html": {
-  "date": "2026-10-12",
-  "hash": "68a747878524bdf16dd878eee995c1d7331d44342583b74b98071518c9855d17"
+  "date": "2026-10-15",
+  "hash": "0a18f8f91d860a03788d3498ebfb27274b0667ac795f5ba8cafd6c02bf748ec5"
  },
  "blog/online-store-cancellation-dark-pattern-guide.html": {
   "date": "2026-10-12",
@@ -148,8 +152,8 @@
   "hash": "bc53472e16d15d9308b842b9892e64810dd98290498480e319ad93e1ca7d9b86"
  },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
-  "date": "2026-10-12",
-  "hash": "959296e08a8f51dfb1c4b23a83a5413266291ddfae9bb2221219b0a5c79c1b76"
+  "date": "2026-10-15",
+  "hash": "808057afc4e21adf205eaf1385e32acd46c4c67205ffdef7e7363a74059f7133"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
   "date": "2026-10-15",
@@ -164,12 +168,12 @@
   "hash": "7a6db3f7cf86e5ded936212a5ced72d2e0ec149b4a9d53b918392fab61d5723d"
  },
  "blog/support-programs.html": {
-  "date": "2026-10-12",
-  "hash": "a0c9d66a6ec44002fe9f1e528f72f5c91806c444a14b3e23e377e56890a9950f"
+  "date": "2026-10-15",
+  "hash": "3b52e3bcde4ea24aa9490c9f7c3512b6fc9910656a8d1dff7220bf52456eca0b"
  },
  "blog/temporary-business-difficulty-loan-october-2026.html": {
-  "date": "2026-10-12",
-  "hash": "f98962e22a8be7649e856d4869173972952a55de4bd29cc0ea635c3a3914f81c"
+  "date": "2026-10-15",
+  "hash": "eec5eceab53bd913533e88da72231f19b5d8f4ce936a3f6f4c54c674c3a8f08b"
  },
  "blog/tesco-ai-meal-planner-customer-choice.html": {
   "date": "2026-10-15",
@@ -201,7 +205,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-15",
-  "hash": "c666d79dd3e4a8d91513f5b9b8bc275af24c545781dbda689a499239a36c4cfd"
+  "hash": "77add449fa2fdd4b72901cacf90a30220f7bbf114133030d6948ce7df4406b19"
  },
  "cases.html": {
   "date": "2026-09-13",
