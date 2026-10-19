@@ -57,7 +57,7 @@
 <url><loc>https://bmaker.kr/marketing</loc><lastmod>2026-10-04</lastmod></url>
 <url><loc>https://bmaker.kr/startup</loc><lastmod>2026-10-04</lastmod></url>
 <url><loc>https://bmaker.kr/work</loc><lastmod>2026-10-04</lastmod></url>
-<url><loc>https://bmaker.kr/business-guide</loc><lastmod>2026-10-15</lastmod></url>
+<url><loc>https://bmaker.kr/business-guide</loc><lastmod>2026-10-20</lastmod></url>
 <url><loc>https://bmaker.kr/online-ad-guide</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/blog-marketing-cost</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/viral-marketing-guide</loc><lastmod>2026-09-15</lastmod></url>
@@ -89,7 +89,7 @@
   <url><loc>https://bmaker.kr/region/jeonju</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/gimhae</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/pohang</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/fund</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/news</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -119,23 +119,24 @@
   <url><loc>https://bmaker.kr/blog/product-page-repeated-questions</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/ai-store-closure-notice</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/customer-discount-request-quote-scope</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/case</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/small-cafe-seating-customer-flow</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/restaurant-corporate-meal-order-capacity</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/case</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/small-cafe-seating-customer-flow</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/restaurant-corporate-meal-order-capacity</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/ai-shopping-product-information-consistency</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/ikea-resale-customer-return-strategy</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/ikea-resale-customer-return-strategy</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/online-store-cancellation-dark-pattern-guide</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/october-vulnerable-credit-loan-application</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/gu-product-focus-profit-business-insight</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/gu-product-focus-profit-business-insight</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/loan-impersonation-upfront-payment-warning</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/restart-special-loan-2026-fourth-quarter</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/tesco-ai-meal-planner-customer-choice</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/tesco-ai-meal-planner-customer-choice</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/innovation-loan-smart-technology-use-2026-q4</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/youth-savings-small-business-certificate-october-2026</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/uniqlo-2026-results-product-display-message</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/uniqlo-2026-results-product-display-message</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/vat-october-2026-return-notice-deadlines</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/temporary-business-difficulty-loan-october-2026</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/mty-store-closures-expansion-decision</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/mty-store-closures-expansion-decision</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/conditional-bad-debt-recognition-2026</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/homeplus-direct-loan-repayment-deferral</loc><lastmod>2026-10-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/oliveyoung-order-cancellation-customer-service</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

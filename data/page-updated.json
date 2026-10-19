@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-15",
-  "hash": "d18992c48547aaa21263289110200c4adc85a2b5a59ec6bc13daa5dceeced984"
+  "date": "2026-10-20",
+  "hash": "fb54371d940afeaa7fa8ef51b091eb4dcba9e43704b70d71b7a6980be5e91ae6"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-15",
@@ -56,8 +56,8 @@
   "hash": "d86e6a714728a311d631f6843ee6453557bf2067dd58b6ccd2e637f5c1f1070d"
  },
  "blog/category/case.html": {
-  "date": "2026-10-15",
-  "hash": "bd2741dfb752407b9c3756526b4b6a37db2ee4113600c21709943ebc4bb6a158"
+  "date": "2026-10-20",
+  "hash": "c579377b36397a3f5db8958a143c765ae4904023757efcb951e35af2f25fff05"
  },
  "blog/category/fund.html": {
   "date": "2026-10-15",
@@ -92,8 +92,8 @@
   "hash": "05f4b47fa86383101199901dc44708a6c7dca6756322ea98bab71115480fccca"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
-  "date": "2026-10-15",
-  "hash": "666a942d4d53bf6eee7b4151dd3a22fc81e326ca4436e75e37355a2fda768ef5"
+  "date": "2026-10-20",
+  "hash": "c8140d7462a22145694c2990396f80ac4b9d6b25a1ed520e965dc31dee700838"
  },
  "blog/guarantee-bank-questions.html": {
   "date": "2026-10-12",
@@ -104,8 +104,8 @@
   "hash": "3917729822bd672b1419f8bc879098e4b7d1261f2d81f6adfc6c1c03f92dbcc7"
  },
  "blog/ikea-resale-customer-return-strategy.html": {
-  "date": "2026-10-15",
-  "hash": "0f0cf56b1198c763bbdb51350e6cf79ead3e74f086d9584c1fdca438a6322cc4"
+  "date": "2026-10-20",
+  "hash": "760979540f2ac964ab1a76a3be47d273de2bae0bcc77fd80ab211f5ab2a92ebd"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
   "date": "2026-10-15",
@@ -132,8 +132,8 @@
   "hash": "b5a3443306bbbcbc4c41a53e836cebe5d9c93aec4974951436cfab438ded2826"
  },
  "blog/mty-store-closures-expansion-decision.html": {
-  "date": "2026-10-15",
-  "hash": "9fcd34e01f49188d3cab44c20ebb1fa8d091b8bf66e8463c2b4de96bbfe4c217"
+  "date": "2026-10-20",
+  "hash": "6f53f7d3fb0929830a7358dcde88076a1a9374dd11119ae18b2c1c2c9623e51b"
  },
  "blog/new-card-merchant-fee-refund.html": {
   "date": "2026-10-12",
@@ -142,6 +142,10 @@
  "blog/october-vulnerable-credit-loan-application.html": {
   "date": "2026-10-15",
   "hash": "0a18f8f91d860a03788d3498ebfb27274b0667ac795f5ba8cafd6c02bf748ec5"
+ },
+ "blog/oliveyoung-order-cancellation-customer-service.html": {
+  "date": "2026-10-20",
+  "hash": "2694465e708183aecb2a4e38254bb3cc6127be78b0e1cd234147f99a11449f46"
  },
  "blog/online-store-cancellation-dark-pattern-guide.html": {
   "date": "2026-10-12",
@@ -156,12 +160,12 @@
   "hash": "808057afc4e21adf205eaf1385e32acd46c4c67205ffdef7e7363a74059f7133"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
-  "date": "2026-10-15",
-  "hash": "a061887c713e68c5ae1c2285a47b076a19d7131ab569aedf902bd0f7f5ed472b"
+  "date": "2026-10-20",
+  "hash": "6a0b37e532ef404228b4d7c3f82c4f0b39e57c415f8f54d9b0eea7fc9b67de0b"
  },
  "blog/small-cafe-seating-customer-flow.html": {
-  "date": "2026-10-15",
-  "hash": "8cccf0d6a96bf9824b3b064b05d114de25fd84ba1c512f95135a95da4d743671"
+  "date": "2026-10-20",
+  "hash": "53e820eb2add69947dad563f9ed0529bd6f665d0947ae877bef2fb29c408aef6"
  },
  "blog/small-service-business-ideas.html": {
   "date": "2026-10-12",
@@ -176,12 +180,12 @@
   "hash": "eec5eceab53bd913533e88da72231f19b5d8f4ce936a3f6f4c54c674c3a8f08b"
  },
  "blog/tesco-ai-meal-planner-customer-choice.html": {
-  "date": "2026-10-15",
-  "hash": "35adc4aa5c2223d20f11924a92a046d79e1645e671d0bf8f39ea91eae6f87557"
+  "date": "2026-10-20",
+  "hash": "750a39f0e45c54cf225713e211fad8ac6f75aa564c957c95d820638018de35d1"
  },
  "blog/uniqlo-2026-results-product-display-message.html": {
-  "date": "2026-10-15",
-  "hash": "654828bf588d5ab05445d4135a4e78137d637838fa1e39602da2498ac8d5e24b"
+  "date": "2026-10-20",
+  "hash": "0921685d157f3a1ea1caa25945b843332fdd4118687dcc983e7cfcf91cccd9c9"
  },
  "blog/vat-october-2026-return-notice-deadlines.html": {
   "date": "2026-10-12",
@@ -204,8 +208,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-15",
-  "hash": "77add449fa2fdd4b72901cacf90a30220f7bbf114133030d6948ce7df4406b19"
+  "date": "2026-10-20",
+  "hash": "9b3b187f9a05b6f8b7e31ea6c1574b50924efecd12cc14e8fdb9d23d10231908"
  },
  "cases.html": {
   "date": "2026-09-13",
