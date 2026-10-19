@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-20",
-  "hash": "e163122e43eeffdd861e110c566d9c30bdc0c0a00a08693cc217ab9b8c870c20"
+  "hash": "8fd556c37a785ee3c8cd929059f1af4eb7bbd5e3eba191c22855cae913e8d0d9"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-20",
@@ -60,8 +60,8 @@
   "hash": "c579377b36397a3f5db8958a143c765ae4904023757efcb951e35af2f25fff05"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-15",
-  "hash": "b947703d250bd3a96b173148669c5d0e4ebdca844fd9da77625b02c7ab09822b"
+  "date": "2026-10-20",
+  "hash": "9a15817d099bfffd2059c8c22ee10151c7fd95733ad34fa34ffb6000c47573e7"
  },
  "blog/category/guide.html": {
   "date": "2026-10-12",
@@ -100,24 +100,28 @@
   "hash": "25ca912478c2e604025f47e17e251597104cfc589cf2f303ba98bc908b4a1b92"
  },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
-  "date": "2026-10-15",
-  "hash": "3917729822bd672b1419f8bc879098e4b7d1261f2d81f6adfc6c1c03f92dbcc7"
+  "date": "2026-10-20",
+  "hash": "23c42e1e100562fc5f00be279bf92d483c2128b1076f22ff4d6daf2da4fc109e"
  },
  "blog/ikea-resale-customer-return-strategy.html": {
   "date": "2026-10-20",
   "hash": "760979540f2ac964ab1a76a3be47d273de2bae0bcc77fd80ab211f5ab2a92ebd"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
-  "date": "2026-10-15",
-  "hash": "1939d6e0ae1007d924276542e311ff9ecb6ddb071f7f275b01b5e9c7eea472bc"
+  "date": "2026-10-20",
+  "hash": "b4c525a46e15f5300a70797e8866d0b0990ca5f6d9c69a3b4d459391bb6b6766"
+ },
+ "blog/kosme-november-loan-application-schedule.html": {
+  "date": "2026-10-20",
+  "hash": "857fb5aee8b5f94c0b43685e3db9089236504831617ede70f1e77e96977d4360"
  },
  "blog/kosmes-growth-foundation.html": {
-  "date": "2026-10-15",
-  "hash": "d09e01bb6fc0abb9b05c19d1e3f6c80fd202235571bd709de302b7e1cbf33c90"
+  "date": "2026-10-20",
+  "hash": "aef36722170ed3e7328c9263a1d4d266004e005efb4a2ff014cbe16654c93478"
  },
  "blog/kosmes-startup-commercialization.html": {
-  "date": "2026-10-15",
-  "hash": "6344b1140d6b12332713bb55efc7bdbd9779613f2dc138be91612ef21acb0f40"
+  "date": "2026-10-20",
+  "hash": "8d0d9b56a370de0155c36442c03c11f85d4102e6f63fcdd7c4fc9165e8a09cb0"
  },
  "blog/loan-consultation-brief.html": {
   "date": "2026-10-12",
@@ -144,8 +148,8 @@
   "hash": "cd12de2a3214c28e0fd3e71a6659b9283904ce8bd7253e6fcc365ed4e915213c"
  },
  "blog/october-vulnerable-credit-loan-application.html": {
-  "date": "2026-10-15",
-  "hash": "0a18f8f91d860a03788d3498ebfb27274b0667ac795f5ba8cafd6c02bf748ec5"
+  "date": "2026-10-20",
+  "hash": "75108cb6b1b6b948898ff1d914a13ce8c1fc7c1fd70d1208e84b605ea86b8e46"
  },
  "blog/oliveyoung-order-cancellation-customer-service.html": {
   "date": "2026-10-20",
@@ -160,8 +164,8 @@
   "hash": "bc53472e16d15d9308b842b9892e64810dd98290498480e319ad93e1ca7d9b86"
  },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
-  "date": "2026-10-15",
-  "hash": "808057afc4e21adf205eaf1385e32acd46c4c67205ffdef7e7363a74059f7133"
+  "date": "2026-10-20",
+  "hash": "f7ca6e11523504e6f57a97c4bb57ae99c42d8e29dc3419c6bb170418c303be1e"
  },
  "blog/restaurant-corporate-meal-order-capacity.html": {
   "date": "2026-10-20",
@@ -176,12 +180,12 @@
   "hash": "7a6db3f7cf86e5ded936212a5ced72d2e0ec149b4a9d53b918392fab61d5723d"
  },
  "blog/support-programs.html": {
-  "date": "2026-10-15",
-  "hash": "3b52e3bcde4ea24aa9490c9f7c3512b6fc9910656a8d1dff7220bf52456eca0b"
+  "date": "2026-10-20",
+  "hash": "8821c93be691c59d781c663fb847a731a4a3a3c517bbd4de0966fb428e959fd3"
  },
  "blog/temporary-business-difficulty-loan-october-2026.html": {
-  "date": "2026-10-15",
-  "hash": "eec5eceab53bd913533e88da72231f19b5d8f4ce936a3f6f4c54c674c3a8f08b"
+  "date": "2026-10-20",
+  "hash": "cae33df41f4e28ab75d9cea3d3283ccb204ebfb4f0f2b869fcf4a60342b73eb2"
  },
  "blog/tesco-ai-meal-planner-customer-choice.html": {
   "date": "2026-10-20",
@@ -213,7 +217,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-20",
-  "hash": "729dcab9e04d91ce69ac5b32c200b1e63bd85df3a56fdfadccec0c70183536f1"
+  "hash": "3e6040f8cb722785887e3825be5038c14c2435a1f672a4d066d1c9a832e8d7d4"
  },
  "cases.html": {
   "date": "2026-09-13",
