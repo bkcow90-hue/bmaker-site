@@ -9,31 +9,31 @@
  },
  "blog.html": {
   "date": "2026-10-20",
-  "hash": "fb54371d940afeaa7fa8ef51b091eb4dcba9e43704b70d71b7a6980be5e91ae6"
+  "hash": "e163122e43eeffdd861e110c566d9c30bdc0c0a00a08693cc217ab9b8c870c20"
  },
  "blog/2026-kibo-factoring-september-october.html": {
-  "date": "2026-10-15",
-  "hash": "2bea771f3b15eeaa2bf06f2433561626abdc21417bbdb302cfce4e8be26f5c6e"
+  "date": "2026-10-20",
+  "hash": "7b8bad46930f2b60dacd51dc83935ca0c72c55ebd7c086c60d4f61d34e0e81ab"
  },
  "blog/2026-kodit-ibk-startup-buildup.html": {
-  "date": "2026-10-15",
-  "hash": "af69a5f36139821c6ccfd4918e15aa1f0bdada072addef8ef27131c4db90b8ef"
+  "date": "2026-10-20",
+  "hash": "faf042786f7f07cd10d347a1cf8a643004da26e547bcfabda29e711ab3332da3"
  },
  "blog/2026-kodit-woori-youth-guarantee.html": {
-  "date": "2026-10-15",
-  "hash": "d2b326965bcf4056d76af3c6d563c1bed2153f86d20038d1477329b8035851f2"
+  "date": "2026-10-20",
+  "hash": "5a6ee2a1789344e1b6bd2cc16d8a78d6d5597555e3892c886596fa10a1cae2fe"
  },
  "blog/2026-october-regional-business-funding.html": {
-  "date": "2026-10-15",
-  "hash": "b2e57720bd840d8ef598f1e1ebf3ed8fd3df4733191bda1dd383b5ea1eb2c1a9"
+  "date": "2026-10-20",
+  "hash": "3b7701ffb7cee1870b16974b5adfc904ae9006e0b4f947b36a71f4e4a2399ae1"
  },
  "blog/2026-product-improvement-round5.html": {
-  "date": "2026-10-15",
-  "hash": "17e9ba1552f4cd05967c8efd62db3214ba50de3916d8e7682f889c5e78190f7f"
+  "date": "2026-10-20",
+  "hash": "e3e8a04c19fcf55e52b9c30d366aa3bfce346c715fa1db80a72c8855c627f4bb"
  },
  "blog/2027-kriss-technology-home-doctor.html": {
-  "date": "2026-10-15",
-  "hash": "20dfc93c0fccedc0414bad73cc927ca733136a0a133a951fde9e08cf0730dbe1"
+  "date": "2026-10-20",
+  "hash": "8edb30f70cf76ed82a76507aa9541265de6725f4eb2fe40046555479b90cd6ed"
  },
  "blog/about-editorial.html": {
   "date": "2026-10-12",
@@ -68,12 +68,12 @@
   "hash": "0167ebfa5c9404de03ff2b65466957cbd3b919009a62e888fef8339b7badac6f"
  },
  "blog/category/news.html": {
-  "date": "2026-10-15",
-  "hash": "e8eebfb8a98e5717897ef1f2ede8db88799b79af9760f8227bd3faf450acdef4"
+  "date": "2026-10-20",
+  "hash": "fb19a41fd8987c84d20a407a5fdf32b5a1117baf2114a0325b48e28e184fbaa8"
  },
  "blog/conditional-bad-debt-recognition-2026.html": {
-  "date": "2026-10-15",
-  "hash": "9d987bf5bc08dddd6a5ee1acf9240474470441f6fbe5bfc4bfd939ef58d9f3fb"
+  "date": "2026-10-20",
+  "hash": "c5ca62e2bdcf6692a9cd22f8a3ec617a89c8c2b490db1d3f32f14196462f9432"
  },
  "blog/customer-discount-request-quote-scope.html": {
   "date": "2026-10-12",
@@ -124,8 +124,8 @@
   "hash": "7d0fd8dce1da36b586fbe0fa39bb9c48f827b80110363d82b214fc0c4d3f1903"
  },
  "blog/loan-impersonation-upfront-payment-warning.html": {
-  "date": "2026-10-15",
-  "hash": "9a032e01371c8e038863918b4827d85c0eb1439e4c6d53f023a4889e84e38dff"
+  "date": "2026-10-20",
+  "hash": "194ff835f712ffe733f8edfba3d214e25632aea3abc38ffde723cb571ddbbd9c"
  },
  "blog/menu-ideas-from-customer-reviews.html": {
   "date": "2026-10-12",
@@ -134,6 +134,10 @@
  "blog/mty-store-closures-expansion-decision.html": {
   "date": "2026-10-20",
   "hash": "6f53f7d3fb0929830a7358dcde88076a1a9374dd11119ae18b2c1c2c9623e51b"
+ },
+ "blog/naver-promotion-service-ending-links.html": {
+  "date": "2026-10-20",
+  "hash": "530046baa83e71ee989a5f4134d98892de9643e4dd9529e0190f9935d4f737d9"
  },
  "blog/new-card-merchant-fee-refund.html": {
   "date": "2026-10-12",
@@ -209,7 +213,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-20",
-  "hash": "9b3b187f9a05b6f8b7e31ea6c1574b50924efecd12cc14e8fdb9d23d10231908"
+  "hash": "729dcab9e04d91ce69ac5b32c200b1e63bd85df3a56fdfadccec0c70183536f1"
  },
  "cases.html": {
   "date": "2026-09-13",
