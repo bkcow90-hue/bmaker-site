@@ -437,6 +437,7 @@
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
 - [올리브영은 왜 주문 취소 가능 시간을 늘렸을까요?](https://bmaker.kr/blog/oliveyoung-order-cancellation-customer-service): 고객이 직접 취소할 구간과 처리 절차를 함께 바꿨습니다.
 - [네이버 기획전 종료 후 기존 링크는 어디로 연결되나요?](https://bmaker.kr/blog/naver-promotion-service-ending-links): 기획전 종류에 따라 플러스스토어 또는 스토어 홈으로 이동합니다.
+- [중진공 11월 정책자금 신청은 선착순인가요?](https://bmaker.kr/blog/kosme-november-loan-application-schedule): 선착순이 아니며 지역별 신청기간 안에 제출합니다.
 - [MTY의 직영점 축소와 가맹 중심 계획, 매장 확장은 어떻게 판단할까요?](https://bmaker.kr/blog/mty-store-closures-expansion-decision): 매장 수보다 운영 부담과 남는 돈을 함께 봅니다.
 - [홈플러스 피해 소상공인 직접대출, 12회차 상환유예 조건은 무엇인가요?](https://bmaker.kr/blog/homeplus-direct-loan-repayment-deferral): 요건에 맞는 기존 직접대출은 원금 유예 신청이 가능하며 이자는 냅니다.
 - [조건부 대손인정제도 시행, 개인 연체채무가 바로 소멸하나요?](https://bmaker.kr/blog/conditional-bad-debt-recognition-2026): 금융회사의 손실 인정과 즉시 채무 면제는 다릅니다.
