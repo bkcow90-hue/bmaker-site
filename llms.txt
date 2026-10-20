@@ -71,6 +71,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [낮 매출을 늘리려면 브런치 메뉴를 바로 확대해야 할까요?](https://bmaker.kr/blog/restaurant-brunch-small-test-madforgarlic): 작게 시험한 뒤 추가 매출과 비용을 함께 보세요.
 - [네이버클라우드 보안 자가진단은 회사 보안을 인증해 주나요?](https://bmaker.kr/blog/navercloud-security-self-survey-ai-data): 아닙니다. 설문으로 점검할 영역을 찾는 서비스입니다.
 - [올리브영은 왜 주문 취소 가능 시간을 늘렸을까요?](https://bmaker.kr/blog/oliveyoung-order-cancellation-customer-service): 고객이 직접 취소할 구간과 처리 절차를 함께 바꿨습니다.
 - [네이버 기획전 종료 후 기존 링크는 어디로 연결되나요?](https://bmaker.kr/blog/naver-promotion-service-ending-links): 기획전 종류에 따라 플러스스토어 또는 스토어 홈으로 이동합니다.
