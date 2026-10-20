@@ -71,6 +71,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [SK하이닉스 협력사 상생 무역금융은 누가 이용하나요?](https://bmaker.kr/blog/skhynix-supplier-trade-finance-guarantee): 추천 협력사가 보증심사 등 절차를 거쳐 이용합니다.
 - [올리브영은 왜 주문 취소 가능 시간을 늘렸을까요?](https://bmaker.kr/blog/oliveyoung-order-cancellation-customer-service): 고객이 직접 취소할 구간과 처리 절차를 함께 바꿨습니다.
 - [네이버 기획전 종료 후 기존 링크는 어디로 연결되나요?](https://bmaker.kr/blog/naver-promotion-service-ending-links): 기획전 종류에 따라 플러스스토어 또는 스토어 홈으로 이동합니다.
 - [중진공 11월 정책자금 신청은 선착순인가요?](https://bmaker.kr/blog/kosme-november-loan-application-schedule): 선착순이 아니며 지역별 신청기간 안에 제출합니다.
