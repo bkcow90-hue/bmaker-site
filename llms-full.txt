@@ -435,6 +435,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [소진공 정책자금 금리표에서 현재 자금과 사업종료 항목을 어떻게 구분하나요?](https://bmaker.kr/blog/semas-current-ended-fund-rate-table): 표 제목과 자금명·연도부터 맞춰야 합니다.
 - [문구 거래액이 10배 늘어난 이구홈, 작은 매장은 무엇을 참고할까요?](https://bmaker.kr/blog/iguhome-stationery-experience-store): 상품 구성과 체험을 함께 설계한 사례입니다.
 - [SK하이닉스 협력사 상생 무역금융은 누가 이용하나요?](https://bmaker.kr/blog/skhynix-supplier-trade-finance-guarantee): 추천 협력사가 보증심사 등 절차를 거쳐 이용합니다.
 - [낮 매출을 늘리려면 브런치 메뉴를 바로 확대해야 할까요?](https://bmaker.kr/blog/restaurant-brunch-small-test-madforgarlic): 작게 시험한 뒤 추가 매출과 비용을 함께 보세요.

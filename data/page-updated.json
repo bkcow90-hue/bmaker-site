@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-22",
-  "hash": "653271ca25c2c63b796cd7582947b1735336d4312e211f892a3627de56011e34"
+  "hash": "b9be971cc0e7e150050af3e9cf8a4e1f27f4ff436d50c81669fcf88618d53f22"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -60,8 +60,8 @@
   "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-21",
-  "hash": "0232ba61b3959c367d95493d96ffc19db76724792ced68c0b04bcd665ed9c22c"
+  "date": "2026-10-22",
+  "hash": "1abe2327cb95ba1e82a5a21643bada475e19b56d992792182cf5509c152f7d93"
  },
  "blog/category/guide.html": {
   "date": "2026-10-12",
@@ -100,8 +100,8 @@
   "hash": "25ca912478c2e604025f47e17e251597104cfc589cf2f303ba98bc908b4a1b92"
  },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
-  "date": "2026-10-21",
-  "hash": "b25a46897ee4d1b4d15897c0fb84705347711f369919a44978a722206064fc33"
+  "date": "2026-10-22",
+  "hash": "4139b13063aa0df434c0074dd3a6c2b1af102fee6ea71604fe07aaf907cc55f0"
  },
  "blog/iguhome-stationery-experience-store.html": {
   "date": "2026-10-22",
@@ -112,20 +112,20 @@
   "hash": "3cfcb8014a3a9b14b0eaf812e661b0a2a68975772a569b7c121be035a6b5266f"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
-  "date": "2026-10-21",
-  "hash": "c5741f39174d9dc869b4bc1646e54ba9f3ccc730b515f166bca3074955825cb3"
+  "date": "2026-10-22",
+  "hash": "138ee47385757ef98be634cfa62e2449b131cafdc8bf8603906593c65f2f2a33"
  },
  "blog/kosme-november-loan-application-schedule.html": {
-  "date": "2026-10-21",
-  "hash": "a43e4aca36d4c72678dfe87aab2c2891673a577dae73617877d443cf8fd4fb84"
+  "date": "2026-10-22",
+  "hash": "9a3bb11024dd2aca7c77d480f2bd60fa1e8804f057fb85214af86d17da24c74d"
  },
  "blog/kosmes-growth-foundation.html": {
-  "date": "2026-10-21",
-  "hash": "3eb5b3be959fc6fb2fa16d67717746b75b26275e36a3fd036fd79ce700a6d4df"
+  "date": "2026-10-22",
+  "hash": "3fccc3bc3f94a20677d1483a2400a0cdcbb967bf1c4bebf85b15c9032e330121"
  },
  "blog/kosmes-startup-commercialization.html": {
-  "date": "2026-10-21",
-  "hash": "ac3deeb72cd9ae449068bfe4fe4866100e1b6c59ee518b6c5da9e91e7b23268d"
+  "date": "2026-10-22",
+  "hash": "cd4cf4d9c68d086d5881fd7d70c75eb6ca32c45764d1ac1391f9182f635f01d0"
  },
  "blog/loan-consultation-brief.html": {
   "date": "2026-10-12",
@@ -156,8 +156,8 @@
   "hash": "cd12de2a3214c28e0fd3e71a6659b9283904ce8bd7253e6fcc365ed4e915213c"
  },
  "blog/october-vulnerable-credit-loan-application.html": {
-  "date": "2026-10-21",
-  "hash": "d2b7f30adee26652f12123be389e6ffbbffeb5086631ca37b7d5d807fbb6fc26"
+  "date": "2026-10-22",
+  "hash": "c4debadafcbf2f444433b81214a0007fc324d2574fac2aa50673dedcd1a88de5"
  },
  "blog/oliveyoung-order-cancellation-customer-service.html": {
   "date": "2026-10-22",
@@ -172,8 +172,8 @@
   "hash": "bc53472e16d15d9308b842b9892e64810dd98290498480e319ad93e1ca7d9b86"
  },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
-  "date": "2026-10-21",
-  "hash": "e1a359258c970b8a01fc182ba5e1da3215cb0014d9d886250f59b29daab69c68"
+  "date": "2026-10-22",
+  "hash": "0d150f3e97aabf76849948dbb785e1ba6ef3c771cac9672ce50a684e86565ba8"
  },
  "blog/restaurant-brunch-small-test-madforgarlic.html": {
   "date": "2026-10-22",
@@ -183,9 +183,13 @@
   "date": "2026-10-22",
   "hash": "6690e3a7eb292e529f4436029a05a9d180145455b73e74ef8b6aeb7b0b668274"
  },
+ "blog/semas-current-ended-fund-rate-table.html": {
+  "date": "2026-10-21",
+  "hash": "4b1c17de1a889a9bdd7d15d2e5b61f3bc25f18b25aa1def87fb1b8ac41eacb40"
+ },
  "blog/skhynix-supplier-trade-finance-guarantee.html": {
-  "date": "2026-10-20",
-  "hash": "8ccd69d477852b547cd663006aee498dcc81296f95b0fe40046d13d97942d530"
+  "date": "2026-10-22",
+  "hash": "f00fbb991bb28fd4ce9c7eec87d20c2b382c1b4de0c1faa3db52041e5f4f9f2f"
  },
  "blog/small-cafe-seating-customer-flow.html": {
   "date": "2026-10-22",
@@ -196,12 +200,12 @@
   "hash": "7a6db3f7cf86e5ded936212a5ced72d2e0ec149b4a9d53b918392fab61d5723d"
  },
  "blog/support-programs.html": {
-  "date": "2026-10-21",
-  "hash": "27c40aca3ba23005449f4ab1a088f2c44557276adaa4d5930c73b903b101e031"
+  "date": "2026-10-22",
+  "hash": "76c65b53dc9c46d3937cc554d1c2c43a35dec94e2c26892afac0140d7fe086e8"
  },
  "blog/temporary-business-difficulty-loan-october-2026.html": {
-  "date": "2026-10-21",
-  "hash": "08513d7a68213062b2b05671d9a1d58ca23a862863db1ebded63828da1727906"
+  "date": "2026-10-22",
+  "hash": "d1fd6d6415c1b59fb0e2c5666e98891581b64b172b13fb5c16d24e6d281ff86d"
  },
  "blog/tesco-ai-meal-planner-customer-choice.html": {
   "date": "2026-10-22",
@@ -233,7 +237,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-22",
-  "hash": "95f311b746bf97c93c3745d9e58b3e4510487a55b96280915c5b688c1216144d"
+  "hash": "f01d85c1cfe816e073b865551e5744a4cfc5a74002714733d6cb87c6191ff98e"
  },
  "cases.html": {
   "date": "2026-09-13",
