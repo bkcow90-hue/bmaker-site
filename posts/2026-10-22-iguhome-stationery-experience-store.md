@@ -69,4 +69,3 @@ disclaimer: "회사 공개 자료를 바탕으로 한 사업 사례 해설입니
 
 [비즈니스 메이커 인스타그램 팔로우](https://www.instagram.com/bmaker_kr/)
 
-[무료 진단 예약하기](/#apply)
