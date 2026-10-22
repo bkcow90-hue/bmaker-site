@@ -46,6 +46,8 @@ URL_BLOCK = re.compile(r'<url>\s*<loc>([^<]+)</loc>.*?</url>', re.S)
 LASTMOD = re.compile(r'<lastmod>[^<]*</lastmod>')
 ASSET = re.compile(r'((?:src|href)="/assets/(?!fonts/)[\w./-]+\.(?:js|css))(?:\?v=[0-9a-f]+)?"')
 MAIN = re.compile(r'<main\b[^>]*>(.*?)</main>', re.S)
+RELATED = re.compile(r'<p class="related">.*?</p>', re.S)   # build_blog 의 '함께 보면 좋은 글' 목록
+BLOG_POST = re.compile(r'blog/(?!category/)[^/]+\.html')     # 블로그 글(목록·카테고리 제외)
 TITLE = re.compile(r'<title>(.*?)</title>', re.S)
 DESC = re.compile(r'<meta name="description" content="([^"]*)"')
 
@@ -55,8 +57,13 @@ def die(msg):
     sys.exit(1)
 
 
-def content_hash(s):
+def content_hash(s, key='', related=False):
     """갱신일 판정 범위 = 페이지 본문(<main>) + <title> + meta description. 스탬프는 제외.
+
+    블로그 글(blog/<slug>.html)은 '관련 글' 목록(<p class="related">)도 뺀다. 새 글이 하나 올라가면
+    같은 카테고리 글 10여 편의 관련 글 목록이 다시 만들어지는데, 그 글들의 내용은 그대로다.
+    2026-10-21~22 새 글 5편에 기존 글 34편의 날짜가 따라 올라갔다. related=True 는 이 규칙 이전의
+    해시(레지스트리 이전용)를 구할 때만 쓴다.
 
     공통 부품(헤더·내비·푸터)이나 페이지마다 복사돼 있는 <style> 블록을 한 번 손대면
     61개 페이지의 '최종 업데이트' 가 같은 날짜로 한꺼번에 올라간다. 실제로 바뀐 것은 공통
@@ -69,6 +76,8 @@ def content_hash(s):
     head = ' '.join(TITLE.findall(s) + DESC.findall(s))
     s = (m.group(1) if m else s) + '\n<!--head-->' + head
     s = STAMP.sub('', s)
+    if not related and BLOG_POST.fullmatch(key):
+        s = RELATED.sub('', s)
     s = WEBPAGE_LD.sub('', s)
     s = REVIEWED_LD.sub('', s)
     s = DATEMOD.sub('"dateModified":"-"', s)
@@ -231,12 +240,12 @@ def main():
     for p in pages:
         key = p.relative_to(ROOT).as_posix()
         s0 = p.read_text(encoding='utf-8')
-        h = content_hash(s0)
+        h = content_hash(s0, key)
         prev = reg.get(key)
         if p.name in LEDGER:
             date = led
-        elif prev and prev.get('hash') == h:
-            date = prev['date']
+        elif prev and prev.get('hash') in (h, content_hash(s0, key, related=True)):
+            date = prev['date']   # 두 번째 값: 관련 글 제외 이전에 기록된 해시 — 날짜를 유지한 채 새 해시로 옮긴다
         elif prev is None:
             date = git_date(key) or TODAY   # 최초 도입 — 스탬프가 없던 시점의 커밋일이 실제 갱신일
             seeded.append(key)
@@ -244,7 +253,7 @@ def main():
             date = TODAY
         out[key] = {'date': date, 'hash': h}
         s = stamp_assets(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date)))
-        if content_hash(s) != h:
+        if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
         if s != s0:
             p.write_text(s, encoding='utf-8')
