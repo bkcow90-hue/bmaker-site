@@ -59,7 +59,8 @@
 - 기관·제도명은 정식명칭(약어) 병기: 소상공인시장진흥공단(소진공).
 - 각 페이지에 "본 안내는 YYYY년 M월 기준". 푸터 "최종 업데이트"와 JSON-LD dateModified, sitemap lastmod는 build_lastmod가 자동 삽입 — 손으로 쓰지 않는다.
 - 날짜는 **실질적인 내용 변경과 확인 근거**를 반영한다. 단순 빌드로 전 페이지를 최신 정보처럼 표시하지 않는다.
-  build_lastmod 의 해시 범위(`<main>`·title·description)와 `data_date()` 가 그 장치다. 봇이 얕은 체크아웃으로
+  build_lastmod 의 해시 범위(`<main>`·title·description, 블로그 글은 관련 글 목록 `<p class="related">` 제외)와
+  `data_date()` 가 그 장치다. 새 글이 올라가 다른 글의 관련 글 목록만 바뀐 것은 내용 변경이 아니다. 봇이 얕은 체크아웃으로
   돌면 이 보장이 깨진다(2026-09-20 `6a099e9`).
 - 홈 head의 Google Search Console 소유권 메타태그는 영구 유지. 삭제 금지.
 - www → 루트 301(Cloudflare 리다이렉트 규칙, Preserve query string 켬). Netlify식 `/* / 301` 캐치올은 무한 리다이렉트 — 사용 금지.
@@ -194,7 +195,7 @@
 
 - 데이터 원본은 구글시트 3탭(원장·자금·재단). ledger 워크플로가 매시 동기화한다. 로컬 CSV·xlsx는 폴백이며 손으로 고치지 않는다. CRM 공개 원본은 실행액·실행일·공개승인과 익명화 필드가 확정된 CSV에 한해 별도 승인 후 `BMAKER_CRM_LEDGER_URL`로 연결할 수 있다. 설정 전에는 기존 시트를 유지한다. CRM 경로는 기존 원장을 보존하고 신규 공개 사례 ID만 추가한다. 기존 사례 변경·철회는 별도 검토로 처리한다. 모든 소스 검증과 빌드·테스트 성공 후에만 새 원본·산출물을 커밋한다. 실패에는 마지막 정상 원장을 보존하고 실패 단계·시각을 별도로 기록한다. 기존 실패는 데이터 변경 없이도 재시도한다.
 - 빌더 체인 순서: cases → funds → jaedan → region → gaein → consulting → jungjin → editorial → education → hubs → blog → build_lastmod. 마지막이 항상 build_lastmod. (pr-check·ledger 두 워크플로가 같은 순서)
-- 블로그(`/blog`, `tools/build_blog.py`): 원본은 `posts/YYYY-MM-DD-slug.md`(비공개). 날짜는 frontmatter(date·updated)만 쓰고 빌드일을 쓰지 않는다. 첫 문단 직답·작성자 줄·면책·기준일·FAQ↔FAQPage 일치는 빌더가 만든다. **블로그 제목은 자금 정식명으로 시작하지 않는다** — 자금 검색어는 자금 페이지 몫이고, 블로그는 상황·절차·사례 관점으로 쓴다(2026-10-04 WordPress 카니발 진단). 금칙어·비용 구조 문구가 있으면 빌더가 멈춘다. 검사 `tests/test_blog.py`. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
+- 블로그(`/blog`, `tools/build_blog.py`): 원본은 `posts/YYYY-MM-DD-slug.md`(비공개). 날짜는 frontmatter(date·updated)만 쓰고 빌드일을 쓰지 않는다. 첫 문단 직답·작성자 줄·면책·기준일·FAQ↔FAQPage 일치는 빌더가 만든다. **블로그 제목(frontmatter title)에 자금 정식명을 넣지 않는다** — 시작뿐 아니라 중간도 금지. 자금 검색어는 자금 페이지 몫이고, 블로그는 상황·질문·절차·사례 관점으로 쓴다(2026-10-04 WordPress 카니발 진단, 2026-10-22 포함 금지로 확대). 정식명 목록은 `build_funds.load()` 의 자금명이며 h2·본문의 정식명은 괜찮다. 글 본문(`<article>`) 안 내부 링크는 3개 이하 — 브레드크럼·관련 글·본문 CTA 는 세지 않는다(2026-10-22 이전 초과 7편은 `tests/test_blog.py` 의 예외 목록에 현재 개수로 고정). 금칙어·비용 구조 문구가 있으면 빌더가 멈춘다. 검사 `tests/test_blog.py`. HTML을 손으로 고치고 스탬퍼를 안 돌리면 pytest가 실패한다.
 - 날짜는 `tools/builddate.build_date()`만 쓴다. 빌더에서 date.today()·datetime.now()를 직접 호출하지 않는다.
 - CSS: 페이지마다 스타일 블록이 2~3개다. 첫 블록에 넣는 전역 규칙은 반드시 부모 선택자(.wrap/main/body)로 명시도를 올린다. 전파 순서: sojingong 첫 블록 + tools/cases_tpl.html → 8빌더 실행 → 남은 정적 페이지 일괄 치환.
 - 저장소 루트가 Worker 정적 에셋으로 통째로 서빙된다. 비공개 파일(문서·테스트·설정·지침)은 반드시 .assetsignore에 넣는다. 호스팅 설정은 wrangler.jsonc(not_found_handling=404-page)가 기준.
@@ -269,3 +270,5 @@
 - 2026-10-04 4절 고정 바 개정: 버튼 1개 → 신청 1개(크게, #234780) + 카톡·전화 작은 보조 아이콘, 전 페이지, 키보드·신청 창에서도 숨김. 신청은 그 자리 신청 창, 폼 없는 33장은 페이지 끝 간편 신청 폼, 긴 페이지 중간 버튼. 신청 버튼 한 색 #234780(인라인 폼 제출 버튼 #2454bc 포함). 설계 docs/superpowers/specs/2026-10-04-apply-everywhere-design.md. 승인: 대표 2026-10-04
 
 2026-10-06 발행 복구: 10/05 carousel 전용 본문 CTA 예외는 전 페이지 고정바 검사에도 반영한다. 기존 전용 템플릿의 홈 연결 링크 1개를 검증하며 폼·고정바를 추가하지 않는다. 일반 페이지 검사는 유지한다. 블로그 소제목은 본문보다 크게, 굵게 구분한다.
+
+- 2026-10-22 블로그 가드: ① build_lastmod 해시에서 블로그 글의 관련 글 목록 제외(10/21~22 새 글 5편에 기존 글 34편의 날짜가 따라 올라감 — 어긋난 날짜는 되돌리지 않고 다음 실제 수정 때 맞춘다) ② 블로그 제목 자금 정식명 '시작' 금지 → '포함' 금지 ③ 블로그 본문 내부 링크 3개 이하 검사. 브랜치 fix/blog-guard-1022 (PR 머지 = 승인)

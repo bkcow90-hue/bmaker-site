@@ -445,9 +445,16 @@ def page_titles():
 
 
 def fund_names():
-    with (ROOT / 'data/funds.source.csv').open(encoding='utf-8-sig', newline='') as f:
-        names = {re.sub(r'\(.*?\)', '', r['자금명']).strip() for r in csv.DictReader(f)}
+    """자금 정식명 — 자금 페이지 빌더가 읽는 행(build_funds.load)의 '자금명'. 괄호 속 세부 트랙은 뗀다."""
+    import build_funds   # 자금 목록을 따로 들고 있지 않는다 — 자금 페이지가 생기면 같이 막힌다
+    names = {re.sub(r'\(.*?\)', '', d['자금명']).strip() for d in build_funds.load()}
     return sorted(n for n in names if n)
+
+
+def fund_name_in(title, funds):
+    """제목에 자금 정식명이 들어 있으면 그 이름(띄어쓰기 무시). 시작뿐 아니라 중간에 있어도 잡는다."""
+    t = title.replace(' ', '')
+    return next((n for n in funds if n.replace(' ', '') in t), None)
 
 
 def check(posts):
@@ -458,10 +465,10 @@ def check(posts):
             m = find(text)
             if m:
                 die(f"{p['file']}: {why} '{m.group(0)}' — 문장을 고쳐 주세요.")
-        for n in funds:
-            if p['title'].replace(' ', '').startswith(n.replace(' ', '')):
-                die(f"{p['file']}: 제목이 자금 정식명 '{n}' 으로 시작합니다 — 자금 페이지 검색어를 다시 노리지 않도록 "
-                    f"상황·절차·사례 관점으로 제목을 바꿔 주세요.")
+        n = fund_name_in(p['title'], funds)
+        if n:
+            die(f"{p['file']}: 제목에 자금 정식명 '{n}' 이 들어 있습니다 — 자금 페이지 검색어를 다시 노리지 않도록 "
+                f"상황·질문 관점으로 제목을 바꿔 주세요(본문·소제목의 정식명은 괜찮습니다).")
         if p['title'] in titles:
             die(f"{p['file']}: 제목이 기존 페이지 {titles[p['title']]} 의 title 과 같습니다.")
     seen = {}
