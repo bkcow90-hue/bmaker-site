@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-23",
-  "hash": "a880bb30150b82377c2db8ead2cc11f9f1fa4f6a22155f88a372d90c0807fc3c"
+  "hash": "2497ae5b600ab5abc5797ae0986816e9c0bf14b95e7ae46279f4a715b3050da5"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -60,8 +60,8 @@
   "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-22",
-  "hash": "53c3798b5e679482772db36eb48e3fddc9f0d53c1a884edaba37d64ad0aef4bc"
+  "date": "2026-10-23",
+  "hash": "ba678330f59f0575229859ab1438706172180ee2729fb0d383f31fd74553effa"
  },
  "blog/category/guide.html": {
   "date": "2026-10-23",
@@ -138,6 +138,10 @@
  "blog/loan-impersonation-upfront-payment-warning.html": {
   "date": "2026-10-21",
   "hash": "ece76043997cfdbbf916e33a4e4ea3695ae504cc3fb8a81ac3470a6f0139c346"
+ },
+ "blog/manufacturing-operating-facility-loan.html": {
+  "date": "2026-10-23",
+  "hash": "1eb994e5fe3c8bbc63208c50375fee11ada4844d8686843354539b7a13e3bdba"
  },
  "blog/menu-ideas-from-customer-reviews.html": {
   "date": "2026-10-12",
@@ -241,7 +245,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-23",
-  "hash": "c0fe005e1fc063a622e9d47d382d9d1847309f01b46673450f03c098e92a78b7"
+  "hash": "8eb2e253b4fca6828beb1fdc6985b41fd13a5abf1e93978b2f75bb532a93e041"
  },
  "cases.html": {
   "date": "2026-10-22",
