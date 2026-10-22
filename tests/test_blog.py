@@ -5,9 +5,10 @@
 3. 금칙어·비용 구조 문구 0 (규격 1절·4절)
 4. 블로그의 내부 링크가 전부 저장소의 실제 페이지로 간다 (404 0)
 5. feed.xml 이 유효한 RSS 2.0 이고 글 수가 맞다
-6. 블로그 title 이 기존 페이지 title 과 겹치지 않고, 자금 정식명으로 시작하지 않는다 (카니발 방지)
+6. 블로그 title 이 기존 페이지 title 과 겹치지 않고, 자금 정식명을 포함하지 않는다 (카니발 방지)
 7. 첫 문단 직답·작성자 줄·면책·"본 안내는 YYYY년 M월 기준" (규격 1절·2절)
 8. sitemap·llms 등록, 사이트 어디에도 blog.bmaker.kr 링크가 남지 않는다
+9. 글 본문(<article>) 안 내부 링크 3개 이하 — 브레드크럼·관련 글·CTA 는 세지 않는다
 """
 import csv, html, json, re, sys
 import xml.etree.ElementTree as ET
@@ -115,9 +116,8 @@ def test_titles_do_not_compete_with_fund_pages():
     funds = B.fund_names()
     for p in LIVE:
         assert p['title'] not in taken, f"{p['file']}: 기존 페이지 {taken.get(p['title'])} 와 title 이 같다"
-        for n in funds:
-            assert not p['title'].replace(' ', '').startswith(n.replace(' ', '')), \
-                f"{p['file']}: 제목이 자금 정식명 '{n}' 으로 시작 — 자금 페이지 검색어를 다시 노린다"
+        n = B.fund_name_in(p['title'], funds)
+        assert not n, f"{p['file']}: 제목에 자금 정식명 '{n}' 포함 — 자금 페이지 검색어를 다시 노린다"
     titles = [p['title'] for p in LIVE]
     assert len(titles) == len(set(titles)), '블로그 제목 중복'
 
@@ -144,6 +144,40 @@ def test_article_contract(path):
     assert len(post) == 1 and post[0]['url'] == f'https://bmaker.kr/blog/{path.stem}', path.name
     crumbs = [d for d in lds(s) if d.get('@type') == 'BreadcrumbList']
     assert crumbs and crumbs[0]['itemListElement'][1]['item'] == 'https://bmaker.kr/blog', path.name
+
+
+BODY_LINK_MAX = 3
+# 2026-10-22 검사 도입 시점에 이미 넘던 글 — 지금 개수보다 늘지 못하게 고정한다.
+# 글을 고쳐 3개 이하가 되면 여기서 뺀다(남겨 두면 test_body_link_legacy_is_current 가 실패).
+BODY_LINK_LEGACY = {
+    'support-programs': 12,
+    '2027-kriss-technology-home-doctor': 5,
+    'kosmes-growth-foundation': 5,
+    'kosmes-startup-commercialization': 5,
+    '2026-october-regional-business-funding': 4,
+    'innovation-loan-smart-technology-use-2026-q4': 4,
+    'temporary-business-difficulty-loan-october-2026': 4,
+}
+
+
+def body_links(s):
+    """<article> 안의 내부 링크. 브레드크럼(히어로)·관련 글(별도 섹션)은 article 밖이고, 본문 CTA 는 뺀다."""
+    art = re.search(r'<article>(.*?)</article>', s, re.S).group(1)
+    art = re.sub(r'<p class="blog-cta">.*?</p>', '', art, flags=re.S)
+    return re.findall(r'<a\b[^>]*\bhref="((?:/(?!/)|https://bmaker\.kr)[^"]*)"', art)
+
+
+@pytest.mark.parametrize('path', PAGES, ids=lambda p: p.stem)
+def test_body_internal_links_at_most_three(path):
+    links = body_links(read(path))
+    cap = BODY_LINK_LEGACY.get(path.stem, BODY_LINK_MAX)
+    assert len(links) <= cap, f'{path.name}: 본문 내부 링크 {len(links)}개(상한 {cap}) {links}'
+
+
+def test_body_link_legacy_is_current():
+    over = {p.stem: len(body_links(read(p))) for p in PAGES}
+    stale = sorted(k for k in BODY_LINK_LEGACY if over.get(k, 0) <= BODY_LINK_MAX)
+    assert not stale, f'이제 {BODY_LINK_MAX}개 이하이거나 없는 글 — BODY_LINK_LEGACY 에서 빼세요: {stale}'
 
 
 def test_og_title_equals_title():

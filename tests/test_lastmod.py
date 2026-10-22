@@ -40,7 +40,7 @@ def test_registry_matches_pages():
     for p in pages():
         k = key(p)
         s = p.read_text(encoding='utf-8')
-        assert reg[k]['hash'] == B.content_hash(s), \
+        assert reg[k]['hash'] == B.content_hash(s, k), \
             f"{k}: 본문이 바뀌었는데 갱신일이 그대로 — python tools/build_lastmod.py 를 실행하세요"
         assert STAMP.findall(s)[0][0] == reg[k]['date'], f"{k}: 표시 날짜와 레지스트리 불일치"
 
