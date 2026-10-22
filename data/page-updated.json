@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-22",
-  "hash": "ee83dec8628082c6f1fbfe84ecd6357420b9b272534d279c54b9b53f757bfff5"
+  "date": "2026-10-23",
+  "hash": "a880bb30150b82377c2db8ead2cc11f9f1fa4f6a22155f88a372d90c0807fc3c"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -64,8 +64,8 @@
   "hash": "53c3798b5e679482772db36eb48e3fddc9f0d53c1a884edaba37d64ad0aef4bc"
  },
  "blog/category/guide.html": {
-  "date": "2026-10-12",
-  "hash": "0167ebfa5c9404de03ff2b65466957cbd3b919009a62e888fef8339b7badac6f"
+  "date": "2026-10-23",
+  "hash": "a00e897e3c04d59c4c6b8944ed7552884c34086e4573b1459a45cb80b45a853e"
  },
  "blog/category/news.html": {
   "date": "2026-10-21",
@@ -78,6 +78,10 @@
  "blog/customer-discount-request-quote-scope.html": {
   "date": "2026-10-12",
   "hash": "457e3a6390af6b405e7bf24534dcb444ede9f7c725bdf037ef37fc9aba21d4fe"
+ },
+ "blog/discount-contribution-margin-sales.html": {
+  "date": "2026-10-23",
+  "hash": "222977f71ee0a612ae1e200523863432e5e1477f3fbfc66d3fa0af75e09822ca"
  },
  "blog/employee-reporting-examples.html": {
   "date": "2026-10-12",
@@ -236,8 +240,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-22",
-  "hash": "f01d85c1cfe816e073b865551e5744a4cfc5a74002714733d6cb87c6191ff98e"
+  "date": "2026-10-23",
+  "hash": "c0fe005e1fc063a622e9d47d382d9d1847309f01b46673450f03c098e92a78b7"
  },
  "cases.html": {
   "date": "2026-10-22",
