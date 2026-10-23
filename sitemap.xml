@@ -57,7 +57,7 @@
 <url><loc>https://bmaker.kr/marketing</loc><lastmod>2026-10-04</lastmod></url>
 <url><loc>https://bmaker.kr/startup</loc><lastmod>2026-10-04</lastmod></url>
 <url><loc>https://bmaker.kr/work</loc><lastmod>2026-10-04</lastmod></url>
-<url><loc>https://bmaker.kr/business-guide</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://bmaker.kr/business-guide</loc><lastmod>2026-10-24</lastmod></url>
 <url><loc>https://bmaker.kr/online-ad-guide</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/blog-marketing-cost</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/viral-marketing-guide</loc><lastmod>2026-09-15</lastmod></url>
@@ -89,8 +89,8 @@
   <url><loc>https://bmaker.kr/region/jeonju</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/gimhae</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/pohang</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-10-23</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-10-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/fund</loc><lastmod>2026-10-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/news</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/2027-kriss-technology-home-doctor</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -148,4 +148,5 @@
   <url><loc>https://bmaker.kr/blog/semas-current-ended-fund-rate-table</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/discount-contribution-margin-sales</loc><lastmod>2026-10-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/manufacturing-operating-facility-loan</loc><lastmod>2026-10-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/additional-work-quote-agreement</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
