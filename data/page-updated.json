@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-24",
-  "hash": "16df9268e1f704006bb3c93c8ff4ae1494cc330a51497f09f7e6e57f0346921b"
+  "hash": "ff51d5808a06769277561218718b04ff400e32fd62240e6528dda891e3eb028f"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -39,6 +39,10 @@
   "date": "2026-10-12",
   "hash": "1fc9dc5987c0ce1fd2cf425ca2e23a395a2e3684ab15128765ddd84115f3bed8"
  },
+ "blog/additional-work-quote-agreement.html": {
+  "date": "2026-10-24",
+  "hash": "86f4bff95640a3fe1b5abdd663244970d06acb9ebd081bfff99f0d4804d37cb0"
+ },
  "blog/ai-shopping-product-information-consistency.html": {
   "date": "2026-10-12",
   "hash": "0617d66de7d908500ec93453fb99271b48cb21483ded75d07f3a108749716f2e"
@@ -64,8 +68,8 @@
   "hash": "3f38d7a6c193c6d031face4bc6dc317a65fd5523e91999931014deba8086cc98"
  },
  "blog/category/guide.html": {
-  "date": "2026-10-23",
-  "hash": "a00e897e3c04d59c4c6b8944ed7552884c34086e4573b1459a45cb80b45a853e"
+  "date": "2026-10-24",
+  "hash": "699b92b2241fe136309a445b310848e1f72be8ae17579cf4fe3c28eaf13a1f18"
  },
  "blog/category/news.html": {
   "date": "2026-10-21",
@@ -160,7 +164,7 @@
   "hash": "858bd5aa8486f17c2a7a8a820ae415167fe5c7f24f47195c3c5afdbede42bdfa"
  },
  "blog/new-business-operating-loan-eligibility.html": {
-  "date": "2026-10-24",
+  "date": "2026-10-23",
   "hash": "fe5721b4620905bb4f470690af992b7fb4fed20da4c958b734da77427f46d998"
  },
  "blog/new-card-merchant-fee-refund.html": {
@@ -249,7 +253,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-24",
-  "hash": "2e85877bac9894d7dd6e3d33d0627a652ad2f4a5c3aa81ef46fea0f187719009"
+  "hash": "fd2a7f55a088e9c4b3241cf9c03ed521e41b327e7fd1863b228c15a785b64f6e"
  },
  "cases.html": {
   "date": "2026-10-22",
