@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-23",
-  "hash": "2497ae5b600ab5abc5797ae0986816e9c0bf14b95e7ae46279f4a715b3050da5"
+  "date": "2026-10-24",
+  "hash": "16df9268e1f704006bb3c93c8ff4ae1494cc330a51497f09f7e6e57f0346921b"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -60,8 +60,8 @@
   "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-23",
-  "hash": "ba678330f59f0575229859ab1438706172180ee2729fb0d383f31fd74553effa"
+  "date": "2026-10-24",
+  "hash": "3f38d7a6c193c6d031face4bc6dc317a65fd5523e91999931014deba8086cc98"
  },
  "blog/category/guide.html": {
   "date": "2026-10-23",
@@ -159,6 +159,10 @@
   "date": "2026-10-20",
   "hash": "858bd5aa8486f17c2a7a8a820ae415167fe5c7f24f47195c3c5afdbede42bdfa"
  },
+ "blog/new-business-operating-loan-eligibility.html": {
+  "date": "2026-10-24",
+  "hash": "fe5721b4620905bb4f470690af992b7fb4fed20da4c958b734da77427f46d998"
+ },
  "blog/new-card-merchant-fee-refund.html": {
   "date": "2026-10-12",
   "hash": "8da26e71efdf8a5f975e03d45530c9ce7e9eefa406aec20094ebdf1aa93fb733"
@@ -244,8 +248,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-23",
-  "hash": "8eb2e253b4fca6828beb1fdc6985b41fd13a5abf1e93978b2f75bb532a93e041"
+  "date": "2026-10-24",
+  "hash": "2e85877bac9894d7dd6e3d33d0627a652ad2f4a5c3aa81ef46fea0f187719009"
  },
  "cases.html": {
   "date": "2026-10-22",
