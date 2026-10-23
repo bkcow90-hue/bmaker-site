@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-23",
-  "hash": "2497ae5b600ab5abc5797ae0986816e9c0bf14b95e7ae46279f4a715b3050da5"
+  "date": "2026-10-24",
+  "hash": "f951abac4f90338d23c6956a7c0d809f7d79acbdc9236a909c03f62b71f4b89d"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -39,6 +39,10 @@
   "date": "2026-10-12",
   "hash": "1fc9dc5987c0ce1fd2cf425ca2e23a395a2e3684ab15128765ddd84115f3bed8"
  },
+ "blog/additional-work-quote-agreement.html": {
+  "date": "2026-10-24",
+  "hash": "86f4bff95640a3fe1b5abdd663244970d06acb9ebd081bfff99f0d4804d37cb0"
+ },
  "blog/ai-shopping-product-information-consistency.html": {
   "date": "2026-10-12",
   "hash": "0617d66de7d908500ec93453fb99271b48cb21483ded75d07f3a108749716f2e"
@@ -64,8 +68,8 @@
   "hash": "ba678330f59f0575229859ab1438706172180ee2729fb0d383f31fd74553effa"
  },
  "blog/category/guide.html": {
-  "date": "2026-10-23",
-  "hash": "a00e897e3c04d59c4c6b8944ed7552884c34086e4573b1459a45cb80b45a853e"
+  "date": "2026-10-24",
+  "hash": "699b92b2241fe136309a445b310848e1f72be8ae17579cf4fe3c28eaf13a1f18"
  },
  "blog/category/news.html": {
   "date": "2026-10-21",
@@ -244,8 +248,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-23",
-  "hash": "8eb2e253b4fca6828beb1fdc6985b41fd13a5abf1e93978b2f75bb532a93e041"
+  "date": "2026-10-24",
+  "hash": "6fb7ad48e7885563b6260e7a46690b68e8c67cf14f1d20ba73d239fc2693096e"
  },
  "cases.html": {
   "date": "2026-10-22",
