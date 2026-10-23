@@ -436,6 +436,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [개업한 지 1년이 안 돼도 운영자금 대출을 신청할 수 있나요?](https://bmaker.kr/blog/new-business-operating-loan-eligibility): 업력은 무관하지만 공통 요건과 대출심사는 별도입니다.
 - [고객이 추가 작업을 요청하면 견적은 어떻게 답해야 할까요?](https://bmaker.kr/blog/additional-work-quote-agreement): 추가 작업의 범위·금액·납기를 함께 제안하세요.
 - [제조업 대출로 운영비 5억 원을 쓸 수 있나요?](https://bmaker.kr/blog/manufacturing-operating-facility-loan): 운전은 최대 1억 원, 시설은 최대 5억 원입니다.
 - [20% 할인하면 얼마나 더 팔아야 같은 금액이 남을까요?](https://bmaker.kr/blog/discount-contribution-margin-sales): 변동비에 따라 필요한 판매량이 달라집니다.
