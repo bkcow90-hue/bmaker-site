@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-25",
-  "hash": "0a16b2620549a496d31158a667434b7dc8d3793f94de77ccd8ce4a96ab78910c"
+  "hash": "275e3a2dcfb55c545f82ff1041c02c6f0c814c4db864018a345d8502afe7ceaf"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -64,8 +64,8 @@
   "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-24",
-  "hash": "3f38d7a6c193c6d031face4bc6dc317a65fd5523e91999931014deba8086cc98"
+  "date": "2026-10-25",
+  "hash": "c248e050068644bde5d2f8d40ed233ddd99ab3ca71d1f0e2d14b8ecee4b76756"
  },
  "blog/category/guide.html": {
   "date": "2026-10-24",
@@ -108,7 +108,7 @@
   "hash": "6f614942053d6188dc5a8c361825bb85fd504f9814e201f99350cb5fb6ac1de8"
  },
  "blog/happy-department-outdoor-festival-application.html": {
-  "date": "2026-10-25",
+  "date": "2026-10-24",
   "hash": "31fa30068d1e51de994a19c8f4875468d9e827e345477b44554ade9368fb1e68"
  },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
@@ -207,6 +207,10 @@
   "date": "2026-10-21",
   "hash": "90c0b1ed6c568879f53c7fe460da5de866b2a080c13cdbbee9068ae8eaabcf29"
  },
+ "blog/seocho-business-loan-interest-period.html": {
+  "date": "2026-10-25",
+  "hash": "bc0ed91905748fd6f04733980cf7071e41185808571e92cac97aa11eedd7c0e9"
+ },
  "blog/skhynix-supplier-trade-finance-guarantee.html": {
   "date": "2026-10-22",
   "hash": "405bd804f7188c3327bef59ea09b8d96a9626558302489413106713ef788e120"
@@ -257,7 +261,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-25",
-  "hash": "826f103fdc2a8431dc256733f0d60657526883f54236364f131454c3b2553d2a"
+  "hash": "495801e22635a84718bb5ffe3bbea95a9899877715bd04b16777f6c040479830"
  },
  "cases.html": {
   "date": "2026-10-24",
