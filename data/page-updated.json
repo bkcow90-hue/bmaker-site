@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-24",
-  "hash": "ff51d5808a06769277561218718b04ff400e32fd62240e6528dda891e3eb028f"
+  "date": "2026-10-25",
+  "hash": "3388d32ea487f263ff69f91aeb0b5297d46e225d5e6675a6f8c2222f7f1a051d"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -64,8 +64,8 @@
   "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-24",
-  "hash": "3f38d7a6c193c6d031face4bc6dc317a65fd5523e91999931014deba8086cc98"
+  "date": "2026-10-25",
+  "hash": "c248e050068644bde5d2f8d40ed233ddd99ab3ca71d1f0e2d14b8ecee4b76756"
  },
  "blog/category/guide.html": {
   "date": "2026-10-24",
@@ -203,6 +203,10 @@
   "date": "2026-10-21",
   "hash": "90c0b1ed6c568879f53c7fe460da5de866b2a080c13cdbbee9068ae8eaabcf29"
  },
+ "blog/seocho-business-loan-interest-period.html": {
+  "date": "2026-10-25",
+  "hash": "bc0ed91905748fd6f04733980cf7071e41185808571e92cac97aa11eedd7c0e9"
+ },
  "blog/skhynix-supplier-trade-finance-guarantee.html": {
   "date": "2026-10-22",
   "hash": "405bd804f7188c3327bef59ea09b8d96a9626558302489413106713ef788e120"
@@ -252,8 +256,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-24",
-  "hash": "fd2a7f55a088e9c4b3241cf9c03ed521e41b327e7fd1863b228c15a785b64f6e"
+  "date": "2026-10-25",
+  "hash": "7d12f03ff8ab642e4a2cae51131784face7315b7ad6e65d21b731827e45ee421"
  },
  "cases.html": {
   "date": "2026-10-24",
