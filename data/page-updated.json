@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-25",
-  "hash": "3388d32ea487f263ff69f91aeb0b5297d46e225d5e6675a6f8c2222f7f1a051d"
+  "hash": "275e3a2dcfb55c545f82ff1041c02c6f0c814c4db864018a345d8502afe7ceaf"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -72,8 +72,8 @@
   "hash": "699b92b2241fe136309a445b310848e1f72be8ae17579cf4fe3c28eaf13a1f18"
  },
  "blog/category/news.html": {
-  "date": "2026-10-21",
-  "hash": "d5b4968812e34c1d0032ade1a01dfa83de9cef85553dfb8e6ada72aed7aa489c"
+  "date": "2026-10-25",
+  "hash": "6e3fc98c63fa6b95c8feb41db12303f407bb3bed4dba033eecfa1ba2e1302930"
  },
  "blog/conditional-bad-debt-recognition-2026.html": {
   "date": "2026-10-21",
@@ -106,6 +106,10 @@
  "blog/guarantee-bank-questions.html": {
   "date": "2026-10-12",
   "hash": "6f614942053d6188dc5a8c361825bb85fd504f9814e201f99350cb5fb6ac1de8"
+ },
+ "blog/happy-department-outdoor-festival-application.html": {
+  "date": "2026-10-25",
+  "hash": "31fa30068d1e51de994a19c8f4875468d9e827e345477b44554ade9368fb1e68"
  },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
   "date": "2026-10-22",
@@ -257,7 +261,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-25",
-  "hash": "7d12f03ff8ab642e4a2cae51131784face7315b7ad6e65d21b731827e45ee421"
+  "hash": "495801e22635a84718bb5ffe3bbea95a9899877715bd04b16777f6c040479830"
  },
  "cases.html": {
   "date": "2026-10-24",
