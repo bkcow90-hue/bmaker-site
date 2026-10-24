@@ -1,4 +1,4 @@
-FAIL
-stage=fetch:INVALID_EXECUTION_MONTH
-last_success_at=2026-10-23T23:50:24+00:00
-failed_at=2026-10-24T05:51:43+00:00
+OK
+stage=complete
+last_success_at=2026-10-24T06:36:15+00:00
+failed_at=-
