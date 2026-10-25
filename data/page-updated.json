@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-26",
-  "hash": "4cd7efbe83e840091e6a6e78517a089d16bb0c5360c3c05608bbc24d7604a159"
+  "hash": "2df952f759462c6a14877f70d91fbe18a3b0a20ef0b4965e2b6ef4a8f503ee17"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -73,7 +73,7 @@
  },
  "blog/category/news.html": {
   "date": "2026-10-26",
-  "hash": "748d13142a5b0095dc82cf9a658fc21eabd74a3f50332050ae5f0880d7947e9e"
+  "hash": "7b8da0e0efeeb36c0d8aa8e7ec99d9e0d3ed47de2735e39a85ad55cac75d0465"
  },
  "blog/chungbuk-business-loan-interest-support.html": {
   "date": "2026-10-26",
@@ -102,6 +102,10 @@
  "blog/existing-business-loans-list.html": {
   "date": "2026-10-12",
   "hash": "8c3ee64bf11ab364d3121de363c39d3c6ba40ab1191884256963cd9606816294"
+ },
+ "blog/export-certification-support-payment-timing.html": {
+  "date": "2026-10-25",
+  "hash": "d7973b838fa78d93e8a91bfd5e5a7329e74ae351c4f1950e4e95e23693c33f34"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
   "date": "2026-10-22",
@@ -265,7 +269,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-26",
-  "hash": "e69b9889f040b5d9f0528b9c8ce4f75b3144c2a4ff9b914d60b6294c58294356"
+  "hash": "28a0d365d3ebaabe2d850b4bacbbe32c6dc850b509c1d68a08f4c2abc2045c94"
  },
  "cases.html": {
   "date": "2026-10-24",
