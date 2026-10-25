@@ -447,6 +447,7 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [충북 중소기업 운전자금, 1.8%p 지원이면 실제 금리는 어떻게 정해지나요?](https://bmaker.kr/blog/chungbuk-business-loan-interest-support): 은행금리에서 기본 1.8%p를 차감하는 구조입니다.
 - [서초구 중소기업 대출 연 0.8%는 언제까지 적용되나요?](https://bmaker.kr/blog/seocho-business-loan-interest-period): 연 0.8%는 올해 말까지, 이후 변동 가능합니다.
 - [백화점 야외 기획전은 상품만 보내면 참여할 수 있나요?](https://bmaker.kr/blog/happy-department-outdoor-festival-application): 판매 인원 상주와 행사 집기 준비가 필요합니다.
 - [개업한 지 1년이 안 돼도 운영자금 대출을 신청할 수 있나요?](https://bmaker.kr/blog/new-business-operating-loan-eligibility): 업력은 무관하지만 공통 요건과 대출심사는 별도입니다.
