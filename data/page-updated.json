@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-25",
-  "hash": "275e3a2dcfb55c545f82ff1041c02c6f0c814c4db864018a345d8502afe7ceaf"
+  "date": "2026-10-26",
+  "hash": "69c29b5f8c90f1c4bbe713ed9eb829681f85bd83ba511a66a0eb0f3a74fab7f7"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -72,8 +72,8 @@
   "hash": "699b92b2241fe136309a445b310848e1f72be8ae17579cf4fe3c28eaf13a1f18"
  },
  "blog/category/news.html": {
-  "date": "2026-10-25",
-  "hash": "6e3fc98c63fa6b95c8feb41db12303f407bb3bed4dba033eecfa1ba2e1302930"
+  "date": "2026-10-26",
+  "hash": "531afd61093c4d5add6cdf15fcd6fa20ec3bc914678d6fc415b7c33c17f9eb38"
  },
  "blog/conditional-bad-debt-recognition-2026.html": {
   "date": "2026-10-21",
@@ -98,6 +98,10 @@
  "blog/existing-business-loans-list.html": {
   "date": "2026-10-12",
   "hash": "8c3ee64bf11ab364d3121de363c39d3c6ba40ab1191884256963cd9606816294"
+ },
+ "blog/export-certification-support-payment-timing.html": {
+  "date": "2026-10-26",
+  "hash": "d7973b838fa78d93e8a91bfd5e5a7329e74ae351c4f1950e4e95e23693c33f34"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
   "date": "2026-10-22",
@@ -260,8 +264,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-25",
-  "hash": "495801e22635a84718bb5ffe3bbea95a9899877715bd04b16777f6c040479830"
+  "date": "2026-10-26",
+  "hash": "34d57e080fd51079ece0df979fb1931a63766a80f9db839de9a17452f5bbe28d"
  },
  "cases.html": {
   "date": "2026-10-24",
