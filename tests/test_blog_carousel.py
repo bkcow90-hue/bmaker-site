@@ -39,5 +39,8 @@ def test_carousel_pages_match_images_og_faq_and_cta():
         faq = next(x for x in data if x['@type'] == 'FAQPage')
         assert len(faq['mainEntity']) == 3
         assert page.count('>무료 진단 예약하기</a>') == 1
-        assert 'https://www.instagram.com/bmaker_kr/' in page
-        assert all(re.sub('<[^>]+>', '', h).endswith('?') for h in re.findall(r'<h2[^>]*>(.*?)</h2>', page, re.S))
+        # Instagram distribution was paused by the owner on 2026-10-25.
+        if str(p['date']) < '2026-10-25':
+            assert 'https://www.instagram.com/bmaker_kr/' in page
+        headings = [re.sub('<[^>]+>', '', h) for h in re.findall(r'<h2[^>]*>(.*?)</h2>', page, re.S)]
+        assert all(h.endswith('?') or h == '공식 출처' for h in headings)
