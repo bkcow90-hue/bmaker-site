@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-26",
-  "hash": "2df952f759462c6a14877f70d91fbe18a3b0a20ef0b4965e2b6ef4a8f503ee17"
+  "date": "2026-10-27",
+  "hash": "3f78a568289273c01d242ad34d0df361d71b0f85c48381021aa1d994bb185490"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -64,8 +64,8 @@
   "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-25",
-  "hash": "c248e050068644bde5d2f8d40ed233ddd99ab3ca71d1f0e2d14b8ecee4b76756"
+  "date": "2026-10-27",
+  "hash": "b9a73c96993b6006a88712a19ac0a8204553551fd03ac5a824c9e34e63b1e377"
  },
  "blog/category/guide.html": {
   "date": "2026-10-24",
@@ -82,6 +82,10 @@
  "blog/conditional-bad-debt-recognition-2026.html": {
   "date": "2026-10-21",
   "hash": "c3044afb5fce986c3dc498e37f61150c2cccbd95ea8e92622af5f8995d7bd378"
+ },
+ "blog/content-production-guarantee-funding-requirement.html": {
+  "date": "2026-10-27",
+  "hash": "155ab8fe862c9945e2b12c285932440136f78aa78204033efb14d6852d3dc2d7"
  },
  "blog/customer-discount-request-quote-scope.html": {
   "date": "2026-10-12",
@@ -268,8 +272,8 @@
   "hash": "5e9a73477b595a22abdb059e5d9ffea8c05a456d4b7a2648d967eb4c8229d663"
  },
  "business-guide.html": {
-  "date": "2026-10-26",
-  "hash": "28a0d365d3ebaabe2d850b4bacbbe32c6dc850b509c1d68a08f4c2abc2045c94"
+  "date": "2026-10-27",
+  "hash": "9b8353f37df7d2e5bbd199d532984053657379eeec13c4aafbe8ff43612fa407"
  },
  "cases.html": {
   "date": "2026-10-24",
