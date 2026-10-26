@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-27",
-  "hash": "3f78a568289273c01d242ad34d0df361d71b0f85c48381021aa1d994bb185490"
+  "hash": "2868d5ef945a1e1b81cf037f37259bcb969cd59348e72a57ce4339a38b2cfe46"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -72,8 +72,12 @@
   "hash": "699b92b2241fe136309a445b310848e1f72be8ae17579cf4fe3c28eaf13a1f18"
  },
  "blog/category/news.html": {
-  "date": "2026-10-26",
-  "hash": "7b8da0e0efeeb36c0d8aa8e7ec99d9e0d3ed47de2735e39a85ad55cac75d0465"
+  "date": "2026-10-27",
+  "hash": "d8ab603cefb88546787d247571933a0ba9c68df30abea1350796c6c308bc6b5b"
+ },
+ "blog/cheongju-prototype-voucher-payment-method.html": {
+  "date": "2026-10-27",
+  "hash": "d5b4b07a239fcb10e48bdc8d85c5fc108e91f96b84de7b7f80c1016623280182"
  },
  "blog/chungbuk-business-loan-interest-support.html": {
   "date": "2026-10-26",
@@ -273,7 +277,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-27",
-  "hash": "9b8353f37df7d2e5bbd199d532984053657379eeec13c4aafbe8ff43612fa407"
+  "hash": "cec7f0f9a5be1dcbf4ea785b443b7399a75031f30aeadd0cb976f84ed266e3fc"
  },
  "cases.html": {
   "date": "2026-10-24",
