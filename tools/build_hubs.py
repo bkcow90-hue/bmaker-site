@@ -19,6 +19,7 @@ from builddate import build_date, data_date          # noqa: F401  (build_date �
 from build_cases import hub_of, inst_bucket, won2
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 from reviewer import byline_html
+from service_consulting import SERVICES, STYLESHEET, hero_content, service_content
 
 REVIEWED = '2026-10-04'   # 대표 검토일 = PR #27 머지일(대표 2026-10-04: 월 아닌 YYYY-MM-DD) — 본문을 고치고 다시 검토받으면 함께 올린다
 
@@ -241,19 +242,22 @@ def build():
 <script type="application/ld+json">{faq_ld}</script>
 {style}
 {extra}
+{STYLESHEET}
 </head>
 <body data-service="policy">
 {hdr}
-<main>
-<section class="hero"><div class="wrap">
+<main class="sc-hub">
+<section class="hero sc-hero"><div class="wrap">
   <p class="crumb"><a href="/">홈</a> › {esc(cfg['name'])}</p>
-  <p class="hub-label">{esc(cfg['label'])}</p>
-  <h1 class="serif">{cfg['h1']}</h1>
-  <p class="hub-lead">{esc(cfg['lead'])}</p>
-  <a class="btn btn-hub-cta" id="heroCta" href="#apply" data-cta-location="hero" data-consultation-service="policy">무료 진단 신청</a>
+  {hero_content('<h1 class="serif">' + cfg['h1'] + '</h1>', '<p>' + esc(cfg['lead']) + '</p>', SERVICES[slug])}
+</div></section>
+<section class="block"><div class="wrap">
+  {service_content(SERVICES[slug])}
+  {form_html('/' + slug, cfg['name'], title=TITLE_GENERAL)}
 </div></section>
 
 <section class="block"><div class="wrap">
+  <h2 class="serif sc-guide-heading" id="sc-guide">대상과 신청 경로 안내</h2>
   <ul class="answers">{answers}</ul>
 </div></section>
 
@@ -278,9 +282,6 @@ def build():
   <p class="who">전담 상담팀이 상담하고 대표 김상표가 주요 검토와 진행 관리에 참여합니다.
   세무·노무·특허·법률 전문가와 상시 협업하며, 전문가 검토가 필요한 업무의 담당과 범위·비용은 사전에 안내합니다.</p>
 </div></section>
-
-<section class="block"><div class="wrap">
-{form_html('/' + slug, cfg['name'], title=TITLE_GENERAL)}</div></section>
 
 <section class="block"><div class="wrap">
   <h2 class="serif">함께 보면 좋은 안내</h2>

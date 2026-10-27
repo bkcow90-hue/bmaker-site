@@ -9,6 +9,7 @@ from pathlib import Path
 from builddate import build_date
 from inline_form import form_html, CSS as FORM_CSS
 from reviewer import byline_html
+from service_consulting import STYLESHEET, hero_content, service_content, region_config
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
@@ -124,6 +125,7 @@ def build():
         rc=region_cities(d['재단ID'])
         cities_html=('<h2>이 지역 도시별 창구</h2>\n<p>도시마다 담당 지점·소상공인지원센터·시 자체 자금 공고를 공식 출처와 함께 정리했습니다.</p>\n<ul>'
                      +''.join(f'<li><a href="/region/{cid}">{esc(name)} 소상공인 정책자금 창구</a></li>' for cid,name in rc)+'</ul>\n    ') if rc else ''   # 도시 없는 재단은 한 글자도 바뀌지 않게
+        consulting = region_config(d['지역(시도)'], d['재단명'])
         page=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -147,22 +149,25 @@ def build():
 <script type="application/ld+json">{faq_ld}</script>
 {style}
 {TBL}
+{STYLESHEET}
 </head>
 <body data-service="policy">
 {hdr}
-<section class="hero">
+<section class="hero sc-hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › <a href="/jaedan">신용보증재단</a> › {esc(d['재단명'])}</p>
-    <h1 class="serif">{esc(d['재단명'])} 사업자대출,<br class="pc"> 보증서로 은행 문턱을 넘습니다</h1>
-    <p>사업장이 {esc(d['지역(시도)'])}라면 이 재단이 창구입니다{memo}.</p>
+    {hero_content('<h1 class="serif">' + esc(d['재단명']) + ' 사업자대출,<br class="pc"> 보증서로 은행 문턱을 넘습니다</h1>', '<p>사업장이 ' + esc(d['지역(시도)']) + '라면 이 재단이 창구입니다' + memo + '.</p>', consulting)}
   </div>
 </section>
 <main>
   <div class="wrap">
+    {service_content(consulting)}
+    {inline_form}
+    <h2 class="sc-guide-heading" id="sc-guide">지역 재단 안내와 받은 사례</h2>
     <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업 등이 보증 상담을 확인할 기관입니다. 보증기관 심사와 은행 대출 심사는 구분되며 보증만으로 대출 실행이 확정되는 것은 아닙니다. 사업장 소재지뿐 아니라 업종·기업 규모·기존 보증·상품별 제외 조건을 확인하세요. 지자체 이차보전(이자 지원)은 해당 사업의 대상·예산·지원 기간에 따라 적용 여부가 달라집니다.</p>
     <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
     {meas}
-    {cities_html}{inline_form}
+{cities_html.rstrip()}
     <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="proof"><p><b>과거 사례는 현재 심사 결과와 다릅니다.</b> 기존 보증과 현재 사업 현황, 해당 상품의 요건을 확인해야 합니다. <a href="/geojeol">신청 전 확인할 사유와 준비 순서</a>를 참고하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
