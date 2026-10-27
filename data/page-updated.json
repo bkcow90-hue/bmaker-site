@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-28",
-  "hash": "f944393fdb8c1caa87d67d47825abc083217eaa7c74eb232d38661c656adcec0"
+  "hash": "205289b11aea074ab3ab6d67ae5e2d66fcb738c2719712a6911d8ce557b36270"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -65,7 +65,7 @@
  },
  "blog/category/fund.html": {
   "date": "2026-10-28",
-  "hash": "2a8662688157992da48e00c93555607e1c9b8375f439f3832df904c2ecbfc3b7"
+  "hash": "4f809410b53eb4820dad3a50b7657680b70d257d6267b69a38c31aa75075cff4"
  },
  "blog/category/guide.html": {
   "date": "2026-10-28",
@@ -219,6 +219,10 @@
   "date": "2026-10-12",
   "hash": "d641ac0b793ce32d7fb67942adbf7260b7e8b6d72a915764e508c990c79791e6"
  },
+ "blog/pyeongtaek-youth-guarantee-before-registration.html": {
+  "date": "2026-10-28",
+  "hash": "99dc054145fb40bf12e8844ea1114c00d1b5d6e33bedaeaf999422e08f28f58d"
+ },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
   "date": "2026-10-22",
   "hash": "ed036b75479050d479a47cf13d2eba54a86126f9e6bcd1e308a9cb4b72fd9b49"
@@ -293,7 +297,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-28",
-  "hash": "43b4b68032be66c086f6ca2732a01081fc89b9a4f46d6007aca5b43f081af056"
+  "hash": "bb454c7c59386fff5e6677b37dbc5215156226b85b1487fbd54508f0f24a9e80"
  },
  "cases.html": {
   "date": "2026-10-24",
