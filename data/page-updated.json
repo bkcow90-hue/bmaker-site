@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-28",
-  "hash": "74e161e54ff425777bb7238671c4039070a8a975df730ded935d739acd44598a"
+  "hash": "a976ea8327fb1dd63ed5e20361db321d9524fbf50fd0d8e1ac8cd3cb9a11c5a6"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -51,6 +51,10 @@
   "date": "2026-10-12",
   "hash": "9fee4d24c47111678927b145d4ac8437357819465c898c9ea7459a3b5206f7b7"
  },
+ "blog/anseong-card-fee-support-sales-limit.html": {
+  "date": "2026-10-28",
+  "hash": "b2abbf292dc47a9b2bcb6355035162f1db0cf90b90761f0ed57b86ae5e2c4e6e"
+ },
  "blog/application-supplement-log.html": {
   "date": "2026-10-12",
   "hash": "0418c5e102271c64bedf174aa790d3890e860e92805b1227dfdefd5286babec3"
@@ -65,7 +69,7 @@
  },
  "blog/category/fund.html": {
   "date": "2026-10-28",
-  "hash": "2a8662688157992da48e00c93555607e1c9b8375f439f3832df904c2ecbfc3b7"
+  "hash": "4f809410b53eb4820dad3a50b7657680b70d257d6267b69a38c31aa75075cff4"
  },
  "blog/category/guide.html": {
   "date": "2026-10-28",
@@ -73,7 +77,7 @@
  },
  "blog/category/news.html": {
   "date": "2026-10-28",
-  "hash": "f96e08220ca7127631a95f3fb713873c52c467cfba4ca7e2fe1c0c15f9e21b40"
+  "hash": "1c39f1321e87ce40a1617aef82aa88d86e1acbb4ca12fb64f9e7ab54b990e6ff"
  },
  "blog/category/startup.html": {
   "date": "2026-10-28",
@@ -184,7 +188,7 @@
   "hash": "7fc94620cf7f80787e282f225934bc05eaa54747e6a7b0f84700d84c662e476d"
  },
  "blog/midlife-unmanned-startup.html": {
-  "date": "2026-10-28",
+  "date": "2026-10-27",
   "hash": "c3880150006b666cc3a9d8599296d6cb8eb782ed0c79158ff8af375d4a7b613f"
  },
  "blog/mty-store-closures-expansion-decision.html": {
@@ -223,6 +227,10 @@
   "date": "2026-10-12",
   "hash": "d641ac0b793ce32d7fb67942adbf7260b7e8b6d72a915764e508c990c79791e6"
  },
+ "blog/pyeongtaek-youth-guarantee-before-registration.html": {
+  "date": "2026-10-28",
+  "hash": "99dc054145fb40bf12e8844ea1114c00d1b5d6e33bedaeaf999422e08f28f58d"
+ },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
   "date": "2026-10-22",
   "hash": "ed036b75479050d479a47cf13d2eba54a86126f9e6bcd1e308a9cb4b72fd9b49"
@@ -256,7 +264,7 @@
   "hash": "79b58b4fd6e30bf82b63ca05e0836cdd34926b7520f4f953a22aea9f74a8563d"
  },
  "blog/startup-location-analysis.html": {
-  "date": "2026-10-28",
+  "date": "2026-10-27",
   "hash": "3df0588fb74a77742c787a585a85159cc30ae160dc02670513fd01698371c3de"
  },
  "blog/startup-total-budget-checklist.html": {
@@ -301,7 +309,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-28",
-  "hash": "77464ea11c41d7758d7432b2cca4a04b916c3470dd18373ff8b1b416b7e6849f"
+  "hash": "23082a2e1340ecc0f2b6c193becf1e9fc825a28537b3804b538defabd7649f83"
  },
  "cases.html": {
   "date": "2026-10-24",
