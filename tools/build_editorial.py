@@ -5,6 +5,7 @@ import json
 import re
 import csv
 from builddate import build_date
+from startup_page import build as build_startup
 
 ROOT = Path(__file__).resolve().parents[1]
 ITEMS = json.loads((ROOT / 'docs/editorial-content.json').read_text(encoding='utf-8'))
@@ -169,6 +170,8 @@ def main():
         path = ROOT / (slug + '.html')
         page = replace_block(path.read_text(encoding='utf-8'), 'topic-directory', topic_links(links, heading))
         path.write_text(stylesheet(page), encoding='utf-8')
+
+    build_startup()
 
     path = ROOT / 'sitemap.xml'
     sitemap = path.read_text(encoding='utf-8')

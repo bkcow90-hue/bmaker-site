@@ -62,7 +62,7 @@ def test_no_other_page_gained_a_form():
     # 블로그 목록(blog.html)도 허브와 같은 인라인 폼 1개 — 글·카테고리 페이지(blog/**)는 루트 glob 밖이라 여기서 세지 않는다
     # 지역별 창구 목록(region.html, build_region)도 도시 페이지와 같은 인라인 폼 1개(2026-10-04)
     # 2026-10-27: 보증·인증 페이지의 기존 JS 삽입 폼을 업무 안내 직후 정적 폼으로 옮겼다.
-    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog", "region", "bojeung", "certification"}
+    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog", "region", "bojeung", "certification", "startup"}
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 
@@ -207,7 +207,7 @@ def test_foundation_hub_form_also_submits(browser, site):
     assert payload["diagnosis"]["사업자 형태"] == "법인사업자"
 
 
-@pytest.mark.parametrize("slug,service", [("bojeung", "policy"), ("certification", "certification")])
+@pytest.mark.parametrize("slug,service", [("bojeung", "policy"), ("certification", "certification"), ("startup", "startup"), ("blog/franchise-comparison-sales-profit", "startup")])
 def test_service_forms_keep_the_correct_inquiry_category(browser, site, slug, service):
     payload, _, message = _submit(browser, site, slug)
     assert payload["consultation_service"] == service

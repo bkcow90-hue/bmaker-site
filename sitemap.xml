@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://bmaker.kr/</loc><lastmod>2026-10-27</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://bmaker.kr/</loc><lastmod>2026-10-28</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://bmaker.kr/sojingong</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bmaker.kr/jungjingong</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bmaker.kr/bojeung</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -55,13 +55,13 @@
   <url><loc>https://bmaker.kr/consulting</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://bmaker.kr/funding</loc><lastmod>2026-10-04</lastmod></url>
 <url><loc>https://bmaker.kr/marketing</loc><lastmod>2026-10-04</lastmod></url>
-<url><loc>https://bmaker.kr/startup</loc><lastmod>2026-10-04</lastmod></url>
+<url><loc>https://bmaker.kr/startup</loc><lastmod>2026-10-28</lastmod></url>
 <url><loc>https://bmaker.kr/work</loc><lastmod>2026-10-04</lastmod></url>
-<url><loc>https://bmaker.kr/business-guide</loc><lastmod>2026-10-27</lastmod></url>
+<url><loc>https://bmaker.kr/business-guide</loc><lastmod>2026-10-28</lastmod></url>
 <url><loc>https://bmaker.kr/online-ad-guide</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/blog-marketing-cost</loc><lastmod>2026-09-15</lastmod></url>
 <url><loc>https://bmaker.kr/viral-marketing-guide</loc><lastmod>2026-09-15</lastmod></url>
-<url><loc>https://bmaker.kr/startup-consulting-cost</loc><lastmod>2026-09-15</lastmod></url>
+<url><loc>https://bmaker.kr/startup-consulting-cost</loc><lastmod>2026-10-28</lastmod></url>
 <url><loc>https://bmaker.kr/education</loc><lastmod>2026-10-04</lastmod></url>
 <url><loc>https://bmaker.kr/education-program</loc><lastmod>2026-09-28</lastmod></url>
 <url><loc>https://bmaker.kr/corporate-loan-documents</loc><lastmod>2026-09-28</lastmod></url>
@@ -89,10 +89,10 @@
   <url><loc>https://bmaker.kr/region/jeonju</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/gimhae</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/pohang</loc><lastmod>2026-10-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/fund</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/news</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/fund</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/news</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/2027-kriss-technology-home-doctor</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/2026-october-regional-business-funding</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/2026-kodit-woori-youth-guarantee</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -119,7 +119,7 @@
   <url><loc>https://bmaker.kr/blog/product-page-repeated-questions</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/ai-store-closure-notice</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/customer-discount-request-quote-scope</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/case</loc><lastmod>2026-10-22</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/case</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/small-cafe-seating-customer-flow</loc><lastmod>2026-10-22</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/restaurant-corporate-meal-order-capacity</loc><lastmod>2026-10-22</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/ai-shopping-product-information-consistency</loc><lastmod>2026-10-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -156,4 +156,8 @@
   <url><loc>https://bmaker.kr/blog/export-certification-support-payment-timing</loc><lastmod>2026-10-25</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/content-production-guarantee-funding-requirement</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/cheongju-prototype-voucher-payment-method</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/startup</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/startup-total-budget-checklist</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/midlife-startup-choice</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog/franchise-comparison-sales-profit</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

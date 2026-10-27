@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-10-27",
-  "hash": "2868d5ef945a1e1b81cf037f37259bcb969cd59348e72a57ce4339a38b2cfe46"
+  "date": "2026-10-28",
+  "hash": "f944393fdb8c1caa87d67d47825abc083217eaa7c74eb232d38661c656adcec0"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -60,20 +60,24 @@
   "hash": "201cb7bd64ad5116ac2c6fe2b82641908c4fd894b228e2e2bae93eebf188f212"
  },
  "blog/category/case.html": {
-  "date": "2026-10-22",
-  "hash": "8c25f2669c2d17883ee5ef962dce86af29fa16be9b176a4850f63d729b88451a"
+  "date": "2026-10-28",
+  "hash": "620f9bec84709b6c6da273d1035cf2969cf675a8b53851634a14533c0631b2ee"
  },
  "blog/category/fund.html": {
-  "date": "2026-10-27",
-  "hash": "b9a73c96993b6006a88712a19ac0a8204553551fd03ac5a824c9e34e63b1e377"
+  "date": "2026-10-28",
+  "hash": "2a8662688157992da48e00c93555607e1c9b8375f439f3832df904c2ecbfc3b7"
  },
  "blog/category/guide.html": {
-  "date": "2026-10-24",
-  "hash": "699b92b2241fe136309a445b310848e1f72be8ae17579cf4fe3c28eaf13a1f18"
+  "date": "2026-10-28",
+  "hash": "851309ee006f94e2aff041c79567fbcf7bbaff42a9bf039db486348d1b2dceb6"
  },
  "blog/category/news.html": {
-  "date": "2026-10-27",
-  "hash": "d8ab603cefb88546787d247571933a0ba9c68df30abea1350796c6c308bc6b5b"
+  "date": "2026-10-28",
+  "hash": "f96e08220ca7127631a95f3fb713873c52c467cfba4ca7e2fe1c0c15f9e21b40"
+ },
+ "blog/category/startup.html": {
+  "date": "2026-10-28",
+  "hash": "7aee2e983f0ffbdbb9794c0e66a7f985179cdf9f4f60f958b745de3929b21912"
  },
  "blog/cheongju-prototype-voucher-payment-method.html": {
   "date": "2026-10-27",
@@ -114,6 +118,10 @@
  "blog/export-certification-support-payment-timing.html": {
   "date": "2026-10-25",
   "hash": "d7973b838fa78d93e8a91bfd5e5a7329e74ae351c4f1950e4e95e23693c33f34"
+ },
+ "blog/franchise-comparison-sales-profit.html": {
+  "date": "2026-10-28",
+  "hash": "0888710586af62ef4f42823e17f9867787aa22b24e3a48f15ad4a5495683f699"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
   "date": "2026-10-22",
@@ -170,6 +178,10 @@
  "blog/menu-ideas-from-customer-reviews.html": {
   "date": "2026-10-12",
   "hash": "51db451f161469870baff335749b57cc4cf74322d46fa275d60bb45cedeb3aa9"
+ },
+ "blog/midlife-startup-choice.html": {
+  "date": "2026-10-28",
+  "hash": "b9a34dbbb4ddb6d1e5f9dd0b4956b14b78957d9294518e3742ab4b54367bf095"
  },
  "blog/mty-store-closures-expansion-decision.html": {
   "date": "2026-10-22",
@@ -239,6 +251,10 @@
   "date": "2026-10-12",
   "hash": "79b58b4fd6e30bf82b63ca05e0836cdd34926b7520f4f953a22aea9f74a8563d"
  },
+ "blog/startup-total-budget-checklist.html": {
+  "date": "2026-10-28",
+  "hash": "fbbcf6d8ac9416210c1f1ca7926d08b882eaf82d61375b7834aed6af0c33b1ef"
+ },
  "blog/support-programs.html": {
   "date": "2026-10-22",
   "hash": "07cbd28f2e4af49c4062a1c9c346845ae5c3ee6ae7a00302c86ab7541900e30b"
@@ -276,8 +292,8 @@
   "hash": "c488cac97ccf06c8fe5a0b298c174d40bd3d26c3344ba99bd815216fdb03de66"
  },
  "business-guide.html": {
-  "date": "2026-10-27",
-  "hash": "cec7f0f9a5be1dcbf4ea785b443b7399a75031f30aeadd0cb976f84ed266e3fc"
+  "date": "2026-10-28",
+  "hash": "43b4b68032be66c086f6ca2732a01081fc89b9a4f46d6007aca5b43f081af056"
  },
  "cases.html": {
   "date": "2026-10-24",
@@ -368,8 +384,8 @@
   "hash": "7475e19800260617ef75015a3eac02b06ecde13520b0affe66d35dd938e9d65a"
  },
  "index.html": {
-  "date": "2026-10-27",
-  "hash": "7d88af4fe8238ce269930a37e907d267a1627b9b4748d7df81fdff6a8b2af775"
+  "date": "2026-10-28",
+  "hash": "0d6363d4a139e8afe39a377754e64e8271ada3c6bc0d88cfeece84e06fca330f"
  },
  "industry/eumsikjeom.html": {
   "date": "2026-09-28",
@@ -604,12 +620,12 @@
   "hash": "f95ff8e64f8d9db7ee60ea080df2f0f08dc99149c389469cec1761ed061a12f6"
  },
  "startup-consulting-cost.html": {
-  "date": "2026-09-15",
-  "hash": "38a2b854e8473459bb84436b1584530914e31a6b1b656e3e6fa28982f962acf3"
+  "date": "2026-10-28",
+  "hash": "132e1147028ec38be0fd9f936f27185b1e6b450209359432a9a2a88bf591b343"
  },
  "startup.html": {
-  "date": "2026-10-04",
-  "hash": "6f2a5bf5e117edaa044b4e4814207a99afb64e4076b2afc9b74be1275034f795"
+  "date": "2026-10-28",
+  "hash": "63896284a0773443217e20a47f7739eb65d0656563c694de2d60b3aaffaaa77b"
  },
  "stats.html": {
   "date": "2026-09-28",
