@@ -91,7 +91,8 @@ def test_hidden_page_field_identifies_the_source_page():
 def test_page_marks_policy_service_so_form_opens_as_policy():
     for slug in ("cheongnyeon", "jaedan-seoul", "jaedan"):
         s = (ROOT / f"{slug}.html").read_text(encoding="utf-8")
-        assert '<body data-service="policy">' in s, slug
+        body = re.search(r'<body\b[^>]*>', s)
+        assert body and re.search(r'\sdata-service="policy"(?=\s|>)', body.group()), slug
 
 
 def test_bottom_cta_points_at_the_on_page_form():
