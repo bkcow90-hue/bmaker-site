@@ -1,0 +1,24 @@
+/* Homepage: operating principles and the work a client can commission. */
+main .trust-section{padding:64px 0;background:#f1f5fa;color:#182a44}
+main .trust-intro{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-bottom:32px}
+main .trust-intro h2,main .value-heading{font-size:clamp(26px,3vw,38px);line-height:1.5;margin:8px 0 18px}
+main .trust-intro p{line-height:1.85;color:#41516a}
+main .trust-list{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+main .trust-list article{padding:24px 0;border-top:1px solid #bac8da}
+main .trust-list h3{font-size:20px;margin:0 0 10px}
+main .trust-list p{line-height:1.8;color:#41516a;margin:0 0 12px}
+main .trust-section a,main .value-section a{color:#234780;text-decoration:underline;text-underline-offset:4px;font-weight:700}
+main .trust-note{border-left:3px solid #234780;padding:10px 18px;margin-top:24px;line-height:1.8}
+main .value-section{padding:64px 0;background:#fff}
+main .value-row{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:30px;padding:26px 0;border-top:1px solid #c8d0dc;align-items:start}
+main .value-row h3{font-size:20px;margin:0;line-height:1.6}
+main .value-row p{margin:0;line-height:1.8;color:#41516a}
+main .value-result{background:#f1f5fa;padding:14px 18px!important;color:#182a44!important}
+main .value-result b{display:block;margin-bottom:5px}
+main .value-fit{margin-top:28px;max-width:800px;line-height:1.8}
+main .other-services{margin-top:22px;padding:18px 0;border-top:1px solid #c8d0dc}
+main .other-services summary{cursor:pointer;font-weight:700;padding:8px 0}
+main .other-services p{line-height:1.8;margin-top:12px}
+main .trust-section a:focus-visible,main .value-section a:focus-visible,main .other-services summary:focus-visible{outline:3px solid #234780;outline-offset:5px}
+main #faq{scroll-margin-top:100px}
+@media(max-width:680px){main .trust-section,main .value-section{padding:40px 0}main .trust-intro,main .trust-list,main .value-row{grid-template-columns:1fr;gap:16px}main .trust-intro{margin-bottom:20px}main .trust-list article{padding:20px 0}main .value-row{padding:22px 0}main .trust-intro p,main .trust-list p,main .value-row p,main .value-fit{font-size:16px}main .trust-list{gap:0}main .trust-note{padding:8px 14px}}
