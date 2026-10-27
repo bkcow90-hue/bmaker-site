@@ -582,7 +582,7 @@ def build_index(posts, cats, style, hdr, foot, category=None):
     if category:
         label, lead = CATEGORIES[category]
         url, path = f'{SITE}/blog/category/{category}', f'/blog/category/{category}'
-        title = f'{label} — 창업 준비 가이드' if category == 'startup' else f'{label} — 정책자금 실무 블로그'
+        title = '프랜차이즈 비교·창업비용·중장년 창업 가이드' if category == 'startup' else f'{label} — 정책자금 실무 블로그'
         mine = [p for p in posts if p['category'] == category]
         crumb = f'<a href="/">홈</a> › <a href="/blog">블로그</a> › {esc(label)}'
         items = [('홈', SITE + '/'), ('블로그', SITE + '/blog'), (label, url)]
@@ -614,6 +614,13 @@ def build_index(posts, cats, style, hdr, foot, category=None):
             page += ('<section class="block" id="business-start"><div class="wrap"><h2 class="serif">프랜차이즈 비교·창업비용·중장년 창업</h2>'
                      '<p>어떤 브랜드를 고를지, 얼마를 준비할지, 직접 운영할 수 있을지를 질문별로 살펴보세요.</p>'
                      '<p><a href="/startup">내 지역·예산에 맞는 창업 비교 서비스 →</a></p>'
+                     '<nav aria-label="창업 질문별 안내"><ul class="checklist">'
+                     '<li><a href="/blog/franchise-comparison-sales-profit">브랜드 비교: 평균 매출과 비용을 어떻게 읽나요?</a></li>'
+                     '<li><a href="/blog/startup-total-budget-checklist">창업비용: 본사 견적 외에 무엇을 준비하나요?</a></li>'
+                     '<li><a href="/blog/startup-location-analysis">상권분석: 고객·입지·현장을 어떻게 확인하나요?</a></li>'
+                     '<li><a href="/blog/midlife-startup-choice">중장년 창업: 퇴직 후 업종을 어떻게 고르나요?</a></li>'
+                     '<li><a href="/blog/midlife-unmanned-startup">무인창업: 혼자 관리할 수 있는지 어떻게 판단하나요?</a></li>'
+                     '</ul></nav><h3>최근 창업 가이드</h3>'
                      + post_list(startup_posts[:3]) + '</div></section>')
     page += f'''<section class="block"><div class="wrap">
   {cats_nav(cats, category)}

@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-28",
-  "hash": "f944393fdb8c1caa87d67d47825abc083217eaa7c74eb232d38661c656adcec0"
+  "hash": "74e161e54ff425777bb7238671c4039070a8a975df730ded935d739acd44598a"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -77,7 +77,7 @@
  },
  "blog/category/startup.html": {
   "date": "2026-10-28",
-  "hash": "7aee2e983f0ffbdbb9794c0e66a7f985179cdf9f4f60f958b745de3929b21912"
+  "hash": "3ca853609913afa873d3e9f09f15416be2f590d9c1c25d3a65f446c58592f974"
  },
  "blog/cheongju-prototype-voucher-payment-method.html": {
   "date": "2026-10-27",
@@ -121,7 +121,7 @@
  },
  "blog/franchise-comparison-sales-profit.html": {
   "date": "2026-10-28",
-  "hash": "0888710586af62ef4f42823e17f9867787aa22b24e3a48f15ad4a5495683f699"
+  "hash": "0ae4284da8a664ce064a08bac1d1d2087b2556685bb234417f83ee03ffc565db"
  },
  "blog/gu-product-focus-profit-business-insight.html": {
   "date": "2026-10-22",
@@ -181,7 +181,11 @@
  },
  "blog/midlife-startup-choice.html": {
   "date": "2026-10-28",
-  "hash": "b9a34dbbb4ddb6d1e5f9dd0b4956b14b78957d9294518e3742ab4b54367bf095"
+  "hash": "7fc94620cf7f80787e282f225934bc05eaa54747e6a7b0f84700d84c662e476d"
+ },
+ "blog/midlife-unmanned-startup.html": {
+  "date": "2026-10-28",
+  "hash": "c3880150006b666cc3a9d8599296d6cb8eb782ed0c79158ff8af375d4a7b613f"
  },
  "blog/mty-store-closures-expansion-decision.html": {
   "date": "2026-10-22",
@@ -251,6 +255,10 @@
   "date": "2026-10-12",
   "hash": "79b58b4fd6e30bf82b63ca05e0836cdd34926b7520f4f953a22aea9f74a8563d"
  },
+ "blog/startup-location-analysis.html": {
+  "date": "2026-10-28",
+  "hash": "3df0588fb74a77742c787a585a85159cc30ae160dc02670513fd01698371c3de"
+ },
  "blog/startup-total-budget-checklist.html": {
   "date": "2026-10-28",
   "hash": "fbbcf6d8ac9416210c1f1ca7926d08b882eaf82d61375b7834aed6af0c33b1ef"
@@ -293,7 +301,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-28",
-  "hash": "43b4b68032be66c086f6ca2732a01081fc89b9a4f46d6007aca5b43f081af056"
+  "hash": "77464ea11c41d7758d7432b2cca4a04b916c3470dd18373ff8b1b416b7e6849f"
  },
  "cases.html": {
   "date": "2026-10-24",
@@ -625,7 +633,7 @@
  },
  "startup.html": {
   "date": "2026-10-28",
-  "hash": "63896284a0773443217e20a47f7739eb65d0656563c694de2d60b3aaffaaa77b"
+  "hash": "c015a9186d17d023b0abb1feb9af035690b89355e504415c611c919e846f3e5f"
  },
  "stats.html": {
   "date": "2026-09-28",
