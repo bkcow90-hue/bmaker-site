@@ -61,7 +61,8 @@ def test_no_other_page_gained_a_form():
     # 홈 + 자금·재단 33장 + 분기별 접수 안내(자체 폼을 가진 정적 페이지)
     # 블로그 목록(blog.html)도 허브와 같은 인라인 폼 1개 — 글·카테고리 페이지(blog/**)는 루트 glob 밖이라 여기서 세지 않는다
     # 지역별 창구 목록(region.html, build_region)도 도시 페이지와 같은 인라인 폼 1개(2026-10-04)
-    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog", "region"}
+    # 2026-10-27: 보증·인증 페이지의 기존 JS 삽입 폼을 업무 안내 직후 정적 폼으로 옮겼다.
+    expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog", "region", "bojeung", "certification"}
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 
@@ -204,6 +205,30 @@ def test_foundation_hub_form_also_submits(browser, site):
     payload, _, _ = _submit(browser, site, "jaedan")
     assert payload["diagnosis"]["유입 페이지"] == "/jaedan (신용보증재단 사업자대출)"
     assert payload["diagnosis"]["사업자 형태"] == "법인사업자"
+
+
+@pytest.mark.parametrize("slug,service", [("bojeung", "policy"), ("certification", "certification")])
+def test_service_forms_keep_the_correct_inquiry_category(browser, site, slug, service):
+    payload, _, message = _submit(browser, site, slug)
+    assert payload["consultation_service"] == service
+    assert payload["diagnosis"]["유입 페이지"].startswith('/' + slug + ' (')
+    assert "접수됐습니다" in message
+
+
+@pytest.mark.parametrize("slug", ["sosangin", "jungsogieop", "bojeung", "certification", "jaedan-seoul", "jaedan-jeju"])
+def test_service_hero_reaches_single_form_on_mobile(browser, site, slug):
+    page = browser.new_page(viewport=PHONE, is_mobile=True, has_touch=True, reduced_motion="reduce")
+    try:
+        page.route("**/*", lambda r: r.continue_() if r.request.url.startswith("http://127.0.0.1:") else r.abort())
+        page.goto(f"{site}/{slug}.html", wait_until="domcontentloaded")
+        assert page.locator('#leadForm').count() == 1
+        assert not page.locator('#lf-consent').is_checked()
+        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+        page.locator('#heroCta').click()
+        page.wait_for_function("document.querySelector('#leadForm').getBoundingClientRect().top < innerHeight")
+        assert page.locator('#lf-name').is_visible()
+    finally:
+        page.close()
 
 
 # ── 선택형 그룹: 클릭 → 선택 상태 → 선택 표시 → payload ─────────────────────
