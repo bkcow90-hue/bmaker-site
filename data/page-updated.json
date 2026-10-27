@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-10-28",
-  "hash": "205289b11aea074ab3ab6d67ae5e2d66fcb738c2719712a6911d8ce557b36270"
+  "hash": "3972fa58189a75785fc858899d7b9d578e24952b3d55a67ea3ecef5fa717515f"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-10-21",
@@ -51,6 +51,10 @@
   "date": "2026-10-12",
   "hash": "9fee4d24c47111678927b145d4ac8437357819465c898c9ea7459a3b5206f7b7"
  },
+ "blog/anseong-card-fee-support-sales-limit.html": {
+  "date": "2026-10-28",
+  "hash": "b2abbf292dc47a9b2bcb6355035162f1db0cf90b90761f0ed57b86ae5e2c4e6e"
+ },
  "blog/application-supplement-log.html": {
   "date": "2026-10-12",
   "hash": "0418c5e102271c64bedf174aa790d3890e860e92805b1227dfdefd5286babec3"
@@ -73,7 +77,7 @@
  },
  "blog/category/news.html": {
   "date": "2026-10-28",
-  "hash": "f96e08220ca7127631a95f3fb713873c52c467cfba4ca7e2fe1c0c15f9e21b40"
+  "hash": "1c39f1321e87ce40a1617aef82aa88d86e1acbb4ca12fb64f9e7ab54b990e6ff"
  },
  "blog/category/startup.html": {
   "date": "2026-10-28",
@@ -297,7 +301,7 @@
  },
  "business-guide.html": {
   "date": "2026-10-28",
-  "hash": "bb454c7c59386fff5e6677b37dbc5215156226b85b1487fbd54508f0f24a9e80"
+  "hash": "e3f1d90c7ea3dc1393153bf82b3bf064af99ea90a22fc2a04c611bf5daacd8bf"
  },
  "cases.html": {
   "date": "2026-10-24",
