@@ -94,9 +94,11 @@ def test_forms_carry_no_fee_notice_but_home_faq_does():
              if 'id="leadForm"' in p.read_text(encoding='utf-8')]
     assert len(pages) >= 36
     for path in pages:
-        form = _form(path.read_text(encoding='utf-8'))
+        page = path.read_text(encoding='utf-8')
+        form = _form(page)
         assert not fee.search(form), f'{path.name}: 신청 폼에 비용 고지가 남아 있다'
-        assert _re.search(r'<button type="submit"[^>]*>무료 진단 신청</button>', form), path.name
+        label = '창업 비교 상담 신청' if 'data-service="startup"' in page else '무료 진단 신청'
+        assert _re.search(r'<button type="submit"[^>]*>' + label + r'</button>', form), path.name
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
     form = _form(home)
     form_section = _section(home, 'id="leadForm"')

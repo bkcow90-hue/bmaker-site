@@ -20,7 +20,7 @@
 
 - [정책자금 허브](https://bmaker.kr/funding): 자금 경로와 상담 안내
 - [기업광고·마케팅](https://bmaker.kr/marketing): 목표·업무 범위·측정 항목 상담
-- [창업컨설팅](https://bmaker.kr/startup): 준비 단계별 상담과 업무 범위
+- [프랜차이즈 비교·창업컨설팅](https://bmaker.kr/startup): 희망 지역·예산·목표 매출에 맞는 창업 후보 비교, 총 창업비용과 중장년·퇴직 후 창업 운영 조건 검토. 수수료는 지역·업무에 따라 개별 안내하며 실제 매출·수익을 약속하지 않는다.
 - [진행사례](https://bmaker.kr/work): 공개 실행 기록 및 분야별 업무 안내
 - [사업 가이드](https://bmaker.kr/business-guide): 분야별 준비 항목과 자료
 
@@ -71,6 +71,9 @@
 <!-- blog:start -->
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
+- [창업비용, 프랜차이즈 본사 견적 외에 무엇을 준비해야 할까요?](https://bmaker.kr/blog/startup-total-budget-checklist): 창업비용은 본사 견적에 점포·별도 공사·초기 운영비까지 더해 확인하세요. 계약 전 포함 항목과 지급 시점을 맞추는 체크리스트입니다.
+- [중장년 창업, 퇴직 후 어떤 업종부터 비교해야 할까요?](https://bmaker.kr/blog/midlife-startup-choice): 중장년·퇴직 후 창업은 경력, 생활비, 운영시간부터 정리하세요. 프랜차이즈와 독립 창업을 비교하고 기술창업 지원과 구분하는 방법입니다.
+- [프랜차이즈 비교, 평균 매출이 높으면 좋은 선택일까요?](https://bmaker.kr/blog/franchise-comparison-sales-profit): 평균 매출보다 내 점포의 비용과 운영 조건을 함께 보세요. 지역·면적·기준연도를 맞춰 프랜차이즈 후보를 비교하는 방법을 정리합니다.
 - [콘텐츠 제작비 보증대출, 30%를 먼저 마련해야 하나요?](https://bmaker.kr/blog/content-production-guarantee-funding-requirement): 보증신청 2억 원 이하는 조달확정 요건이 생략됩니다.
 - [청주 창업 지원금, 시제품 제작비 500만 원을 현금으로 받나요?](https://bmaker.kr/blog/cheongju-prototype-voucher-payment-method): 센터가 제작 업체와 계약하고 완료 후 비용을 지급합니다.
 - [해외인증 비용 지원, 신청하면 지원금을 먼저 받을 수 있나요?](https://bmaker.kr/blog/export-certification-support-payment-timing): 인증 획득과 완료보고 후 사후 지급합니다.

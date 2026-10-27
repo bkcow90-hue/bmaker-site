@@ -131,6 +131,9 @@ def test_article_contract(path):
     source = next(p for p in LIVE if p['slug'] == path.stem)
     if source.get('carousel'):
         assert re.search(r'<p class="byline">김상표 \| 비즈니스 메이커 대표 · 내용 확인 \d{4}-\d{2}-\d{2}</p>', art), path.name
+    elif source.get('reviewed') is False:
+        assert f'작성 비즈니스 메이커 · 자료 확인 {source["updated"]}' in art
+        assert not any('reviewedBy' in n for n in lds(s)), path.name
     else:
         assert re.search(r'<p class="byline">작성 비즈니스 메이커 · 검토 김상표\(대표\) · 최종 확인 \d{4}-\d{2}</p>', art), path.name
     assert re.search(r'본 안내는 \d{4}년 \d{1,2}월 기준', art), f'{path.name}: 기준일 문장 없음'

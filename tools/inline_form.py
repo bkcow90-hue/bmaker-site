@@ -66,14 +66,14 @@ CSS = (
 )
 
 
-def form_html(page_path, page_label, title=TITLE):
+def form_html(page_path, page_label, title=TITLE, service='policy'):
     """page_path·page_label 은 어느 페이지에서 온 신청인지 알림 메일에 남기는 값이다."""
     e = lambda s: html.escape(s, quote=True)
     where = '%s (%s)' % (page_path, page_label)
     biz = ''.join(
         '<button type="button" class="biz-opt" aria-pressed="false">%s</button>' % e(label)
         for label, _ in BIZ_TYPES)
-    return (
+    markup = (
  '<section id="apply" class="inline-diag" aria-label="무료 진단 예약">\n'
  '  <form id="leadForm" aria-labelledby="inline-diag-title">\n'
  '    <h2 id="inline-diag-title" class="serif">%s</h2>\n' % e(title) +
@@ -109,3 +109,9 @@ def form_html(page_path, page_label, title=TITLE):
  '    <noscript>온라인 신청에는 자바스크립트가 필요합니다. 전화 1666-2425 또는 카톡 상담을 이용해 주세요.</noscript>\n'
  '  </form>\n'
  '</section>\n')
+    if service == 'startup':
+        markup = markup.replace('name="consultation_service" value="policy"', 'name="consultation_service" value="startup"')
+        markup = markup.replace('무료 진단 예약', '창업 상담 예약').replace('무료 진단 신청', '창업 비교 상담 신청')
+        markup = markup.replace('연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.', '연락처를 남겨주시면 희망 지역·예산과 창업 준비 상황을 확인합니다.')
+        markup = markup.replace('승인 여부와 조건은 각 심사 기관이 결정합니다.', '구체적인 제공 업무는 상담 후 정합니다.')
+    return markup

@@ -82,10 +82,10 @@ try:
 except ImportError:
     sync_playwright = None
 
-# 폼이 없는 페이지의 동적 폼 목록. 보증·인증은 2026-10-27 업무 안내 뒤 정적 폼으로 전환.
+# 폼이 없는 페이지의 동적 폼 목록. 보증·인증은 2026-10-27, 창업은 2026-10-28 정적 폼으로 전환.
 PAGE_END = set('''/sojingong /jungjingong /industry/eumsikjeom /cases /stats /jeosinyong
 /chaksugeum /sanghwan /gyehoekseo /geojeol /gibo /sinbo /faq /schedule /gaein /consulting
-/funding /marketing /startup /work /business-guide /online-ad-guide /blog-marketing-cost
+/funding /marketing /work /business-guide /online-ad-guide /blog-marketing-cost
 /viral-marketing-guide /startup-consulting-cost /education /education-program
 /corporate-loan-documents /working-capital-facility /sme-business-loans /microfinance-business'''.split())
 

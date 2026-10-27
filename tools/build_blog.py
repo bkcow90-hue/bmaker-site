@@ -47,6 +47,7 @@ CATEGORIES = {   # 순서 = 목록·내비 순서
     'fund': ('자금·지원정보', '자금과 지원사업을 고르고 준비하는 관점의 안내. 자금별 조건은 각 자금 페이지에 있습니다'),
     'case': ('사례', '받은 사례를 바탕으로 한 준비 과정'),
     'news': ('소식', '공고·협약·제도 변경 소식. 기간이 지난 글은 참고용입니다'),
+    'startup': ('창업·프랜차이즈', '프랜차이즈 비교, 창업비용과 중장년 창업의 운영 조건을 살펴보는 준비 가이드'),
 }
 REQUIRED = ('title', 'date', 'category', 'summary')
 
@@ -358,6 +359,10 @@ EXTRA_CSS = ('<style>'
              '@media(max-width:680px){.hero .btn-hub-cta{width:100%}}' + FORM_CSS + '</style>')
 
 
+STARTUP_CSS = ('<style data-startup-layout>#business-start{scroll-margin-top:85px}'
+               '@media(max-width:680px){header .nav-actions .nav-cta{display:none}}</style>')
+
+
 def head(title, desc, url, og_type, lds, style, image='/assets/og.png'):
     full = f'{title} | {BRAND}'
     ld = ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in lds)
@@ -392,20 +397,23 @@ def crumb_ld(items):
         {"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(items)]}
 
 
-def hero(crumb_html, label, h1, lead, meta=''):
+def hero(crumb_html, label, h1, lead, meta='', service='policy'):
+    cta = '창업 비교 상담 신청' if service == 'startup' else '무료 진단 신청'
     return f'''<section class="hero"><div class="wrap">
   <p class="crumb">{crumb_html}</p>
   <p class="hub-label">{esc(label)}</p>
   <h1 class="serif">{esc(h1)}</h1>
   <p class="hub-lead">{esc(lead)}</p>{meta}
-  <a class="btn btn-hub-cta" id="heroCta" href="#apply" data-cta-location="hero" data-consultation-service="policy">무료 진단 신청</a>
+  <a class="btn btn-hub-cta" id="heroCta" href="#apply" data-cta-location="hero" data-consultation-service="{service}">{cta}</a>
 </div></section>
 '''
 
 
-def tail(path, label, foot):
+def tail(path, label, foot, service='policy'):
+    title = '희망 지역과 예산부터 창업 상담' if service == 'startup' else TITLE_GENERAL
+    form = form_html(path, label, title=title, service=service)
     return f'''<section class="block"><div class="wrap">
-{form_html(path, label, title=TITLE_GENERAL)}</div></section>
+{form}</div></section>
 </main>
 {foot}
 <script src="/assets/conversion.js" defer></script>
@@ -485,6 +493,7 @@ def check(posts):
 # ── 빌드 ─────────────────────────────────────────────────────
 def build_post(p, posts, terms, style, hdr, foot):
     url = f"{SITE}/blog/{p['slug']}"
+    service = 'startup' if p['category'] == 'startup' else 'policy'
     cat_label = CATEGORIES[p['category']][0]
     answer, body, faq = split_post(p)
     article = f'<p class="answer">{inline(answer)}</p>\n' + render(body)
@@ -513,6 +522,8 @@ def build_post(p, posts, terms, style, hdr, foot):
            # 검토자(대표 2026-10-04 저자 신호 D): reviewedBy 는 WebPage 속성이라 같은 주소의 WebPage 노드로 둔다
            {"@context": "https://schema.org", "@type": "WebPage", "@id": url + "#webpage", "url": url,
             "reviewedBy": PERSON, "lastReviewed": p["updated"][:7]}]
+    if p.get('reviewed') is False:
+        lds = [n for n in lds if 'reviewedBy' not in n]
     if faq:
         lds.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": faq_text(a)}}
@@ -522,7 +533,10 @@ def build_post(p, posts, terms, style, hdr, foot):
              f'<a href="/blog/category/{p["category"]}">{esc(cat_label)}</a>')
     meta = f'\n  <p class="post-meta">발행 {p["date"]} · 내용 확인 {p["updated"]}</p>'
     page = head(p['title'], p['summary'], url, 'article', lds, style, p['image']) + hdr + '\n<main>\n'
-    intro = hero(crumb, cat_label, p['title'], p['summary'], meta)
+    if service == 'startup':
+        page = page.replace('</head>', STARTUP_CSS + '</head>')
+    page = page.replace('<body data-service="policy">', f'<body data-service="{service}">')
+    intro = hero(crumb, cat_label, p['title'], p['summary'], meta, service=service)
     if p.get('carousel'):
         page = page.replace('<body data-service="policy">', '<body data-service="policy" data-blog-carousel="true">')
         intro = re.sub(r'\s*<a class="btn btn-hub-cta".*?</a>', '', intro)
@@ -541,13 +555,17 @@ def build_post(p, posts, terms, style, hdr, foot):
 </main>{foot}<script src="/assets/conversion.js" defer></script></body></html>
 '''
         return page
+    byline = (f'작성 {BRAND} · 자료 확인 {p["updated"]}' if p.get('reviewed') is False
+              else f'작성 {BRAND} · 검토 김상표(대표) · 최종 확인 {p["updated"][:7]}')
+    disclaimer = (f'이 글은 창업 비교를 위한 일반 정보이며 특정 브랜드의 매출·수익 예측이 아닙니다. 계약·세무 등 개별 사안은 해당 전문가에게 확인하세요. {BRAND}는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다.'
+                  if service == 'startup' else f'이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다.')
     page += f'''<section class="block"><div class="wrap post">
 <article>
 {article}
 {faq_html}
 <p class="asof">※ 본 안내는 {ym(p["updated"])} 기준이며, 조건·일정은 각 기관의 최신 공고를 기준으로 확인해야 합니다.</p>
-<p class="disclaimer">이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다.</p>
-<p class="byline">작성 {BRAND} · 검토 김상표(대표) · 최종 확인 {p["updated"][:7]}</p>
+<p class="disclaimer">{disclaimer}</p>
+<p class="byline">{byline}</p>
 </article>
 </div></section>
 <section class="block"><div class="wrap">
@@ -555,15 +573,16 @@ def build_post(p, posts, terms, style, hdr, foot):
   <p class="related">{related_html}</p>
 </div></section>
 '''
-    page += tail(f"/blog/{p['slug']}", p['title'], foot)
+    page += tail(f"/blog/{p['slug']}", p['title'], foot, service=service)
     return page
 
 
 def build_index(posts, cats, style, hdr, foot, category=None):
+    service = 'startup' if category == 'startup' else 'policy'
     if category:
         label, lead = CATEGORIES[category]
         url, path = f'{SITE}/blog/category/{category}', f'/blog/category/{category}'
-        title = f'{label} — 정책자금 실무 블로그'
+        title = f'{label} — 창업 준비 가이드' if category == 'startup' else f'{label} — 정책자금 실무 블로그'
         mine = [p for p in posts if p['category'] == category]
         crumb = f'<a href="/">홈</a> › <a href="/blog">블로그</a> › {esc(label)}'
         items = [('홈', SITE + '/'), ('블로그', SITE + '/blog'), (label, url)]
@@ -585,14 +604,24 @@ def build_index(posts, cats, style, hdr, foot, category=None):
                 {"@type": "BlogPosting", "headline": p['title'], "url": f"{SITE}/blog/{p['slug']}",
                  "datePublished": p['date']} for p in mine]}]
     page = head(title, desc, url, 'website', lds, style) + hdr + '\n<main>\n'
-    page += hero(crumb, label if category else '블로그', title, lead)
+    if category is None or service == 'startup':
+        page = page.replace('</head>', STARTUP_CSS + '</head>')
+    page = page.replace('<body data-service="policy">', f'<body data-service="{service}">')
+    page += hero(crumb, label if category else '블로그', title, lead, service=service)
+    if category is None or category == 'startup':
+        startup_posts = [p for p in posts if p['category'] == 'startup']
+        if startup_posts:
+            page += ('<section class="block" id="business-start"><div class="wrap"><h2 class="serif">프랜차이즈 비교·창업비용·중장년 창업</h2>'
+                     '<p>어떤 브랜드를 고를지, 얼마를 준비할지, 직접 운영할 수 있을지를 질문별로 살펴보세요.</p>'
+                     '<p><a href="/startup">내 지역·예산에 맞는 창업 비교 서비스 →</a></p>'
+                     + post_list(startup_posts[:3]) + '</div></section>')
     page += f'''<section class="block"><div class="wrap">
   {cats_nav(cats, category)}
   {post_list(mine)}
   <p class="asof">※ 글마다 내용 확인일이 다릅니다. 목록 기준일 {ym(asof)} · 기간이 지난 공고 글은 참고용입니다.</p>
 </div></section>
 '''
-    page += tail(path, title, foot)
+    page += tail(path, title, foot, service=service)
     return page
 
 
