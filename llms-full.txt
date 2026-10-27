@@ -448,7 +448,9 @@
 ## 블로그 (https://bmaker.kr/blog)
 자금별 조건은 각 자금 페이지가 대표이고, 블로그는 신청 전 실무·지원정보 찾기·공고 소식을 다룹니다. 글마다 내용 확인일이 있으며 기간이 지난 공고 글은 참고용입니다.
 - [창업비용, 프랜차이즈 본사 견적 외에 무엇을 준비해야 할까요?](https://bmaker.kr/blog/startup-total-budget-checklist): 창업비용은 본사 견적에 점포·별도 공사·초기 운영비까지 더해 확인하세요. 계약 전 포함 항목과 지급 시점을 맞추는 체크리스트입니다.
+- [창업 상권분석, 유동인구가 많으면 좋은 자리일까요?](https://bmaker.kr/blog/startup-location-analysis): 창업 상권분석은 유동인구보다 내 고객·시간대·점포 조건을 함께 봐야 합니다. 소상공인365 자료와 현장 확인을 연결해 프랜차이즈 입지 후보를 비교하는 방법입니다.
 - [평택 청년 보증대출, 사업자등록 전에도 신청할 수 있나요?](https://bmaker.kr/blog/pyeongtaek-youth-guarantee-before-registration): 예비창업자는 사전상담, 창업한 사업자는 보증 대상입니다.
+- [중장년 무인창업, 퇴직 후 혼자 운영할 수 있을까요?](https://bmaker.kr/blog/midlife-unmanned-startup): 퇴직 후 무인창업은 청소·보충·고장 대응까지 확인해야 합니다. 50대·60대 예비창업자가 직접 운영시간, 반복 비용, 대체 인력을 비교하는 체크리스트입니다.
 - [중장년 창업, 퇴직 후 어떤 업종부터 비교해야 할까요?](https://bmaker.kr/blog/midlife-startup-choice): 중장년·퇴직 후 창업은 경력, 생활비, 운영시간부터 정리하세요. 프랜차이즈와 독립 창업을 비교하고 기술창업 지원과 구분하는 방법입니다.
 - [프랜차이즈 비교, 평균 매출이 높으면 좋은 선택일까요?](https://bmaker.kr/blog/franchise-comparison-sales-profit): 평균 매출보다 내 점포의 비용과 운영 조건을 함께 보세요. 지역·면적·기준연도를 맞춰 프랜차이즈 후보를 비교하는 방법을 정리합니다.
 - [안성 소상공인 지원금, 매출 기준 때문에 반려됐다면 다시 받을 수 있나요?](https://bmaker.kr/blog/anseong-card-fee-support-sales-limit): 기존 매출 초과 반려자는 변경 기준으로 확인 후 지급 예정입니다.
