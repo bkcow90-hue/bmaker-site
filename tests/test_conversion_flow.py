@@ -7,11 +7,15 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_conversion_delivery_contract():
     subprocess.run(['node', 'tests/test_conversion.mjs'], cwd=ROOT, check=True, capture_output=True, text=True)
 
-def test_only_one_form_precedes_company_introduction():
+def test_only_one_form_follows_operating_principles_value_and_costs():
     source = (ROOT / 'index.html').read_text(encoding='utf-8')
     assert source.count('id="leadForm"') == 1
     assert source.count('id="apply"') == 1
-    assert source.index('id="leadForm"') < source.index('id="about"')
+    # 2026-10-27: 고객이 업무 원칙·제공 가치·담당·비용을 읽고 신청한다.
+    order = ['principles', 'why-us', 'cases', 'about', 'faq', 'leadForm']
+    positions = [source.index(f'id="{name}"') for name in order]
+    assert positions == sorted(positions)
+    assert '<details open><summary>상담과 업무 비용은 어떻게 되나요?' in source
     assert 'class="case" aria-hidden="true"' not in source
 
 def test_ledger_heading_matches_public_rows():
@@ -95,8 +99,9 @@ def test_forms_carry_no_fee_notice_but_home_faq_does():
         assert _re.search(r'<button type="submit"[^>]*>무료 진단 신청</button>', form), path.name
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
     form = _form(home)
-    assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in home[home.index('id="leadForm"'):home.index('id="about"')]
-    assert 'data-cta-location="form_alternative"' in home[home.index('id="leadForm"'):home.index('id="about"')], '홈 폼 아래 카톡 링크가 사라졌다'
+    form_section = _section(home, 'id="leadForm"')
+    assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in form_section
+    assert 'data-cta-location="form_alternative"' in form_section, '홈 폼 아래 카톡 링크가 사라졌다'
     diagnosis = _section(home, 'id="diagnosis"')
     assert '진단은 무료입니다.' in diagnosis and not fee.search(diagnosis), '진단 섹션은 "진단은 무료입니다."까지'
     faq = _section(home, 'id="faq"')
