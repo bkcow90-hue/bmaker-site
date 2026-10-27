@@ -82,8 +82,8 @@ try:
 except ImportError:
     sync_playwright = None
 
-# 설계서 2절 — 폼 없던 33장(페이지 끝 폼이 붙는 곳). 판정은 실행 시 '#leadForm 없음' 이고 이 목록은 기대값이다.
-PAGE_END = set('''/sojingong /jungjingong /bojeung /certification /industry/eumsikjeom /cases /stats /jeosinyong
+# 폼이 없는 페이지의 동적 폼 목록. 보증·인증은 2026-10-27 업무 안내 뒤 정적 폼으로 전환.
+PAGE_END = set('''/sojingong /jungjingong /industry/eumsikjeom /cases /stats /jeosinyong
 /chaksugeum /sanghwan /gyehoekseo /geojeol /gibo /sinbo /faq /schedule /gaein /consulting
 /funding /marketing /startup /work /business-guide /online-ad-guide /blog-marketing-cost
 /viral-marketing-guide /startup-consulting-cost /education /education-program
