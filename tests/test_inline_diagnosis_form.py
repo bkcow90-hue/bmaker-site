@@ -49,7 +49,7 @@ FORM_PAGES = FUND_SLUGS + JAEDAN_SLUGS + ["jaedan"]
 # ── 정적 구성 ──────────────────────────────────────────────────────────────
 
 def test_every_fund_and_foundation_page_has_exactly_one_form():
-    assert len(FORM_PAGES) == 33, f"자금 15 + 재단 18 이어야 한다: {len(FORM_PAGES)}"
+    assert len(FORM_PAGES) == 28, f"자금 15 + 재단 12 + 허브 1 이어야 한다(사례 0건 재단 5장 퇴역, 2026-10-31): {len(FORM_PAGES)}"
     for slug in FORM_PAGES:
         s = (ROOT / f"{slug}.html").read_text(encoding="utf-8")
         assert s.count('id="leadForm"') == 1, f"{slug}: 폼이 {s.count('id=\"leadForm\"')}개"
@@ -57,8 +57,8 @@ def test_every_fund_and_foundation_page_has_exactly_one_form():
 
 
 def test_no_other_page_gained_a_form():
-    """폼은 홈 + 자금·재단 33장에만 있어야 한다 — conversion.js 는 페이지당 폼 1개를 전제한다."""
-    # 홈 + 자금·재단 33장 + 분기별 접수 안내(자체 폼을 가진 정적 페이지)
+    """폼은 홈 + 자금·재단 28장에만 있어야 한다 — conversion.js 는 페이지당 폼 1개를 전제한다."""
+    # 홈 + 자금·재단 28장 + 분기별 접수 안내(자체 폼을 가진 정적 페이지)
     # 블로그 목록(blog.html)도 허브와 같은 인라인 폼 1개 — 글·카테고리 페이지(blog/**)는 루트 glob 밖이라 여기서 세지 않는다
     # 지역별 창구 목록(region.html, build_region)도 도시 페이지와 같은 인라인 폼 1개(2026-10-04)
     # 2026-10-27: 보증·인증 페이지의 기존 JS 삽입 폼을 업무 안내 직후 정적 폼으로 옮겼다.
@@ -215,7 +215,7 @@ def test_service_forms_keep_the_correct_inquiry_category(browser, site, slug, se
     assert "접수됐습니다" in message
 
 
-@pytest.mark.parametrize("slug", ["sosangin", "jungsogieop", "bojeung", "certification", "jaedan-seoul", "jaedan-jeju"])
+@pytest.mark.parametrize("slug", ["sosangin", "jungsogieop", "bojeung", "certification", "jaedan-seoul", "jaedan-gyeonggi"])
 def test_service_hero_reaches_single_form_on_mobile(browser, site, slug):
     page = browser.new_page(viewport=PHONE, is_mobile=True, has_touch=True, reduced_motion="reduce")
     try:
