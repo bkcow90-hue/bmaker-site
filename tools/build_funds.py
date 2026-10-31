@@ -403,6 +403,46 @@ EXTRA_SECTIONS = {
  'gingeup': """<h2>세 경로를 먼저 구분하세요</h2><div class="tablewrap"><table><thead><tr><th>경로</th><th>먼저 확인할 것</th><th>처음 가는 곳</th></tr></thead><tbody><tr><td>재해피해 대리대출</td><td>지자체 재해 중소기업·소상공인 확인증</td><td>해당 지자체와 취급은행</td></tr><tr><td>일시적경영애로 대리대출</td><td>매출 15% 이상 감소 또는 공고가 정한 예외 사유</td><td>소진공 온라인신청 공고</td></tr><tr><td>일시적경영애로 직접대출</td><td>연매출 1억400만원 미만, 업력 7년 미만과 경영애로 사유</td><td><a href="/ilsijeok">일시적경영애로자금</a></td></tr></tbody></table></div><p>재해피해 유형은 공단 확인서를 요구하지 않습니다. 매출 비교기간과 인정 증빙은 유형별 원문 기준이며, 공고에 없는 사유를 끼워 맞추거나 매출·피해 자료를 부풀리면 안 됩니다.</p><p class="note">출처: <a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=321&amp;bbsTypeCd=01">재해피해 대리대출 안내</a> · <a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=405&amp;bbsTypeCd=01">4분기 일시적경영애로 대리대출 안내</a> · <a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=402&amp;bbsTypeCd=01">9월 일시적경영애로 직접대출 안내</a> (2026-10-04 확인)</p>"""
 }
 
+# 자체 사례가 없는 자금 페이지가 링크로 가리키는 기관 페이지 — 공통 블록(최근 사례·직접/대리 구분)은 여기에 한 번만 둔다
+PEER_HUB = {'소상공인시장진흥공단': ('/sojingong', '소진공 정책자금 안내')}
+PEER_START, PEER_END = '<!-- peer-cases:start -->', '<!-- peer-cases:end -->'
+
+def inject_peer_block(inst):
+    """기관 페이지(/sojingong)의 '기록된 … 실측' 표 뒤에 마커 블록을 넣거나 갱신한다(id=peer-cases)."""
+    P = peer_cases(inst)
+    path = ROOT / (PEER_HUB[inst][0].lstrip('/') + '.html')
+    page = path.read_text(encoding='utf-8')
+    pa = [int(r['실행 금액(만원)']) for r in P]
+    pr = rate_range([r['금리'] for r in P])
+    rows = ''.join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])} · {esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in P[:5])
+    block = (PEER_START + '<section id="peer-cases" aria-labelledby="peer-cases-title">'
+             f'<h2 id="peer-cases-title">{esc(inst)} 경로 최근 실행 기록</h2>'
+             f'<p>공개 원장에서 {esc(inst)} 경로로 실행된 최근 5건을 자동으로 보여줍니다({len(P)}건 · {won2(sum(pa))}' + (f' · 금리 {pr}' if pr else '') + ', 각 실행 시점 기준). '
+             '자체 실행 기록이 아직 없는 자금 페이지는 이 표를 기준점으로 안내합니다. 자금별 대상·한도는 다르므로 과거 사례가 현재 조건을 뜻하지 않습니다.</p>'
+             # /sojingong 에는 .tablewrap 가로 스크롤 규칙이 없다 — 페이지에 있는 table.mini(폭 100%)를 쓴다(모바일 폭 넘침 → 고정 바 밀림)
+             '<table class="mini"><thead><tr><th>실행</th><th>자금</th><th>금액·금리</th><th>근거</th></tr></thead><tbody>' + rows + '</tbody></table>'
+             '<p><b>직접대출</b>은 소상공인시장진흥공단이 직접 심사하고 실행하는 경로입니다. 해당 상품의 대상·제외 조건과 심사 절차를 확인해야 하며 승인·한도는 심사로 결정됩니다. '
+             '<b>대리대출</b>은 은행이 심사·실행하는 자금입니다. 상품에 따라 보증서·신용·담보 방식이 다르며, 보증료와 이차보전 여부도 확인합니다.</p>'
+             '<p>상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요. 자금 페이지의 접수 표시는 확인 시점의 공식 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준이고, 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>'
+             '</section>' + PEER_END)
+    if PEER_START in page:
+        page = re.sub(re.escape(PEER_START) + r'.*?' + re.escape(PEER_END), lambda _: block, page, flags=re.S)
+    else:
+        m = re.search(r'<h2>기록된 [^<]*실측[^<]*</h2>.*?</table>', page, re.S)
+        if not m: die(f'{path.name}: 공통 사례 블록을 넣을 위치(기록된 … 실측 표)를 찾지 못했습니다.')
+        page = page[:m.end()] + '\n    ' + block + page[m.end():]
+    path.write_text(page, encoding='utf-8')
+
+def asof_html(d, asof_ym, peer_link):
+    """확인일 안내. 공통 안내(지원자격·접수 표시 기준·같은 기관 사례)를 기관 페이지로 모은 자금은 링크 한 줄로 줄인다."""
+    dates = (f"기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · "
+             f"접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}")
+    if peer_link:
+        return (f'<p class="asof">본 안내는 {asof_ym} 기준입니다. {dates}. 세부 요건은 위 공식 공고가 기준이며, 공통 지원자격·접수 표시 기준·같은 기관 최근 사례는 '
+                f'<a href="{peer_link[0]}#peer-cases">{peer_link[1]}</a>에 모았습니다.</p>')
+    return (f'<p class="asof">상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요.</p>\n'
+            f'    <p class="asof">본 안내는 {asof_ym} 기준입니다. {dates}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>')
+
 def build():
     F=load()
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
@@ -410,8 +450,10 @@ def build():
     foot=re.search(r'<footer>.*?</footer>', (ROOT/'jaedan.html').read_text(encoding='utf-8'), re.S).group(0)
     TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a,p.badge a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:7px 16px;font-size:.86rem;font-weight:600;margin:4px 0 14px}.b-open{background:#E7F5EC;color:#116A36;border:1px solid #BFE4CC}.b-soon{background:#EAF1FF;color:#1D4FB8;border:1px solid #C9DAF8}.b-closed{background:#F3F4F7;color:#5A6474;border:1px solid var(--line)}.b-check{background:#FFF6D5;color:#7A5A00;border:1px solid #F0DFA0}p.lead{font-size:1.02rem;line-height:1.75;color:var(--ink);margin:0 0 18px;padding-left:14px;border-left:3px solid var(--kakao,#FEE500)}p.byline{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}'+FORM_CSS+'</style>'
     inst_page={'소상공인시장진흥공단':'/sojingong'}
+    peer_used=set()
     for d in F:
         C=cases_for(d['원장 키워드'])
+        peer_link=None   # 공통 안내를 기관 페이지로 모은 자금이면 (주소, 이름)
         badge_cls, badge_txt, _, badge_start, badge_passed, badge_pcls = schedule_status(d)
         badge_attrs = sched_attrs(badge_start, badge_passed, badge_pcls)
         inline_form = form_html('/' + d['자금ID'], d['자금명'])   # 날짜로 갈리는 건에만 붙는다
@@ -436,7 +478,14 @@ def build():
         else:
             P=peer_cases(d['기관'])
             steps='신청 시스템 접수 → 공단 심사 → 약정·실행' if '직접' in d['카테고리'] else '상품별 신청요건 확인 → 필요 시 보증심사 → 은행 심사·대출 실행'
-            if P:
+            if P and d['기관'] in PEER_HUB:
+                # 같은 기관 공통 블록(최근 사례·직접/대리 구분)은 기관 페이지 한 곳에 모으고 여기선 링크만 — 자금 페이지끼리 본문 중복 방지(2026-10-31)
+                memo_line=(esc(d['한 줄 메모'])+'. ') if d['한 줄 메모'] else ''
+                hub_url, hub_label = PEER_HUB[d['기관']]
+                meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}진행 순서는 {steps}. 이 자금의 실행 기록은 아직 공개 원장에 없습니다.</p>'
+                peer_link=(hub_url, hub_label)
+                peer_used.add(d['기관'])
+            elif P:
                 pa=[int(r['실행 금액(만원)']) for r in P]
                 pr=rate_range([r['금리'] for r in P])
                 prow="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in P[:3])
@@ -502,8 +551,7 @@ def build():
   <div class="wrap">
     {lead}<p class="badge b-{badge_cls}"{badge_attrs}>{esc(badge_txt)}</p>
     <div class="tablewrap"><table><tbody>{facts_html}</tbody></table></div>
-    <p class="asof">상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요.</p>
-    <p class="asof">본 안내는 {asof_ym} 기준입니다. 기존 조건자료 확인일 {esc(d['최종 확인일'])} · 연간 공고 대조일 {esc(d.get('연간공고 확인일', '미확인'))} · 접수 안내 확인일 {esc(d.get('접수 확인일', '미확인'))}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>
+    {asof_html(d, asof_ym, peer_link)}
     {inline_form}
     {meas_html}
     {EXTRA_SECTIONS.get(d["자금ID"],"")}
@@ -536,6 +584,8 @@ def build():
         if '갚' in page: die(f"{d['자금ID']}: 생성물에 '갚' 포함")
         if re.search(r'보장(?!하지)', page.replace('결과를 보장하지','')): die(f"{d['자금ID']}: 생성물에 '보장' 포함")
         (ROOT/f"{d['자금ID']}.html").write_text(page, encoding='utf-8')
+    for inst in peer_used:
+        inject_peer_block(inst)
     # /schedule
     order={'open':0,'soon':1,'check':2,'closed':3}
     def cat_of(d):

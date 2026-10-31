@@ -31,3 +31,16 @@ def test_unverified_round_never_becomes_open_from_sheet_date():
     sample={'접수 관측':'예정','접수 확인일':'2026-09-12','접수 시작일':'2020-01-01'}
     assert module.status_of(sample)[0]=='check'
     assert module.status_of({'접수 관측':'접수중표시','접수 확인일':'2026-09-12'})[0]=='check'
+
+
+def test_peer_block_lives_on_sojingong_only():
+    """자체 사례 없는 소진공 자금 페이지의 공통 블록(최근 사례·직접/대리 구분·공통 안내)은 /sojingong#peer-cases 한 곳 — 자금 페이지는 링크만(2026-10-31)."""
+    import re as _re
+    soj = (ROOT / "sojingong.html").read_text(encoding="utf-8")
+    assert soj.count('<section id="peer-cases"') == 1
+    linked = [p for p in ROOT.glob("*.html") if 'href="/sojingong#peer-cases"' in p.read_text(encoding="utf-8")]
+    assert {"ilsijeok-homeplus.html", "jangaein.html", "sangsaeng.html", "matching.html"} <= {p.name for p in linked}
+    for p in linked:
+        h = p.read_text(encoding="utf-8")
+        assert "같은 기관 경로로 저희가 실행한 기록 중 최근 3건" not in h, p.name
+        assert "잔여 예산을 뜻하지 않습니다" not in h, p.name
