@@ -89,7 +89,7 @@ def main():
     page = re.sub(r'<title>.*?</title>', '<title>' + title + '</title>', page)
     for attr, key, value in [('name', 'description', description), ('property', 'og:title', title), ('property', 'og:description', description)]:
         page = re.sub(f'<meta {attr}="{key}" content="[^"]*">', f'<meta {attr}="{key}" content="{value}">', page)
-    page = page.replace(' 저희 실행 기록에서도 보증서 대출 3건이 이 구조였습니다.', ' 보증서 대출도 상품과 약정에 따라 분할상환 등 다른 방식일 수 있으며 연장은 자동으로 확정되지 않습니다.')
+    page = page.replace(' 저희 받은 사례에서도 보증서 대출 3건이 이 구조였습니다.', ' 보증서 대출도 상품과 약정에 따라 분할상환 등 다른 방식일 수 있으며 연장은 자동으로 확정되지 않습니다.')
     def repayment_schema(match):
         data = json.loads(match[1])
         if data.get('@type') == 'Article':

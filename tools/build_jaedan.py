@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """지역 신용보증재단 페이지 빌드 — data/jaedan.source.csv 공개(Y) 한 줄 = 페이지 하나, 공개 N 은 파일 삭제·/jaedan#<slug> 301.
-실행 기록에서 (기관에 '재단' 포함 & 지역 일치) 사례를 자동 연결하고, /jaedan 허브의 지역 그리드를 마커 사이에 주입한다.
+받은 사례에서 (기관에 '재단' 포함 & 지역 일치) 사례를 자동 연결하고, /jaedan 허브의 지역 그리드를 마커 사이에 주입한다.
 실행: python tools/build_jaedan.py
 """
 import csv, json, re, sys, datetime
@@ -203,9 +203,9 @@ def build():
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=rate_range([r['금리'] for r in C])
         title_txt=f"{d['재단명']} 사업자대출, {tails[d['재단ID']]}"
-        rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
+        rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">받은 사례</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
         if C:
-            meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
+            meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         else:
             # 사례 없는 지역은 페이지를 두지 않는다(공개 N → /jaedan#<slug> 301). 다른 지역 사례로 채우지 않는다.
             print(f"[재단 빌드 경고] {d['재단ID']}: 공개 사례 0건 — jaedan.source.csv 공개를 N 으로 바꾸고 _redirects 에 301 을 추가하세요.")
@@ -279,7 +279,7 @@ def build():
       <p class="t">함께 보기</p>
       <a href="/jaedan">신용보증재단 안내와 지역별 받은 사례</a>
       <a href="/schedule">정책자금 접수 일정</a>
-      <a href="/cases">실행 기록</a>
+      <a href="/cases">받은 사례</a>
       <a href="/sanghwan">상환 구조 가이드</a>
     </div>
     <div class="cta-box">

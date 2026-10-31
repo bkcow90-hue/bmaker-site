@@ -29,5 +29,6 @@ def test_sinbo_meta_numbers_come_from_ledger():
 def test_sinbo_h1_and_answer_lead_with_structure():
     s = (ROOT / 'sinbo.html').read_text(encoding='utf-8')
     h1 = re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', s, re.S).group(1))
-    assert h1.startswith('신보 보증서로 은행에서 대출받는 구조')
+    # 2026-11-01 검색 의도 대표 페이지(규격 2절): h1 은 메인 키워드로 시작하고 구조 설명을 잇는다
+    assert h1.startswith('신용보증기금 대출,') and '신보 보증서로 은행에서 받는 구조' in h1
     assert '<b>짧은 답:</b> 신보 보증서로 은행에서 대출받는 구조입니다.' in s

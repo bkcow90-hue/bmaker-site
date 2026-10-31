@@ -87,7 +87,7 @@ PAGE_END = set('''/sojingong /jungjingong /industry/eumsikjeom /cases /stats /je
 /chaksugeum /sanghwan /gyehoekseo /geojeol /gibo /sinbo /faq /schedule /gaein /consulting
 /funding /marketing /work /business-guide /online-ad-guide /blog-marketing-cost
 /viral-marketing-guide /startup-consulting-cost /education /education-program
-/corporate-loan-documents /working-capital-facility /sme-business-loans /microfinance-business'''.split())
+/corporate-loan-documents /working-capital-facility /microfinance-business'''.split())
 
 
 class _Quiet(http.server.SimpleHTTPRequestHandler):

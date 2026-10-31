@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""중소기업·법인 정책자금 허브(/jungjingong) 빌드 — 법인·억대·동시 설계 실측을 실행 기록에서 자동 집계. 실행: python tools/build_jungjin.py"""
+"""중소기업·법인 정책자금 허브(/jungjingong) 빌드 — 법인·억대·동시 설계 실측을 받은 사례에서 자동 집계. 실행: python tools/build_jungjin.py"""
 import csv, json, re, sys, datetime, statistics
 from pathlib import Path
 from builddate import build_date, data_date
@@ -27,6 +27,11 @@ def _first_inst(k):
     return min(hits)[1] if hits else '기타'
 def inst_of(r): return _first_inst(r['기관'])
 
+# 검색 의도 대표 페이지(규격 2절, 2026-10-31) — 기관명 검색 담당. title 은 docs/funding-guides.json 이 최종으로 덮으므로 두 곳을 같게 둔다
+KEYWORD='중소기업 정책자금 대출'
+TITLE='중소기업 정책자금 대출, 중진공 직접대출부터 실행까지 | 비즈니스 메이커'
+ANSWER='중소기업 정책자금 대출 중 중진공 직접대출은 은행을 거치지 않습니다.'
+
 def build():
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
     corp=[r for r in rows if r['사업 형태'].strip()=='법인']
@@ -42,15 +47,16 @@ def build():
     tracks=[('중진공 직접대출','중소벤처기업진흥공단이 직접 실행 — 창업기·성장기 전용 자금','규모가 커진 사업의 기본 축. 사업계획서의 숫자 정합이 결과를 가릅니다', f"동시 설계 {sum(1 for r in combo if '중진공' in r['동시 진행 자금']+r['자금명'])}건 수록", '<a href="/gyehoekseo">사업계획서 5요소</a>'),
             ('기술보증기금 (기보)','기술성·사업성과 재무 상태 등을 함께 평가하는 보증','기술·콘텐츠·제조 기업. 벤처·이노비즈 인증과 시너지', f"기보가 포함된 공개 사례 {len(gibo)}건 (복합자금 포함)", '<a href="/gibo">기보 안내</a> · <a href="/certification">기업인증</a>'),
             ('신용보증기금 (신보)','매출 기반 일반 보증 — 전국 단위','매출이 잡히는 중소기업의 표준 경로', f"{len(sinbo)}건 · {won2(sum(int(r['실행 금액(만원)']) for r in sinbo)) if sinbo else '—'} · {rate_range([r['금리'] for r in sinbo])}", '<a href="/sinbo">신보 안내</a>'),
-            ('지역 재단 상위 구간','시·도 재단 보증 + 지자체 이차보전','1억 안팎 구간, 지역 상품 결합 시 저금리', '재단 1억 실행 기록 보유', '<a href="/jaedan">재단 안내</a>')]
+            ('지역 재단 상위 구간','시·도 재단 보증 + 지자체 이차보전','1억 안팎 구간, 지역 상품 결합 시 저금리', '재단 1억 받은 사례 보유', '<a href="/jaedan">재단 안내</a>')]
     tracks_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td><td>{c}</td><td>{d}</td><td>{e}</td></tr>' for a,b,c,d,e in tracks)
     big_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["사업 형태"])}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])}</td><td><b>{won2(r["실행 금액(만원)"])}</b></td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in big[:20])
     combo_html="".join(f'<li><a href="/cases#case-{r["사례ID"]}">사례 ID {r["사례ID"]}</a> — {esc(r["자금명"])} <span> / 함께 검토한 기관·자금: {esc(r["동시 진행 자금"])}</span></li>' for r in combo)
-    faq=[("법인만 대상인가요? 개인사업자는요?", f"아닙니다. 중진공·신보·기보 모두 개인사업자도 이용합니다 — 실행 기록의 신보 1억 1,000만원 건이 개인사업자였습니다. 다만 규모가 커질수록 법인 실행 비중이 늘고(법인 {NC}건, 평균 {CAVG}), 개인사업자 기준의 전체 지도는 개인사업자 정책자금 총정리에 따로 있습니다."),
+    faq=[(f"{KEYWORD} 조건은 무엇인가요?", "중소기업 해당 여부, 업종, 업력, 재무 상태, 기업·대표자 신용, 연체·세금 체납 여부, 기존 정책자금 이용 이력, 자금 용도를 봅니다. 세부자금마다 공고에 적힌 대상·제외 요건이 따로 있습니다."),
+         ("법인만 대상인가요? 개인사업자는요?", f"아닙니다. 중진공·신보·기보 모두 개인사업자도 이용합니다 — 받은 사례의 신보 1억 1,000만원 건이 개인사업자였습니다. 다만 규모가 커질수록 법인 실행 비중이 늘고(법인 {NC}건, 평균 {CAVG}), 개인사업자 기준의 전체 지도는 개인사업자 정책자금 총정리에 따로 있습니다."),
          ("소진공과 중진공, 어디로 가야 하나요?","업종·상시근로자·매출과 자금별 공고를 함께 확인합니다. 소진공은 소상공인 대상 자금, 중진공은 중소기업 대상 정책자금을 운영합니다. 규모만으로 단정하지 않고 상품별 대상과 예외·제외요건을 확인해야 합니다."),
-         ("억대 자금은 어떻게 만들어지나요?", f"한 자금으로 억대를 채우기보다 조합으로 설계되는 경우가 많습니다. 실행 기록의 동시 설계 {len(combo)}건이 그 방식입니다 — 기보 2억 9,000만에 소진공을 더하거나, 기보 2억에 중진공 청년창업자금을 더하는 식. 검토 순서는 자금 용도·기존 부채·접수 일정·중복지원 제한에 따라 달라집니다. 동시 진행 기록이 모든 자금의 실행 완료를 뜻하지는 않습니다."),
+         ("억대 자금은 어떻게 만들어지나요?", f"한 자금으로 억대를 채우기보다 조합으로 설계되는 경우가 많습니다. 받은 사례의 동시 설계 {len(combo)}건이 그 방식입니다 — 기보 2억 9,000만에 소진공을 더하거나, 기보 2억에 중진공 청년창업자금을 더하는 식. 검토 순서는 자금 용도·기존 부채·접수 일정·중복지원 제한에 따라 달라집니다. 동시 진행 기록이 모든 자금의 실행 완료를 뜻하지는 않습니다."),
          ("사업계획서가 그렇게 중요한가요?","중진공 직접대출에서는 특히 그렇습니다. 심사가 보는 것은 문장이 아니라 숫자 정합 — 산출 근거, 집행 계획, 상환 계획의 일치입니다. 5요소와 감점 포인트를 별도 가이드로 정리해 두었습니다."),
-         ("기간과 비용은요?", f"법인 실행 기록 기준 첫 상담 접수부터 보통 {CDMED}일이었습니다(개인보다 서류·심사 호흡이 깁니다). 비용은 실행 전 0원, 실행된 경우에만 성공보수 — 요율은 자금 종류·규모에 따라 계약 시 안내합니다."),
+         ("기간과 비용은요?", f"법인 받은 사례 기준 첫 상담 접수부터 보통 {CDMED}일이었습니다(개인보다 서류·심사 호흡이 깁니다). 비용은 실행 전 0원, 실행된 경우에만 성공보수 — 요율은 자금 종류·규모에 따라 계약 시 안내합니다."),
          ('중진공 재도약지원자금과 소진공 재도전특별자금은 같은 자금인가요?','다른 자금입니다. 재도약지원자금은 중소벤처기업진흥공단(중진공)이 재창업·구조개선·사업전환 등 기업 상황별로 나눠 운영하고, 재도전특별자금은 소상공인시장진흥공단(소진공)의 소상공인 직접대출입니다. 기관·대상·조건이 달라 어느 쪽인지부터 구분합니다.')]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
     svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"중소기업·법인 정책자금 진단·설계 (중진공·기보·신보)","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/jungjingong"}, ensure_ascii=False)
@@ -61,10 +67,10 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>중소기업 정책자금 대출 2026 — 중진공·기보·신보 억대 설계, 법인 실측 {NC}건 | 비즈니스 메이커</title>
-<meta name="description" content="중소기업 정책자금(법인 포함)은 어떻게 설계하나요? 중진공 직접대출·기보·신보·재단 상위 구간의 네 축과 억대 실행 기록 {len(big)}건, 동시 설계 {len(combo)}건 — 법인 {NC}건({CTOT}, 평균 {CAVG}, 보통 {CDMED}일) 실측과 함께.">
+<title>{TITLE}</title>
+<meta name="description" content="중소기업 정책자금(법인 포함)은 어떻게 설계하나요? 중진공 직접대출·기보·신보·재단 상위 구간의 네 축과 억대 받은 사례 {len(big)}건, 동시 설계 {len(combo)}건 — 법인 {NC}건({CTOT}, 평균 {CAVG}, 보통 {CDMED}일) 실측과 함께.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="중소기업 정책자금 — 억대 설계의 실제 (2026)">
+<meta property="og:title" content="{TITLE}">
 <meta property="og:description" content="법인 {NC}건 {CTOT} · 억대 {len(big)}건 · 동시 설계 {len(combo)}건 실측">
 <meta property="og:url" content="https://bmaker.kr/jungjingong">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
@@ -85,15 +91,16 @@ def build():
 <section class="hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 중소기업 정책자금</p>
-    <h1 class="serif">중진공 정책자금,<br class="pc"> 대상 확인부터 신청 준비까지</h1>
-    <p>신청 자격과 자금 용도부터 확인합니다. 아래 비교 자료는 중진공 단독 실적이 아닌 여러 기관의 공개 실행 기록입니다 — 법인 실행 {NC}건({CTOT}), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건의 기록으로 보여드립니다.</p>
+    <h1 class="serif">중소기업 정책자금 대출,<br class="pc"> 중진공 직접대출부터 실행까지</h1>
+    <p class="intent-answer">{ANSWER}</p>
+    <p>신청 자격과 자금 용도부터 확인합니다. 아래 비교 자료는 중진공 단독 실적이 아닌 여러 기관의 받은 사례입니다 — 법인 실행 {NC}건({CTOT}), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건의 기록으로 보여드립니다.</p>
   </div>
 </section>
 <main>
   <div class="wrap">
     <p><b>짧은 답:</b> 중소벤처기업진흥공단(중진공) 정책자금은 중소기업의 창업·성장 등에 필요한 자금을 지원하는 제도입니다. 직접대출은 중진공의 평가와 심사를 거쳐 실행되며, 신보·기보의 보증부 은행 대출과는 다른 경로입니다. 신청 대상·한도·금리·접수 방식은 자금별 최신 공고를 확인해야 합니다.</p>
     <p><a href="https://www.kosmes.or.kr/" target="_blank" rel="noopener">중진공 공식 누리집에서 정책자금 공고 확인</a> · 사업자가 직접 신청할 수 있습니다. 상담에서는 자금 선택과 준비 서류, 신청 순서를 함께 정리합니다.</p>
-    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 수치는 <a href="/cases">공개 실행 기록</a>에서 자동 집계됩니다.</p>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 수치는 <a href="/cases">받은 사례</a>에서 자동 집계됩니다.</p>
 
     <div class="cards">
       <div class="card"><b>{NC}건</b><span>법인 실행 · 총 {CTOT}</span></div>
@@ -105,7 +112,7 @@ def build():
     <h2>중진공과 보증기관의 역할 비교</h2>
     <div class="tablewrap"><table><thead><tr><th>축</th><th>성격</th><th>누구에게</th><th>실측</th><th>상세</th></tr></thead><tbody>{tracks_html}</tbody></table></div>
 
-    <h2>억대 실행 기록 — 상위 20건 (전체 {len(big)}건은 <a href="/cases">실행 기록</a>에)</h2>
+    <h2>억대 받은 사례 — 상위 20건 (전체 {len(big)}건은 <a href="/cases">받은 사례</a>에)</h2>
     <div class="tablewrap"><table><thead><tr><th>실행</th><th>형태</th><th>기관</th><th>구성</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{big_html}</tbody></table></div>
 
     <h2>총액은 조합에서 나옵니다 — 동시 설계 {len(combo)}건</h2>
@@ -114,7 +121,7 @@ def build():
     <div class="proof"><p><b>인증이 지렛대가 되기도 합니다.</b> 기보 2억 실행 건은 문화콘텐츠 이차보전(연 1.85%)이 적용된 사례로, 벤처·이노비즈 같은 <a href="/certification">기업인증</a>이 기술평가·우대에 유리하게 작용합니다 — 인증과 자금을 묶어 설계하는 것도 저희가 하는 일입니다.</p></div>
 
     <h2>중진공 직접대출 — 사업계획서가 결과를 가릅니다</h2>
-    <p>중진공은 신청 시스템 접수 → 서면·현장 평가 → 약정·실행 순서로 진행되며, 평가의 중심은 <b>숫자의 정합</b>입니다: 필요 금액의 산출 근거, 집행 계획(항목·금액·시기), 상환 계획이 서로 맞아야 합니다. 심사가 실제로 보는 5요소와 감점 포인트는 <a href="/gyehoekseo">사업계획서 가이드</a>에 정리했고, 실행 기록 전체는 <a href="/cases">공개 페이지</a>에서 확인할 수 있습니다.</p>
+    <p>중진공은 신청 시스템 접수 → 서면·현장 평가 → 약정·실행 순서로 진행되며, 평가의 중심은 <b>숫자의 정합</b>입니다: 필요 금액의 산출 근거, 집행 계획(항목·금액·시기), 상환 계획이 서로 맞아야 합니다. 심사가 실제로 보는 5요소와 감점 포인트는 <a href="/gyehoekseo">사업계획서 가이드</a>에 정리했고, 받은 사례 전체는 <a href="/cases">공개 페이지</a>에서 확인할 수 있습니다.</p>
 
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
 
@@ -127,7 +134,7 @@ def build():
       <a href="/gibo">기술보증기금 대출</a>
       <a href="/sinbo">신용보증기금 사업자대출</a>
       <a href="/certification">기업인증 (벤처·이노비즈)</a>
-      <a href="/cases">실행 기록 전체</a>
+      <a href="/cases">받은 사례 전체</a>
     </div>
     <div class="cta-box">
       <h3 class="serif">우리 회사 규모면 어떤 조합인지</h3>

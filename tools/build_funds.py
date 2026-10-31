@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """자금 팩트 페이지 + 접수 일정(/schedule) 빌드 — data/funds.source.csv 한 줄 = 페이지 하나.
 
-실행 기록(cases.source.csv)에서 '원장 키워드'로 실측 사례를 자동 연결하고,
+받은 사례(cases.source.csv)에서 '원장 키워드'로 실측 사례를 자동 연결하고,
 접수 시작/마감일을 오늘 날짜와 비교해 상태 배지를 계산한다(매일 새벽 재빌드로 자동 뒤집힘).
 실행: python tools/build_funds.py
 """
@@ -416,9 +416,9 @@ def inject_peer_block(inst):
     pr = rate_range([r['금리'] for r in P])
     rows = ''.join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])} · {esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in P[:5])
     block = (PEER_START + '<section id="peer-cases" aria-labelledby="peer-cases-title">'
-             f'<h2 id="peer-cases-title">{esc(inst)} 경로 최근 실행 기록</h2>'
+             f'<h2 id="peer-cases-title">{esc(inst)} 경로 최근 받은 사례</h2>'
              f'<p>공개 원장에서 {esc(inst)} 경로로 실행된 최근 5건을 자동으로 보여줍니다({len(P)}건 · {won2(sum(pa))}' + (f' · 금리 {pr}' if pr else '') + ', 각 실행 시점 기준). '
-             '자체 실행 기록이 아직 없는 자금 페이지는 이 표를 기준점으로 안내합니다. 자금별 대상·한도는 다르므로 과거 사례가 현재 조건을 뜻하지 않습니다.</p>'
+             '자체 받은 사례가 아직 없는 자금 페이지는 이 표를 기준점으로 안내합니다. 자금별 대상·한도는 다르므로 과거 사례가 현재 조건을 뜻하지 않습니다.</p>'
              # /sojingong 에는 .tablewrap 가로 스크롤 규칙이 없다 — 페이지에 있는 table.mini(폭 100%)를 쓴다(모바일 폭 넘침 → 고정 바 밀림)
              '<table class="mini"><thead><tr><th>실행</th><th>자금</th><th>금액·금리</th><th>근거</th></tr></thead><tbody>' + rows + '</tbody></table>'
              '<p><b>직접대출</b>은 소상공인시장진흥공단이 직접 심사하고 실행하는 경로입니다. 해당 상품의 대상·제외 조건과 심사 절차를 확인해야 하며 승인·한도는 심사로 결정됩니다. '
@@ -461,9 +461,9 @@ def build():
         rates=sorted({r['금리'].split('(')[0].strip() for r in C if r['금리']})
         rng=(won2(min(amts)) if min(amts)==max(amts) else f"{won2(min(amts))}~{won2(max(amts))}") if C else ""
         rr=("" if not rates else (f" · {rates[0]}" if rates[0]==rates[-1] else f" · {rates[0]}~{rates[-1]}"))
-        meas_sum = (f"실행 기록 {len(C)}건 · {rng}{rr}") if C else "같은 기관 실행 기록으로 보는 심사·진행 구조"
+        meas_sum = (f"받은 사례 {len(C)}건 · {rng}{rr}") if C else "같은 기관 받은 사례로 보는 심사·진행 구조"
         kind_short = "소진공 직접대출" if "직접" in d["카테고리"] else ("보증 연계 대리대출" if "대리" in d["카테고리"] else d["카테고리"])
-        title_txt = (f"{d['자금명']} 2026 — 조건·한도·신청 방법, 실행 기록 {len(C)}건" if C else f"{d['자금명']} 2026 — 대상·조건·신청 방법 | {kind_short}")
+        title_txt = (f"{d['자금명']} 2026 — 조건·한도·신청 방법, 받은 사례 {len(C)}건" if C else f"{d['자금명']} 2026 — 대상·조건·신청 방법 | {kind_short}")
         title_txt = TITLE_OVERRIDES.get(d['자금ID'], title_txt)
         default_desc = (f"{d['자금명']} — {d['기관']} {kind_short}. "
                         f"{d['한 줄 메모'] if d['한 줄 메모'] else '대상·한도·금리·신청 기간과 공식 공고 기준 요건'}. "
@@ -472,9 +472,9 @@ def build():
         og_title_txt = OG_TITLE_OVERRIDES.get(d['자금ID'], f"{d['자금명']} — 조건·실측·접수 일정 (2026)")
         Cshow=sorted(C, key=lambda r:(r["실행 연월"], r["사례ID"]), reverse=True)[:10]
         rows_html="".join(
-          f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in Cshow)
+          f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">받은 사례</a></td></tr>' for r in Cshow)
         if C:
-            meas_html=(f'<h2>기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다 — 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>')
+            meas_html=(f'<h2>기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다 — 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">받은 사례</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>')
         else:
             P=peer_cases(d['기관'])
             steps='신청 시스템 접수 → 공단 심사 → 약정·실행' if '직접' in d['카테고리'] else '상품별 신청요건 확인 → 필요 시 보증심사 → 은행 심사·대출 실행'
@@ -482,7 +482,7 @@ def build():
                 # 같은 기관 공통 블록(최근 사례·직접/대리 구분)은 기관 페이지 한 곳에 모으고 여기선 링크만 — 자금 페이지끼리 본문 중복 방지(2026-10-31)
                 memo_line=(esc(d['한 줄 메모'])+'. ') if d['한 줄 메모'] else ''
                 hub_url, hub_label = PEER_HUB[d['기관']]
-                meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}진행 순서는 {steps}. 이 자금의 실행 기록은 아직 공개 원장에 없습니다.</p>'
+                meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}진행 순서는 {steps}. 이 자금의 받은 사례는 아직 공개 원장에 없습니다.</p>'
                 peer_link=(hub_url, hub_label)
                 peer_used.add(d['기관'])
             elif P:
@@ -492,13 +492,13 @@ def build():
                 kind_desc='소상공인시장진흥공단이 직접 심사하고 실행하는 경로입니다. 해당 상품의 대상·제외 조건과 심사 절차를 확인해야 하며 승인·한도는 심사로 결정됩니다.' if '직접' in d['카테고리'] else '은행이 심사·실행하는 자금입니다. 상품에 따라 보증서·신용·담보 방식이 다르며, 보증료와 이차보전 여부도 확인합니다.'
                 memo_line=(esc(d['한 줄 메모'])+'. ') if d['한 줄 메모'] else ''
                 meas_html=(f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}{kind_desc} 진행 순서는 {steps} — 대상·한도 등 세부 요건은 위 공식 공고가 기준입니다.</p>\n'
-                           +f'<h2>{esc(d["기관"])} 실행 기록</h2>\n<p>같은 기관 경로로 저희가 실행한 기록 중 최근 3건입니다({len(P)}건 · {won2(sum(pa))}'
+                           +f'<h2>{esc(d["기관"])} 받은 사례</h2>\n<p>같은 기관 경로로 저희가 실행한 기록 중 최근 3건입니다({len(P)}건 · {won2(sum(pa))}'
                            +(f' · 금리 {pr}' if pr else '')
-                           +f'). 자금별 조건은 달라도 심사 감각과 진행 구조의 기준점이 됩니다 — 전체는 <a href="/cases">공개 실행 기록</a>에.</p>\n'
+                           +f'). 자금별 조건은 달라도 심사 감각과 진행 구조의 기준점이 됩니다 — 전체는 <a href="/cases">받은 사례</a>에.</p>\n'
                            +'<div class="tablewrap"><table><thead><tr><th>실행</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+prow+'</tbody></table></div>')
             else:
                 kind_desc='소상공인시장진흥공단이 직접 심사·실행하는 자금입니다.' if '직접' in d['카테고리'] else '은행이 심사·실행하며 보증서 필요 여부는 상품별로 확인합니다.'
-                meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{(esc(d["한 줄 메모"])+". ") if d["한 줄 메모"] else ""}{kind_desc} 진행 순서는 {steps} — 세부 요건은 위 공식 공고가 기준이며, 실행 기록 전체는 <a href="/cases">여기</a>에 있습니다.</p>'
+                meas_html=f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{(esc(d["한 줄 메모"])+". ") if d["한 줄 메모"] else ""}{kind_desc} 진행 순서는 {steps} — 세부 요건은 위 공식 공고가 기준이며, 받은 사례 전체는 <a href="/cases">여기</a>에 있습니다.</p>'
         facts=[]
         if d['대상 요약']: facts.append(('대상', esc(d['대상 요약'])))
         if d['한도']: facts.append(('한도', comma(esc(d['한도']))))
@@ -564,7 +564,7 @@ def build():
       <a href="{inst_link}">{esc(d['기관'])} 안내</a>
       <a href="/2026-4q-sosangin">2026년 4분기 접수 일정과 대상</a>
       <a href="/schedule">전체 접수 일정</a>
-      <a href="/cases">실행 기록</a>
+      <a href="/cases">받은 사례</a>
       <a href="/sanghwan">상환 구조 가이드</a>
     </div>
     <div class="cta-box">
@@ -642,7 +642,7 @@ def build():
       <p class="t">함께 보기</p>
       <a href="/2026-4q-sosangin">2026년 4분기 접수 일정과 대상</a>
       <a href="/gaein">개인사업자 정책자금 총정리</a>
-      <a href="/cases">실행 기록</a>
+      <a href="/cases">받은 사례</a>
       <a href="/sojingong">소상공인 정책자금</a>
       <a href="/jaedan">신용보증재단 사업자대출</a>
       <a href="/chaksugeum">착수금 사기 구별법</a>
