@@ -207,7 +207,7 @@ def test_anonymous_crm_flow_reaches_generated_csv_html_llm_and_logs_without_priv
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / relative, target)
-    (tmp_path / 'llms-full.txt').write_text('## 실행 기록\nold\n\n## 다음\n', encoding='utf-8')
+    (tmp_path / 'llms-full.txt').write_text('## 받은 사례\nold\n\n## 다음\n', encoding='utf-8')
     (tmp_path / 'llms.txt').write_text('- 실행 사례(old): old\n', encoding='utf-8')
     (tmp_path / 'sitemap.xml').write_text('<loc>https://bmaker.kr/cases</loc><lastmod>2026-09-01</lastmod>', encoding='utf-8')
     (tmp_path / 'index.html').write_text('<!-- home-proof:start -->old<!-- home-proof:end --><!-- home-matched-cases:start -->old<!-- home-matched-cases:end -->', encoding='utf-8')

@@ -21,7 +21,7 @@ def test_only_one_form_follows_operating_principles_value_and_costs():
 def test_ledger_heading_matches_public_rows():
     source = (ROOT / 'cases.html').read_text(encoding='utf-8')
     count = source.count('<tr id="row-')
-    assert f'실행 기록 (전체 {count}건)' in source
+    assert f'받은 사례 (전체 {count}건)' in source
 
 def test_budget_exhaustion_cannot_be_inferred_from_calendar():
     import sys

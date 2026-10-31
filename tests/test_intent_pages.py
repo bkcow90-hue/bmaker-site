@@ -23,6 +23,16 @@ PAGES = {
     'sojingong': '소상공인 정책자금 대출',
     'jungjingong': '중소기업 정책자금 대출',
 }
+# 최종 문구(2026-11-01 확정) — title 은 ' | 비즈니스 메이커' 앞부분, h1 은 태그를 뺀 텍스트
+FINAL = {
+    'gaein': ('개인사업자 정책자금 대출, 종류부터 신청까지', '개인사업자 정책자금 대출, 종류부터 받은 사례까지'),
+    'sosangin': ('소상공인 사업자대출, 경로 확인부터 신청까지', '소상공인 사업자대출, 어느 경로가 맞는지부터 확인하세요.'),
+    'jungsogieop': ('중소기업 정책자금 컨설팅, 자금 진단부터 기관 선택까지', '중소기업 정책자금 컨설팅, 자금 진단부터 기관 선택까지'),
+    'gibo': ('기술보증기금 대출, 기술평가부터 보증서 발급까지', '기술보증기금 대출, 담보 대신 기술로 보증받습니다'),
+    'sinbo': ('신용보증기금 대출, 사업자 조건부터 은행 실행까지', '신용보증기금 대출, 신보 보증서로 은행에서 받는 구조'),
+    'sojingong': ('소상공인 정책자금 대출, 소진공 직접대출부터 대리대출 실행까지', '소상공인 정책자금 대출, 조건 확인부터 실행까지'),
+    'jungjingong': ('중소기업 정책자금 대출, 중진공 직접대출부터 실행까지', '중소기업 정책자금 대출, 중진공 직접대출부터 실행까지'),
+}
 TITLE = re.compile(r'^(?P<kw>[^,|]+), \S.*부터 \S.*까지 \| 비즈니스 메이커$')
 
 
@@ -51,6 +61,16 @@ def test_h1_has_main_keyword(slug):
     assert len(re.findall(r'<h1[\s>]', s)) == 1
     h1 = text(re.sub(r'<[^>]+>', '', re.search(r'<h1[^>]*>(.*?)</h1>', s, re.S).group(1)))
     assert PAGES[slug] in h1, f'/{slug}: h1 에 메인 키워드 없음 — {h1}'
+
+
+@pytest.mark.parametrize('slug', PAGES)
+def test_final_title_and_h1(slug):
+    s = page(slug)
+    title = text(re.search(r'<title>(.*?)</title>', s).group(1))
+    h1 = re.sub(r'\s+', ' ', re.sub(r'<br[^>]*>', ' ', re.search(r'<h1[^>]*>(.*?)</h1>', s, re.S).group(1)))
+    h1 = re.sub(r' ?, ?', ', ', text(re.sub(r'<[^>]+>', '', h1))).strip()
+    assert title == FINAL[slug][0] + ' | 비즈니스 메이커', f'/{slug}: {title}'
+    assert h1 == FINAL[slug][1], f'/{slug}: {h1}'
 
 
 @pytest.mark.parametrize('slug', PAGES)
