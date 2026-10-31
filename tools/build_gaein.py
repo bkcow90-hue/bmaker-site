@@ -30,6 +30,11 @@ def _first_inst(k):
     return min(hits)[1] if hits else '기타'
 def inst_of(r): return _first_inst(r['기관'])
 
+# 검색 의도 대표 페이지(규격 2절, 2026-10-31) — title 은 메인 키워드 통째로, 첫 문단은 키워드 포함 40자 즉답
+KEYWORD='개인사업자 정책자금 대출'
+TITLE='개인사업자 정책자금 대출, 종류부터 신청까지 | 비즈니스 메이커'
+ANSWER='개인사업자 정책자금 대출, 법인이 아니어도 신청할 수 있습니다.'
+
 def build():
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
     ind=[r for r in rows if r['사업 형태'].strip()=='개인']
@@ -69,13 +74,14 @@ def build():
     kinds_html="".join(f'<tr><td><b>{a}</b></td><td>{b}</td><td>{c}</td><td style="white-space:nowrap">{d_}</td><td>{e}</td></tr>' for a,b,c,d_,e in kinds)
     rec_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">기록</a></td></tr>' for r in recent)
     open_html=("".join(f'<li><a href="/{esc(f["자금ID"])}">{esc(f["자금명"])}</a> — {esc(f["기관"])}' + (f' · {esc(f["카테고리"])}' if f.get("카테고리") else '') + '</li>' for f in open_funds)) if open_funds else '<li>현재 접수 가능 여부를 확인할 자금은 일정 페이지에서 확인해 주세요 — 일정 페이지에서 예정 자금을 확인하세요.</li>'
-    faq=[("개인사업자도 정책자금이 되나요, 법인만 되는 것 아닌가요?", f"됩니다. 저희 공개 실행 기록 {len(rows)}건 중 {N}건이 개인사업자입니다 — 총 {TOT}, 건당 평균 {AVG}. 소진공 직접대출과 지역 재단 보증부 대출은 오히려 개인사업자가 주 이용자입니다."),
+    faq=[(f"{KEYWORD} 조건은 무엇인가요?", "사업자등록과 업력, 업종, 매출 규모, 대표자 신용점수, 연체·세금 체납 여부, 기존 대출·보증 잔액, 자금 용도를 봅니다. 자금마다 공고에 적힌 대상·제외 요건이 따로 있습니다."),
+         ("개인사업자도 정책자금이 되나요, 법인만 되는 것 아닌가요?", f"됩니다. 저희 공개 실행 기록 {len(rows)}건 중 {N}건이 개인사업자입니다 — 총 {TOT}, 건당 평균 {AVG}. 소진공 직접대출과 지역 재단 보증부 대출은 오히려 개인사업자가 주 이용자입니다."),
          ("매출이 얼마부터 가능한가요?", f"자금마다 다릅니다. 실행 기록의 개인사업자 {N}건에는 연매출 3천만원 미만 {small}건도 있습니다. 매출보다는 연체·체납 여부와 자금 용도의 정합이 더 자주 결과를 가릅니다."),
          ("사업자등록 1년이 안 됐는데요?", f"업력 1년 이하로 실행된 개인사업자 기록이 {young}건 있습니다. 창업 초기 전용 자금(청년·재도전 등)이나 재단 특례보증이 대상이 되는 경우가 많고, 자금 용도와 집행 계획을 구체적으로 준비하는 것이 관건입니다."),
          ("신용점수가 낮거나 예전에 폐업했어도 되나요?", f"기록으로 답하면 — 개인사업자 실행 {N}건 중 신용 600점대 {low}건, 폐업 후 재창업 {rest}건, 세금 체납 이력 정리 후 실행 {tax}건입니다. 다만 현재 연체·미정리 체납은 먼저 해소해야 합니다. 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
          ("얼마나 걸리고, 비용은요?", f"개인사업자 기록 기준 첫 상담 접수부터 보통 {DMED}일입니다. 저희는 착수금·진행비 등 실행 전 비용을 받지 않고, 실제 실행된 경우에만 성공보수를 받습니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
-    art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":f"개인사업자 정책자금 총정리 — 종류·기관·조건·실행 기록 {N}건 (2026)","datePublished":"2026-09-02","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/gaein"}, ensure_ascii=False)
+    art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":TITLE.split(" | ")[0],"datePublished":"2026-09-02","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/gaein"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"개인사업자 정책자금","item":"https://bmaker.kr/gaein"}]}, ensure_ascii=False)
     faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("저신용·재창업 가이드", chr(60)+"a href=\'/jeosinyong\'"+chr(62)+"저신용·재창업 가이드"+chr(60)+"/a"+chr(62)).replace("착수금 사기 구별법 페이지", chr(60)+"a href=\'/chaksugeum\'"+chr(62)+"착수금 사기 구별법 페이지"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
     page=f'''<!DOCTYPE html>
@@ -83,10 +89,10 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>개인사업자 정책자금 총정리 — 종류·기관·조건·실행 기록 {N}건 (2026) | 비즈니스 메이커</title>
+<title>{TITLE}</title>
 <meta name="description" content="개인사업자 정책자금, 됩니까? 공개 실행 기록 {len(rows)}건 중 {N}건이 개인사업자 — 총 {TOT}, 건당 평균 {AVG}, 보통 {DMED}일. 정책자금 종류(직접대출·재단 보증·신보 기보·대리대출)와 기관, 조건, 공고상 접수 기간에 해당하는 자금까지 한 장에.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="개인사업자 정책자금 총정리 — 실행 기록 {N}건 (2026)">
+<meta property="og:title" content="{TITLE}">
 <meta property="og:description" content="총 {TOT} · 평균 {AVG} · 소요 {DMED}일 — 종류·기관·조건을 실측으로.">
 <meta property="og:url" content="https://bmaker.kr/gaein">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
@@ -108,6 +114,7 @@ def build():
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 개인사업자 정책자금</p>
     <h1 class="serif">개인사업자 정책자금,<br class="pc"> 종류부터 실행 기록까지 한 장에</h1>
+    <p class="intent-answer">{ANSWER}</p>
     <p>법인만 되는 제도가 아닙니다 — 공개 실행 기록 {len(rows)}건 중 <b>{N}건이 개인사업자</b>입니다. 총 {TOT}, 건당 평균 {AVG}, 첫 상담부터 보통 {DMED}일.</p>
   </div>
 </section>

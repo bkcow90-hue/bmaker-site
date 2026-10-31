@@ -119,14 +119,14 @@
       "운영·설비 자금계획"
     ],
     [
-      "sme-business-loans",
-      "중소기업 대출 경로 비교"
+      "jungsogieop",
+      "중소기업 정책자금 기관·순서 비교"
     ]
   ],
   "jungjingong": [
     [
-      "sme-business-loans",
-      "중소기업 대출·보증부·은행 비교"
+      "jungsogieop",
+      "중소기업 정책자금 기관·순서 비교"
     ],
     [
       "corporate-loan-documents",
@@ -234,15 +234,15 @@
   "funding": [
     [
       "sojingong",
-      "소상공인 정책자금 대출·소진공"
+      "소진공 정책자금 대출"
     ],
     [
       "jungjingong",
-      "중소기업 정책자금 대출·중진공"
+      "중진공 정책자금 대출"
     ],
     [
-      "sme-business-loans",
-      "중소기업 대출 경로 비교"
+      "jungsogieop",
+      "중소기업 정책자금 기관·순서 비교"
     ],
     [
       "microfinance-business",
@@ -301,24 +301,6 @@
     [
       "schedule",
       "소상공인 정책자금 접수 일정"
-    ]
-  ],
-  "sme-business-loans": [
-    [
-      "jungjingong",
-      "중진공 대출 신청 준비"
-    ],
-    [
-      "bojeung",
-      "신보·기보 보증부대출"
-    ],
-    [
-      "corporate-loan-documents",
-      "법인사업자 대출 서류"
-    ],
-    [
-      "funding",
-      "정부정책자금 경로 찾기"
     ]
   ],
   "microfinance-business": [

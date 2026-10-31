@@ -14,7 +14,7 @@ SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cas
 NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program", "corporate-loan-documents", "working-capital-facility"]
 PAGES += [f"{slug}.html" for slug in NEW_SERVICES]
 SLUGS += NEW_SERVICES
-LOAN_GUIDES = ["sme-business-loans", "microfinance-business"]
+LOAN_GUIDES = ["microfinance-business"]  # sme-business-loans 는 2026-10-31 /jungsogieop 로 301
 PAGES += [f"{slug}.html" for slug in LOAN_GUIDES]
 SLUGS += LOAN_GUIDES
 
