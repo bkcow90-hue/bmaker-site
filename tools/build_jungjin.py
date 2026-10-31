@@ -28,9 +28,9 @@ def _first_inst(k):
 def inst_of(r): return _first_inst(r['기관'])
 
 # 검색 의도 대표 페이지(규격 2절, 2026-10-31) — 기관명 검색 담당. title 은 docs/funding-guides.json 이 최종으로 덮으므로 두 곳을 같게 둔다
-KEYWORD='중진공 정책자금 대출'
-TITLE='중진공 정책자금 대출, 대상 확인부터 신청 준비까지 | 비즈니스 메이커'
-ANSWER='중진공 정책자금 대출은 중진공이 중소기업에 직접 빌려주는 자금입니다.'
+KEYWORD='중소기업 정책자금 대출'
+TITLE='중소기업 정책자금 대출, 중진공 직접대출부터 실행까지 | 비즈니스 메이커'
+ANSWER='중소기업 정책자금 대출 중 중진공 직접대출은 은행을 거치지 않습니다.'
 
 def build():
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
@@ -91,7 +91,7 @@ def build():
 <section class="hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 중소기업 정책자금</p>
-    <h1 class="serif">중진공 정책자금,<br class="pc"> 대상 확인부터 신청 준비까지</h1>
+    <h1 class="serif">중소기업 정책자금 대출,<br class="pc"> 중진공 직접대출부터 실행까지</h1>
     <p class="intent-answer">{ANSWER}</p>
     <p>신청 자격과 자금 용도부터 확인합니다. 아래 비교 자료는 중진공 단독 실적이 아닌 여러 기관의 공개 실행 기록입니다 — 법인 실행 {NC}건({CTOT}), 억대 실행 {len(big)}건, 동시 설계 {len(combo)}건의 기록으로 보여드립니다.</p>
   </div>

@@ -113,7 +113,7 @@ def build():
 <section class="hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 개인사업자 정책자금</p>
-    <h1 class="serif">개인사업자 정책자금,<br class="pc"> 종류부터 실행 기록까지 한 장에</h1>
+    <h1 class="serif">개인사업자 정책자금 대출,<br class="pc"> 종류부터 실행 기록까지 한 장에</h1>
     <p class="intent-answer">{ANSWER}</p>
     <p>법인만 되는 제도가 아닙니다 — 공개 실행 기록 {len(rows)}건 중 <b>{N}건이 개인사업자</b>입니다. 총 {TOT}, 건당 평균 {AVG}, 첫 상담부터 보통 {DMED}일.</p>
   </div>
