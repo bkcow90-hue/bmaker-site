@@ -146,7 +146,7 @@ def notice_facts(d):
     if d.get('notice_url') and d.get('notice_confirmed_at'): src.append(f'공고 확인일 {esc(d["notice_confirmed_at"])} · <a href="{esc(d["notice_url"])}" target="_blank" rel="noopener">재단 공고 원문</a>')
     if d.get('source_url') and d.get('confirmed_at'): src.append(f'본점·지점 확인일 {esc(d["confirmed_at"])} · <a href="{esc(d["source_url"])}" target="_blank" rel="noopener">재단 안내</a>')
     body=''.join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in rows)
-    return (f'<h2>{esc(d["재단명"])} 공고에서 확인한 내용</h2>\n<div class="tablewrap"><table><tbody>{body}</tbody></table></div>\n'
+    return (f'<h2>{esc(d["재단명"])} 공고에서 확인한 내용</h2>\n<div class="tablewrap"><table class="kv"><tbody>{body}</tbody></table></div>\n'
             f'<p class="asof">{" · ".join(src)} · 한도·대상은 회차별 공고가 기준이며 소진 시 마감됩니다 — 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>')
 
 # 지역 페이지에서 뺀 공통 FAQ — /jaedan 허브에 한 번만 둔다(화면·FAQPage JSON-LD 함께)
@@ -196,7 +196,7 @@ def build():
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', src, re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}'+FORM_CSS+'</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}table.kv{min-width:0}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}'+FORM_CSS+'</style>'
     tails=title_tails(J)
     for d in J:
         C=cases_for(d['지역(시도)'])
@@ -274,7 +274,7 @@ def build():
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
     {faq_html}
-    {byline_html(esc(d['최종 확인일']))}
+    {byline_html(esc(max(x for x in (d['최종 확인일'], d.get('confirmed_at',''), d.get('notice_confirmed_at','')) if x)))}
     <div class="related">
       <p class="t">함께 보기</p>
       <a href="/jaedan">신용보증재단 안내와 지역별 받은 사례</a>
