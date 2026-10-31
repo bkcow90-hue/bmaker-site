@@ -1,18 +1,18 @@
-﻿재단ID,재단명,지역(시도),홈페이지 링크,한 줄 메모,최종 확인일,사이트 공개
-jaedan-seoul,서울신용보증재단,서울,https://www.seoulshinbo.co.kr,,2026-08-30,Y
-jaedan-busan,부산신용보증재단,부산,https://www.busansinbo.or.kr,,2026-08-30,Y
-jaedan-daegu,대구신용보증재단,대구,https://www.dgsinbo.or.kr,,2026-08-30,Y
-jaedan-incheon,인천신용보증재단,인천,https://www.icsinbo.or.kr,,2026-08-30,Y
-jaedan-gwangju,광주신용보증재단,광주,https://www.gjsinbo.or.kr,,2026-08-30,Y
-jaedan-daejeon,대전신용보증재단,대전,https://www.sinbo.or.kr,,2026-08-30,Y
-jaedan-ulsan,울산신용보증재단,울산,https://www.ulsanshinbo.co.kr,,2026-08-30,Y
-jaedan-sejong,세종신용보증재단,세종,https://www.sjsinbo.or.kr,,2026-08-30,Y
-jaedan-gyeonggi,경기신용보증재단,경기,https://www.gcgf.or.kr,,2026-08-30,Y
-jaedan-gangwon,강원신용보증재단,강원,https://www.gwsinbo.or.kr,,2026-08-30,Y
-jaedan-chungbuk,충북신용보증재단,충북,https://www.cbsinbo.or.kr,,2026-08-30,Y
-jaedan-chungnam,충남신용보증재단,충남,https://www.cnsinbo.co.kr,,2026-08-30,Y
-jaedan-jeonbuk,전북신용보증재단,전북,https://www.jbcredit.or.kr,,2026-08-30,Y
-jaedan-jeonnam,전남신용보증재단,전남,https://www.jnsinbo.or.kr,,2026-08-30,Y
-jaedan-gyeongbuk,경북신용보증재단,경북,https://gbsinbo.co.kr,,2026-08-30,Y
-jaedan-gyeongnam,경남신용보증재단,경남,https://www.gnsinbo.or.kr,,2026-08-30,Y
-jaedan-jeju,제주신용보증재단,제주,https://www.jcgf.or.kr,,2026-08-30,Y
+﻿재단ID,재단명,지역(시도),홈페이지 링크,한 줄 메모,최종 확인일,사이트 공개,hq_address,phone,source_url,confirmed_at,limit_2026,special_guarantees,notice_url,notice_confirmed_at,faq1_q,faq1_a,faq2_q,faq2_a
+jaedan-seoul,서울신용보증재단,서울,https://www.seoulshinbo.co.kr,,2026-08-30,Y,서울시 마포구 마포대로 163(공덕동 168),1577-6119,https://www.seoulshinbo.co.kr/wbase/contents.do?mng_cd=CSTM5346,2026-10-31,,,,,,,,
+jaedan-busan,부산신용보증재단,부산,https://www.busansinbo.or.kr,,2026-08-30,Y,부산광역시 부산진구 진연로 15(양정동) 부산신용보증재단 빌딩,051-860-6600,https://www.busansinbo.or.kr/portal/contents.do?mid=0508010000,2026-10-31,,,,,,,,
+jaedan-daegu,대구신용보증재단,대구,https://www.dgsinbo.or.kr,,2026-08-30,Y,"대구시 달서구 달구벌대로 1568, 4층(감삼동)",053-560-6300,https://www.dgsinbo.or.kr/page/10034/10144.tc,2026-10-31,,,,,,,,
+jaedan-incheon,인천신용보증재단,인천,https://www.icsinbo.or.kr,,2026-08-30,Y,인천광역시 서해구 봉오재3로 140 (가정동 646-1),1577-3790,https://www.icsinbo.or.kr/home/content.do?menu_cd=000016,2026-10-31,,,,,,,,
+jaedan-gwangju,광주신용보증재단,광주,https://www.gjsinbo.or.kr,,2026-08-30,Y,전남광주통합특별시 광산구 하남산단8번로 177 (도천동) 경제진흥상생일자리재단 2층,062-950-0011,https://www.gjsinbo.or.kr/index/site/?d=foundation7,2026-10-31,,,,,,,,
+jaedan-daejeon,대전신용보증재단,대전,https://www.sinbo.or.kr,,2026-08-30,Y,"대전광역시 중구 중앙로 116, 10층(대흥동, 대전신보빌딩)",042-380-3800,https://www.sinbo.or.kr/main,2026-10-31,,,,,,,,
+jaedan-ulsan,울산신용보증재단,울산,https://www.ulsanshinbo.co.kr,,2026-08-30,N,"울산광역시 북구 산업로 915, 울산경제일자리진흥원 3층",052-289-2300,https://www.ulsanshinbo.co.kr/05_about/?mcode=0405070000,2026-10-31,,,,,,,,
+jaedan-sejong,세종신용보증재단,세종,https://www.sjsinbo.or.kr,,2026-08-30,N,"세종특별자치시 나성로 33-10(나성동, 트리플렉스빌딩 5층)",044-865-0550,https://www.sjsinbo.or.kr/sub0706,2026-10-31,,,,,,,,
+jaedan-gyeonggi,경기신용보증재단,경기,https://www.gcgf.or.kr,,2026-08-30,Y,"경기도 남양주시 경춘로 508-10, 3~4층(다산동, 영린빌딩)",1577-5900,https://www.gcgf.or.kr/gcgf/bg/gd/brnchGd.do?mi=1344,2026-10-31,,,,,,,,
+jaedan-gangwon,강원신용보증재단,강원,https://www.gwsinbo.or.kr,,2026-08-30,N,강원특별자치도 춘천시 중앙로 45 (SC은행 3층),033-260-0001,https://www.gwsinbo.or.kr/newpage/newpage.php?f_id=sub2_12_1,2026-10-31,,,,,,,,
+jaedan-chungbuk,충북신용보증재단,충북,https://www.cbsinbo.or.kr,,2026-08-30,Y,"충북 청주시 흥덕구 풍산로 50, 5층 (가경동, 중소기업지원센터)",043-249-5700,https://www.cbsinbo.or.kr/sub.php?code=10,2026-10-31,,,,,,,,
+jaedan-chungnam,충남신용보증재단,충남,https://www.cnsinbo.co.kr,,2026-08-30,Y,"충남 홍성군 홍북읍 청사로150번길 24, 4층",1588-7310,https://www.cnsinbo.co.kr/sub/info.do?m=0504&s=cnsinbo,2026-10-31,,,,,,,,
+jaedan-jeonbuk,전북신용보증재단,전북,https://www.jbcredit.or.kr,,2026-08-30,Y,"전북특별자치도 전주시 완산구 홍산로 276, 2F",1588-3833,https://www.jbcredit.or.kr/site/main.do,2026-10-31,,,,,,,,
+jaedan-jeonnam,전남신용보증재단,전남,https://www.jnsinbo.or.kr,,2026-08-30,N,전남광주통합특별시 순천시 해룡면 향매로 109 전남신용보증재단빌딩,061-729-0600,https://www.jnsinbo.or.kr/jnsinbo/intro.do,2026-10-31,,,,,,,,
+jaedan-gyeongbuk,경북신용보증재단,경북,https://gbsinbo.co.kr,,2026-08-30,Y,"경북 구미시 이계북로 7, 7층 (임수동 92-30)",1588-7679,https://gbsinbo.co.kr/main.tc,2026-10-31,,,,,,,,
+jaedan-gyeongnam,경남신용보증재단,경남,https://www.gnsinbo.or.kr,,2026-08-30,Y,경남 창원시 성산구 원이대로 362 창원컨벤션센터 4층(대원동),1644-2900,https://www.gnsinbo.or.kr/index.php,2026-10-31,,,,,,,,
+jaedan-jeju,제주신용보증재단,제주,https://www.jcgf.or.kr,,2026-08-30,N,"제주시 연북로 33, 4층 (노형동, KT&G 제주본부)",064-750-4800,https://www.jcgf.or.kr/index.php,2026-10-31,,,,,,,,

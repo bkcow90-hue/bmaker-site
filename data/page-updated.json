@@ -356,8 +356,8 @@
   "hash": "38098491412b27d879b986f641d7199d83b75176cb22e7624cd66cf00f4a3527"
  },
  "gaein.html": {
-  "date": "2026-10-24",
-  "hash": "1945ae4d9000e30d3d1656b7b2ce8260e2f629c6f35ef1a3d276d463a28a082e"
+  "date": "2026-10-31",
+  "hash": "2842edc2aa9f98d2644c96a0309891033e23ecb39340ae4b027b80a46802a0df"
  },
  "geojeol.html": {
   "date": "2026-09-28",
@@ -427,10 +427,6 @@
   "date": "2026-10-27",
   "hash": "03c0d41f122168265c31c9aa6b4bfc6dbae6a2e6d7c07bb77083f6f4c57b9008"
  },
- "jaedan-gangwon.html": {
-  "date": "2026-10-27",
-  "hash": "f7f6a4fdd515e3b2c20eed9a06dab18afe7cb659ab6a8424ef0de6e8b8994ae2"
- },
  "jaedan-gwangju.html": {
   "date": "2026-10-27",
   "hash": "d2cbe05d977661138e0041dc31f2f64d3e8013505496d9a5f4556272e3744edf"
@@ -440,8 +436,8 @@
   "hash": "9a77bda2d2023f11af6cde96ed76c7d21a2a0af8289245c82ce500e820cbcf01"
  },
  "jaedan-gyeonggi.html": {
-  "date": "2026-10-27",
-  "hash": "0385ace5d5cb095d2c7e19a09f57b7b9a2819c58940b5b2ff699c2f2700978ee"
+  "date": "2026-10-31",
+  "hash": "d15aac40925cb1c4a4b3a233adfbed48be4da8a76501a4282e3bb57eb58c76bb"
  },
  "jaedan-gyeongnam.html": {
   "date": "2026-10-27",
@@ -451,33 +447,17 @@
   "date": "2026-10-27",
   "hash": "a18da240cfc6c32c325c7af6903c797d7e8c06abbcc3c19534e766912a42fcd7"
  },
- "jaedan-jeju.html": {
-  "date": "2026-10-27",
-  "hash": "89ca742a66bb4caa98b7bcd619cff3ad0361b8dbf54d33359d2bf792e89ff380"
- },
  "jaedan-jeonbuk.html": {
   "date": "2026-10-27",
   "hash": "10dd065651af7635ddd92aca2fd5cf82b133421421411eb7215e8121edf5ce4f"
  },
- "jaedan-jeonnam.html": {
-  "date": "2026-10-27",
-  "hash": "603a12cc630a35bdc2e87ac214804b436311c32f105401ee622a2fe6ba5ff9b8"
- },
- "jaedan-sejong.html": {
-  "date": "2026-10-27",
-  "hash": "8d672c6f1ef6a5c2e32bab7072a5944eedefe6149acf4c73ac1fed8f38a17c5f"
- },
  "jaedan-seoul.html": {
-  "date": "2026-10-27",
-  "hash": "54253b300521dc70127ad605c6a6f578f6c13d7f20afe2cfce1469f924c74002"
- },
- "jaedan-ulsan.html": {
-  "date": "2026-10-27",
-  "hash": "9a1ce82fce8bb4b05868cca94a3c67240f198d120b90b1fef2daac01e72ca493"
+  "date": "2026-10-31",
+  "hash": "8bad84202e46b3f3885426bd31b79a9e8b57fd421436cfa4623741e27f9cff8e"
  },
  "jaedan.html": {
-  "date": "2026-10-27",
-  "hash": "0ef5374b277537156b54c95c27479c25672e216e863ea2fce272761da9658983"
+  "date": "2026-10-31",
+  "hash": "8af83a421b45863da3ce454992aa61b1a50726ed9309cb58b8a611410fe62323"
  },
  "jaedojeon.html": {
   "date": "2026-10-24",
