@@ -35,7 +35,7 @@ wp_path,destination,action,reason
 /funding-guide/,https://bmaker.kr/funding,delete,삭제 — 같은 의도의 대표 페이지 /funding
 /diagnosis/,https://bmaker.kr/consulting,delete,삭제 — 진단 절차는 /consulting 이 대표
 /small-business-policy-loans/,https://bmaker.kr/sojingong,delete,삭제 — 소진공 대출 대표 페이지 /sojingong
-/sme-policy-loan-guide/,https://bmaker.kr/sme-business-loans,delete,삭제 — 같은 날 생긴 /sme-business-loans 가 대표
+/sme-policy-loan-guide/,https://bmaker.kr/jungsogieop,delete,삭제 — 대표였던 /sme-business-loans 가 2026-10-31 /jungsogieop 로 301(중소기업 정책자금 대표)
 /government-business-loans/,https://bmaker.kr/funding,delete,삭제 — 제목 앞부분이 /funding 과 동일
 /microfinance-business-guide/,https://bmaker.kr/microfinance-business,delete,삭제 — 같은 날 생긴 /microfinance-business 가 대표
 /business-funding-workshop/,https://bmaker.kr/education,delete,삭제 — 교육·출강 대표 페이지 /education

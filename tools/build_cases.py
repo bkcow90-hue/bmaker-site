@@ -331,7 +331,8 @@ td a{color:var(--blue-deep);text-decoration:underline}
     # 정적 페이지 메타(title·description·og)의 받은 사례 숫자 — 원장 사례 한 건에서 생성한다. 손으로 쓰지 않는다(2026-10-01 /sinbo v2).
     # og:title = title, og:description = description (규격 2절)
     META_CASE={'sinbo.html':('E55',
-        '신용보증기금 사업자대출 조건·한도 2026 — 신청 순서와 받은 사례 | 비즈니스 메이커',
+        # 검색 의도 대표 페이지(규격 2절, 2026-10-31): 메인 키워드 '신용보증기금 대출' 통째로
+        '신용보증기금 대출, 사업자 조건부터 은행 실행까지 | 비즈니스 메이커',
         '신용보증기금(신보) 사업자대출은 신보 보증서로 은행에서 대출받는 구조입니다. 대상·한도·금리와 신청 순서를 정리하고, '
         '받은 사례({won}·{rate})를 공개합니다. 지역신용보증재단·기술보증기금 중 어디가 맞는지부터 확인하세요.')}
     for f,(cid,title,desc_t) in META_CASE.items():

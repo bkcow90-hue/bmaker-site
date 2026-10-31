@@ -41,7 +41,7 @@ def test_faq_screen_and_jsonld_are_identical(page):
     html = _read(page)
     screen = [(re.sub(r'<[^>]+>', '', q).strip(), re.sub(r'<[^>]+>', '', a).strip())
               for q, a in DETAILS.findall(html)]
-    assert len(screen) == 5, f'{page}: FAQ 5개여야 한다 — {len(screen)}개'
+    assert len(screen) == 6, f'{page}: FAQ 6개여야 한다(2026-10-31 "{{키워드}} 조건" 추가) — {len(screen)}개'
     assert _faq_ld(html) == screen, f'{page}: FAQPage JSON-LD 가 화면 FAQ 와 다르다'
     for q, a in screen:
         first = re.split(r'(?<=다\.)|(?<=요\.)', a)[0].strip()
