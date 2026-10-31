@@ -103,6 +103,71 @@ def render_hub_cases(rows):
 
 def tel(phone): return 'tel:' + re.sub(r'[^0-9]', '', phone)
 
+def tail_items(d):
+    """title 꼬리 후보 — 지점 수(시트에 있으면)·받은 사례 건수·최근 실행 연월·금리 범위. 모두 데이터에서 나온다."""
+    C=cases_for(d['지역(시도)'])
+    out=[]
+    if d.get('branch_count'): out.append(f"지점 {d['branch_count']}곳")
+    if C:
+        y,m=C[0]['실행 연월'].split('-')
+        out += [f"받은 사례 {len(C)}건", f"최근 실행 {y}년 {int(m)}월"]
+        r=rate_range([r['금리'] for r in C])
+        if r: out.append(f"금리 {r}")
+    return out
+
+def title_tails(rows):
+    """꼬리 = 후보 중 2개. 앞 페이지와 겹치면 둘째 후보를 다음 것으로 바꿔 전 페이지가 서로 다르게 한다."""
+    seen, out = set(), {}
+    for d in rows:
+        items=tail_items(d)
+        if len(items)<2: die(f"{d['재단ID']}: title 꼬리 데이터가 2개 미만(사례 0건이면 공개 N 으로).")
+        for second in items[1:]:
+            t=f"{items[0]} · {second}"
+            if t not in seen: break
+        else: die(f"{d['재단ID']}: title 꼬리가 다른 재단과 겹칩니다 — {t}")
+        seen.add(t); out[d['재단ID']]=t
+    return out
+
+def description(d, C, rates):
+    lim=f" 2026 공고 한도: {d['limit_2026']}." if d.get('limit_2026') else ''
+    s=(f"{d['지역(시도)']} 사업장 보증 창구 {d['재단명']} — 본점·대표전화와 재단 공고 확인 내용,"
+       f" 받은 사례 {len(C)}건"+(f"({rates})" if rates else '')+f".{lim}")
+    return s if len(s)<=160 else s[:157].rstrip()+'…'
+
+def notice_facts(d):
+    """(a) 재단 공고 사실 — 시트 값만, 출처 URL·확인일 병기. 확인 안 된 칸은 행을 만들지 않는다."""
+    rows=[]
+    if d.get('limit_2026'): rows.append(('공고 기준 보증 한도', esc(d['limit_2026'])))
+    if d.get('special_guarantees'): rows.append(('운영 중인 보증 상품', esc(d['special_guarantees'])))
+    if d.get('hq_address'): rows.append(('본점', esc(d['hq_address'])+(f' · <a href="{tel(d["phone"])}">{esc(d["phone"])}</a>' if d.get('phone') else '')))
+    if d.get('branch_count'): rows.append(('지점', f"{esc(d['branch_count'])}곳 — 보증 상담은 사업장 소재지 관할 지점"))
+    if not rows: return ''
+    src=[]
+    if d.get('notice_url') and d.get('notice_confirmed_at'): src.append(f'공고 확인일 {esc(d["notice_confirmed_at"])} · <a href="{esc(d["notice_url"])}" target="_blank" rel="noopener">재단 공고 원문</a>')
+    if d.get('source_url') and d.get('confirmed_at'): src.append(f'본점·지점 확인일 {esc(d["confirmed_at"])} · <a href="{esc(d["source_url"])}" target="_blank" rel="noopener">재단 안내</a>')
+    body=''.join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in rows)
+    return (f'<h2>{esc(d["재단명"])} 공고에서 확인한 내용</h2>\n<div class="tablewrap"><table><tbody>{body}</tbody></table></div>\n'
+            f'<p class="asof">{" · ".join(src)} · 한도·대상은 회차별 공고가 기준이며 소진 시 마감됩니다 — 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>')
+
+# 지역 페이지에서 뺀 공통 FAQ — /jaedan 허브에 한 번만 둔다(화면·FAQPage JSON-LD 함께)
+HUB_FAQ = [
+    ('어떻게 진행되나요?', '재단 보증 심사 → 보증서 발급 → 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다.'),
+    ('무엇을 준비해야 하나요?', '사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.'),
+]
+
+def upsert_hub_faq(hub):
+    for q,a in HUB_FAQ:
+        if f'<summary>{q}</summary>' in hub: continue
+        i=hub.index('<h2>자주 묻는 질문</h2>'); j=hub.index('<div class="cta-box">', i)
+        hub=hub[:j]+f'<details><summary>{q}</summary><div class="body">{a}</div></details>\n    '+hub[j:]
+    def ld(m):
+        data=json.loads(m[1])
+        if data.get('@type')=='FAQPage':
+            have={x['name'] for x in data['mainEntity']}
+            data['mainEntity']+=[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in HUB_FAQ if q not in have]
+        return '<script type="application/ld+json">'+json.dumps(data,ensure_ascii=False)+'</script>'
+    return re.sub(r'<script type="application/ld\+json">(.*?)</script>', ld, hub, flags=re.S)
+
 def render_regions(rows):
     """/jaedan 허브 지역 섹션 17개 — 앵커 id=<slug>. 퇴역 페이지(/jaedan-<slug>)는 여기로 301 된다.
     주소·전화는 각 재단 공식 사이트(source_url) 기준, 확인 안 된 칸은 렌더하지 않는다."""
@@ -132,22 +197,26 @@ def build():
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0)
     foot=re.search(r'<footer>.*?</footer>', src, re.S).group(0)
     TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cta-inline{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--navy);border-radius:12px;padding:18px 22px;margin:26px 0}.cta-inline p{color:#EAF0FA;margin:0;font-size:.94rem;flex:1 1 260px;line-height:1.55}.cta-inline p b{color:#fff}.cta-inline .tel{color:#fff;text-decoration:underline;font-size:.9rem;white-space:nowrap}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}'+FORM_CSS+'</style>'
+    tails=title_tails(J)
     for d in J:
         C=cases_for(d['지역(시도)'])
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=rate_range([r['금리'] for r in C])
+        title_txt=f"{d['재단명']} 사업자대출, {tails[d['재단ID']]}"
         rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">실행 기록</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
         if C:
-            meas=(f'<h2>{esc(d["재단명"])} 실측 — 실행 기록</h2>\n<p>저희가 {esc(d["지역(시도)"])} 사업장으로 실제 실행한 재단 보증부 대출입니다. 총 {len(C)}건 · {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준). 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
+            meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">공개 실행 기록</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         else:
             # 사례 없는 지역은 페이지를 두지 않는다(공개 N → /jaedan#<slug> 301). 다른 지역 사례로 채우지 않는다.
             print(f"[재단 빌드 경고] {d['재단ID']}: 공개 사례 0건 — jaedan.source.csv 공개를 N 으로 바꾸고 _redirects 에 301 을 추가하세요.")
             meas=''
-        faq=[(f"{d['지역(시도)']} 소상공인 대출, 은행과 재단 중 어디부터 알아봐야 하나요?", f"은행 자체 대출과 {d['재단명']} 보증부 대출은 확인하는 절차가 다릅니다. 보증 상품의 신청 창구와 취급 은행을 먼저 확인하고, 기존 보증 이용액·필요 금액·자금 용도를 정리하세요. 이차보전은 해당 사업의 대상·예산·지원 기간을 따로 확인해야 합니다."),
-         (f"{d['지역(시도)']} 사업자인데 이 재단으로 가면 되나요?", f"사업장이 {d['지역(시도)']}에 있다면 {d['재단명']}의 안내를 우선 확인하세요. 소재지만으로 대상이 확정되지는 않습니다. 기업 규모, 업종, 기존 보증, 상품별 제외 조건과 접수 상태도 확인해야 합니다."),
-             ("신용점수가 낮아도 가능한가요?", "신용점수만으로 가능 여부를 단정할 수 없습니다. 현재 사업 현황, 기존 보증·대출, 신청 상품의 제외 조건을 함께 확인해야 합니다. 최종 보증·대출 여부는 재단과 은행이 결정합니다."),
-             ("어떻게 진행되나요?", "재단 보증 심사 → 보증서 발급 → 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다."),
-             ("무엇을 준비해야 하나요?", "사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해, 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.")]
+        # 지역 FAQ 2개(시트, 재단 공식 사이트 근거) + 원장 자동 FAQ 1개. 공통 FAQ(신용점수·진행·준비)는 /jaedan 허브에만 둔다.
+        faq=[(d[f'faq{i}_q'], d[f'faq{i}_a']) for i in (1,2) if d.get(f'faq{i}_q') and d.get(f'faq{i}_a')]
+        if C:
+            last=C[0]
+            faq.append((f"{d['재단명']} 보증으로 실제 받은 금액과 금리는 어느 정도였나요?",
+                        f"공개 원장 기준 {d['지역(시도)']} 사업장의 재단 보증부 대출 사례는 {len(C)}건이고, 받은 금액은 {won2(min(amts))}~{won2(max(amts))}"+(f", 금리는 {rates}" if rates else '')+f"입니다(각 실행 시점 기준). 가장 최근 사례는 {last['실행 연월']} {last['자금명']} {won2(last['실행 금액(만원)'])}입니다. 과거 사례는 현재 신청 한도·금리를 뜻하지 않습니다."))
+        facts_html=notice_facts(d)
         faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
         svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":f"{d['재단명']} 보증부 대출 진단·실행 지원","serviceType":"정책자금·보증부 대출 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":d['지역(시도)'],"url":f"https://bmaker.kr/{d['재단ID']}"}, ensure_ascii=False)
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"신용보증재단","item":"https://bmaker.kr/jaedan"},{"@type":"ListItem","position":3,"name":d['재단명'],"item":f"https://bmaker.kr/{d['재단ID']}"}]}, ensure_ascii=False)
@@ -163,11 +232,11 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{esc(d['재단명'])} 사업자대출 2026 — {esc(d['지역(시도)'])} 소상공인 대출 조건·보증 절차·실측 금리</title>
-<meta name="description" content="{esc(d['지역(시도)'])} 소상공인 대출 알아보시나요? {esc(d['재단명'])} 보증부 사업자대출 — 구조·대상·진행 방법{('과 실제 실행 기록 '+str(len(C))+'건') if C else ''}. 사업장 소재지 기준 이용, 지자체 이차보전 연계까지.">
+<title>{esc(title_txt)}</title>
+<meta name="description" content="{esc(description(d, C, rates))}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{esc(d['재단명'])} — {esc(d['지역(시도)'])} 소상공인 대출·사업자대출 (2026)">
-<meta property="og:description" content="{esc(d['지역(시도)'])} 사업장 보증부 대출{(' · 실측 '+str(len(C))+'건') if C else ''}">
+<meta property="og:title" content="{esc(title_txt)}">
+<meta property="og:description" content="{esc(description(d, C, rates))}">
 <meta property="og:url" content="https://bmaker.kr/{d['재단ID']}">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
 <meta property="og:locale" content="ko_KR">
@@ -196,8 +265,8 @@ def build():
     {service_content(consulting)}
     {inline_form}
     <h2 class="sc-guide-heading" id="sc-guide">지역 재단 안내와 받은 사례</h2>
-    <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])} 소재 소상공인·소기업 등이 보증 상담을 확인할 기관입니다. 보증기관 심사와 은행 대출 심사는 구분되며 보증만으로 대출 실행이 확정되는 것은 아닙니다. 사업장 소재지뿐 아니라 업종·기업 규모·기존 보증·상품별 제외 조건을 확인하세요. 지자체 이차보전(이자 지원)은 해당 사업의 대상·예산·지원 기간에 따라 적용 여부가 달라집니다.</p>
-    <p class="asof">최종 확인일 {esc(d['최종 확인일'])} · 상품·요건은 각 공고 기준 — <a href="{esc(d['홈페이지 링크'])}" target="_blank" rel="noopener">공식 안내 확인 →</a> · 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>
+    <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])}에 사업장이 있는 소상공인·소기업의 보증 창구입니다. 재단 보증 심사와 은행 대출 심사가 따로 있고 이차보전은 사업별 예산에 따라 달라지는 등, 공통 절차는 <a href="/jaedan">신용보증재단 사업자대출 안내</a>에 정리했습니다. 이 페이지는 {esc(d['지역(시도)'])} 재단 공고와 받은 사례만 다룹니다.</p>
+    {facts_html}
     {meas}
 {cities_html.rstrip()}
     <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
@@ -251,6 +320,7 @@ def build():
                 if q['name'] in answers:q['acceptedAnswer']['text']=answers[q['name']]
         return '<script type="application/ld+json">'+json.dumps(data,ensure_ascii=False)+'</script>'
     hub = re.sub(r'<script type="application/ld\+json">(.*?)</script>',sync_faq,hub,flags=re.S)
+    hub = upsert_hub_faq(hub)
     if '<!--REGIONS-->' in hub:
         hub=re.sub(r'<!--REGIONS-->.*?<!--/REGIONS-->', lambda _: '<!--REGIONS-->\n'+render_regions(ALL)+'\n<!--/REGIONS-->', hub, flags=re.S)
         (ROOT/'jaedan.html').write_text(hub, encoding='utf-8')

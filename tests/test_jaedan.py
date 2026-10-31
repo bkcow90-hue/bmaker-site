@@ -42,3 +42,25 @@ def test_retired_pages_are_gone_and_redirected():
         assert re.search(rf"^/{jid}\s+/jaedan#{jid.removeprefix('jaedan-')}\s+301$", redirects, re.M), jid
         linked = [p.name for p in pages if re.search(rf'href="(?:https://bmaker\.kr)?/{jid}(?:\.html)?["#?]', p.read_text(encoding="utf-8"))]
         assert not linked, f"{jid} 로 가는 내부 링크: {linked}"
+
+
+def test_region_pages_have_unique_data_titles_and_synced_faq():
+    """12장 title 은 '{재단명} 사업자대출, {데이터 꼬리}' — 꼬리까지 서로 달라야 하고 og:title 과 같다.
+    FAQPage JSON-LD 질문은 화면의 지역 FAQ 와 같고, 공통 FAQ 는 허브에만 있다."""
+    import json
+    tails = set()
+    for d in _rows():
+        h = (ROOT/(d["재단ID"]+".html")).read_text(encoding="utf-8")
+        title = re.search(r"<title>(.*?)</title>", h).group(1)
+        assert title.startswith(d["재단명"] + " 사업자대출, "), title
+        tails.add(title.split(", ", 1)[1])
+        assert f'<meta property="og:title" content="{title}">' in h
+        faq = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S)]
+        names = [q["name"] for x in faq if x.get("@type") == "FAQPage" for q in x["mainEntity"]]
+        shown = re.findall(r'<details><summary>(.*?)</summary>', re.search(r"<h2>자주 묻는 질문</h2>(.*?)</main>", h, re.S).group(1))
+        assert names == shown and 2 <= len(names) <= 3, (d["재단ID"], names, shown)
+        assert "어떻게 진행되나요?" not in names and "무엇을 준비해야 하나요?" not in names
+    assert len(tails) == len(_rows())
+    hub = (ROOT/"jaedan.html").read_text(encoding="utf-8")
+    for q in ("어떻게 진행되나요?", "무엇을 준비해야 하나요?", "신용점수가 낮아도 되나요?"):
+        assert hub.count(f"<summary>{q}</summary>") == 1 and f'"name": "{q}"' in hub
