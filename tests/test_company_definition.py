@@ -118,5 +118,11 @@ def test_llms_company_block_has_statements_0_to_2():
     assert lines[i + 1:i + 4] == ['', '## 회사', '']
     assert lines[i + 4:i + 7] == [f'- {t}' for t in brand.statements(_ledger_n())]
     assert lines.count('## 회사') == 1
+    # 공식 채널 = brand.json sameAs, 순서 그대로(Organization JSON-LD 와 같은 목록)
+    j = lines.index('### 공식 채널')
+    assert j == i + 8 and lines[j + 1] == ''
+    assert lines[j + 2:j + 2 + len(B['sameAs'])] == [f'- {u}' for u in B['sameAs']]
+    assert lines[j + 2 + len(B['sameAs'])] == ''
+    assert lines.count('### 공식 채널') == 1
     full = (ROOT / 'llms-full.txt').read_text(encoding='utf-8')
     assert '## 회사' not in full.splitlines() and B['statements'][1]['text'] not in full

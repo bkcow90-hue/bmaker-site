@@ -128,6 +128,7 @@
 - 구조화 데이터 세트: FAQPage·Service·BreadcrumbList·WebSite·ProfessionalService(LocalBusiness, telephone·sameAs 포함). 비벗(NHN KCP)은 sameAs가 아니라 memberOf.
 - sameAs에는 실제 등록된 프로필만(인스타·구글 비즈니스 프로필·네이버 스마트플레이스·당근·카카오맵). 등록 안 된 채널을 미리 넣지 않는다.
   **목록은 `data/brand.json` sameAs 한 곳**(2026-11-02) — build_lastmod 가 전 페이지의 Organization(@type 있는 `#org` 노드)에 sameAs·description(= 정의 문장)을 넣는다. 빈 배열이면 키를 뺀다.
+  2026-11-02 대표 확정 9개(유튜브·링크드인·네이버 블로그·네이버 프리미엄콘텐츠·네이버 지도·당근·인스타그램·스레드·카카오 채널, 이 순서). llms.txt "## 회사" 아래 "### 공식 채널"도 같은 목록·순서(build_cases).
 - 상세 페이지 간 "함께 보면 좋은 안내" 상호 링크로 주제 클러스터.
 - 회사명·대표·전화·주소는 전 채널 동일 표기(상호 "비즈니스 메이커", 마곡 공항대로 213, 1666-2425).
 - **회사 정의는 한 문장으로 통일한다(2026-11-02 개정):** "비즈니스 메이커는 소상공인·개인사업자와 중소기업 법인의 정책자금을

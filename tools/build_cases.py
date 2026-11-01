@@ -108,10 +108,14 @@ def apply_brand_llms(text, b):
 
 
 def apply_brand_company_block(text, n):
-    """llms.txt 첫 문단 바로 아래 "## 회사" 블록 = statements 0~2(profile_only 제외, {N}=공개 원장 건수)."""
+    """llms.txt 첫 문단 바로 아래 "## 회사" 블록 = statements 0~2(profile_only 제외, {N}=공개 원장 건수)
+    + "### 공식 채널" = brand.json sameAs(순서 그대로, Organization JSON-LD 와 같은 목록)."""
     block = '## 회사\n\n' + ''.join(f'- {s}\n' for s in brand.statements(n)) + '\n'
+    same = brand.load()['sameAs']
+    if same:
+        block += '### 공식 채널\n\n' + ''.join(f'- {u}\n' for u in same) + '\n'
     if re.search(r'^## 회사\n', text, flags=re.M):
-        return re.sub(r'^## 회사\n\n(?:- [^\n]*\n)*\n?', lambda _: block, text, count=1, flags=re.M)
+        return re.sub(r'^## 회사\n\n(?:- [^\n]*\n)*\n?(?:### 공식 채널\n\n(?:- [^\n]*\n)*\n?)?', lambda _: block, text, count=1, flags=re.M)
     return re.sub(r'(^> [^\n]*\n\n)', lambda m: m.group(1) + block, text, count=1, flags=re.M)
 
 def norm_rate(v):
