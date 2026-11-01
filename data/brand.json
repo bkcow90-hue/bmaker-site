@@ -10,7 +10,6 @@
   ],
   "sameAs": [
     "https://www.youtube.com/@bmaker_kr",
-    "https://www.linkedin.com/in/sang-pyo-kim-328b19154/",
     "https://blog.naver.com/bmaker_kr",
     "https://contents.premium.naver.com/bmaker/bmaker1",
     "https://map.naver.com/p/entry/place/1503999218",
@@ -18,5 +17,8 @@
     "https://www.instagram.com/bmaker_kr/",
     "https://www.threads.com/@bmaker_kr",
     "https://pf.kakao.com/_GKuxfn"
+  ],
+  "founder_sameAs": [
+    "https://www.linkedin.com/in/sang-pyo-kim-328b19154/"
   ]
 }

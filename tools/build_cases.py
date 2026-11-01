@@ -98,6 +98,12 @@ def apply_brand_home(ih, b, n):
         if d.get('@id') != 'https://bmaker.kr/#org':
             return m.group(0)
         d['description'] = b['definition']
+        # 대표 개인 채널(링크드인)은 회사 sameAs 가 아니라 홈 Person(#founder) sameAs 에(2026-11-02)
+        if isinstance(d.get('founder'), dict):
+            if b['founder_sameAs']:
+                d['founder']['sameAs'] = list(b['founder_sameAs'])
+            else:
+                d['founder'].pop('sameAs', None)
         return '<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False) + '</script>'
     return re.sub(r'<script type="application/ld\+json">(\{[^<]*?)</script>', org, ih, flags=re.S)
 
@@ -111,7 +117,7 @@ def apply_brand_company_block(text, n):
     """llms.txt 첫 문단 바로 아래 "## 회사" 블록 = statements 0~2(profile_only 제외, {N}=공개 원장 건수)
     + "### 공식 채널" = brand.json sameAs(순서 그대로, Organization JSON-LD 와 같은 목록)."""
     block = '## 회사\n\n' + ''.join(f'- {s}\n' for s in brand.statements(n)) + '\n'
-    same = brand.load()['sameAs']
+    same = brand.channels()
     if same:
         block += '### 공식 채널\n\n' + ''.join(f'- {u}\n' for u in same) + '\n'
     if re.search(r'^## 회사\n', text, flags=re.M):

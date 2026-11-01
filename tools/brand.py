@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REQUIRED = ('name', 'definition', 'notice', 'statements', 'sameAs')
+REQUIRED = ('name', 'definition', 'notice', 'statements', 'sameAs', 'founder_sameAs')
 
 
 def load():
@@ -16,6 +16,14 @@ def load():
     if missing:
         raise ValueError(f'data/brand.json 에 {missing} 키가 없습니다.')
     return d
+
+
+def channels():
+    """llms.txt '공식 채널' 목록 — 회사 sameAs 와 대표 개인 채널(founder_sameAs, "(대표)" 표기)을 합친 순서.
+    대표 채널은 회사 첫 채널(유튜브) 바로 다음 — 2026-11-02 대표가 정한 9개 순서 그대로."""
+    d = load()
+    org, founder = d['sameAs'], [f'{u} (대표)' for u in d['founder_sameAs']]
+    return org[:1] + founder + org[1:]
 
 
 def statements(n, site=True):

@@ -78,6 +78,15 @@ def test_typed_org_nodes_follow_brand_json():
     assert seen >= 150, seen
 
 
+def test_home_founder_person_carries_founder_same_as():
+    s = (ROOT / 'index.html').read_text(encoding='utf-8')
+    orgs = [json.loads(m) for m in re.findall(r'<script type="application/ld\+json">(.*?)</script>', s, re.S)]
+    org = next(d for d in orgs if d.get('@id') == 'https://bmaker.kr/#org')
+    assert org['founder']['@id'] == 'https://bmaker.kr/#founder' and org['founder']['@type'] == 'Person'
+    assert org['founder']['sameAs'] == B['founder_sameAs']
+    assert not set(B['founder_sameAs']) & set(org['sameAs'])
+
+
 def test_stamp_org_drops_same_as_when_brand_list_is_empty():
     import trust_copy
     page = '<script type="application/ld+json">{"@id": "https://bmaker.kr/#org", "@type": "Organization", "sameAs": ["x"]}</script>'
