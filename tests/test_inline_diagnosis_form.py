@@ -41,15 +41,24 @@ def _slugs(source, key):
         return [r[key] for r in csv.DictReader(f) if r.get("사이트 공개", "").upper() == "Y"]
 
 
+def _live_jaedan():
+    """페이지가 있는 재단 — 공개 Y 이고 공개 사례 3건 이상(build_jaedan 규칙, 미만은 자동 퇴역)."""
+    import sys
+    sys.path.insert(0, str(ROOT / "tools"))
+    import build_jaedan
+    return [d["재단ID"] for d in build_jaedan.load()]
+
+
 FUND_SLUGS = _slugs("funds", "자금ID")
-JAEDAN_SLUGS = _slugs("jaedan", "재단ID")
+JAEDAN_SLUGS = _live_jaedan()
 FORM_PAGES = FUND_SLUGS + JAEDAN_SLUGS + ["jaedan"]
 
 
 # ── 정적 구성 ──────────────────────────────────────────────────────────────
 
 def test_every_fund_and_foundation_page_has_exactly_one_form():
-    assert len(FORM_PAGES) == 33, f"자금 15 + 재단 17 + 허브 1 이어야 한다(퇴역 5장 사례 3건 이상으로 복귀, 2026-11-01): {len(FORM_PAGES)}"
+    # 재단 수는 사례 3건 이상인 재단만큼(자동 퇴역으로 바뀔 수 있다) — 고정하면 원장 갱신이 멈춘다
+    assert len(FUND_SLUGS) == 15 and len(FORM_PAGES) == 15 + len(JAEDAN_SLUGS) + 1, f"자금 15 + 재단 {len(JAEDAN_SLUGS)} + 허브 1: {len(FORM_PAGES)}"
     for slug in FORM_PAGES:
         s = (ROOT / f"{slug}.html").read_text(encoding="utf-8")
         assert s.count('id="leadForm"') == 1, f"{slug}: 폼이 {s.count('id=\"leadForm\"')}개"
