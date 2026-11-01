@@ -15,6 +15,7 @@ from html import escape
 from pathlib import Path
 from builddate import build_date
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
+import build_jaedan
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'data' / 'region.source.csv'
@@ -212,6 +213,7 @@ def page_html(c, style, hdr, foot):
     F = c['facts']
     city, short, sido, jid = c['도시명'], c['짧은이름'], c['시도'], c['재단ID']
     jname = jaedan_name(jid)
+    jhref = build_jaedan.href(jid)   # 재단 페이지가 퇴역(사례 3건 미만)이면 /jaedan#<slug>
     br = [d for d in F if d['종류'] == 'jaedan-branch']
     ce = [d for d in F if d['종류'] == 'semas-center']
     nts = notices(F)
@@ -263,7 +265,7 @@ def page_html(c, style, hdr, foot):
     sec_branch = (f'<h2>{esc(jname)} — {esc(city)} 담당 지점</h2>\n<p>{sentence}</p>\n'
                   '<div class="tablewrap"><table><thead><tr><th>지점</th><th>관할(공식)</th><th>주소</th><th>전화</th><th>출처·확인일</th></tr></thead><tbody>'
                   + ''.join(brows) + '</tbody></table></div>\n' + ev_html
-                  + f'<p>보증 절차·상품: <a href="/{jid}">{esc(jname)} 안내</a></p>')
+                  + f'<p>보증 절차·상품: <a href="{jhref}">{esc(jname)} 안내</a></p>')
 
     # ③ 시 자체 자금 공고 (공고 단위)
     nrows = []
@@ -301,7 +303,7 @@ def page_html(c, style, hdr, foot):
         total = sum(int(r['실행 금액(만원)']) for r in rows)
         jd = sum(1 for r in rows if '신용보증재단' in r['기관'])
         sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>{esc(sido)} 받은 사례 {len(rows)}건·{won2(total)}(재단 경로 {jd}건). '
-                     f'원장은 시도 단위라 {esc(short)}만 나누지 않고, 과거 사례는 현재 조건이 아닙니다. <a href="/{jid}">{esc(sido)} 사례 보기</a></p>')
+                     f'원장은 시도 단위라 {esc(short)}만 나누지 않고, 과거 사례는 현재 조건이 아닙니다. <a href="{jhref}">{esc(sido)} 사례 보기</a></p>')
     else:
         sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>현재 공개 원장에 {esc(sido)} 사례는 없습니다. '
                      f'<a href="/cases">다른 지역 받은 사례</a>를 참고하세요. 해당 지역 실적이 아닙니다.</p>')
@@ -336,7 +338,7 @@ def page_html(c, style, hdr, foot):
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}, ensure_ascii=False)
     crumb = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
-        {"@type": "ListItem", "position": 2, "name": jname, "item": f"https://bmaker.kr/{jid}"},
+        {"@type": "ListItem", "position": 2, "name": jname, "item": f"https://bmaker.kr{jhref}"},
         {"@type": "ListItem", "position": 3, "name": city, "item": url}]}, ensure_ascii=False)
     svc = json.dumps({"@context": "https://schema.org", "@type": "Service", "name": f"{city} 소상공인 정책자금 진단",
                       "serviceType": "정책자금 컨설팅·진단",
@@ -372,7 +374,7 @@ def page_html(c, style, hdr, foot):
 {hdr}
 <section class="hero">
   <div class="wrap">
-    <p class="crumb"><a href="/">홈</a> › <a href="/{jid}">{esc(jname)}</a> › {esc(city)}</p>
+    <p class="crumb"><a href="/">홈</a> › <a href="{jhref}">{esc(jname)}</a> › {esc(city)}</p>
     <h1 class="serif">{esc(h1)}</h1>
     <p>{esc(city)} 사업장이 확인할 공식 창구와 올해 {esc(short)} 공고를 출처와 함께 정리했습니다.</p>
   </div>
@@ -394,7 +396,7 @@ def page_html(c, style, hdr, foot):
     <p class="byline">{BYLINE.format(newest)}</p>
     <div class="related">
       <p class="t">함께 보기</p>
-      <a href="/{jid}">{esc(jname)} 안내</a>
+      <a href="{jhref}">{esc(jname)} 안내</a>
       <a href="/jaedan">신용보증재단 사업자대출</a>
       <a href="/sojingong">소상공인시장진흥공단 정책자금</a>
       <a href="/schedule">정책자금 접수 일정</a>
@@ -444,7 +446,7 @@ def hub_html(cities, style, hdr, foot):
                        f'소상공인지원센터 {esc("·".join(ce))} · {esc(c["짧은이름"])} 공고 {n}건</li>')
         jid = groups[sido][0]['재단ID']
         secs.append(f'<h2>{esc(sido)} ({len(groups[sido])}곳)</h2>\n<ul class="facts">{"".join(lis)}</ul>\n'
-                    f'<p>{esc(sido)} 보증 절차·상품: <a href="/{jid}">{esc(jaedan_name(jid))} 안내</a></p>')
+                    f'<p>{esc(sido)} 보증 절차·상품: <a href="{build_jaedan.href(jid)}">{esc(jaedan_name(jid))} 안내</a></p>')
     title = f"지역별 소상공인 정책자금 창구 {len(cities)}개 도시 — 신용보증재단 지점·소진공 센터 | 비즈니스 메이커"
     desc = (f"지역별 소상공인 정책자금 창구 {len(cities)}개 도시 목록. 도시마다 신용보증재단 담당 지점, "
             "소상공인지원센터, 시 자체 자금 공고를 공식 출처와 함께 정리한 페이지로 연결합니다.")
