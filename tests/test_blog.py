@@ -141,7 +141,7 @@ def test_article_contract(path):
     if source.get('carousel'):
         assert f'<p class="disclaimer">{html.escape(source["disclaimer"])}</p>' in art, f'{path.name}: 주제별 면책 없음'
     else:
-        assert '정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다' in art, f'{path.name}: 면책 없음'
+        assert '정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다' in art, f'{path.name}: 면책 없음'
     assert len(re.findall(r'<h1\b', s)) == 1, f'{path.name}: h1 이 1개가 아니다'
     post = [d for d in lds(s) if d.get('@type') == 'BlogPosting']
     assert len(post) == 1 and post[0]['url'] == f'https://bmaker.kr/blog/{path.stem}', path.name

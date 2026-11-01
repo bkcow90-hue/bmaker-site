@@ -5,7 +5,7 @@ STYLESHEET = '<link rel="stylesheet" href="/assets/service-consulting.css">'
 
 SERVICES = {
     'sosangin': {
-        'label': '소상공인 정책자금 준비 상담',
+        'label': '준비 상담',   # 허브 히어로 라벨 — 키워드 반복은 title·h1·첫 문장에만(2026-11-02)
         'checks': ['소진공·지역재단 중 검토할 경로', '업종·업력·기존 대출에 맞는 조건', '매출 자료와 신청 서류 준비 순서'],
         'heading': '자금 이름을 찾는 일부터, 내 사업에 맞게 준비하는 일까지.',
         'works': [
@@ -15,7 +15,7 @@ SERVICES = {
         ],
     },
     'jungsogieop': {
-        'label': '중소기업 정책자금 준비 상담',
+        'label': '준비 상담',
         'checks': ['중진공·신보·기보 검토 순서', '운전·시설자금과 재무 자료의 연결', '사업계획서와 심사 보완 준비'],
         'heading': '자금 계획과 재무 자료가 같은 이야기를 하도록 준비합니다.',
         'works': [

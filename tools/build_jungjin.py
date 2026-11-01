@@ -112,7 +112,7 @@ def build():
     <h2>중진공과 보증기관의 역할 비교</h2>
     <div class="tablewrap"><table><thead><tr><th>축</th><th>성격</th><th>누구에게</th><th>실측</th><th>상세</th></tr></thead><tbody>{tracks_html}</tbody></table></div>
 
-    <h2>억대 받은 사례 — 상위 20건 (전체 {len(big)}건은 <a href="/cases">받은 사례</a>에)</h2>
+    <h2>억대 받은 사례 — 상위 20건 (전체 {len(big)}건은 <a href="/cases">받은 사례 페이지</a>에서)</h2>
     <div class="tablewrap"><table><thead><tr><th>실행</th><th>형태</th><th>기관</th><th>구성</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{big_html}</tbody></table></div>
 
     <h2>총액은 조합에서 나옵니다 — 동시 설계 {len(combo)}건</h2>

@@ -68,7 +68,7 @@ def topic_links(links, heading='지금 단계에서 함께 확인할 자료'):
 def repayment_examples(rows):
     selected = sorted(rows, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:8]
     cells = ''.join('<tr><td>' + html.escape(r['실행 연월']) + '</td><td>' + html.escape(r['자금명']) + '</td><td>' + f'{int(r["실행 금액(만원)"]):,}만원' + '</td><td>' + html.escape(r['상환 조건'] or '원장 미기재 — 약정 확인 필요') + '</td><td><a href="/cases#case-' + html.escape(r['사례ID'], quote=True) + '">사례 ' + html.escape(r['사례ID']) + '</a></td></tr>' for r in selected)
-    return f'<h2>공개 원장의 실제 상환 조건 예시</h2><p>전체 공개 사례 {len(rows)}건 중 최근 최대 8건을 표시합니다. 원장에 적힌 문구를 그대로 보여주며 표본의 빈도를 전체 상품의 일반 조건으로 해석하지 않습니다. 금액·상환 조건은 당시 사례이며 현재 대출 조건이 아닙니다. <a href="/data/cases.csv">현재 공개 원장</a>과 각 사례 링크에서 근거를 확인하세요.</p><div class="tablewrap"><table><thead><tr><th>시점</th><th>상품</th><th>받은 금액</th><th>원장 상환 조건</th><th>근거</th></tr></thead><tbody>' + cells + '</tbody></table></div>'
+    return f'<h2>공개 원장의 실제 상환 조건 예시</h2><p>전체 공개 사례 {len(rows)}건 중 최근 것부터 8건까지 골랐습니다. 원장에 적힌 문구를 그대로 보여주며 표본의 빈도를 전체 상품의 일반 조건으로 해석하지 않습니다. 금액·상환 조건은 당시 사례이며 현재 대출 조건이 아닙니다. <a href="/data/cases.csv">현재 공개 원장</a>과 각 사례 링크에서 근거를 확인하세요.</p><div class="tablewrap"><table><thead><tr><th>시점</th><th>상품</th><th>받은 금액</th><th>원장 상환 조건</th><th>근거</th></tr></thead><tbody>' + cells + '</tbody></table></div>'
 
 
 def main():

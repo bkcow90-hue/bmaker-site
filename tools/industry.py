@@ -128,7 +128,7 @@ def landing_html(ind, rows, all_n, period):
 </section>
 <main>
   <div class="wrap">
-    <p>받은 사례 원장({period})에서 업종이 {ind['name']}인 건만 자동으로 모았습니다.</p>
+    <p>받은 사례 원장({period})에서 업종이 {ind['name']}인 건만 골라 모았습니다.</p>
     <div class="cards">
       <div class="card"><b>{n}건</b><span>{ind['name']} 받은 사례 (전체 {all_n}건 중)</span></div>
       <div class="card"><b>{won2(total)}</b><span>받은 금액 합계</span></div>

@@ -26,6 +26,7 @@ from pathlib import Path
 from builddate import build_date
 from reviewer import BYLINE_RE, reviewed_ld
 import sync_inline_form_js
+import trust_copy
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / 'data' / 'page-updated.json'
@@ -237,6 +238,7 @@ def main():
         die('저장소 루트에 페이지가 없습니다.')
     out, touched, seeded = {}, [], []
     led = ledger_date() if any(p.name in LEDGER for p in pages) else TODAY
+    n_cases, n_ev = trust_copy.ledger_counts()   # 푸터 근거 한 줄(규격 4절, 2026-11-02)
     for p in pages:
         key = p.relative_to(ROOT).as_posix()
         s0 = p.read_text(encoding='utf-8')
@@ -253,6 +255,7 @@ def main():
             date = TODAY
         out[key] = {'date': date, 'hash': h}
         s = stamp_assets(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date)))
+        s = trust_copy.stamp_org(trust_copy.stamp_footer_trust(s, n_cases, n_ev))
         if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
         if s != s0:
