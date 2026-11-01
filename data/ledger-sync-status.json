@@ -1,6 +1,6 @@
 {
-  "status": "OK",
-  "stage": "complete",
+  "status": "FAIL",
+  "stage": "tests",
   "last_success_at": "2026-11-01T02:21:36+00:00",
-  "failed_at": null
+  "failed_at": "2026-11-01T04:24:32+00:00"
 }
