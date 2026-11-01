@@ -4,6 +4,8 @@
 
 원본 우선순위: 구글시트(연결돼 있으면) → data/cases.source.csv → data/cases.xlsx
 
+사례ID는 고정. 새 사례는 맨 아래 다음 번호로만, 기존 행 번호·순서 변경 금지 — 정적 페이지가 사례ID를 직접 가리킨다 (2026-11-01, PR #87)
+
 ## A. 구글시트가 연결된 뒤 (평상시)
 대표가 시트를 고치면 매시 17분 GitHub Actions(ledger)가 자동으로 반영한다 — 할 일 없음.
 실행 경로(2026-10-01~): n8n 「bmaker ledger 매시 실행」이 매시 정각 workflow_dispatch(force=false — 시트가 바뀐 경우만 빌드)를 호출한다. GitHub 예약 cron(17분)은 지연·생략이 잦아 안전망으로만 남긴다. GitHub 화면의 수동 실행은 force 기본값 true = 강제 재빌드.

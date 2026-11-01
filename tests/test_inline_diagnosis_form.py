@@ -49,7 +49,7 @@ FORM_PAGES = FUND_SLUGS + JAEDAN_SLUGS + ["jaedan"]
 # ── 정적 구성 ──────────────────────────────────────────────────────────────
 
 def test_every_fund_and_foundation_page_has_exactly_one_form():
-    assert len(FORM_PAGES) == 28, f"자금 15 + 재단 12 + 허브 1 이어야 한다(사례 0건 재단 5장 퇴역, 2026-10-31): {len(FORM_PAGES)}"
+    assert len(FORM_PAGES) == 33, f"자금 15 + 재단 17 + 허브 1 이어야 한다(퇴역 5장 사례 3건 이상으로 복귀, 2026-11-01): {len(FORM_PAGES)}"
     for slug in FORM_PAGES:
         s = (ROOT / f"{slug}.html").read_text(encoding="utf-8")
         assert s.count('id="leadForm"') == 1, f"{slug}: 폼이 {s.count('id=\"leadForm\"')}개"

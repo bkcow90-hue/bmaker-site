@@ -45,7 +45,7 @@ def test_retired_pages_are_gone_and_redirected():
 
 
 def test_region_pages_have_unique_data_titles_and_synced_faq():
-    """12장 title 은 '{재단명} 사업자대출, {데이터 꼬리}' — 꼬리까지 서로 달라야 하고 og:title 과 같다.
+    """지역 재단 페이지 title 은 '{재단명} 사업자대출, {데이터 꼬리}' — 꼬리까지 서로 달라야 하고 og:title 과 같다.
     FAQPage JSON-LD 질문은 화면의 지역 FAQ 와 같고, 공통 FAQ 는 허브에만 있다."""
     import json
     tails = set()
@@ -64,3 +64,13 @@ def test_region_pages_have_unique_data_titles_and_synced_faq():
     hub = (ROOT/"jaedan.html").read_text(encoding="utf-8")
     for q in ("어떻게 진행되나요?", "무엇을 준비해야 하나요?", "신용점수가 낮아도 되나요?"):
         assert hub.count(f"<summary>{q}</summary>") == 1 and f'"name": "{q}"' in hub
+
+
+def test_region_pages_need_three_public_cases():
+    """지역 재단 개별 페이지는 공개 사례 3건 이상일 때만(규격 2절, 2026-11-01). 미만이면 overlay 공개 N → 허브 섹션 + 301."""
+    import sys
+    sys.path.insert(0, str(ROOT/"tools"))
+    import build_jaedan
+    for d in _rows():
+        n = len(build_jaedan.cases_for(d["지역(시도)"]))
+        assert n >= 3, f'{d["재단ID"]}: 공개 사례 {n}건 — 3건 미만은 개별 페이지를 두지 않는다'
