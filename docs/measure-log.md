@@ -401,3 +401,13 @@ h1 아래 첫 문단에 키워드 포함 40자 이내 즉답, FAQ 에 `{키워�
   효과 판정은 머지일 +14일 이후 구간만 쓴다(구글·네이버 각각, 노출 20 미만은 보류 — search-audit 6절).
 - 근거 자료는 GSC 09-02~09-29·네이버 30일(~09-29)뿐이었다. `/sosangin`·`/jungsogieop` 은 09-28 생성이라 비교 구간이 없었다.
 - 10월분 GSC 는 `query,page` 두 차원으로 받아 한 검색어에 우리 URL 2개 이상 뜨는지 함께 본다.
+
+## 2026-11-02 블로그 정리(PR C) — 11/8 이후 할 일
+
+/sojingong·/sinbo·/jaedan 은 11/8 까지 본문 동결이라 허브 "관련 글" 링크를 미뤘다. 11/8 이후 `tools/build_blog.py` HUB_RELATED 에 아래 8편을 넣는다(허브당 최대 3편).
+- /sojingong: restart-special-loan-2026-fourth-quarter · innovation-loan-smart-technology-use-2026-q4 · semas-current-ended-fund-rate-table
+- /sinbo: 2026-kodit-ibk-startup-buildup · 2026-kodit-woori-youth-guarantee · skhynix-supplier-trade-finance-guarantee
+- /jaedan: pyeongtaek-youth-guarantee-before-registration · guarantee-bank-questions
+
+같은 날 미룬 문장 정리(PR B): /jaedan 허브 "기업 수가 아닌 사례 건수입니다"→"사례 건수 기준입니다(기업 수 아님)", "최근 사례 최대 10건을 표시합니다", /jaedan 히어로 라벨 "재단 대출 준비 상담"→"준비 상담", /sojingong "경로로 실행된 최근 5건을 자동으로 보여줍니다"·"기록이 있는 건만 표시합니다", /jaedan 허브 폼 "진단에서 돌려드리는 것" 4항목.
+삭제한 글 26편은 404(410 Worker 없음, wrangler.jsonc 그대로) — 목록은 PR C 본문.

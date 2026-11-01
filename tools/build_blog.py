@@ -465,9 +465,28 @@ def fund_name_in(title, funds):
     return next((n for n in funds if n.replace(' ', '') in t), None)
 
 
+# ── 주제 가드(규격 9절, 2026-11-02) ─────────────────────────────
+# 블로그는 회사 업무 주제(정책자금·보증·사업자대출·창업자금·기업인증·연구소·지원금)만 쓴다.
+# 제목·태그에 아래 말이 하나도 없으면 빌드는 경고만 하고 tests/test_blog.py 가 실패한다.
+TOPIC_KEYWORDS = ('정책자금', '자금', '대출', '보증', '창업', '인증', '연구소', '지원금', '지원사업', '기술지원',
+                  '이차보전', '소상공인', '중소기업', '상환', '사업계획', '중진공', '소진공', '신보', '기보',
+                  '신용보증재단', '시설자금', '시설투자')
+TOPIC_EXEMPT = {'about-editorial'}   # 운영자·편집 기준 안내 — 주제 글이 아니다
+
+
+def topic_ok(p):
+    if p['slug'] in TOPIC_EXEMPT:
+        return True
+    text = ' '.join([p['title'], *(p.get('tags') or [])])
+    return any(k in text for k in TOPIC_KEYWORDS)
+
+
 def check(posts):
     funds, titles = fund_names(), page_titles()
     for p in posts:
+        if not topic_ok(p):
+            print(f"[블로그 주제 경고] {p['file']}: 제목·태그에 회사 업무 주제({'·'.join(TOPIC_KEYWORDS[:7])} 등)가 없습니다 — "
+                  f"주제 이탈 글은 올리지 않습니다(규격 9절).")
         text = ' '.join([p['title'], p['summary'], p['body']])
         for find, why in ((banned_hit, '금칙어(규격 1절)'), (FEE.search, '비용 구조 문구(규격 4절 — FAQ·llms 에만)')):
             m = find(text)
@@ -697,6 +716,45 @@ def update_guide_hub(posts):
     path.write_text(s.replace('</main>', block + '</main>', 1), encoding='utf-8')
 
 
+# 허브 본문 끝 "관련 글" — 허브당 최대 3편, 블로그 글이 허브에서 링크를 받게(2026-11-02 대표 승인).
+# /sojingong·/sinbo·/jaedan 은 11/8 까지 본문 동결 — 대상 글은 docs/measure-log.md 메모.
+HUB_RELATED = {
+    'sosangin': ['october-vulnerable-credit-loan-application', 'temporary-business-difficulty-loan-october-2026',
+                 'new-business-operating-loan-eligibility'],
+    'jungsogieop': ['manufacturing-operating-facility-loan', 'seocho-business-loan-interest-period',
+                    'chungbuk-business-loan-interest-support'],
+    'jungjingong': ['kosme-november-loan-application-schedule', 'kosmes-growth-foundation',
+                    'kosmes-startup-commercialization'],
+    'gibo': ['content-production-guarantee-funding-requirement', '2026-kibo-factoring-september-october'],
+    'gaein': ['loan-consultation-brief', 'existing-business-loans-list', 'cash-flow-13-weeks'],
+}
+HUB_RELATED_MAX = 3
+
+
+def update_hub_related(posts):
+    start, end = '<!-- hub-related-posts:start -->', '<!-- hub-related-posts:end -->'
+    by_slug = {p['slug']: p for p in posts}
+    for hub, slugs in HUB_RELATED.items():
+        if len(slugs) > HUB_RELATED_MAX:
+            die(f'/{hub} 관련 글이 {len(slugs)}편입니다 — 허브당 {HUB_RELATED_MAX}편까지.')
+        missing = [s for s in slugs if s not in by_slug]
+        if missing:
+            die(f'/{hub} 관련 글 {missing} 가 posts/ 에 없습니다(내렸거나 draft) — HUB_RELATED 를 고치세요.')
+        path = ROOT / f'{hub}.html'
+        s0 = path.read_text(encoding='utf-8')
+        s = re.sub(re.escape(start) + r'.*?' + re.escape(end), '', s0, flags=re.S)
+        items = ''.join(f'<li><a href="/blog/{x}">{esc(by_slug[x]["title"])}</a></li>' for x in slugs)
+        block = (f'{start}<style>.hub-related{{padding:28px 0}}.hub-related ul{{line-height:1.8}}'
+                 f'.hub-related a{{color:#234780;text-decoration:underline;text-underline-offset:3px}}</style>'
+                 f'<section class="hub-related" aria-labelledby="hub-related-title"><div class="wrap">'
+                 f'<h2 id="hub-related-title">관련 글</h2><ul>{items}</ul></div></section>{end}')
+        if '</main>' not in s:
+            die(f'{hub}.html 에 </main> 이 없습니다.')
+        s = s.replace('</main>', block + '</main>', 1)
+        if s != s0:
+            path.write_text(s, encoding='utf-8')
+
+
 def update_home_latest(posts):
     """홈 "더 보기" 행의 최근 글 텍스트 링크 3개 — 홈→새 글 내부 링크(규격 4-1 7항, 2026-11-02)."""
     start, end = '<!-- home-latest-posts:start -->', '<!-- home-latest-posts:end -->'
@@ -756,6 +814,7 @@ def main():
     update_llms(posts)
     update_guide_hub(posts)
     update_home_latest(posts)
+    update_hub_related(posts)
     print(f"[블로그 빌드 OK] 글 {len(posts)}편 · 카테고리 {len(cats)}개({', '.join(cats)}) · feed·sitemap·llms 블록 갱신")
 
 

@@ -255,3 +255,64 @@ def test_no_control_chars_and_images_keep_src(path):
     if path.suffix == '.html':
         no_src = [m for m in re.findall(r'<img\b[^>]*>', s) if not re.search(r'\ssrc="[^"]+"', m)]
         assert not no_src, f'{path.name}: src 없는 img {no_src[:2]}'
+
+
+# ── 10. 주제 가드·허브 관련 글·삭제 글 정리 (2026-11-02, 규격 9절) ─────────────
+DELETED_20261102 = [
+    'vat-preliminary-notice-sales-drop', 'vat-october-2026-return-notice-deadlines', 'withholding-worker-severance-pay',
+    'employee-reporting-examples', 'menu-ideas-from-customer-reviews', 'ai-store-closure-notice',
+    'customer-discount-request-quote-scope', 'additional-work-quote-agreement', 'discount-contribution-margin-sales',
+    'product-page-repeated-questions', 'ai-shopping-product-information-consistency',
+    'online-store-cancellation-dark-pattern-guide', 'naver-promotion-service-ending-links',
+    'happy-department-outdoor-festival-application', 'navercloud-security-self-survey-ai-data',
+    'conditional-bad-debt-recognition-2026', 'restaurant-corporate-meal-order-capacity',
+    'small-cafe-seating-customer-flow', 'ikea-resale-customer-return-strategy',
+    'gu-product-focus-profit-business-insight', 'tesco-ai-meal-planner-customer-choice',
+    'uniqlo-2026-results-product-display-message', 'mty-store-closures-expansion-decision',
+    'oliveyoung-order-cancellation-customer-service', 'restaurant-brunch-small-test-madforgarlic',
+    'iguhome-stationery-experience-store',
+]
+
+
+def test_every_post_stays_on_company_topics():
+    off = [p['slug'] for p in POSTS if not B.topic_ok(p)]
+    assert not off, f'회사 업무 주제(정책자금·보증·사업자대출·창업자금·기업인증·연구소·지원금) 밖의 글: {off}'
+
+
+def test_topic_guard_flags_off_topic_titles():
+    assert not B.topic_ok({'slug': 'x', 'title': '손님 리뷰로 신메뉴 만드는 법', 'tags': ['매장운영']})
+    assert B.topic_ok({'slug': 'x', 'title': '개업 1년 안 된 가게 운영자금', 'tags': []})
+    assert B.topic_ok({'slug': 'about-editorial', 'title': '운영자와 편집 기준', 'tags': ['편집 기준']})
+
+
+def test_deleted_posts_are_gone_from_every_listing():
+    assert len(DELETED_20261102) == 26
+    live = {p['slug'] for p in POSTS}
+    surfaces = {name: (ROOT / name).read_text(encoding='utf-8')
+                for name in ('sitemap.xml', 'llms.txt', 'llms-full.txt', 'blog.html', 'blog/feed.xml', 'index.html')}
+    surfaces.update({p.relative_to(ROOT).as_posix(): p.read_text(encoding='utf-8')
+                     for p in (ROOT / 'blog' / 'category').glob('*.html')})
+    for slug in DELETED_20261102:
+        assert slug not in live, slug
+        assert not (ROOT / 'blog' / f'{slug}.html').exists(), slug
+        assert not (ROOT / 'assets' / 'blog' / slug).exists(), slug
+        for name, text in surfaces.items():
+            assert f'/blog/{slug}' not in text, f'{name} 에 삭제 글 {slug} 링크'
+
+
+def test_hubs_link_up_to_three_related_posts():
+    assert sum(len(v) for v in B.HUB_RELATED.values()) == 14
+    live = {p['slug']: p for p in LIVE}
+    for hub, slugs in B.HUB_RELATED.items():
+        assert 1 <= len(slugs) <= B.HUB_RELATED_MAX, hub
+        page = (ROOT / f'{hub}.html').read_text(encoding='utf-8')
+        main = re.search(r'<main.*?</main>', page, re.S).group(0)
+        block = re.findall(r'<!-- hub-related-posts:start -->(.*?)<!-- hub-related-posts:end -->', main, re.S)
+        assert len(block) == 1, hub
+        assert re.findall(r'href="/blog/([^"]+)"', block[0]) == slugs, hub
+        for s in slugs:
+            assert html.escape(live[s]['title'], quote=True) in block[0], (hub, s)
+    for frozen in ('sojingong', 'sinbo', 'jaedan'):   # 11/8 까지 본문 동결
+        assert frozen not in B.HUB_RELATED
+        assert 'hub-related-posts' not in (ROOT / f'{frozen}.html').read_text(encoding='utf-8')
+    assert 'href="/blog/small-service-business-ideas"' in (ROOT / 'startup.html').read_text(encoding='utf-8')
