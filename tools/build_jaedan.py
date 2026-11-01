@@ -120,7 +120,7 @@ def title_tails(rows):
     seen, out = set(), {}
     for d in rows:
         items=tail_items(d)
-        if len(items)<2: die(f"{d['재단ID']}: title 꼬리 데이터가 2개 미만(사례 0건이면 공개 N 으로).")
+        if len(items)<2: die(f"{d['재단ID']}: title 꼬리 데이터가 2개 미만(사례 0건이면 data/jaedan.overlay.csv 에서 공개 N 으로).")
         for second in items[1:]:
             t=f"{items[0]} · {second}"
             if t not in seen: break
@@ -208,7 +208,7 @@ def build():
             meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         else:
             # 사례 없는 지역은 페이지를 두지 않는다(공개 N → /jaedan#<slug> 301). 다른 지역 사례로 채우지 않는다.
-            print(f"[재단 빌드 경고] {d['재단ID']}: 공개 사례 0건 — jaedan.source.csv 공개를 N 으로 바꾸고 _redirects 에 301 을 추가하세요.")
+            print(f"[재단 빌드 경고] {d['재단ID']}: 공개 사례 0건 — data/jaedan.overlay.csv 에서 공개를 N 으로 바꾸고 _redirects 에 301 을 추가하세요.")
             meas=''
         # 지역 FAQ 2개(시트, 재단 공식 사이트 근거) + 원장 자동 FAQ 1개. 공통 FAQ(신용점수·진행·준비)는 /jaedan 허브에만 둔다.
         faq=[(d[f'faq{i}_q'], d[f'faq{i}_a']) for i in (1,2) if d.get(f'faq{i}_q') and d.get(f'faq{i}_a')]

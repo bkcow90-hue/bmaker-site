@@ -136,6 +136,43 @@ def merge_crm(existing, incoming):
     return out.getvalue()
 
 
+OVERLAY = 'data/jaedan.overlay.csv'
+
+
+def merge_overlay(root, sheet):
+    """재단 시트(승인 원본) + 저장소 보강 파일(data/jaedan.overlay.csv) → data/jaedan.source.csv.
+
+    보강 파일은 시트에 없는 칸(본점·공고·FAQ 등 공식 사이트 확인 사실)을 재단ID 로 붙이고,
+    '사이트 공개' 는 N(퇴역)으로 낮추는 것만 허용한다 — 저장소가 시트의 비공개 행을 공개로 올릴 수는 없다.
+    시트와 같은 이름의 칸이 보강 파일에 있으면 어느 쪽이 맞는지 사람이 정해야 하므로 멈춘다.
+    """
+    path = root / OVERLAY
+    if not path.exists():
+        return sheet
+    base = csv.DictReader(io.StringIO(sheet))
+    rows = list(base)
+    over = csv.DictReader(io.StringIO(normalize(path.read_bytes())))
+    extra = [c for c in (over.fieldnames or []) if c not in ('재단ID', '사이트 공개')]
+    if '재단ID' not in (over.fieldnames or []) or set(extra) & set(base.fieldnames):
+        raise SyncError('OVERLAY_COLUMN_CONFLICT')
+    by_id = {row['재단ID']: row for row in rows}
+    for o in over:
+        row = by_id.get(o['재단ID'])
+        if row is None:
+            raise SyncError('OVERLAY_UNKNOWN_ID')
+        flag = (o.get('사이트 공개') or '').strip().upper()
+        if flag not in ('', 'N'):
+            raise SyncError('OVERLAY_CANNOT_PUBLISH')
+        if flag:
+            row['사이트 공개'] = 'N'
+        row.update({c: o.get(c) or '' for c in extra})
+    out = io.StringIO(newline='')
+    writer = csv.DictWriter(out, fieldnames=list(base.fieldnames) + extra, lineterminator='\n', restval='')
+    writer.writeheader()
+    writer.writerows(rows)
+    return out.getvalue()
+
+
 def sync_sources(root, crm_url='', crm_token='', fetcher=fetch):
     if crm_url and not crm_token:
         raise SyncError('CRM_TOKEN_NOT_CONFIGURED')
@@ -161,6 +198,8 @@ def sync_sources(root, crm_url='', crm_token='', fetcher=fetch):
             if not target.exists():
                 raise SyncError('HISTORICAL_SOURCE_REQUIRED')
             text = merge_crm(normalize(target.read_bytes()), text)
+        if kind == 'jaedan':
+            text = merge_overlay(root, text)
         if not target.exists() or normalize(target.read_bytes()) != text:
             staged.append((target, text))
     # All network reads and validation succeed before touching any source.
