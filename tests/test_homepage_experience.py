@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from pathlib import Path
+import sys
 import unittest
 
 
@@ -168,6 +169,24 @@ class HomepageExperienceTests(unittest.TestCase):
         for href in ("/cases", "#about", "/geojeol", "/jeosinyong"):
             self.assertIn(href, hrefs)
 
+    def test_more_row_links_three_latest_blog_posts(self):
+        """홈→새 글 내부 링크 — build_blog 가 최신 3편을 home-latest-posts 마커에 넣는다(블로그 색인 문제, 2026-11-02)."""
+        import re as _re
+        sys.path.insert(0, str(ROOT / "tools"))
+        import build_blog
+        posts = [build_blog.read_post(f) for f in sorted(build_blog.POSTS.glob("*.md"))]
+        posts = sorted((p for p in posts if not p.get("draft")), key=lambda p: (p["date"], p["slug"]), reverse=True)[:3]
+        latest = self._inside("more", "a")[3:]
+        self.assertEqual([a["attrs"]["href"] for a in latest], [f"/blog/{p['slug']}" for p in posts])
+        self.assertEqual([" ".join(a["text"].split()) for a in latest], [" ".join(p["title"].split()) for p in posts])
+        home = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(len(_re.findall(r"<!-- home-latest-posts:start -->(.*?)<!-- home-latest-posts:end -->", home, _re.S)), 1)
+
+    def test_doing_counts_attach_unit_without_space(self):
+        home = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertRegex(home, r'공개 원장 <span data-stat="total-n">[\d,]+</span>건')
+        self.assertRegex(home, r'증빙 캡처 <span data-stat="ev-n">[\d,]+</span>건')
+
     def test_services_heading_keeps_next_choice_line(self):
         texts = [" ".join(p["text"].split()) for p in self._inside("services", "p")]
         self.assertIn("자금이 끝이 아니라 인증·연구소·지원금까지 순서로 봅니다.", texts)
@@ -200,7 +219,7 @@ class HomepageExperienceTests(unittest.TestCase):
         self.assertNotIn("edu-home", classes)
         for kept in ("about", "experts", "faq", "guides", "apply-section"):
             self.assertIn(kept, ids)
-        links = self._inside("more", "a")
+        links = self._inside("more", "a")[:3]
         self.assertEqual([a["attrs"]["href"] for a in links], ["/education", "#apply", "/blog"])
         self.assertEqual(links[1]["attrs"].get("data-cta-location"), "guidebook")
         self.assertIn("가이드북", links[1]["text"])

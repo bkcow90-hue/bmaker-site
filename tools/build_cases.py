@@ -85,9 +85,12 @@ def render_home_case_cards(rows):
     return '\n'.join(cards)
 
 
-def apply_brand_home(ih, b):
-    """홈의 정의·고지 문장과 Organization description 을 data/brand.json 에서 넣는다(규격 3절, 2026-11-02)."""
-    for name, text in (('brand-definition', b['definition']), ('brand-notice', b['notice'])):
+def apply_brand_home(ih, b, n):
+    """홈의 정의·고지 문장, 회사소개 첫 문단, Organization description 을 data/brand.json 에서 넣는다(규격 3절, 2026-11-02).
+    회사소개 첫 문단 = 정의 + statements[1] + statements[2]({N}=공개 원장 건수). statements[0] 은 정의와 겹쳐 llms.txt 에만."""
+    st = brand.statements(n)
+    about = ' '.join((b['definition'], st[1], st[2]))
+    for name, text in (('brand-definition', b['definition']), ('brand-notice', b['notice']), ('brand-about', about)):
         ih = re.sub(rf'<!-- {name}:start -->.*?<!-- {name}:end -->',
                     lambda _: f'<!-- {name}:start -->{escape(text, quote=False)}<!-- {name}:end -->', ih, flags=re.S)
     def org(m):
@@ -102,6 +105,14 @@ def apply_brand_home(ih, b):
 def apply_brand_llms(text, b):
     """llms 파일 첫 문단의 첫 문장 = 정의 문장."""
     return re.sub(r'^> [^\n]*?회사입니다\.', lambda _: '> ' + b['definition'], text, count=1, flags=re.M)
+
+
+def apply_brand_company_block(text, n):
+    """llms.txt 첫 문단 바로 아래 "## 회사" 블록 = statements 0~2(profile_only 제외, {N}=공개 원장 건수)."""
+    block = '## 회사\n\n' + ''.join(f'- {s}\n' for s in brand.statements(n)) + '\n'
+    if re.search(r'^## 회사\n', text, flags=re.M):
+        return re.sub(r'^## 회사\n\n(?:- [^\n]*\n)*\n?', lambda _: block, text, count=1, flags=re.M)
+    return re.sub(r'(^> [^\n]*\n\n)', lambda m: m.group(1) + block, text, count=1, flags=re.M)
 
 def norm_rate(v):
     """금리 표기 통일: 앞머리의 숫자를 '연 N.NN%' 틀로 맞춘다. 숫자와 뒤따르는 설명(괄호 등)은 그대로 보존.
@@ -310,7 +321,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
              f"폐업 후 재창업(폐업 이력) {nc}건, 세금 체납 이력 {nt}건, 기존 정책자금 보유 {np_}건, 신용점수 600점대 이하 {nl}건이 실행으로 이어짐. "
              f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 받은 사례: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
     lt=re.sub(r'- 실행 사례\([^\n]*', newline, lt)
-    lt=apply_brand_llms(lt, B)
+    lt=apply_brand_company_block(apply_brand_llms(lt, B), N)
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
     # index.html 히어로 실측 띠(마커 블록) 교체
     ip=ROOT/'index.html'
@@ -326,7 +337,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
             cards = render_home_case_cards(featured)
             ih=re.sub(r'<!-- home-matched-cases:start -->.*?<!-- home-matched-cases:end -->',
                       lambda _: '<!-- home-matched-cases:start -->'+cards+'<!-- home-matched-cases:end -->', ih, flags=re.S)
-            ih=apply_brand_home(ih, B)
+            ih=apply_brand_home(ih, B, N)
             ip.write_text(ih, encoding='utf-8')
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
     _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]

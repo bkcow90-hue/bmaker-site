@@ -43,3 +43,4 @@ main .more-row a{color:#234780;text-decoration:underline;text-underline-offset:4
 @media(max-width:980px){main .entry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){main .entry-section{padding:40px 0}main .entry-grid{grid-template-columns:1fr;gap:12px}main .more-row p{flex-direction:column;align-items:flex-start;gap:8px}}
 main .cases .case .case-memo{font-size:.88rem;color:#41516a;line-height:1.6}
+main .more-row p.more-latest{margin-top:10px}main .more-row p.more-latest a{font-weight:500}
