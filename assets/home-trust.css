@@ -22,3 +22,24 @@ main .other-services p{line-height:1.8;margin-top:12px}
 main .trust-section a:focus-visible,main .value-section a:focus-visible,main .other-services summary:focus-visible{outline:3px solid #234780;outline-offset:5px}
 main #faq{scroll-margin-top:100px}
 @media(max-width:680px){main .trust-section,main .value-section{padding:40px 0}main .trust-intro,main .trust-list,main .value-row{grid-template-columns:1fr;gap:16px}main .trust-intro{margin-bottom:20px}main .trust-list article{padding:20px 0}main .value-row{padding:22px 0}main .trust-intro p,main .trust-list p,main .value-row p,main .value-fit{font-size:16px}main .trust-list{gap:0}main .trust-note{padding:8px 14px}}
+/* 2026-11-02 홈 개편: 상황별 입구 4카드 · 기준 섹션 두 묶음 · 폼 돌려드리는 것 · 하단 더 보기 행 */
+main .entry-section{padding:56px 0;background:#fff;border-bottom:1px solid #dce2ea}
+main .entry-section h2{font-size:clamp(24px,2.8vw,34px);line-height:1.45;margin:8px 0 26px}
+main .entry-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+main .entry-card{display:flex;flex-direction:column;gap:10px;border:1px solid #c8d0dc;border-top:3px solid #234780;border-radius:6px;padding:22px 20px;background:#fff}
+main .entry-card h3{font-size:18px;line-height:1.5;margin:0;color:#0e1b33}
+main .entry-card p{margin:0;line-height:1.75;color:#41516a;font-size:15px}
+main .entry-card a{margin-top:auto;color:#234780;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+main .entry-card a.entry-sub{margin-top:0;font-weight:500;font-size:14px;color:#41516a}
+main .entry-card a:focus-visible{outline:3px solid #234780;outline-offset:4px}
+main .trust-group{font-weight:800;color:#234780;letter-spacing:.04em;margin:26px 0 4px}
+main .services .svc-sub{color:#41516a;line-height:1.75;margin:-6px 0 22px}
+main .apply-form .form-returns{margin:12px 0 4px;padding:14px 16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:6px}
+main .apply-form .form-returns .form-returns-title{font-weight:800;color:#fff;margin:0 0 6px;font-size:15px;opacity:1}
+main .apply-form .form-returns ol{margin:0;padding-left:20px;line-height:1.75;font-size:15px;color:#e6ecf5}
+main .more-row{padding:26px 0;background:#fff;border-top:1px solid #dce2ea}
+main .more-row p{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin:0}
+main .more-row a{color:#234780;text-decoration:underline;text-underline-offset:4px;font-weight:700}
+@media(max-width:980px){main .entry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){main .entry-section{padding:40px 0}main .entry-grid{grid-template-columns:1fr;gap:12px}main .more-row p{flex-direction:column;align-items:flex-start;gap:8px}}
+main .cases .case .case-memo{font-size:.88rem;color:#41516a;line-height:1.6}

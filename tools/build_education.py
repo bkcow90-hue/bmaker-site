@@ -66,12 +66,8 @@ def main():
             return s
         page=re.sub(r'<nav\b[^>]*>.*?</nav>',nav,page,flags=re.S)
         if path.name=='index.html':
-            block='<section class="edu-home"><div class="wrap"><div><p>기업 대표·실무 담당자·단체 교육 안내</p><h2>소상공인부터 중소기업·법인까지,<br>정책자금 준비를 실무 교육으로.</h2><p>60분 입문 · 90분 기업 자금계획 · 120분 준비자료 워크숍.<br>기업·상인회·협회 맞춤 출강과 인쇄용 활동지를 확인하세요.</p></div><a href="/education">교육·출강 프로그램 보기 →</a></div></section>'
-            if '<section class="edu-home">' in page:
-                page = re.sub(r'<section class="edu-home">.*?</section>', lambda _: block, page, count=1, flags=re.S)
-            else:page=page.replace('<section class="services"',block+'\n<section class="services"',1)
-            css='<link rel="stylesheet" href="/assets/education.css">'
-            if 'href="/assets/education.css' not in page:page=page.replace('</head>',css+'</head>')  # ?v= 무관
+            # 홈 교육 섹션은 하단 "더 보기" 링크 행(/education)으로 축소했다(규격 4-1 7항, 2026-11-02 대표 승인) — 다시 넣지 않는다
+            page = re.sub(r'<section class="edu-home">.*?</section>\n?', '', page, flags=re.S)
         path.write_text(page,encoding='utf-8')
     path=ROOT/'sitemap.xml';s=path.read_text(encoding='utf-8')
     for slug in ['education','education-program']:

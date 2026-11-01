@@ -10,6 +10,7 @@ from html import escape
 from pathlib import Path
 from openpyxl import load_workbook
 from builddate import build_date, data_date
+import brand
 
 ROOT = Path(__file__).resolve().parent.parent
 FEE = "착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다."
@@ -77,9 +78,30 @@ def render_home_case_cards(rows):
             f'<p>{e("자금명")}</p>'
             f'<p class="amt">{escape(won2(r["실행 금액(만원)"]))}</p>'
             f'<p class="case-date">{date} 실행 · 당시 개별 심사 결과</p>'
-            f'<a href="/cases#case-{key}">이 사례 자세히 보기 →</a></article>'
+            # 원장 '한 줄 메모'가 있을 때만 한 줄 — 없으면 카드가 한 글자도 바뀌지 않는다(규격 4-1, 2026-11-02)
+            + (f'<p class="case-memo">검토 포인트: {e("한 줄 메모")}</p>' if str(r.get('한 줄 메모', '') or '').strip() else '')
+            + f'<a href="/cases#case-{key}">이 사례 자세히 보기 →</a></article>'
         )
     return '\n'.join(cards)
+
+
+def apply_brand_home(ih, b):
+    """홈의 정의·고지 문장과 Organization description 을 data/brand.json 에서 넣는다(규격 3절, 2026-11-02)."""
+    for name, text in (('brand-definition', b['definition']), ('brand-notice', b['notice'])):
+        ih = re.sub(rf'<!-- {name}:start -->.*?<!-- {name}:end -->',
+                    lambda _: f'<!-- {name}:start -->{escape(text, quote=False)}<!-- {name}:end -->', ih, flags=re.S)
+    def org(m):
+        d = json.loads(m.group(1))
+        if d.get('@id') != 'https://bmaker.kr/#org':
+            return m.group(0)
+        d['description'] = b['definition']
+        return '<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False) + '</script>'
+    return re.sub(r'<script type="application/ld\+json">(\{[^<]*?)</script>', org, ih, flags=re.S)
+
+
+def apply_brand_llms(text, b):
+    """llms 파일 첫 문단의 첫 문장 = 정의 문장."""
+    return re.sub(r'^> [^\n]*?회사입니다\.', lambda _: '> ' + b['definition'], text, count=1, flags=re.M)
 
 def norm_rate(v):
     """금리 표기 통일: 앞머리의 숫자를 '연 N.NN%' 틀로 맞춘다. 숫자와 뒤따르는 설명(괄호 등)은 그대로 보존.
@@ -277,6 +299,8 @@ td a{color:var(--blue-deep);text-decoration:underline}
     sec=f"## 받은 사례 ({yms[0]} ~ {yms[-1]}, {N}건, 총 {won2(total)})\n\n수록 기준: 실행이 확인된 건을 익명(업종·지역·금액·조건)으로 수록. 기관 안내문·정산 기록 등 증빙이 확보된 건은 증빙 표시와 함께 캡처 첨부\n\n"+"\n".join(lines)+"\n"
     lf=re.sub(r'## 받은 사례.*?(?=\n## )', sec+"\n", lf, flags=re.S)
     lf=re.sub(r'기준일 \d{4}-\d{2}-\d{2}', f'기준일 {asof}', lf)
+    B=brand.load()
+    lf=apply_brand_llms(lf, B)
     (ROOT/'llms-full.txt').write_text(lf, encoding='utf-8')
     # llms.txt 요약 한 줄 교체
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
@@ -286,6 +310,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
              f"폐업 후 재창업(폐업 이력) {nc}건, 세금 체납 이력 {nt}건, 기존 정책자금 보유 {np_}건, 신용점수 600점대 이하 {nl}건이 실행으로 이어짐. "
              f"확정 금리 예: {' · '.join(rates)} (각 실행 시점 기준). 전체 받은 사례: https://bmaker.kr/cases · 원자료: https://bmaker.kr/data/cases.csv")
     lt=re.sub(r'- 실행 사례\([^\n]*', newline, lt)
+    lt=apply_brand_llms(lt, B)
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
     # index.html 히어로 실측 띠(마커 블록) 교체
     ip=ROOT/'index.html'
@@ -301,6 +326,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
             cards = render_home_case_cards(featured)
             ih=re.sub(r'<!-- home-matched-cases:start -->.*?<!-- home-matched-cases:end -->',
                       lambda _: '<!-- home-matched-cases:start -->'+cards+'<!-- home-matched-cases:end -->', ih, flags=re.S)
+            ih=apply_brand_home(ih, B)
             ip.write_text(ih, encoding='utf-8')
     # 정적 페이지 data-stat 스팬 주입 (기관별 실측)
     _KEYS=[('소상공인','소진공'),('재단','재단'),('기술','기보'),('신용보증기금','신보'),('중소벤처','중진공'),('중진공','중진공')]

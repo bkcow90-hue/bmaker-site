@@ -12,9 +12,11 @@ def test_only_one_form_follows_operating_principles_value_and_costs():
     assert source.count('id="leadForm"') == 1
     assert source.count('id="apply"') == 1
     # 2026-10-27: 고객이 업무 원칙·제공 가치·담당·비용을 읽고 신청한다.
-    order = ['principles', 'why-us', 'cases', 'about', 'faq', 'leadForm']
+    # 2026-11-02: 히어로 아래 상황별 입구 4카드(#entry)가 옛 #why-us 3카드를 대신한다(규격 4-1).
+    order = ['entry', 'principles', 'cases', 'about', 'faq', 'leadForm']
     positions = [source.index(f'id="{name}"') for name in order]
     assert positions == sorted(positions)
+    assert 'id="why-us"' not in source
     assert '<details open><summary>상담과 업무 비용은 어떻게 되나요?' in source
     assert 'class="case" aria-hidden="true"' not in source
 
