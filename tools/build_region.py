@@ -242,7 +242,7 @@ def page_html(c, style, hdr, foot):
 
     # ② 재단 지점 — 담당 문장은 근거 범위를 넘지 않는다(강서구 = 특별신용보증 접수처)
     blabel = branch_label([d['이름'] for d in br]) if br else jname
-    sentence_txt = override or f"{city}의 신용보증재단 업무는 {blabel}{subj(blabel)} 담당합니다."
+    sentence_txt = override or f"{city} 사업장의 보증 창구는 {blabel}입니다."
     sentence = esc(sentence_txt)
     brows = []
     for d in br:
@@ -391,7 +391,7 @@ def page_html(c, style, hdr, foot):
     {faq_html}
     {form_html('/region/' + c['도시ID'], city, TITLE_GENERAL)}
     {sec_prov}
-    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사입니다. {FEE}</p></div>
+    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 정부·공공기관이 아닌 경영컨설팅 회사입니다. {FEE}</p></div>
     {office}
     <p class="byline">{BYLINE.format(newest)}</p>
     <div class="related">
@@ -496,7 +496,7 @@ def hub_html(cities, style, hdr, foot):
     <p class="asof">본 목록은 {newest.year}년 {newest.month}월 기준입니다. 공고 수는 각 도시 페이지의 공고 표와 같습니다.</p>
     {"".join(secs)}
     {form_html('/region', '지역별 창구', TITLE_GENERAL)}
-    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사입니다. {FEE}</p></div>
+    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단·은행·지자체가 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 비즈니스 메이커는 정부·공공기관이 아닌 경영컨설팅 회사입니다. {FEE}</p></div>
     <p class="byline">{BYLINE.format(newest)}</p>
     <div class="related">
       <p class="t">함께 보기</p>

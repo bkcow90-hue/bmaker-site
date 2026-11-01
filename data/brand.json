@@ -8,5 +8,17 @@
     {"text": "정책자금은 받은 사례 {N}건을 기관·금액·금리·소요일까지 공개 원장으로 공개하고, 진행이 어려우면 어렵다고 먼저 말합니다.", "profile_only": false},
     {"text": "정책자금은 착수금·진행비 없이 실행 시 성공보수만 받고, 인증·연구소·지원금은 범위와 비용을 계약 전에 안내합니다.", "profile_only": true}
   ],
-  "sameAs": []
+  "sameAs": [
+    "https://www.youtube.com/@bmaker_kr",
+    "https://blog.naver.com/bmaker_kr",
+    "https://contents.premium.naver.com/bmaker/bmaker1",
+    "https://map.naver.com/p/entry/place/1503999218",
+    "https://www.daangn.com/kr/local-profile/%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4-%EB%A9%94%EC%9D%B4%EC%BB%A4-7go8rumqcxp5/",
+    "https://www.instagram.com/bmaker_kr/",
+    "https://www.threads.com/@bmaker_kr",
+    "https://pf.kakao.com/_GKuxfn"
+  ],
+  "founder_sameAs": [
+    "https://www.linkedin.com/in/sang-pyo-kim-328b19154/"
+  ]
 }

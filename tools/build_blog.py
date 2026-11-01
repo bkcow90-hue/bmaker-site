@@ -557,8 +557,8 @@ def build_post(p, posts, terms, style, hdr, foot):
         return page
     byline = (f'작성 {BRAND} · 자료 확인 {p["updated"]}' if p.get('reviewed') is False
               else f'작성 {BRAND} · 검토 김상표(대표) · 최종 확인 {p["updated"][:7]}')
-    disclaimer = (f'이 글은 창업 비교를 위한 일반 정보이며 특정 브랜드의 매출·수익 예측이 아닙니다. 계약·세무 등 개별 사안은 해당 전문가에게 확인하세요. {BRAND}는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다.'
-                  if service == 'startup' else f'이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 정책자금 경영컨설팅 회사이며, 금융기관도 아닙니다.')
+    disclaimer = (f'이 글은 창업 비교를 위한 일반 정보이며 특정 브랜드의 매출·수익 예측이 아닙니다. 계약·세무 등 개별 사안은 해당 전문가에게 확인하세요. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.'
+                  if service == 'startup' else f'이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.')
     page += f'''<section class="block"><div class="wrap post">
 <article>
 {article}

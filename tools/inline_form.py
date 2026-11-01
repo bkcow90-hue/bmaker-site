@@ -23,6 +23,9 @@ import html
 TITLE = '이 자금, 우리 회사도 되는지 무료로 확인'
 TITLE_GENERAL = '우리 회사도 되는지 무료로 확인'   # 자금 하나가 아닌 페이지(허브·4분기)
 BUTTON = '무료 진단 신청'   # 전 사이트 통일 (규격 4절, 2026-09-28)
+# 제목 아래 '진단에서 돌려드리는 것' 4항목 — 홈 폼과 같은 문장(규격 4-1 6항, 2026-11-02)
+RETURNS = ('신청해 볼 기관·자금 후보', '지금 부족한 요건', '준비 순서와 서류', '진행이 어렵다면 그 이유')
+SUB = '연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.'
 BIZ_TYPES = [('개인사업자', '개인사업자'), ('법인사업자', '법인사업자'), ('창업 예정', '예정')]
 
 CSS = (
@@ -30,6 +33,9 @@ CSS = (
  'background:var(--paper,#F7F5F0);padding:26px 24px;margin:28px 0}'
  '.inline-diag h2{margin:0 0 6px;padding:0;border:0;font-size:1.18rem;line-height:1.45;color:var(--navy,#0E1B33)}'
  '.inline-diag .sub{margin:0 0 18px;font-size:.92rem;color:#4a5669;line-height:1.6}'
+ '.inline-diag .returns{margin:0 0 18px;padding:12px 16px;background:#fff;border:1px solid var(--line,#E1DED6)}'
+ '.inline-diag .returns p{margin:0 0 4px;font-size:.92rem;font-weight:800;color:var(--navy,#0E1B33)}'
+ '.inline-diag .returns ol{margin:0;padding-left:20px;font-size:.92rem;line-height:1.7;color:#3A4356}'
  '.inline-diag .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}'
  '.inline-diag label,.inline-diag .field-label{display:block;font-size:.9rem;font-weight:700;'
  'color:#263951;margin:0 0 7px}'
@@ -66,8 +72,9 @@ CSS = (
 )
 
 
-def form_html(page_path, page_label, title=TITLE, service='policy'):
-    """page_path·page_label 은 어느 페이지에서 온 신청인지 알림 메일에 남기는 값이다."""
+def form_html(page_path, page_label, title=TITLE, service='policy', returns=True):
+    """page_path·page_label 은 어느 페이지에서 온 신청인지 알림 메일에 남기는 값이다.
+    returns=False 면 4항목 대신 옛 안내 한 줄(본문 동결 페이지용). 창업 상담 폼은 늘 안내 한 줄."""
     e = lambda s: html.escape(s, quote=True)
     where = '%s (%s)' % (page_path, page_label)
     biz = ''.join(
@@ -78,7 +85,7 @@ def form_html(page_path, page_label, title=TITLE, service='policy'):
  '  <form id="leadForm" aria-labelledby="inline-diag-title">\n'
  '    <h2 id="inline-diag-title" class="serif">%s</h2>\n' % e(title) +
  # 비용·성과 보수 고지는 폼에 두지 않는다 — 각 페이지 본문·FAQ가 맡는다(규격 4절, 2026-09-28)
- '    <p class="sub">연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.</p>\n'
+ '@@INTRO@@'
  '    <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" '
  'style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">\n'
  '    <input type="hidden" id="lf-service" name="consultation_service" value="policy">\n'
@@ -109,6 +116,12 @@ def form_html(page_path, page_label, title=TITLE, service='policy'):
  '    <noscript>온라인 신청에는 자바스크립트가 필요합니다. 전화 1666-2425 또는 카톡 상담을 이용해 주세요.</noscript>\n'
  '  </form>\n'
  '</section>\n')
+    if returns and service == 'policy':
+        intro = ('    <div class="returns"><p>진단에서 돌려드리는 것</p><ol>%s</ol></div>\n'
+                 % ''.join('<li>%s</li>' % e(x) for x in RETURNS))
+    else:
+        intro = '    <p class="sub">%s</p>\n' % SUB
+    markup = markup.replace('@@INTRO@@', intro, 1)
     if service == 'startup':
         markup = markup.replace('name="consultation_service" value="policy"', 'name="consultation_service" value="startup"')
         markup = markup.replace('무료 진단 예약', '창업 상담 예약').replace('무료 진단 신청', '창업 비교 상담 신청')

@@ -279,7 +279,7 @@ def build():
     <tbody>{trs}</tbody>
   </table></div>
   <p class="asof">{esc(cfg['note_track'])}은 취급하는 경로이지만 공개 집계에 포함된 건이 없어 숫자는 —로 둡니다.
-  숫자는 받은 사례에서 자동으로 집계한 값이며 각 실행 시점 기준입니다. 기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 ·
+  숫자는 받은 사례 원장을 그대로 더한 값이며 각 실행 시점 기준입니다. 기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 ·
   전체는 <a href="/cases">받은 사례</a>에서 확인하실 수 있습니다.</p>
 </div></section>
 

@@ -223,7 +223,7 @@ def build():
         title_txt=f"{d['재단명']} 사업자대출, {tails[d['재단ID']]}"
         rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">받은 사례</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
         # 사례 3건 미만 지역은 위에서 퇴역시켜 여기 오지 않는다. 다른 지역 사례로 채우지 않는다.
-        meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
+        meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장 중 {esc(d["재단명"])} 보증으로 받은 사례입니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         # 지역 FAQ 2개(시트, 재단 공식 사이트 근거) + 원장 자동 FAQ 1개. 공통 FAQ(신용점수·진행·준비)는 /jaedan 허브에만 둔다.
         faq=[(d[f'faq{i}_q'], d[f'faq{i}_a']) for i in (1,2) if d.get(f'faq{i}_q') and d.get(f'faq{i}_a')]
         if C:
