@@ -34,6 +34,27 @@ def test_home_case_renderer_keeps_each_fixture_and_escapes_markup():
         assert f'업력 {row["업력(년)"]}년' in parser.text
         assert row["실행 연월"].replace("-", ".") in parser.text
         assert won2(row["실행 금액(만원)"]) in parser.text
+def test_home_case_card_shows_memo_only_when_present():
+    """원장 '한 줄 메모'가 있으면 "검토 포인트: {메모}" 한 줄, 없으면 카드가 한 글자도 바뀌지 않는다(규격 4-1, 2026-11-02)."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from build_cases import render_home_case_cards
+    base = {"사례ID": "T1", "실행 연월": "2026-05", "지역(시도)": "서울", "업종": "제조", "기관": "기관",
+            "사업 형태": "법인", "업력(년)": "3", "자금명": "자금", "실행 금액(만원)": "3000"}
+    plain = render_home_case_cards([base])
+    assert render_home_case_cards([{**base, "한 줄 메모": ""}]) == plain
+    assert render_home_case_cards([{**base, "한 줄 메모": "  "}]) == plain
+    assert "검토 포인트" not in plain
+    memo = render_home_case_cards([{**base, "한 줄 메모": "기존 보증 <잔액> 확인 후 진행"}])
+    assert '<p class="case-memo">검토 포인트: 기존 보증 &lt;잔액&gt; 확인 후 진행</p>' in memo
+    assert memo.replace('<p class="case-memo">검토 포인트: 기존 보증 &lt;잔액&gt; 확인 후 진행</p>', '') == plain
+
+
+def test_home_shows_three_ledger_cases_in_marker():
+    home = (ROOT / "index.html").read_text(encoding="utf-8")
+    block = re.search(r"<!-- home-matched-cases:start -->(.*?)<!-- home-matched-cases:end -->", home, re.S).group(1)
+    assert len(re.findall(r'<article class="case" data-case-id="', block)) == 3
+
+
 def test_home_case_selection_includes_both_forms_without_duplicates():
     sys.path.insert(0, str(ROOT / "tools"))
     from build_cases import select_home_cases

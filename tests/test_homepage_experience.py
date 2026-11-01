@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from pathlib import Path
+import sys
 import unittest
 
 
@@ -109,26 +110,119 @@ class HomepageExperienceTests(unittest.TestCase):
         self.assertEqual(len(case_lists), 1)
         self.assertEqual(case_lists[0]["attrs"].get("aria-label"), "승인사례 목록")
 
-    def test_news_hides_instagram_while_guidebook_event_remains_visible(self):
-        instagram_grid = next(
-            element
-            for element in self.elements
-            if element["attrs"].get("id") == "instaGrid"
-        )
-        instagram_more = next(
-            element
-            for element in self.elements
-            if "media-more" in element["attrs"].get("class", "").split()
-        )
-        guidebook_event = next(
-            element
-            for element in self.elements
-            if "event-banner" in element["attrs"].get("class", "").split()
-        )
+    # ── 2026-11-02 홈 개편(규격 4-1) ─────────────────────────────────────
+    def _section(self, section_id):
+        return next(e for e in self.elements if e["tag"] == "section" and e["attrs"].get("id") == section_id)
 
-        self.assertIn("hidden", instagram_grid["attrs"])
-        self.assertIn("hidden", instagram_more["attrs"])
-        self.assertNotIn("hidden", guidebook_event["attrs"])
+    def _inside(self, section_id, tag):
+        """section_id 구역 안의 tag 요소들 — 원본 순서로 구역 시작~다음 section 시작 사이."""
+        start = self.elements.index(self._section(section_id))
+        out = []
+        for e in self.elements[start + 1:]:
+            if e["tag"] == "section":
+                break
+            if e["tag"] == tag:
+                out.append(e)
+        return out
+
+    def test_hero_heading_is_next_choice_copy_with_single_cta(self):
+        self.assertEqual(" ".join(self.hero_heading_lines), "정책자금, 여기까지 만든 사업의 다음 선택지를 찾습니다.")
+        hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())
+        ctas = [e for e in self._inside_hero("a")]
+        self.assertEqual([" ".join(a["text"].split()) for a in ctas], ["무료 진단 신청"])
+        self.assertNotRegex(hero["text"], r"착수금|성공보수|진행비|받은 사례 [\d,]+건")
+        self.assertIn("신청할 수 있는지부터 준비할 서류까지 함께 검토하고, 진행이 어렵다면 그 이유부터 말씀드립니다.", hero["text"])
+
+    def _inside_hero(self, tag):
+        hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())
+        start = self.elements.index(hero)
+        out = []
+        for e in self.elements[start + 1:]:
+            if e["tag"] == "section":
+                break
+            if e["tag"] == tag:
+                out.append(e)
+        return out
+
+    def test_entry_cards_route_by_stage_without_numbers(self):
+        h2 = self._inside("entry", "h2")
+        self.assertEqual([" ".join(h["text"].split()) for h in h2], ["지금 어느 단계인지부터 고르세요."])
+        cards = [e for e in self._inside("entry", "article") if "entry-card" in e["attrs"].get("class", "")]
+        self.assertEqual(len(cards), 4)
+        hrefs = [a["attrs"]["href"] for a in self._inside("entry", "a")]
+        self.assertEqual(hrefs, ["/sosangin", "/jungsogieop", "/working-capital-facility", "/daehwan", "/startup"])
+        for card in cards:
+            with self.subTest(card=card["text"][:20]):
+                self.assertNotRegex(card["text"], r"\d|금리|승인|가능성")
+        self.assertFalse(any(e["attrs"].get("id") == "why-us" for e in self.elements))
+
+    def test_principles_list_four_donts_and_three_doings(self):
+        h2 = self._inside("principles", "h2")
+        self.assertEqual(" ".join(h2[0]["text"].split()), "안 하는 일과, 하고 있는 일.")
+        h3 = [" ".join(h["text"].split()) for h in self._inside("principles", "h3")]
+        self.assertEqual(len(h3), 7)
+        self.assertEqual(h3[4:], ["원장을 공개합니다", "이름을 걸고 합니다", "어려우면 먼저 말합니다"])
+        stats = [e["attrs"].get("data-stat") for e in self._inside("principles", "span")]
+        self.assertIn("total-n", stats)
+        self.assertIn("ev-n", stats)
+        hrefs = [a["attrs"]["href"] for a in self._inside("principles", "a")]
+        for href in ("/cases", "#about", "/geojeol", "/jeosinyong"):
+            self.assertIn(href, hrefs)
+
+    def test_more_row_links_three_latest_blog_posts(self):
+        """홈→새 글 내부 링크 — build_blog 가 최신 3편을 home-latest-posts 마커에 넣는다(블로그 색인 문제, 2026-11-02)."""
+        import re as _re
+        sys.path.insert(0, str(ROOT / "tools"))
+        import build_blog
+        posts = [build_blog.read_post(f) for f in sorted(build_blog.POSTS.glob("*.md"))]
+        posts = sorted((p for p in posts if not p.get("draft")), key=lambda p: (p["date"], p["slug"]), reverse=True)[:3]
+        latest = self._inside("more", "a")[3:]
+        self.assertEqual([a["attrs"]["href"] for a in latest], [f"/blog/{p['slug']}" for p in posts])
+        self.assertEqual([" ".join(a["text"].split()) for a in latest], [" ".join(p["title"].split()) for p in posts])
+        home = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(len(_re.findall(r"<!-- home-latest-posts:start -->(.*?)<!-- home-latest-posts:end -->", home, _re.S)), 1)
+
+    def test_doing_counts_attach_unit_without_space(self):
+        home = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertRegex(home, r'공개 원장 <span data-stat="total-n">[\d,]+</span>건')
+        self.assertRegex(home, r'증빙 캡처 <span data-stat="ev-n">[\d,]+</span>건')
+
+    def test_services_heading_keeps_next_choice_line(self):
+        texts = [" ".join(p["text"].split()) for p in self._inside("services", "p")]
+        self.assertIn("자금이 끝이 아니라 인증·연구소·지원금까지 순서로 봅니다.", texts)
+
+    def test_form_lists_four_returns_then_guidebook_without_fee_copy(self):
+        forms = [e for e in self.elements if e["tag"] == "form"]
+        self.assertEqual(len(forms), 1)
+        form = forms[0]
+        returns = [" ".join(e["text"].split()) for e in self.elements
+                   if e["tag"] == "li" and e in self._form_children(form)]
+        self.assertEqual(returns, ["신청해 볼 기관·자금 후보", "지금 부족한 요건", "준비 순서와 서류", "진행이 어렵다면 그 이유"])
+        text = " ".join(form["text"].split())
+        self.assertLess(text.index("진단에서 돌려드리는 것"), text.index("가이드북"))
+        self.assertNotRegex(text, r"착수금|성공보수|진행비|성과 보수")
+
+    def _form_children(self, form):
+        start = self.elements.index(form)
+        out = []
+        for e in self.elements[start + 1:]:
+            if e["tag"] == "button" and e["attrs"].get("type") == "submit":
+                break
+            out.append(e)
+        return out
+
+    def test_bottom_sections_collapse_into_one_more_row(self):
+        ids = {e["attrs"].get("id") for e in self.elements if e["tag"] == "section"}
+        classes = " ".join(e["attrs"].get("class", "") for e in self.elements if e["tag"] == "section")
+        for gone in ("event", "news"):
+            self.assertNotIn(gone, ids)
+        self.assertNotIn("edu-home", classes)
+        for kept in ("about", "experts", "faq", "guides", "apply-section"):
+            self.assertIn(kept, ids)
+        links = self._inside("more", "a")[:3]
+        self.assertEqual([a["attrs"]["href"] for a in links], ["/education", "#apply", "/blog"])
+        self.assertEqual(links[1]["attrs"].get("data-cta-location"), "guidebook")
+        self.assertIn("가이드북", links[1]["text"])
 
 
 class ScrollRevealTests(unittest.TestCase):

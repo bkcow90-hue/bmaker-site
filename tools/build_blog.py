@@ -697,6 +697,20 @@ def update_guide_hub(posts):
     path.write_text(s.replace('</main>', block + '</main>', 1), encoding='utf-8')
 
 
+def update_home_latest(posts):
+    """홈 "더 보기" 행의 최근 글 텍스트 링크 3개 — 홈→새 글 내부 링크(규격 4-1 7항, 2026-11-02)."""
+    start, end = '<!-- home-latest-posts:start -->', '<!-- home-latest-posts:end -->'
+    path = ROOT / 'index.html'
+    s = path.read_text(encoding='utf-8')
+    if start not in s:
+        die('index.html 에 home-latest-posts 마커가 없습니다.')
+    latest = sorted(posts, key=lambda p: (p['date'], p['slug']), reverse=True)[:3]
+    links = ''.join(f'<a href="/blog/{p["slug"]}">{esc(p["title"])}</a>' for p in latest)
+    new = re.sub(re.escape(start) + r'.*?' + re.escape(end), lambda _: start + links + end, s, flags=re.S)
+    if new != s:
+        path.write_text(new, encoding='utf-8')
+
+
 def main():
     files = sorted(POSTS.glob('*.md'))
     if not files:
@@ -741,6 +755,7 @@ def main():
     update_sitemap(urls)
     update_llms(posts)
     update_guide_hub(posts)
+    update_home_latest(posts)
     print(f"[블로그 빌드 OK] 글 {len(posts)}편 · 카테고리 {len(cats)}개({', '.join(cats)}) · feed·sitemap·llms 블록 갱신")
 
 
