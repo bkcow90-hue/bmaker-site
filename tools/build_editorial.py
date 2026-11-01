@@ -166,6 +166,10 @@ def main():
         ('jaedan', 'gaein', '재단ID', '재단명', '사업장 소재지의 신용보증재단 찾기')]:
         with (ROOT / f'data/{source}.source.csv').open(encoding='utf-8-sig', newline='') as f:
             rows = [r for r in csv.DictReader(f) if r.get('사이트 공개', '').upper() == 'Y']
+        if source == 'jaedan':
+            # 사례 3건 미만으로 퇴역한 재단은 페이지가 없다 — build_jaedan 과 같은 규칙
+            import build_jaedan
+            rows = [r for r in rows if r[id_key] in build_jaedan.live_ids()]
         links = [(r[id_key], r[label_key]) for r in rows]
         path = ROOT / (slug + '.html')
         page = replace_block(path.read_text(encoding='utf-8'), 'topic-directory', topic_links(links, heading))

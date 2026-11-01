@@ -86,9 +86,11 @@ def _fund_slugs():
 
 
 def _jaedan_slugs():
-    import csv
-    with open(ROOT/"data"/"jaedan.source.csv", encoding="utf-8-sig") as f:
-        return [d["재단ID"] for d in csv.DictReader(f) if (d.get("사이트 공개") or "").strip().upper() == "Y"]
+    """페이지가 있는 재단 — 공개 Y 이고 공개 사례 3건 이상(build_jaedan 규칙)."""
+    import sys
+    sys.path.insert(0, str(ROOT/"tools"))
+    import build_jaedan
+    return sorted(build_jaedan.live_ids())
 
 
 def test_sitemap_matches_canonicals():

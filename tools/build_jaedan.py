@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""지역 신용보증재단 페이지 빌드 — data/jaedan.source.csv 공개(Y) 한 줄 = 페이지 하나, 공개 N 은 파일 삭제·/jaedan#<slug> 301.
+"""지역 신용보증재단 페이지 빌드 — data/jaedan.source.csv 공개(Y) + 공개 사례 3건 이상 한 줄 = 페이지 하나.
+공개 N 이거나 사례 3건 미만이면 퇴역(파일 삭제·sitemap/llms 제외·/jaedan#<slug> 301 예비 규칙) — 미만은 경고만 하고 멈추지 않는다.
 받은 사례에서 (기관에 '재단' 포함 & 지역 일치) 사례를 자동 연결하고, /jaedan 허브의 지역 그리드를 마커 사이에 주입한다.
 실행: python tools/build_jaedan.py
 """
@@ -20,9 +21,22 @@ def won2(m):
 def esc(s): return str(s).replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
 SIDO_RE = r'(서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충북|충남|전북|전남|경북|경남|제주)신용보증재단'
 
+MIN_CASES = 3   # 지역 재단 개별 페이지는 공개 사례 3건 이상일 때만(규격 2절, 2026-11-01)
+
 def load():
-    """공개(Y) 행만 — 페이지를 만드는 재단."""
-    return [d for d in load_all() if d['사이트 공개'].upper()=='Y']
+    """페이지를 만드는 재단 — 공개(Y)이고 공개 사례 3건 이상."""
+    return [d for d in load_all() if is_live(d)]
+
+def is_live(d):
+    return d['사이트 공개'].upper()=='Y' and len(cases_for(d['지역(시도)'])) >= MIN_CASES
+
+def live_ids():
+    """개별 페이지가 있는 재단ID — 다른 빌더(도시·편집 디렉터리)와 테스트가 같은 규칙으로 링크를 고른다."""
+    return {d['재단ID'] for d in load()}
+
+def href(jid):
+    """재단 링크 — 페이지가 있으면 /jaedan-<slug>, 퇴역이면 허브 지역 섹션 /jaedan#<slug>."""
+    return f"/{jid}" if jid in live_ids() else f"/jaedan#{jid.removeprefix('jaedan-')}"
 
 def slug(d):
     """/jaedan 허브 지역 섹션 앵커 — 재단ID 에서 'jaedan-' 을 뗀 값(퇴역 페이지 301 의 목적지 /jaedan#<slug>)."""
@@ -180,18 +194,22 @@ def render_regions(rows):
         li.append(f'<li><b>홈페이지</b> <a href="{esc(d["홈페이지 링크"])}" target="_blank" rel="noopener">{esc(re.sub(r"^https?://(www\.)?", "", d["홈페이지 링크"]).rstrip("/"))}</a></li>')
         if d.get('source_url') and d.get('confirmed_at'):
             li.append(f'<li class="asof">확인일 {esc(d["confirmed_at"])} · <a href="{esc(d["source_url"])}" target="_blank" rel="noopener">재단 공식 안내</a></li>')
-        if d['사이트 공개'].upper()=='Y':
+        if is_live(d):
             li.append(f'<li><a href="/{d["재단ID"]}">{esc(d["지역(시도)"])} 재단 상세 안내와 받은 사례 {len(C)}건 →</a></li>')
         elif C:
-            refs=' · '.join(f'<a href="/cases#case-{escape(r["사례ID"], quote=True)}">사례 {escape(r["사례ID"])}</a>' for r in C[:3])
-            li.append(f'<li>공개 원장 사례 {len(C)}건: {refs}</li>')
+            # 퇴역 지역은 링크 없이 건수만(상세 페이지는 사례 3건 이상일 때만 둔다)
+            li.append(f'<li>공개 원장 사례 {len(C)}건</li>')
         cards.append(f'<section class="jd-region" id="{slug(d)}" aria-labelledby="jd-r-{slug(d)}"><h3 id="jd-r-{slug(d)}">{esc(d["재단명"])}</h3><ul>{"".join(li)}</ul></section>')
     return ('<h2>시도별 재단 본점·연락처</h2>\n<p>보증 신청은 사업장 소재지의 재단에서 합니다. 본점 주소와 대표전화는 각 재단 공식 사이트 기준이며 확인일을 함께 적었습니다. 공개 사례가 있는 지역은 상세 페이지에 받은 사례와 지역 공고를 정리했습니다.</p>\n'
             '<div class="jd-regions">'+''.join(cards)+'</div>')
 
 def build():
     ALL=load_all()
-    J=[d for d in ALL if d['사이트 공개'].upper()=='Y']
+    J=[d for d in ALL if is_live(d)]
+    for d in ALL:
+        n=len(cases_for(d['지역(시도)']))
+        if d['사이트 공개'].upper()=='Y' and n < MIN_CASES:
+            print(f"[재단 빌드 경고] {d['재단ID']}: 공개 사례 {n}건(3건 미만) — 개별 페이지 퇴역(파일 삭제·sitemap·llms 제외, /jaedan#{slug(d)} 301 예비 규칙). 허브 섹션에는 사례 건수만 둡니다.")
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0)
@@ -204,12 +222,8 @@ def build():
         rates=rate_range([r['금리'] for r in C])
         title_txt=f"{d['재단명']} 사업자대출, {tails[d['재단ID']]}"
         rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">받은 사례</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
-        if C:
-            meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
-        else:
-            # 사례 없는 지역은 페이지를 두지 않는다(공개 N → /jaedan#<slug> 301). 다른 지역 사례로 채우지 않는다.
-            print(f"[재단 빌드 경고] {d['재단ID']}: 공개 사례 0건 — data/jaedan.overlay.csv 에서 공개를 N 으로 바꾸고 _redirects 에 301 을 추가하세요.")
-            meas=''
+        # 사례 3건 미만 지역은 위에서 퇴역시켜 여기 오지 않는다. 다른 지역 사례로 채우지 않는다.
+        meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장에서 {esc(d["재단명"])} 보증으로 실행된 사례를 자동으로 모았습니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건을 표시합니다. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
         # 지역 FAQ 2개(시트, 재단 공식 사이트 근거) + 원장 자동 FAQ 1개. 공통 FAQ(신용점수·진행·준비)는 /jaedan 허브에만 둔다.
         faq=[(d[f'faq{i}_q'], d[f'faq{i}_a']) for i in (1,2) if d.get(f'faq{i}_q') and d.get(f'faq{i}_a')]
         if C:
@@ -324,7 +338,7 @@ def build():
     if '<!--REGIONS-->' in hub:
         hub=re.sub(r'<!--REGIONS-->.*?<!--/REGIONS-->', lambda _: '<!--REGIONS-->\n'+render_regions(ALL)+'\n<!--/REGIONS-->', hub, flags=re.S)
         (ROOT/'jaedan.html').write_text(hub, encoding='utf-8')
-    # 퇴역(공개 N) 페이지 — 파일 삭제(실존 파일이 _redirects 보다 먼저 서빙된다), sitemap 에서 제거
+    # 퇴역(공개 N 또는 사례 3건 미만) 페이지 — 파일 삭제(실존 파일이 _redirects 보다 먼저 서빙된다), sitemap 에서 제거
     sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
     for d in ALL:
         if d in J: continue
