@@ -53,7 +53,7 @@ def test_every_footer_carries_one_trust_line_with_ledger_numbers():
         assert line in foot.group(0), rel
         assert s.count('class="foot-trust"') == 1, f'{rel}: 푸터 밖에도 근거 줄이 있다'
         checked += 1
-    assert checked >= 150, checked
+    assert checked >= 120, checked   # 2026-11-02 블로그 26편 삭제 뒤 136장
 
 
 def test_typed_org_nodes_follow_brand_json():

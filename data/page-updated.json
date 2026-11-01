@@ -9,7 +9,7 @@
  },
  "blog.html": {
   "date": "2026-11-02",
-  "hash": "fa090e089fcec1028daf113c55dcec1670ee322e19bc5e6e51da5ec025f8b3a9"
+  "hash": "fe836e8af983c027cd28d346cde4d1f44bc30b0591045f1adcea7aab4559ac12"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -39,18 +39,6 @@
   "date": "2026-11-02",
   "hash": "fe4428ab9570d32041ce697987c0f3e5a5b68562983634dbdba3e1d79be74bc8"
  },
- "blog/additional-work-quote-agreement.html": {
-  "date": "2026-10-24",
-  "hash": "86f4bff95640a3fe1b5abdd663244970d06acb9ebd081bfff99f0d4804d37cb0"
- },
- "blog/ai-shopping-product-information-consistency.html": {
-  "date": "2026-10-12",
-  "hash": "0617d66de7d908500ec93453fb99271b48cb21483ded75d07f3a108749716f2e"
- },
- "blog/ai-store-closure-notice.html": {
-  "date": "2026-10-12",
-  "hash": "9fee4d24c47111678927b145d4ac8437357819465c898c9ea7459a3b5206f7b7"
- },
  "blog/anseong-card-fee-support-sales-limit.html": {
   "date": "2026-10-28",
   "hash": "b2abbf292dc47a9b2bcb6355035162f1db0cf90b90761f0ed57b86ae5e2c4e6e"
@@ -63,25 +51,21 @@
   "date": "2026-11-02",
   "hash": "f4a6eb8ce2aba5dcb5cfb0f97be32973eec30997d9296258b8a8e4e276a9af39"
  },
- "blog/category/case.html": {
-  "date": "2026-11-02",
-  "hash": "30bc5351b58acdb4f83d29be90a322f022d7eb142b137082abd00c3f9cdbc4f8"
- },
  "blog/category/fund.html": {
   "date": "2026-11-02",
-  "hash": "763e9b90266b45019f03ed23969ae4829875bbc3f692acc9d0697d8bc383d2b2"
+  "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
   "date": "2026-11-02",
-  "hash": "11b726f1790004318f9a67606625037318f77fabac1b716bf547c83fca2da6b9"
+  "hash": "be5b8506418ddeb69b5b28b5064adfd3e52582a6bf9b5fdc872c7c4e3379f308"
  },
  "blog/category/news.html": {
   "date": "2026-11-02",
-  "hash": "b759ec38c939e971ef0323125a983457fcb7f544ee01543167058d482f7a4b00"
+  "hash": "85e9505db230c18193cf0a8ba17f062cd64a37ce9b6646ae7675971ae0d8add4"
  },
  "blog/category/startup.html": {
-  "date": "2026-10-28",
-  "hash": "3ca853609913afa873d3e9f09f15416be2f590d9c1c25d3a65f446c58592f974"
+  "date": "2026-11-02",
+  "hash": "2e3d2653675e843545ea3aa9f48574491f192ffb2acf9ba70d73ca07cef3c54a"
  },
  "blog/cheongju-prototype-voucher-payment-method.html": {
   "date": "2026-10-27",
@@ -91,25 +75,9 @@
   "date": "2026-10-26",
   "hash": "0cfbddae99726e7534daca7756c90eeaecd0aad3ce3f52fcce39f8aa160b59b5"
  },
- "blog/conditional-bad-debt-recognition-2026.html": {
-  "date": "2026-10-21",
-  "hash": "c3044afb5fce986c3dc498e37f61150c2cccbd95ea8e92622af5f8995d7bd378"
- },
  "blog/content-production-guarantee-funding-requirement.html": {
   "date": "2026-10-27",
   "hash": "155ab8fe862c9945e2b12c285932440136f78aa78204033efb14d6852d3dc2d7"
- },
- "blog/customer-discount-request-quote-scope.html": {
-  "date": "2026-10-12",
-  "hash": "457e3a6390af6b405e7bf24534dcb444ede9f7c725bdf037ef37fc9aba21d4fe"
- },
- "blog/discount-contribution-margin-sales.html": {
-  "date": "2026-10-23",
-  "hash": "222977f71ee0a612ae1e200523863432e5e1477f3fbfc66d3fa0af75e09822ca"
- },
- "blog/employee-reporting-examples.html": {
-  "date": "2026-10-12",
-  "hash": "b117cccad317cc5ee9cded027f824d090a1763ca710f2fdfacb0c8895ecbe4a1"
  },
  "blog/equipment-funding-evidence.html": {
   "date": "2026-11-02",
@@ -127,29 +95,13 @@
   "date": "2026-11-02",
   "hash": "6794d0b68b1d67da3a244aa86d232e0411a49431de0f53cc16bdef1b86b45857"
  },
- "blog/gu-product-focus-profit-business-insight.html": {
-  "date": "2026-10-22",
-  "hash": "1a56fc4dd322d0f0c0d02a24dc245ebcbdf03a2940325b268f4a52ca7e019630"
- },
  "blog/guarantee-bank-questions.html": {
   "date": "2026-11-02",
   "hash": "39274a1a4c0815b8665beab379f5e74356a3cc03c446c20fc72df11d4981cf4b"
  },
- "blog/happy-department-outdoor-festival-application.html": {
-  "date": "2026-10-25",
-  "hash": "31fa30068d1e51de994a19c8f4875468d9e827e345477b44554ade9368fb1e68"
- },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
   "date": "2026-10-22",
   "hash": "ba399ef814fda42694076362c1cfdfd3d9407605fb9fc1cd2889e78f6f69329a"
- },
- "blog/iguhome-stationery-experience-store.html": {
-  "date": "2026-10-22",
-  "hash": "2480bae21278d43123e931c205cc962fd05ccacf88aad37d56dc164a806b0259"
- },
- "blog/ikea-resale-customer-return-strategy.html": {
-  "date": "2026-10-22",
-  "hash": "b8936d4ea6878935f2b0f685b0ffe183a34c54e3c8acc4b8f3dab1fe971149a3"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
   "date": "2026-10-22",
@@ -179,10 +131,6 @@
   "date": "2026-10-23",
   "hash": "1eb994e5fe3c8bbc63208c50375fee11ada4844d8686843354539b7a13e3bdba"
  },
- "blog/menu-ideas-from-customer-reviews.html": {
-  "date": "2026-10-12",
-  "hash": "51db451f161469870baff335749b57cc4cf74322d46fa275d60bb45cedeb3aa9"
- },
  "blog/midlife-startup-choice.html": {
   "date": "2026-11-02",
   "hash": "26d834076eb3248d406a6bb60d29ecd09b8a9a81dd9a3142c5636355b583dca4"
@@ -190,18 +138,6 @@
  "blog/midlife-unmanned-startup.html": {
   "date": "2026-11-02",
   "hash": "bf5531ec9b00e5d7114892e9c618fed9dd681954cad08f2497284b64ccd2cf8d"
- },
- "blog/mty-store-closures-expansion-decision.html": {
-  "date": "2026-10-22",
-  "hash": "4cb10ff0ee15e232898ff237e6aa3ea0addfd2c3deb9932f5761cfb323bdd33b"
- },
- "blog/naver-promotion-service-ending-links.html": {
-  "date": "2026-10-21",
-  "hash": "96ba80ce9fdb177b6a011996e59ad16d1cb6ec6c8ecd94e48cbe254294af9cbb"
- },
- "blog/navercloud-security-self-survey-ai-data.html": {
-  "date": "2026-10-20",
-  "hash": "858bd5aa8486f17c2a7a8a820ae415167fe5c7f24f47195c3c5afdbede42bdfa"
  },
  "blog/new-business-operating-loan-eligibility.html": {
   "date": "2026-10-23",
@@ -215,18 +151,6 @@
   "date": "2026-10-22",
   "hash": "32a2c4e389e78e2347e50ec9c2eca2538433faa692013c3c0582a1aa978e3db4"
  },
- "blog/oliveyoung-order-cancellation-customer-service.html": {
-  "date": "2026-10-22",
-  "hash": "13ee9c245c9f99bff173f1467473462139b1f21c8253c007628f0bacabefe77c"
- },
- "blog/online-store-cancellation-dark-pattern-guide.html": {
-  "date": "2026-10-12",
-  "hash": "0dc91c42a1c4e69501a8cd8f02f5a5b171d1734ca173718871314be1d454004c"
- },
- "blog/product-page-repeated-questions.html": {
-  "date": "2026-10-12",
-  "hash": "d641ac0b793ce32d7fb67942adbf7260b7e8b6d72a915764e508c990c79791e6"
- },
  "blog/pyeongtaek-youth-guarantee-before-registration.html": {
   "date": "2026-10-28",
   "hash": "99dc054145fb40bf12e8844ea1114c00d1b5d6e33bedaeaf999422e08f28f58d"
@@ -234,14 +158,6 @@
  "blog/restart-special-loan-2026-fourth-quarter.html": {
   "date": "2026-10-22",
   "hash": "ed036b75479050d479a47cf13d2eba54a86126f9e6bcd1e308a9cb4b72fd9b49"
- },
- "blog/restaurant-brunch-small-test-madforgarlic.html": {
-  "date": "2026-10-22",
-  "hash": "4e57663703bdf535c04afca34ba143203383d260e804d36480dceffdcf36fa2a"
- },
- "blog/restaurant-corporate-meal-order-capacity.html": {
-  "date": "2026-10-22",
-  "hash": "626743fd484fc3865f806e59052927edf1a832d5265e488b485e42f434600b24"
  },
  "blog/semas-current-ended-fund-rate-table.html": {
   "date": "2026-10-21",
@@ -254,10 +170,6 @@
  "blog/skhynix-supplier-trade-finance-guarantee.html": {
   "date": "2026-10-22",
   "hash": "405bd804f7188c3327bef59ea09b8d96a9626558302489413106713ef788e120"
- },
- "blog/small-cafe-seating-customer-flow.html": {
-  "date": "2026-10-22",
-  "hash": "920242f0a8aead7dbd822b6a5d70a0c0353dd0984e820e46436ccabd4d10738a"
  },
  "blog/small-service-business-ideas.html": {
   "date": "2026-10-12",
@@ -278,26 +190,6 @@
  "blog/temporary-business-difficulty-loan-october-2026.html": {
   "date": "2026-10-22",
   "hash": "8503288e8dd6c77b5c938b44e1daafbf934beae6327fccb189448ecbaec4de99"
- },
- "blog/tesco-ai-meal-planner-customer-choice.html": {
-  "date": "2026-10-22",
-  "hash": "c9e30aef3f2251d468ea78de6d2cbbad7fdda6fde36fbb2fb9b705009cc407ae"
- },
- "blog/uniqlo-2026-results-product-display-message.html": {
-  "date": "2026-10-22",
-  "hash": "c15d19f4a0ead87f82b8b710339b06959dce84d89eeac4abeacb7a728107eb37"
- },
- "blog/vat-october-2026-return-notice-deadlines.html": {
-  "date": "2026-10-12",
-  "hash": "0164bf6237b73c321b9a4f6aadbea29af4818cdc51118de1b6ea8a6171b45c6b"
- },
- "blog/vat-preliminary-notice-sales-drop.html": {
-  "date": "2026-10-12",
-  "hash": "b4dc90b169fea48614e4e29fc77fefbee40e494bec334642d9e7ff9a65ac4d3b"
- },
- "blog/withholding-worker-severance-pay.html": {
-  "date": "2026-10-12",
-  "hash": "2d16c0114dfdb80e5b10c07af73c2b6b2510420d1f8162c2a8d4458ff0dc898a"
  },
  "blog/youth-savings-small-business-certificate-october-2026.html": {
   "date": "2026-10-12",
@@ -356,16 +248,16 @@
   "hash": "376926c28d32fb65d072c52b63bd25d91eea45af1341b41de81ca1253d560b44"
  },
  "gaein.html": {
-  "date": "2026-11-01",
-  "hash": "4fa399a51ab60a4e2c17dfd88f88d0fef99361026fbd8245d5a4f0f99ce5eef0"
+  "date": "2026-11-02",
+  "hash": "90439ba2c4f40ebb1710f4d5e0ef1d47fd589fd169e4c82f3aacc87dd208f484"
  },
  "geojeol.html": {
   "date": "2026-11-01",
   "hash": "68b7d8c88c7d974977afaff9759cafe9f376cda0098fbc20fac65865528fa346"
  },
  "gibo.html": {
-  "date": "2026-11-01",
-  "hash": "ea05637a00fa0980e2b7c57a31178885a25db8679a1c09bacf6fa4ba6b0fb2f1"
+  "date": "2026-11-02",
+  "hash": "f4967bd93d323717c7ce59e05f19e4d76bdbcef3037e6fef5115fb87714b7d99"
  },
  "gingeup.html": {
   "date": "2026-11-02",
@@ -493,11 +385,11 @@
  },
  "jungjingong.html": {
   "date": "2026-11-02",
-  "hash": "7b57d8720ca845891c390e2a3dbf2604e50236d7a027e0d4685d62e9529a4eac"
+  "hash": "95139597854e9f08e7da447ed59e7a9676bf0aed883842fcc87b289ba7698530"
  },
  "jungsogieop.html": {
   "date": "2026-11-02",
-  "hash": "ebdd229084bd67e10bc0f90ad8050925cf73c9ab7baf05036af10bcaad928f73"
+  "hash": "876e47ca6c1bf3f1f26dfe60e08b1a6a7479cb5e0eb761195acf4f83e78bc689"
  },
  "marketing.html": {
   "date": "2026-10-04",
@@ -629,15 +521,15 @@
  },
  "sosangin.html": {
   "date": "2026-11-02",
-  "hash": "c1edd2f013fb71ae08d5a8e3c0e103a593b61a9406c8e4109820f8981201b919"
+  "hash": "d25a59830a9d34db821ea86580d905a87821c1e015e68544c2c9016cb9e50ae4"
  },
  "startup-consulting-cost.html": {
   "date": "2026-10-28",
   "hash": "132e1147028ec38be0fd9f936f27185b1e6b450209359432a9a2a88bf591b343"
  },
  "startup.html": {
-  "date": "2026-10-28",
-  "hash": "c015a9186d17d023b0abb1feb9af035690b89355e504415c611c919e846f3e5f"
+  "date": "2026-11-02",
+  "hash": "0615becbaf3e8e6b788a8c663409989721101e75518aa5eadfaa9af0e9094eb5"
  },
  "stats.html": {
   "date": "2026-11-01",
