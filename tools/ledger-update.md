@@ -19,7 +19,7 @@
 대표가 같은 스프레드시트에 '자금' 탭을 만들어 게시하면(웹에 게시→해당 시트+CSV), 그 주소를 data/funds-source.url 로 저장·커밋한다. 이후 자금 페이지·/schedule 은 원장과 같은 파이프라인으로 자동 반영되고, 매일 06:07 KST에 접수 배지가 날짜 기준으로 재계산된다. 검증: `python tools/build_funds.py` → "[자금 빌드 OK]".
 
 ## B3. 재단 시트 연결 (선택)
-'재단' 탭을 게시(CSV)하고 주소를 data/jaedan-source.url 로 저장·커밋하면 지역 재단 페이지도 시트가 원본이 된다. 공개 Y 행만 페이지가 되고(사례 0건 지역은 N → /jaedan#<slug> 301), hq_address·phone·source_url·confirmed_at 은 허브 지역 섹션, limit_2026·special_guarantees·notice_url·notice_confirmed_at·branch_count·faq1~2 는 지역 페이지에 쓰인다. 공식 사이트에서 확인 못 한 칸은 비워 두면 렌더하지 않는다. 연결 전에는 저장소의 data/jaedan.source.csv 가 원본이며, 개별 재단 홈페이지 URL·메모는 시트(또는 CSV)에서 수정한다. 검증: `python tools/build_jaedan.py`.
+'재단' 탭을 게시(CSV)하고 주소를 data/jaedan-source.url 로 저장·커밋하면 지역 재단 페이지도 시트가 원본이 된다. 공개 Y 행만 페이지가 되고(사례 0건 지역은 N → /jaedan#<slug> 301), hq_address·phone·source_url·confirmed_at 은 허브 지역 섹션, limit_2026·special_guarantees·notice_url·notice_confirmed_at·branch_count·faq1~2 는 지역 페이지에 쓰인다. 공식 사이트에서 확인 못 한 칸은 비워 두면 렌더하지 않는다. 시트에 없는 칸(본점·공고·FAQ 등)과 퇴역(공개 N)은 저장소 `data/jaedan.overlay.csv`(재단ID 기준)에 둔다 — 원장 가져오기가 시트 + 보강 파일을 합쳐 data/jaedan.source.csv 를 쓴다. 보강 파일은 공개를 N 으로 낮추기만 할 수 있고(Y 로 올리기 불가), 시트와 같은 이름의 칸을 두면 가져오기가 멈춘다. **data/jaedan.source.csv 를 손으로 고치지 않는다** — 다음 가져오기에서 시트 값으로 덮인다(2026-11-01 원장 빌드 실패 원인). 재단명·홈페이지 URL·메모는 시트에서 수정한다. 검증: `python tools/build_jaedan.py`.
 
 ## C. 로컬에서 고치는 경우 (시트 없이)
 1. data/cases.source.csv (또는 data/cases.xlsx) 수정 — 시트가 연결된 뒤에는 로컬 수정 금지(시트가 덮어씀), 시트에서 고치라고 안내

@@ -230,3 +230,47 @@ def test_anonymous_crm_flow_reaches_generated_csv_html_llm_and_logs_without_priv
     assert '서울' in generated and '제조업' in generated and '2026-10' in generated
     public_rows = list(csv.DictReader(io.StringIO((tmp_path / 'data/cases.csv').read_text(encoding='utf-8-sig'))))
     assert public_rows[-1]['실행 금액(만원)'] == '3000'
+
+
+JAEDAN_SHEET = '재단ID,재단명,사이트 공개\nj-a,가재단,Y\nj-b,나재단,Y\nj-c,다재단,N\n'
+
+
+def setup_jaedan(root, overlay):
+    setup_sources(root)
+    (root / 'data/jaedan-source.url').write_text('https://example.org/jaedan', encoding='utf-8')
+    (root / 'data/jaedan.overlay.csv').write_text(overlay, encoding='utf-8')
+    return lambda url: cases() if url.endswith('/cases') else JAEDAN_SHEET.encode('utf-8')
+
+
+def test_jaedan_overlay_adds_fact_columns_and_retires_rows(tmp_path):
+    # 2026-11-01 장애: 저장소 CSV 에만 넣은 칸·공개 N 을 시트 가져오기가 덮어써 build_jaedan 이 멈췄다
+    fetch = setup_jaedan(tmp_path, '재단ID,사이트 공개,phone\nj-a,,02-1\nj-b,N,02-2\n')
+    module().sync_sources(tmp_path, fetcher=fetch)
+    rows = {r['재단ID']: r for r in csv.DictReader(open(tmp_path / 'data/jaedan.source.csv', encoding='utf-8-sig'))}
+    assert rows['j-a']['사이트 공개'] == 'Y' and rows['j-a']['phone'] == '02-1'
+    assert rows['j-b']['사이트 공개'] == 'N' and rows['j-b']['phone'] == '02-2'
+    assert rows['j-c']['사이트 공개'] == 'N' and rows['j-c']['phone'] == ''
+    assert module().sync_sources(tmp_path, fetcher=fetch) is False  # 같은 시트·보강이면 변경 없음
+
+
+@pytest.mark.parametrize('overlay, code', [
+    ('재단ID,사이트 공개\nj-c,Y\n', 'OVERLAY_CANNOT_PUBLISH'),   # 시트 N 을 저장소가 공개로 올릴 수 없다
+    ('재단ID,사이트 공개\nj-z,N\n', 'OVERLAY_UNKNOWN_ID'),
+    ('재단ID,재단명\nj-a,다른 이름\n', 'OVERLAY_COLUMN_CONFLICT'),  # 시트 칸은 시트에서만 고친다
+])
+def test_jaedan_overlay_rejects_unsafe_rows(tmp_path, overlay, code):
+    fetch = setup_jaedan(tmp_path, overlay)
+    with pytest.raises(module().SyncError, match=code):
+        module().sync_sources(tmp_path, fetcher=fetch)
+
+
+def test_repo_jaedan_source_equals_sheet_columns_plus_overlay():
+    """저장소의 jaedan.source.csv 는 시트 칸 + 보강 칸의 합 — 보강 칸을 source 에만 손으로 넣으면 다음 가져오기에서 사라진다."""
+    src = list(csv.DictReader(open(ROOT / 'data/jaedan.source.csv', encoding='utf-8-sig')))
+    over = {r['재단ID']: r for r in csv.DictReader(open(ROOT / 'data/jaedan.overlay.csv', encoding='utf-8-sig'))}
+    extra = [c for c in next(iter(over.values())) if c not in ('재단ID', '사이트 공개')]
+    for r in src:
+        o = over.get(r['재단ID'], {})
+        assert all(r[c] == (o.get(c) or '') for c in extra), r['재단ID']
+        if (o.get('사이트 공개') or '').upper() == 'N':
+            assert r['사이트 공개'] == 'N', r['재단ID']
