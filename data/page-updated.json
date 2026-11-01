@@ -357,7 +357,7 @@
  },
  "gaein.html": {
   "date": "2026-11-01",
-  "hash": "7152eea5a54d39ad426295b966b1d39cb03c2999643f49579f0ece708821a460"
+  "hash": "4fa399a51ab60a4e2c17dfd88f88d0fef99361026fbd8245d5a4f0f99ce5eef0"
  },
  "geojeol.html": {
   "date": "2026-11-01",
@@ -427,6 +427,10 @@
   "date": "2026-11-01",
   "hash": "69e4d38787e9b3940b85b3a45ce32c68c4216f5254a6455d4dbf95d2d41a4f2d"
  },
+ "jaedan-gangwon.html": {
+  "date": "2026-10-31",
+  "hash": "3aa02b336f717c99a38c2df62950779c7054365f7de2e4a3397c63dab4453d04"
+ },
  "jaedan-gwangju.html": {
   "date": "2026-11-01",
   "hash": "c839e6f001f5c78f2f2f70697354566cf0a4ce5ca27b1b790ebd36a2b10a158e"
@@ -447,17 +451,33 @@
   "date": "2026-11-01",
   "hash": "b3c993a91a8aeac7620b179e0d0aa0a55f789ac1a8337987bf6e84aa42492801"
  },
+ "jaedan-jeju.html": {
+  "date": "2026-10-31",
+  "hash": "a4e07901ffb946b0b2dca0420d6e5c5ee36326373956521a8e1708ed1a6985cd"
+ },
  "jaedan-jeonbuk.html": {
   "date": "2026-11-01",
   "hash": "cbd185ccef4f64026848f5156ddc402e32604ad71e6137a332340ffc9699a319"
+ },
+ "jaedan-jeonnam.html": {
+  "date": "2026-10-31",
+  "hash": "81f4b853bd2f5c78161d1437cfa0cbac8f3fbe8a6560f2a62b122562236bf80e"
+ },
+ "jaedan-sejong.html": {
+  "date": "2026-10-31",
+  "hash": "2f9745ea9c4e9357aca2bc55920040c6169e3f75807d884d589d72f468c343ca"
  },
  "jaedan-seoul.html": {
   "date": "2026-11-01",
   "hash": "1cb3249c703799a83a7fd770d7fb36be1d78cf0bbc479f613a89a3d741aad4c4"
  },
+ "jaedan-ulsan.html": {
+  "date": "2026-10-31",
+  "hash": "c05b0db0d9af760629585f8b2d3f8f3efa1f72c09940d0ba447c906a5ce2e376"
+ },
  "jaedan.html": {
   "date": "2026-11-01",
-  "hash": "21ad055ff7424c3cb1cc052885f33d5263e58caf9e703d79e210e7f57c32d050"
+  "hash": "2657e47cf3a501a78808574481b6472db884d17c147d3aaca346d034612c75ae"
  },
  "jaedojeon.html": {
   "date": "2026-11-01",
