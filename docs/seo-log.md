@@ -46,6 +46,15 @@
 WP5: 폼 필수/선택 분리는 이미 돼 있음(성함·연락처·동의만 필수). 상담 시간 밖 접수 시 다음 영업일 안내 문구 추가.
 WP7: kakao_click·phone_click·consultation_start/submit·generate_lead 이미 있음 — 추가 없음.
 
+### AEO·전환 (2026-11-10, 브랜치 feat/aeo-forms-1110) — title·meta 그대로
+
+| 페이지 | 변경 | 4주 후 (12-08) |
+| --- | --- | --- |
+| /ilban-gyeongyeong · /gingeup · /daehwan · /ilsijeok-homeplus · /matching · /hyeoksin-sahoe · /hyeoksin-jolup | 맨 위 즉답(p.lead)을 정의문으로 시작. 금리·한도 숫자는 붙이지 않음(LEAD_PLAIN) | |
+| /consulting · /working-capital-facility · /corporate-loan-documents | 페이지 끝 JS 삽입 폼 → 본문 중간 정적 폼 | |
+
+보류(11-09 title 교체, 12-07 이후): /sinyongchwiyak · /jangaein · /bojeung · /cheongnyeon · /hyeoksin · /startup · 홈.
+
 ### 홈 카피 기준선 (tools/check_site.py --home)
 
 | 날짜 | 가운뎃점 | 3연 나열 | 줄표 | ~니다 종결 | 금칙어 |
