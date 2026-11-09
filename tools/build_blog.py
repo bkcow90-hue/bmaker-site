@@ -241,6 +241,14 @@ def render(bl):
     return '\n'.join(h)
 
 
+def meta_desc(p):
+    """meta description — summary 가 60자 미만이면 질문형 제목 + 답(summary)으로 쓴다.
+    Bing 웹마스터 '설명이 너무 짧음' 지적(2026-11-10). 질문+답 형태는 AI 답변 인용에도 맞는다.
+    summary 자체(목록·feed·JSON-LD)는 그대로 둔다."""
+    d = p['summary'].strip()
+    return d if len(d) >= 60 else f"{p['title'].strip()} {d}"
+
+
 def split_post(post):
     """(직답, 본문 블록, FAQ [(q, [블록])]). FAQ 절은 본문에서 떼어 따로 그린다."""
     bl = blocks(post['body'])
@@ -551,7 +559,7 @@ def build_post(p, posts, terms, style, hdr, foot):
     crumb = (f'<a href="/">홈</a> › <a href="/blog">블로그</a> › '
              f'<a href="/blog/category/{p["category"]}">{esc(cat_label)}</a>')
     meta = f'\n  <p class="post-meta">발행 {p["date"]} · 내용 확인 {p["updated"]}</p>'
-    page = head(p['title'], p['summary'], url, 'article', lds, style, p['image']) + hdr + '\n<main>\n'
+    page = head(p['title'], meta_desc(p), url, 'article', lds, style, p['image']) + hdr + '\n<main>\n'
     if service == 'startup':
         page = page.replace('</head>', STARTUP_CSS + '</head>')
     page = page.replace('<body data-service="policy">', f'<body data-service="{service}">')

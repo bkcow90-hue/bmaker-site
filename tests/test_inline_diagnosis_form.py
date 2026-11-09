@@ -73,7 +73,8 @@ def test_no_other_page_gained_a_form():
     # 2026-10-27: 보증·인증 페이지의 기존 JS 삽입 폼을 업무 안내 직후 정적 폼으로 옮겼다.
     # 2026-11-10: 컨설팅·법인 준비서류·운전/시설자금도 페이지 끝 JS 폼 → 본문 중간 정적 폼.
     expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "sosangin", "jungsogieop", "blog", "region", "bojeung", "certification", "startup",
-                                  "consulting", "corporate-loan-documents", "working-capital-facility"}
+                                  "consulting", "corporate-loan-documents", "working-capital-facility",
+                                  "venture-certification", "innobiz-mainbiz", "research-institute"}  # 2026-11-10 인증·연구소 가이드
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 

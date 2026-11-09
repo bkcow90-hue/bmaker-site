@@ -415,6 +415,9 @@ td a{color:var(--blue-deep);text-decoration:underline}
     sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
     sm=re.sub(r'(<loc>https://bmaker\.kr/cases</loc><lastmod>)[^<]+', r'\g<1>'+str(today), sm)
     (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
+    # 업종별 랜딩(/industry/*) — 원장에서 다시 만든다(2026-11-10, 제조업·도소매·온라인쇼핑몰 추가와 함께 다시 연결)
+    import industry
+    industry.build(D, T['PERIOD_SHORT'], root=ROOT)
     print(f"[원장 빌드 OK] 공개 {N}건 (총 {won2(total)}, 증빙 {nev}건) → cases.html · data/cases.csv · llms-full.txt · llms.txt · sitemap.xml 갱신 (기준일 {today})")
 
 if __name__ == '__main__':

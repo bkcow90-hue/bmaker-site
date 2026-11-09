@@ -120,9 +120,9 @@ def main():
             title = item['body'].splitlines()[0][2:]
             crumb = '<div class="wrap crumb"><a href="/">홈</a> / <a href="/business-guide">사업 가이드</a></div>'
             article = '<article class="editorial-copy editorial-standalone">' + render(item['body']) + '</article>'
-            if item['service'] == 'policy' and not item.get('official_contact'):
-                # 2026-11-10 CRO: 검색으로 들어온 정책자금 가이드 독자가 다른 페이지로 넘어가지 않고 신청하게
-                article += '<style>' + FORM_CSS + '</style><div class="wrap">' + form_html('/' + item['slug'], title, title=TITLE_GENERAL) + '</div>'
+            if item in GROWTH and item['service'] in ('policy', 'certification') and not item.get('official_contact'):
+                # 2026-11-10 CRO: 검색으로 들어온 가이드 독자가 다른 페이지로 넘어가지 않고 신청하게(인증 가이드는 문의 분야 certification)
+                article += '<style>' + FORM_CSS + '</style><div class="wrap">' + form_html('/' + item['slug'], title, title=TITLE_GENERAL, service=item['service']).replace('name="consultation_service" value="policy"', 'name="consultation_service" value="' + item['service'] + '"') + '</div>'
             related = '' if item in GROWTH else cards([x for x in ITEMS if x['service'] == item['service'] and x != item][:4])
             page = re.sub(r'<main>.*?</main>', '<main>' + crumb + article + related + '</main>', page, flags=re.S)
             faq = []

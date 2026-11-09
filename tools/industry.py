@@ -3,24 +3,25 @@
 
 build_cases.py 가 원장 빌드 끝에서 build(rows) 를 호출한다(8빌더 체인 순서 유지, 별도 실행 불필요).
 업종 열은 자유 기재라 아래 규칙(위에서부터 첫 매칭)으로 6개 업종에 묶고, 어디에도 안 맞는 건은 타일에 넣지 않는다.
-랜딩은 landing=True 인 업종만 생성한다(2026-09 시안: 음식점·카페). 나머지 타일은 받은 사례 원장으로 연결.
+랜딩은 landing=True 인 업종만 생성한다(2026-09 시안: 음식점·카페, 2026-11-10 제조업·도소매·온라인쇼핑몰 추가). 나머지 타일은 받은 사례 원장으로 연결.
 """
 import json, re, statistics, datetime
 from builddate import build_date, data_date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+TEMPLATE_ROOT = ROOT  # 머리·꼬리·스타일은 늘 저장소 원본에서 읽는다(쓰는 곳은 build(root=) 가 정한다)
 TODAY = build_date()   # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 원장이 바뀐 날
 
 INDUSTRIES = [
     # slug, 타일 이름, 검색 질문(h1·title), 랜딩 생성 여부, 업종 열 키워드
-    dict(slug='online-shoppingmall', name='온라인쇼핑몰', question='온라인쇼핑몰 정책자금, 받을 수 있나요?', landing=False, keys=('이커머스', '온라인 도소매', '쇼핑몰', '스마트스토어')),
+    dict(slug='online-shoppingmall', name='온라인쇼핑몰', question='온라인쇼핑몰 정책자금, 받을 수 있나요?', landing=True, place='쇼핑몰', keys=('이커머스', '온라인 도소매', '쇼핑몰', '스마트스토어')),
     dict(slug='eumsikjeom', name='음식점·카페', question='음식점·카페 정책자금, 받을 수 있나요?', landing=True, place='가게', keys=('음식', '카페', '베이커리', '요식', '식당', '주점')),
     dict(slug='geonseol', name='건설·인테리어', question='건설·인테리어 정책자금, 받을 수 있나요?', landing=False, keys=('건설', '인테리어')),
     dict(slug='miyong', name='미용·서비스', question='미용·서비스업 정책자금, 받을 수 있나요?', landing=False, keys=('뷰티', '미용', '헤어', '네일', '피부'), exact=('서비스업',)),
-    dict(slug='dosomae', name='도소매·유통', question='도소매·유통 정책자금, 받을 수 있나요?', landing=False, keys=('도소매', '소매', '유통')),
-    dict(slug='jejo', name='제조업', question='제조업 정책자금, 받을 수 있나요?', landing=False, keys=('제조', '가공', '설비', '장비')),
+    dict(slug='dosomae', name='도소매·유통', question='도소매·유통 정책자금, 받을 수 있나요?', landing=True, place='매장', keys=('도소매', '소매', '유통')),
+    dict(slug='jejo', name='제조업', question='제조업 정책자금, 받을 수 있나요?', landing=True, place='공장', keys=('제조', '가공', '설비', '장비')),
 ]
 TILE_ORDER = ['eumsikjeom', 'jejo', 'dosomae', 'online-shoppingmall', 'miyong', 'geonseol']
 BY_SLUG = {i['slug']: i for i in INDUSTRIES}
@@ -57,7 +58,8 @@ def esc(s):
 def answer_of(ind, rows):
     total = sum(r['amt'] for r in rows)
     money = f"{total // 10000}억" if total >= 10000 else won2(total)
-    return f"네. {ind['name']} 사장님 {len(rows)}분이 정책자금 {money}을 받았습니다."
+    # 원장 행은 사람 수가 아니다(같은 회사의 여러 건) — '몇 분'이 아니라 '몇 건'으로 쓴다(2026-11-10)
+    return f"네. {ind['name']} 받은 사례 {len(rows)}건, 합계 {money}입니다."
 
 
 def _abs_assets(html):
@@ -70,13 +72,13 @@ def landing_html(ind, rows, all_n, period):
     amts = [r['amt'] for r in rows]
     days = [int(float(r['소요일'])) for r in rows if r['소요일']]
     n, total = len(rows), sum(amts)
-    med = won2(int(statistics.median(amts)))
+    avg = won2(round(sum(amts) / len(amts)))  # 규격 1절: '중앙값' 대신 '건당 평균'(2026-11-10)
     dmed = f"보통 {int(statistics.median(days))}일" if days else '—'
     answer = answer_of(ind, rows)
     if len(answer) > ANSWER_MAX:
         raise SystemExit(f"[업종 랜딩 빌드 실패] {ind['slug']} 첫 문단 직답이 {len(answer)}자 — {ANSWER_MAX}자 이하여야 합니다: {answer}")
-    style = re.search(r'<style>.*?</style>', (ROOT / 'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
-    src = (ROOT / 'jaedan.html').read_text(encoding='utf-8')
+    style = re.search(r'<style>.*?</style>', (TEMPLATE_ROOT / 'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
+    src = (TEMPLATE_ROOT / 'jaedan.html').read_text(encoding='utf-8')
     hdr = _abs_assets(re.search(r'<header>.*?</header>', src, re.S).group(0))
     foot = _abs_assets(re.search(r'<footer>.*?</footer>', src, re.S).group(0))
     trs = ''.join(
@@ -84,6 +86,7 @@ def landing_html(ind, rows, all_n, period):
         f'<td>{esc(r["자금명"])}</td><td style="white-space:nowrap">{won2(r["amt"])}</td><td>{esc(r["금리"]) or "—"}</td>'
         f'<td><a href="/cases#row-{esc(r["사례ID"])}">기록</a></td></tr>' for r in rows)
     title = ind['question']
+    other_links = ' · '.join(f'<a href="/industry/{o["slug"]}">{o["name"]}</a>' for o in INDUSTRIES if o['landing'] and o['slug'] != ind['slug'])
     crumb = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
         {"@type": "ListItem", "position": 2, "name": "업종별 정책자금", "item": "https://bmaker.kr/#industry"},
@@ -102,7 +105,7 @@ def landing_html(ind, rows, all_n, period):
 <title>{title} — 받은 사례 {n}건 | 비즈니스 메이커</title>
 <meta name="description" content="{desc}">
 <meta property="og:type" content="article">
-<meta property="og:title" content="{title}">
+<meta property="og:title" content="{title} — 받은 사례 {n}건 | 비즈니스 메이커">
 <meta property="og:description" content="{answer}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
@@ -132,7 +135,7 @@ def landing_html(ind, rows, all_n, period):
     <div class="cards">
       <div class="card"><b>{n}건</b><span>{ind['name']} 받은 사례 (전체 {all_n}건 중)</span></div>
       <div class="card"><b>{won2(total)}</b><span>받은 금액 합계</span></div>
-      <div class="card"><b>{med}</b><span>건당 중앙값</span></div>
+      <div class="card"><b>{avg}</b><span>건당 평균</span></div>
       <div class="card"><b>{dmed}</b><span>첫 상담 → 정산</span></div>
     </div>
 
@@ -147,6 +150,7 @@ def landing_html(ind, rows, all_n, period):
       <p>무료로 먼저 봐드립니다.</p>
       <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry">무료 진단 신청 →</a></div>
     </div>
+    <p class="related">다른 업종: {other_links} · <a href="/cases">받은 사례 전체</a></p>
   </div>
 </main>
 {foot}
@@ -166,7 +170,14 @@ def tiles_html(groups):
     return ''.join(out)
 
 
-def build(rows, period):
+def build(rows, period, root=None):
+    # 호출한 빌더의 저장소 루트에 쓴다 — 테스트가 임시 폴더에서 원장 빌드를 돌릴 때 실제 저장소를 건드리지 않게(2026-11-10)
+    global ROOT
+    if root is not None:
+        ROOT = Path(root)
+    if not (ROOT / 'sitemap.xml').exists() or not (ROOT / 'llms.txt').exists():
+        print('[업종 랜딩 경고] sitemap.xml·llms.txt 가 없는 루트라 건너뜁니다.')
+        return
     groups = {}
     for r in rows:
         slug = classify(r['업종'])
@@ -185,7 +196,9 @@ def build(rows, period):
             continue
         rows_i = groups.get(ind['slug'], [])
         if not rows_i:
-            raise SystemExit(f"[업종 랜딩 빌드 실패] {ind['slug']} 에 해당하는 받은 사례가 없습니다.")
+            # 원장에 해당 업종이 없으면(테스트용 축소 원장 포함) 그 랜딩만 건너뛴다 — 기존 파일은 그대로 둔다
+            print(f"[업종 랜딩 경고] {ind['slug']} 에 해당하는 받은 사례가 없어 건너뜁니다.")
+            continue
         page = landing_html(ind, rows_i, len(rows), period)
         if '갚' in page:
             raise SystemExit("[업종 랜딩 빌드 실패] 생성물에 '갚' 포함")
