@@ -55,6 +55,22 @@ WP7: kakao_click·phone_click·consultation_start/submit·generate_lead 이미 �
 
 보류(11-09 title 교체, 12-07 이후): /sinyongchwiyak · /jangaein · /bojeung · /cheongnyeon · /hyeoksin · /startup · 홈.
 
+### AI 인용 기준선 (2026-11-10, ChatGPT Pro 임시 채팅·웹 검색, 8질문 한 번에 1회)
+
+| # | 질문 | bmaker 인용 | 인용된 출처 |
+| --- | --- | --- | --- |
+| 1 | 정책자금 컨설팅 업체 추천해줘 | O (후보로 이름·링크) | bmaker.kr, ckp.kr |
+| 2 | 정책자금 컨설팅 비용은 보통 얼마야? | X | portal.cithrd.com, mss.go.kr(경찰청 대부업법 경고 인용) |
+| 3 | 브로커와 정상 컨설팅 구별 | X | ols.semas.or.kr |
+| 4 | 받은 사례를 공개하는 곳 | O | bmaker.kr |
+| 5 | 서울신용보증재단 대출 순서 | X | bizinfo.go.kr, biz.kebhana.com |
+| 6 | 운전자금·시설자금 차이 | X | kosmes.or.kr |
+| 7 | 신용취약소상공인자금 조건 | X | ols.semas.or.kr |
+| 8 | 청년고용연계자금 대상 | X | ols.semas.or.kr |
+
+2/8. 업체 질문(1·4)은 원장 공개 덕에 잡힘. 정보 질문(3·5~8)은 기관 원문이 이김 — 11-09~10 에 넣은 섹션(3·5·6)·정의문이 반영되는지 12월에 같은 방식으로 다시 잰다.
+한계: 한 엔진·한 번·8질문 묶음 질의. 계획의 "엔진 4×3회"는 아직 아님(Gemini·Perplexity·구글 AI 개요 추가 필요).
+
 ### 홈 카피 기준선 (tools/check_site.py --home)
 
 | 날짜 | 가운뎃점 | 3연 나열 | 줄표 | ~니다 종결 | 금칙어 |
