@@ -34,6 +34,18 @@
 | 운전자금 시설자금 차이 | 32+31+14 | 5.1 | /working-capital-facility |
 | 서류보완 / 보완요청 | 18+18+10 | 7~9 | (담당 페이지 미정) |
 
+### WP4 적용 (2026-11-09, 브랜치 feat/authority-region-1109) — 본문 섹션만, title·meta 그대로
+
+| 페이지 | 노린 쿼리(순위) | 넣은 섹션 | 내부링크 | 4주 후 (12-07) |
+| --- | --- | --- | --- | --- |
+| /consulting | 정책자금 컨설팅 (14.5) | 정책자금 컨설팅과 '제3자 부당개입'의 차이(중기부 TF 기준, 의심 제안 4가지 표) | /geojeol · /bojeung · /chaksugeum | |
+| /jaedan-* (17개 공통) | 서울신보 소상공인 대출 (9.7) · 경기신보 소상공인 대출 (10.7) | {재단명} 소상공인 대출, 보증서로 나오는 순서 4단계 | /jaedan · /bojeung · /geojeol | |
+| /working-capital-facility | 운전자금 시설자금 차이 (5.1) | 한눈에 비교 표(쓰는 곳·금액 근거·지급 방식·상환 기간) | /bojeung · /jungjingong | |
+
+보류: /sinyongchwiyak · /cheongnyeon 은 11-09 title 교체 페이지라 4주 규칙상 12-07 이후. 서류보완 쿼리는 담당 페이지 정한 뒤.
+WP5: 폼 필수/선택 분리는 이미 돼 있음(성함·연락처·동의만 필수). 상담 시간 밖 접수 시 다음 영업일 안내 문구 추가.
+WP7: kakao_click·phone_click·consultation_start/submit·generate_lead 이미 있음 — 추가 없음.
+
 ### 홈 카피 기준선 (tools/check_site.py --home)
 
 | 날짜 | 가운뎃점 | 3연 나열 | 줄표 | ~니다 종결 | 금칙어 |

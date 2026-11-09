@@ -30,6 +30,12 @@ def render(body, embedded=False):
         elif block.startswith('## '):
             level = 3 if embedded else 2
             result.append(f'<h{level}>{inline(block[3:])}</h{level}>')
+        elif block.startswith('|'):
+            # 마크다운 표(2026-11-09 WP4) — 첫 줄 머리, 둘째 줄 구분선, 나머지 본문
+            rows = [[c.strip() for c in ln.strip().strip('|').split('|')] for ln in block.splitlines()]
+            head, body_rows = rows[0], [r for r in rows[2:]]
+            result.append('<div class="tablewrap"><table><thead><tr>' + ''.join(f'<th>{inline(c)}</th>' for c in head) + '</tr></thead><tbody>'
+                          + ''.join('<tr>' + ''.join(f'<td>{inline(c)}</td>' for c in r) + '</tr>' for r in body_rows) + '</tbody></table></div>')
         else:
             result.append('<p>' + inline(block) + '</p>')
     return '\n'.join(result)
