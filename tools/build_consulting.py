@@ -104,6 +104,16 @@ def build():
     <div class="tablewrap"><table><thead><tr><th>하지 않는 것</th><th>이유</th></tr></thead><tbody>{nos_html}</tbody></table></div>
     <p>다른 곳에서 이런 제안을 받았다면 <a href="/chaksugeum">정책자금 브로커·착수금 위험 신호</a>로 먼저 확인해 보세요.</p>
 
+    <h2>정책자금 컨설팅과 '제3자 부당개입'은 어떻게 다른가요</h2>
+    <p>중소벤처기업부 제3자 부당개입 TF는 통상적인 범위의 컨설팅과 사업계획서 작성 지원은 부당개입으로 보지 않고, 허위 서류로 심사를 왜곡하거나 사기 같은 불법 행위가 결합될 때 제재 대상으로 본다는 입장입니다. 관련 법 개정안이 국회에 올라가 있고, 경찰청·정책금융기관과 함께 신고를 받고 있습니다.</p>
+    <div class="tablewrap"><table><thead><tr><th>이런 제안이면 의심하세요</th><th>정상적인 컨설팅은</th></tr></thead><tbody>
+      <tr><td><b>매출·재무 서류를 고쳐 주겠다</b></td><td>있는 서류 그대로, 부족한 설명을 자료로 정리합니다.</td></tr>
+      <tr><td><b>기관 직원·연줄을 내세운다</b></td><td>심사는 기관이 합니다. 기관과의 소통은 대표님 본인이 하시고, 저희는 준비를 돕습니다.</td></tr>
+      <tr><td><b>대출을 조건으로 보험·카드 가입을 권한다</b></td><td>금융상품 끼워 팔기는 하지 않습니다.</td></tr>
+      <tr><td><b>인증서·아이디를 받아 대신 신청한다</b></td><td>신청과 서명은 대표님 명의로 직접 하십니다.</td></tr>
+    </tbody></table></div>
+    <p>신청 전에 <a href="/geojeol">거절 사유와 준비 순서</a>를, 보증서로 받는 자금이면 <a href="/bojeung">보증서 대출 안내</a>를 함께 보세요.</p>
+
 
     <h2>컨설팅 업체 고르는 확인법</h2>
     <div class="tablewrap"><table><thead><tr><th>확인 항목</th><th>기준</th></tr></thead><tbody>{checks_html}</tbody></table></div>

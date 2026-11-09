@@ -515,7 +515,12 @@
       if (!response.ok || result.ok !== true || result.delivery !== 'accepted') throw new Error('delivery_failed');
       completed = true;
       message.className = 'apply-msg ok';
-      message.textContent = '신청이 접수됐습니다. 평일 09:00~18:00 중 정하신 시간대에 전화드리겠습니다. 급한 문의는 1666-2425로 연락해 주세요.';
+      // 상담 시간 밖(한국 시간 평일 09~18시 외) 접수는 다음 영업일 안내 — 2026-11-09 WP5
+      const kst = new Date(Date.now() + 9 * 3600e3), kh = kst.getUTCHours(), kd = kst.getUTCDay();
+      const offHours = kd === 0 || kd === 6 || kh < 9 || kh >= 18;
+      message.textContent = offHours
+        ? '신청이 접수됐습니다. 지금은 상담 시간(평일 09:00~18:00)이 아니어서 다음 영업일에 정하신 시간대로 전화드리겠습니다. 급한 내용은 카카오톡으로 남겨 주세요.'
+        : '신청이 접수됐습니다. 평일 09:00~18:00 중 정하신 시간대에 전화드리겠습니다. 급한 문의는 1666-2425로 연락해 주세요.';
       form.reset(); selectedTime = '';
       [...timeButtons, ...bizButtons].forEach(b => b.setAttribute('aria-pressed', 'false'));
       track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
