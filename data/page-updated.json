@@ -8,8 +8,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-02",
-  "hash": "fe836e8af983c027cd28d346cde4d1f44bc30b0591045f1adcea7aab4559ac12"
+  "date": "2026-11-10",
+  "hash": "7adca0adcfebf762b4a75ea5b3dc1ab1e074cbd605b5aeaf3bc8794994e850d8"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -56,8 +56,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-02",
-  "hash": "be5b8506418ddeb69b5b28b5064adfd3e52582a6bf9b5fdc872c7c4e3379f308"
+  "date": "2026-11-10",
+  "hash": "5254ad5f54cae5a7a6c83171e3407482fc381bd09806b1e5d1d2a5f244b34ac1"
  },
  "blog/category/news.html": {
   "date": "2026-11-02",
@@ -155,6 +155,10 @@
   "date": "2026-11-10",
   "hash": "9ff21a9c11c40186d2ecf7db67f29f5c281358d54488b6efd865b8a243c88d77"
  },
+ "blog/reapply-after-rejection.html": {
+  "date": "2026-11-10",
+  "hash": "b23029a8e704007f49e219031d2975c71dc80f55ee1bec9c576c8b10499ddf46"
+ },
  "blog/restart-special-loan-2026-fourth-quarter.html": {
   "date": "2026-11-10",
   "hash": "2fd1ae51083f88481580d53be4bba879e025dc3a8a126c0d061f911f516ff1a7"
@@ -201,7 +205,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-10",
-  "hash": "c202d04858d07082b0d93941def3b04e34d4b01e69c993ff5610bfe0ad82ce2e"
+  "hash": "9deeb75ab3b924dec4cf3425cc21d3317164691bce3c0df59f21f756e5088a25"
  },
  "cases.html": {
   "date": "2026-11-09",
@@ -293,7 +297,7 @@
  },
  "index.html": {
   "date": "2026-11-10",
-  "hash": "16c2ffc03715bb335605edcb753651b79ee6d2da735f371dce4e5f8cb60b634e"
+  "hash": "9888c28270348e7cda753deff27508eb73b52faa8cee7e99bb7fff466bf480fe"
  },
  "industry/dosomae.html": {
   "date": "2026-11-10",

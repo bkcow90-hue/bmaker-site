@@ -83,8 +83,8 @@
   <url><loc>https://bmaker.kr/region/jeonju</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/gimhae</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/pohang</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/fund</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/news</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/2027-kriss-technology-home-doctor</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -142,4 +142,5 @@
   <url><loc>https://bmaker.kr/industry/online-shoppingmall</loc><lastmod>2026-11-10</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bmaker.kr/industry/dosomae</loc><lastmod>2026-11-10</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bmaker.kr/industry/jejo</loc><lastmod>2026-11-10</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bmaker.kr/blog/reapply-after-rejection</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
