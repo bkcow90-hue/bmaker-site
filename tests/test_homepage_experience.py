@@ -126,12 +126,13 @@ class HomepageExperienceTests(unittest.TestCase):
         return out
 
     def test_hero_heading_is_next_choice_copy_with_single_cta(self):
-        self.assertEqual(" ".join(self.hero_heading_lines), "정책자금, 여기까지 만든 사업의 다음 선택지를 찾습니다.")
+        self.assertEqual(" ".join(self.hero_heading_lines), "소상공인·중소기업 정책자금, 신청 조건부터 확인해 드립니다.")
         hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())
         ctas = [e for e in self._inside_hero("a")]
         self.assertEqual([" ".join(a["text"].split()) for a in ctas], ["무료 진단 신청"])
         self.assertNotRegex(hero["text"], r"착수금|성공보수|진행비|받은 사례 [\d,]+건")
-        self.assertIn("신청할 수 있는지부터 준비할 서류까지 함께 검토하고, 진행이 어렵다면 그 이유부터 말씀드립니다.", hero["text"])
+        self.assertIn("진단은 무료고, 요건이 안 맞으면 어느 조건이 안 맞는지부터 말씀드려요.", hero["text"])
+        self.assertIn("home-recent:start", (ROOT / "index.html").read_text(encoding="utf-8"))
 
     def _inside_hero(self, tag):
         hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())

@@ -221,7 +221,9 @@ def page_html(c, style, hdr, foot):
     url = f"https://bmaker.kr/region/{c['도시ID']}"
     abbr, override = c['지점 축약'], c['담당 문장']
     # title 규칙(대표 2026-10-01): 도시는 검색어 형태(짧은이름), 지점은 축약, 자체 자금 명칭은 title 에서 뺀다
-    title = f"{short} 소상공인 정책자금·대출 — {jname}{' ' + abbr if abbr else ''} 안내 | 비즈니스 메이커"
+    # 2026-11-09 WP3: "{도시} 대출" 일반 대출 의도에 걸려 노출만 쌓이고 클릭 0(창원 201·김해 92·성남 32) → title 에서 "대출"을 빼고
+    # "소상공인 정책자금 2026 + 지점 + 소진공 신청" 으로 의도를 좁힌다(규격 8-1·변경 이력 2026-11-09). description 문형은 유지.
+    title = f"{short} 소상공인 정책자금 2026, {jname}{' ' + abbr if abbr else ''} · 소진공 신청 | 비즈니스 메이커"
     # 지점 창구 요약: 담당 문장을 따로 둔 도시(근거가 좁은 강서구·표기가 갈리는 청주)는 표로 넘긴다
     window = f"{jname} 창구(아래 표)" if override or not abbr else f"{jname} {abbr}"
     newest = max(d['_checked'] for d in F)

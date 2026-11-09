@@ -342,7 +342,9 @@ td a{color:var(--blue-deep);text-decoration:underline}
             # H1 is editorial copy, not a ledger counter: records are not unique people.
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
             featured=select_home_cases(D)
-            rec=''.join(f'<li><span class="lc-ym">{escape(r["실행 연월"].replace("-","."))}</span><span class="lc-inst">{escape(r["사업 형태"])} · {escape(r["기관"].split("+")[0].strip()[:14])}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in featured)
+            # 히어로 원장 띠: 사진 대신 최근 실행 5건(2026-11-09, 홈 카피 개정) — 카드 3건과 별개로 최신순
+            recent5=sorted(D, key=lambda r: r['실행 연월'], reverse=True)[:5]
+            rec=''.join(f'<li><span class="lc-ym">{escape(r["실행 연월"].replace("-","."))}</span><span class="lc-inst">{escape(r["사업 형태"])} · {escape(r["기관"].split("+")[0].strip()[:14])}</span><b>{won2(r["실행 금액(만원)"])}</b></li>' for r in recent5)
             ih=re.sub(r'<!-- home-recent:start -->.*?<!-- home-recent:end -->', '<!-- home-recent:start -->'+rec+'<!-- home-recent:end -->', ih, flags=re.S)
             cards = render_home_case_cards(featured)
             ih=re.sub(r'<!-- home-matched-cases:start -->.*?<!-- home-matched-cases:end -->',
