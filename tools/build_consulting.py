@@ -4,6 +4,7 @@ import csv, json, re, sys, datetime, statistics
 from pathlib import Path
 from builddate import build_date, data_date
 from reviewer import byline_html
+from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 소스가 바뀐 날
@@ -24,7 +25,7 @@ def build():
     style=re.search(r'<style>.*?</style>', (ROOT/'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
     src=(ROOT/'jaedan.html').read_text(encoding='utf-8')
     hdr=re.search(r'<header>.*?</header>', src, re.S).group(0); foot=re.search(r'<footer>.*?</footer>', src, re.S).group(0)
-    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}.card b{display:block;font-size:1.4rem;color:var(--navy);margin-bottom:4px}.card span{font-size:.82rem;color:var(--ink-soft)}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}</style>'
+    TBL='<style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}.card b{display:block;font-size:1.4rem;color:var(--navy);margin-bottom:4px}.card span{font-size:.82rem;color:var(--ink-soft)}.proof{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue-deep);border-radius:10px;padding:16px 20px;margin:22px 0}'+FORM_CSS+'</style>'
     steps=[('① 진단','업종·매출·신용·이력·기존 대출을 보고 가능성이 있는 트랙(직접대출·재단·신보 기보)과 지금 걸리는 조건을 가려냅니다. 가능성이 낮으면 낮다고, 무엇을 먼저 바꿔야 하는지부터 말씀드립니다.'),
            ('② 설계','자금·기관 선택과 순서(동시 설계 포함), 필요 금액 산출, 예상 상환 구조를 정합니다.'),
            ('③ 준비','서류 목록, 사업계획서의 숫자 정합(용도·집행·상환 계획), 증빙 대응을 함께 만듭니다. 사실과 다른 서류는 만들지 않습니다.'),
@@ -53,6 +54,7 @@ def build():
     svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"정책자금 컨설팅 (진단·설계·준비·심사 대응)","serviceType":"정책자금 컨설팅","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/consulting","offers":{"@type":"Offer","description":"진단은 무료입니다.","priceCurrency":"KRW"}}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 컨설팅","item":"https://bmaker.kr/consulting"}]}, ensure_ascii=False)
     faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a}</div></details>' for q,a in faq)
+    FORM=form_html('/consulting', '정책자금 컨설팅 안내', title=TITLE_GENERAL)
     page=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -114,6 +116,8 @@ def build():
     </tbody></table></div>
     <p>신청 전에 <a href="/geojeol">거절 사유와 준비 순서</a>를, 보증서로 받는 자금이면 <a href="/bojeung">보증서 대출 안내</a>를 함께 보세요.</p>
 
+
+    {FORM}
 
     <h2>컨설팅 업체 고르는 확인법</h2>
     <div class="tablewrap"><table><thead><tr><th>확인 항목</th><th>기준</th></tr></thead><tbody>{checks_html}</tbody></table></div>
