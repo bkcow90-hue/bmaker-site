@@ -295,9 +295,21 @@
   "date": "2026-11-10",
   "hash": "16c2ffc03715bb335605edcb753651b79ee6d2da735f371dce4e5f8cb60b634e"
  },
+ "industry/dosomae.html": {
+  "date": "2026-11-10",
+  "hash": "bb6bca55708cd5caae84942521d875720219c484bbe7961354cbbfb4a5053b37"
+ },
  "industry/eumsikjeom.html": {
-  "date": "2026-11-02",
-  "hash": "8ced4fce98cbe9f01b276a28acd20f0cca2ae27f2813bb2cc52be1f410396f94"
+  "date": "2026-11-10",
+  "hash": "36b0d4243c16901a748689fe1b4306a4c1a5198e807b3fca56566fcfd6b68fed"
+ },
+ "industry/jejo.html": {
+  "date": "2026-11-10",
+  "hash": "ea1a84b1778511b07a679c389657bb2492c0115d2652b8dd65c8bfa6f5a247ca"
+ },
+ "industry/online-shoppingmall.html": {
+  "date": "2026-11-10",
+  "hash": "6bebec27aa48520f14203218dc93647a5d4170d01cc2c6662dcf808c724c9fb7"
  },
  "jaedan-busan.html": {
   "date": "2026-11-09",
