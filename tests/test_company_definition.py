@@ -48,7 +48,8 @@ def test_brand_json_loads_with_required_keys():
     assert len(B['statements']) == 4 and isinstance(B['sameAs'], list)
     # 대표 개인 채널은 회사 sameAs 와 섞지 않는다(founder_sameAs → 홈 Person #founder)
     assert B['founder_sameAs'] == ['https://www.linkedin.com/in/sang-pyo-kim-328b19154/']
-    assert len(B['sameAs']) == 8 and not any('linkedin.com' in u for u in B['sameAs'])
+    # 2026-11-10 구글 비즈니스 프로필(지도 cid) 추가로 8 → 9
+    assert len(B['sameAs']) == 9 and not any('linkedin.com' in u for u in B['sameAs'])
     assert [s.get('profile_only', False) for s in B['statements']] == [False, False, False, True]
     assert '{N}' in B['statements'][2]['text']
     site = brand.statements(1234)
@@ -121,11 +122,11 @@ def test_llms_company_block_has_statements_0_to_2():
     assert lines[i + 1:i + 4] == ['', '## 회사', '']
     assert lines[i + 4:i + 7] == [f'- {t}' for t in brand.statements(_ledger_n())]
     assert lines.count('## 회사') == 1
-    # 공식 채널 9개 = 회사 sameAs 8 + 대표 링크드인 1("(대표)" 표기), 대표가 정한 순서 그대로(2026-11-02)
+    # 공식 채널 10개 = 회사 sameAs 9 + 대표 링크드인 1("(대표)" 표기), 대표가 정한 순서 그대로(2026-11-02, 구글 지도 11-10 추가)
     j = lines.index('### 공식 채널')
     assert j == i + 8 and lines[j + 1] == ''
     want = [B['sameAs'][0], *[f'{u} (대표)' for u in B['founder_sameAs']], *B['sameAs'][1:]]
-    assert brand.channels() == want and len(want) == 9
+    assert brand.channels() == want and len(want) == 10
     assert lines[j + 2:j + 2 + len(want)] == [f'- {u}' for u in want]
     assert lines[j + 3] == '- https://www.linkedin.com/in/sang-pyo-kim-328b19154/ (대표)'
     assert lines[j + 2 + len(want)] == ''
