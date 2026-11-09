@@ -114,17 +114,17 @@ def test_general_cta_does_not_reset_service_choice(browser_page, site):
 
 
 @pytest.mark.parametrize("width", [320, 390, 860, 1440])
-def test_hero_photo_preserves_original_proportions(browser_page, site, width):
+def test_hero_ledger_card_replaces_photo(browser_page, site, width):
+    """2026-11-09 규격 4-1: 히어로 사진 자리에 원장 최근 5건 띠. 생성 이미지 금지."""
     page = browser_page
     page.set_viewport_size({"width": width, "height": 844})
     page.goto(site, wait_until="networkidle")
-    geometry = page.locator(".hero-visual img").evaluate("""img => ({
-        width: img.clientWidth, height: img.clientHeight,
-        naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight
-    })""")
-    assert geometry["naturalWidth"] > 0
-    assert abs(geometry["width"] / geometry["height"] -
-               geometry["naturalWidth"] / geometry["naturalHeight"]) < 0.01
+    expect(page.locator(".hero-visual img")).to_have_count(0)
+    items = page.locator(".hero-ledger .ledger-card li")
+    expect(items).to_have_count(5)
+    card_w = page.locator(".hero-ledger .ledger-card").evaluate("e=>e.getBoundingClientRect().width")
+    assert 0 < card_w <= width
+    expect(page.locator(".hero-ledger .lc-note")).to_contain_text("같은 결과를 약속하지 않습니다")
 
 
 def test_business_routes_and_balanced_cases_are_visible(browser_page, site):
@@ -195,7 +195,9 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     hero = page.locator('.hero')
     expect(hero.locator('a')).to_have_count(1)
     expect(hero.locator('aside')).to_have_count(0)
-    expect(hero).not_to_contain_text('받은 사례')
+    # 2026-11-09 규격 4-1: 히어로 사진 자리에 원장 최근 5건 띠(링크 없음) — 숫자 근거는 띠 안에서만
+    expect(hero.locator('.ledger-card li')).to_have_count(5)
+    expect(hero.locator('.ledger-card a')).to_have_count(0)
     expect(hero).not_to_contain_text('성과 보수')
     expect(page.locator('#cases .case-proof')).to_contain_text('받은 사례')
     # 비용 구조 설명은 FAQ 비용 답·llms 에만 — 진단 섹션은 '진단은 무료입니다.'까지(대표 결정 2026-09-28)
