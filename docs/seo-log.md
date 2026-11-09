@@ -71,6 +71,19 @@ WP7: kakao_click·phone_click·consultation_start/submit·generate_lead 이미 �
 2/8. 업체 질문(1·4)은 원장 공개 덕에 잡힘. 정보 질문(3·5~8)은 기관 원문이 이김 — 11-09~10 에 넣은 섹션(3·5·6)·정의문이 반영되는지 12월에 같은 방식으로 다시 잰다.
 한계: 한 엔진·한 번·8질문 묶음 질의. 계획의 "엔진 4×3회"는 아직 아님(Gemini·Perplexity·구글 AI 개요 추가 필요).
 
+### 노출 다각화 묶음 (2026-11-10, feat/growth-batch-1110) — 새 URL 이라 기준선 0
+
+| 새 페이지 | 노린 검색 | 4주 후 (12-08) 노출·클릭 |
+| --- | --- | --- |
+| /venture-certification | 벤처기업확인 요건·유형 | |
+| /innobiz-mainbiz | 이노비즈 메인비즈 차이·요건 | |
+| /research-institute | 기업부설연구소 설립 요건·연구개발전담부서 | |
+| /industry/jejo | 제조업 정책자금 | |
+| /industry/dosomae | 도소매 정책자금 | |
+| /industry/online-shoppingmall | 온라인쇼핑몰 정책자금 | |
+
+블로그 21편 meta description(질문+답) 변경 — 해당 글 CTR 을 12-08 에 비교.
+
 ### 홈 카피 기준선 (tools/check_site.py --home)
 
 | 날짜 | 가운뎃점 | 3연 나열 | 줄표 | ~니다 종결 | 금칙어 |
