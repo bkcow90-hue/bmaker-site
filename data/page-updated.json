@@ -295,9 +295,21 @@
   "date": "2026-11-10",
   "hash": "16c2ffc03715bb335605edcb753651b79ee6d2da735f371dce4e5f8cb60b634e"
  },
+ "industry/dosomae.html": {
+  "date": "2026-11-10",
+  "hash": "2a2514cadb10890a1f68364bb17ffc33f0b6b35e55d59dfe67c6682fbe26e652"
+ },
  "industry/eumsikjeom.html": {
-  "date": "2026-11-02",
-  "hash": "8ced4fce98cbe9f01b276a28acd20f0cca2ae27f2813bb2cc52be1f410396f94"
+  "date": "2026-11-10",
+  "hash": "c4e72dbcad443d8ea54cc79a111d7aa4cdcd0a454089a341ae6bc88e666ea124"
+ },
+ "industry/jejo.html": {
+  "date": "2026-11-10",
+  "hash": "9c9685155b6ea894180a0ae56bef3cd78662ce8f15f5fbc3e4a53a4b40b45545"
+ },
+ "industry/online-shoppingmall.html": {
+  "date": "2026-11-10",
+  "hash": "e880365fe866e7984021e2ee5e640a705c453883d3708234711c824f99e86fe0"
  },
  "innobiz-mainbiz.html": {
   "date": "2026-11-10",
