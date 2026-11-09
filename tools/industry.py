@@ -58,7 +58,8 @@ def esc(s):
 def answer_of(ind, rows):
     total = sum(r['amt'] for r in rows)
     money = f"{total // 10000}억" if total >= 10000 else won2(total)
-    return f"네. {ind['name']} 사장님 {len(rows)}분이 정책자금 {money}을 받았습니다."
+    # 원장 행은 사람 수가 아니다(같은 회사의 여러 건) — '몇 분'이 아니라 '몇 건'으로 쓴다(2026-11-10)
+    return f"네. {ind['name']} 받은 사례 {len(rows)}건, 합계 {money}입니다."
 
 
 def _abs_assets(html):
