@@ -159,6 +159,7 @@ def build():
       <a href="/jaedan">신용보증재단 사업자대출</a>
       <a href="/schedule">정책자금 접수 일정</a>
       <a href="/cases">받은 사례 전체</a>
+      <a href="/beobin">법인사업자 정책자금 대출</a>
       <a href="/consulting">정책자금 컨설팅 안내</a>
       <a href="/sanghwan">상환 구조 가이드</a>
     </div>
@@ -191,5 +192,178 @@ def build():
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
     print(f"[개인사업자 허브 빌드 OK] 개인 {N}건 · {TOT} · 접수 중 {len(open_funds)}개 (기준일 {TODAY})")
 
+
+# ── 법인사업자 허브(/beobin) — 2026-11-10. /gaein 의 짝. 같은 원장에서 법인 건만 집계한다.
+CORP_KEYWORD='법인사업자 정책자금 대출'
+CORP_TITLE='법인사업자 정책자금 대출, 기관 선택부터 받은 사례까지 | 비즈니스 메이커'
+CORP_ANSWER='법인사업자 정책자금 대출은 기보·신보·중진공이 중심입니다.'
+SALES_ORDER=['3억~5억','5억~10억','10억~30억','30억~50억','50억원 이상']
+
+def build_corp():
+    rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
+    corp=[r for r in rows if r['사업 형태'].strip()=='법인']
+    ind=[r for r in rows if r['사업 형태'].strip()=='개인']
+    if not corp: die("법인 실행 건이 없습니다.")
+    amt=lambda rs:[int(r['실행 금액(만원)']) for r in rs]
+    days=lambda rs:[float(r['소요일']) for r in rs if r['소요일']]
+    a=amt(corp); d=days(corp)
+    N=len(corp); TOT=won2(sum(a)); AVG=won2(round(sum(a)/len(a))); LO=won2(min(a)); HI=won2(max(a)); DMED=int(statistics.median(d)) if d else None
+    by={k:[r for r in corp if inst_of(r)==k] for k in ('기보','신보','중진공')}
+    main_n=sum(len(v) for v in by.values())
+    def stat(rs):
+        if not rs: return '—'
+        dd=days(rs); rr=rate_range([r['금리'] for r in rs])
+        return f"{len(rs)}건 · 평균 {won2(round(sum(amt(rs))/len(rs)))}" + (f" · {rr}" if rr else '') + (f" · 보통 {int(statistics.median(dd))}일" if dd else '')
+    insts=[('기술보증기금(기보)','기술평가를 거쳐 보증서를 발급하고 은행이 실행합니다. 기술·제품·연구개발 실적이 있는 법인이 주로 봅니다.', stat(by['기보']), '<a href="/gibo">기술보증기금 대출</a>'),
+           ('신용보증기금(신보)','매출과 재무 자료를 바탕으로 보증서를 발급하고 은행이 실행합니다. 매출이 꾸준히 잡히는 법인이 주로 봅니다.', stat(by['신보']), '<a href="/sinbo">신용보증기금 대출</a>'),
+           ('중소벤처기업진흥공단(중진공)','공단이 직접 심사해 실행하는 직접대출입니다. 사업계획서와 자금 용도 설명이 심사의 중심입니다.', stat(by['중진공']), '<a href="/jungjingong">중소기업 정책자금 대출</a>')]
+    inst_html="".join(f'<tr><td><b>{a_}</b></td><td>{b}</td><td>{c}</td><td>{e}</td></tr>' for a_,b,c,e in insts)
+    sales_rows=[]
+    for k in SALES_ORDER:
+        rs=[r for r in corp if r['연매출 구간'].strip()==k]
+        if len(rs)>=5:
+            top=max(('기보','신보','중진공'), key=lambda i:sum(1 for r in rs if inst_of(r)==i))
+            sales_rows.append(f'<tr><td>{k}</td><td>{len(rs)}건</td><td>{won2(round(sum(amt(rs))/len(rs)))}</td><td>{won2(min(amt(rs)))}~{won2(max(amt(rs)))}</td><td>{top}</td></tr>')
+    sales_html="".join(sales_rows)
+    from collections import Counter
+    top_ind=Counter(r['업종'].strip() for r in corp if r['업종'].strip()).most_common(8)
+    ind_html="".join(f'<li>{esc(k)} {v}건</li>' for k,v in top_ind)
+    recent=sorted(corp, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:8]
+    rec_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{inst_of(r)}</td><td>{esc(r["자금명"])[:26]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">근거</a></td></tr>' for r in recent)
+    multi=sum(1 for r in corp if r['동시 진행 자금'].strip())
+    young=sum(1 for r in corp if r['업력(년)'] and float(r['업력(년)'])<=3)
+    restart=sum(1 for r in corp if r['폐업 이력'].strip() in ('있음','재창업'))
+    c700=sum(1 for r in corp if r['신용점수 구간'].strip()=='700점대')
+    over1=sum(1 for x in a if x>=10000)
+    rr_all=rate_range([r['금리'] for r in corp])
+    IAVG=won2(round(sum(amt(ind))/len(ind))) if ind else ''
+    faq=[(f"{CORP_KEYWORD} 조건은 무엇인가요?", "법인 설립일과 업력, 업종, 매출과 재무제표, 대표자 신용과 연체·세금 체납 여부, 기존 대출·보증 잔액, 자금 용도를 봅니다. 기관마다 공고와 심사 기준이 따로 있습니다."),
+         ("법인사업자는 어느 기관부터 알아봐야 하나요?", f"받은 사례 기준으로 법인 {N}건 중 {main_n}건이 기술보증기금·신용보증기금·중소벤처기업진흥공단 세 곳에서 나왔습니다. 기술이 중심이면 기보, 매출·재무가 중심이면 신보, 사업계획과 설비·운전 자금 용도가 뚜렷하면 중진공을 먼저 봅니다."),
+         ("설립한 지 얼마 안 된 법인도 되나요?", f"법인 받은 사례 {N}건 중 업력 3년 이하가 {young}건입니다. 초기 법인은 매출 실적보다 사업계획과 자금 용도, 대표자 경력 자료의 비중이 커집니다."),
+         ("법인은 얼마까지 받을 수 있나요?", f"정해진 답은 없고 기관·자금·재무 상태에 따라 달라집니다. 받은 사례에서는 법인 {N}건이 건당 {LO}~{HI}, 평균 {AVG}였고 1억원 이상이 {over1}건입니다. 집계 금액은 개별 신청 한도가 아닙니다."),
+         ("여러 기관을 함께 진행할 수 있나요?", f"가능한 경우가 있습니다. 법인 받은 사례 {N}건 중 {multi}건이 다른 기관 자금이나 지자체 이차보전과 함께 진행됐습니다. 순서와 조합은 중소기업 정책자금 대출 안내에 정리돼 있습니다."),
+         ("얼마나 걸리고, 비용은요?", f"법인 받은 사례 기준 첫 상담 접수부터 보통 {DMED}일입니다. 저희는 착수금·진행비 등 실행 전 비용을 받지 않고, 실제 실행된 경우에만 성공보수를 받습니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
+    faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":x}} for q,x in faq]}, ensure_ascii=False)
+    art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":CORP_TITLE.split(" | ")[0],"datePublished":"2026-11-10","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/beobin"}, ensure_ascii=False)
+    crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"법인사업자 정책자금","item":"https://bmaker.kr/beobin"}]}, ensure_ascii=False)
+    def link(x):
+        return (x.replace("중소기업 정책자금 대출 안내", "<a href='/jungjingong'>중소기업 정책자금 대출 안내</a>")
+                 .replace("착수금 사기 구별법 페이지", "<a href='/chaksugeum'>착수금 사기 구별법 페이지</a>"))
+    faq_html="".join(f'<details><summary>{q}</summary><div class="body">{link(x)}</div></details>' for q,x in faq)
+    g=(ROOT/'gaein.html').read_text(encoding='utf-8')
+    styles=re.findall(r'<style>.*?</style>', g, re.S)
+    hdr=re.search(r'<header>.*?</header>', g, re.S).group(0); foot=re.search(r'<footer>.*?</footer>', g, re.S).group(0)
+    desc=f"법인사업자 정책자금 대출, 어느 기관부터 볼까요? 법인 받은 사례 {N}건(총 {TOT}, 평균 {AVG}, 보통 {DMED}일)을 기보·신보·중진공별, 매출 규모별로 정리했습니다. 조건과 준비 자료까지 한 장에."
+    page=f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{CORP_TITLE}</title>
+<meta name="description" content="{desc}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{CORP_TITLE}">
+<meta property="og:description" content="법인 {N}건 · 총 {TOT} · 평균 {AVG} · 보통 {DMED}일 — 기관별·매출 규모별 받은 사례.">
+<meta property="og:url" content="https://bmaker.kr/beobin">
+<meta property="og:image" content="https://bmaker.kr/assets/og.png">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="https://bmaker.kr/beobin">
+<link rel="icon" type="image/png" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap">
+<script type="application/ld+json">{art}</script>
+<script type="application/ld+json">{crumb}</script>
+<script type="application/ld+json">{faq_ld}</script>
+{chr(10).join(styles)}
+</head>
+<body>
+{hdr}
+<section class="hero">
+  <div class="wrap">
+    <p class="crumb"><a href="/">홈</a> › 법인사업자 정책자금</p>
+    <h1 class="serif">법인사업자 정책자금 대출,<br class="pc"> 기관 선택부터 받은 사례까지</h1>
+    <p class="intent-answer">{CORP_ANSWER}</p>
+    <p>받은 사례 {len(rows)}건 중 <b>{N}건이 법인</b>입니다. 총 {TOT}, 건당 평균 {AVG}, 첫 상담부터 보통 {DMED}일.</p>
+  </div>
+</section>
+<main>
+  <div class="wrap">
+    <p><b>짧은 답:</b> 법인사업자가 실제로 쓰는 정책자금은 세 기관에 모여 있습니다 — ① <b>기술보증기금</b> 보증, ② <b>신용보증기금</b> 보증, ③ <b>중소벤처기업진흥공단</b> 직접대출. 저희 법인 받은 사례 {N}건 중 {main_n}건이 이 세 곳입니다. 어느 기관이 먼저인지는 기술·매출·자금 용도 중 무엇이 가장 분명한지로 갈리고, 아래 표가 그 판단의 근거입니다.</p>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 수치는 <a href="/cases">받은 사례</a>에서 자동 집계되며 사례가 늘면 함께 바뀝니다.</p>
+
+    <div class="cards">
+      <div class="card"><b>{N}건</b><span>법인 받은 사례 (전체 {len(rows)}건 중)</span></div>
+      <div class="card"><b>{TOT}</b><span>법인 실행 총액</span></div>
+      <div class="card"><b>{AVG}</b><span>건당 평균 ({LO}~{HI})</span></div>
+      <div class="card"><b>보통 {DMED}일</b><span>첫 상담 → 정산</span></div>
+    </div>
+
+    <h2>기관별로 보는 법인 정책자금</h2>
+    <div class="tablewrap"><table><thead><tr><th>기관</th><th>무엇을 보나</th><th>법인 받은 사례</th><th>상세</th></tr></thead><tbody>{inst_html}</tbody></table></div>
+    <p>법인 {N}건 전체 금리 범위는 {rr_all}(각 실행 시점 기준)입니다. 세 기관의 역할 차이와 함께 진행하는 순서는 <a href="/jungjingong">중소기업 정책자금 대출</a>에서 이어집니다.</p>
+
+    <h2>매출 규모별 법인 받은 사례</h2>
+    <div class="tablewrap"><table><thead><tr><th>연매출</th><th>건수</th><th>건당 평균</th><th>범위</th><th>가장 많은 기관</th></tr></thead><tbody>{sales_html}</tbody></table></div>
+    <p>집계 금액은 받은 결과이지 신청 한도가 아닙니다. 같은 매출 구간에서도 재무 상태와 자금 용도에 따라 결과가 달랐습니다.</p>
+
+    <h2>어떤 업종의 법인이 받았나</h2>
+    <ul>{ind_html}</ul>
+    <p>제조·기술 업종이 많지만 업종만으로 정해지지는 않습니다. 업종별 준비는 <a href="/industry/jejo">제조업 정책자금</a>에서도 볼 수 있습니다.</p>
+
+    <h2>법인 받은 사례 — 최근 {len(recent)}건</h2>
+    <div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>기관</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rec_html}</tbody></table></div>
+
+    <h2>법인 대표가 자주 묻는 조건 — 사례로 답하면</h2>
+    <div class="proof"><p>법인 받은 사례 {N}건 안에는 <b>업력 3년 이하 {young}건</b>, <b>대표자 신용 700점대 {c700}건</b>, <b>폐업 후 재창업 {restart}건</b>, <b>다른 자금과 함께 진행 {multi}건</b>이 있습니다. 개인사업자(건당 평균 {IAVG})보다 규모가 큰 만큼 재무제표와 자금 용도 설명을 더 깊게 봅니다. 개인사업자 기준은 <a href="/gaein">개인사업자 정책자금 대출</a>에 따로 정리했습니다.</p></div>
+
+    <h2>상담 전에 모아 둘 자료와 인증</h2>
+    <p>담당자가 먼저 정리할 자료는 <a href="/corporate-loan-documents">법인 사업자대출 준비서류 체크리스트</a>, 용도 구분은 <a href="/working-capital-facility">운전자금·시설자금 차이</a>, 사업계획서는 <a href="/gyehoekseo">심사가 보는 5요소</a>에 있습니다. 기술 법인이라면 <a href="/venture-certification">벤처기업확인</a>, <a href="/innobiz-mainbiz">이노비즈·메인비즈</a>, <a href="/research-institute">기업부설연구소</a>를 함께 검토합니다.</p>
+
+    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
+    <p class="byline" style="margin-top:14px;font-size:.8rem;opacity:.7">작성 비즈니스 메이커 · 검토 김상표(대표) · 최종 확인 {ASOF}</p>
+
+    <h2>자주 묻는 질문</h2>
+    {faq_html}
+
+    <div class="related">
+      <p class="t">함께 보기</p>
+      <a href="/jungjingong">중소기업 정책자금 대출</a>
+      <a href="/jungsogieop">중소기업 정책자금 컨설팅</a>
+      <a href="/gibo">기술보증기금 대출</a>
+      <a href="/sinbo">신용보증기금 대출</a>
+      <a href="/cases">받은 사례 전체</a>
+      <a href="/gaein">개인사업자 정책자금 대출</a>
+    </div>
+    <div class="cta-box">
+      <h3 class="serif">우리 법인은 어느 기관부터인지</h3>
+      <p>업종·매출·업력·기존 대출을 주시면 기보·신보·중진공 중 먼저 볼 곳과 준비 순서를 무료로 진단해 드립니다.</p>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">무료 진단 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
+    </div>
+  </div>
+</main>
+{foot}
+<script src="/assets/conversion.js" defer></script>
+</body>
+</html>
+"""
+    if '갚' in page: die("생성물에 '갚' 포함")
+    if re.search(r'보장(?!하지)', page.replace('결과를 보장하지','')): die("생성물에 '보장' 포함")
+    (ROOT/'beobin.html').write_text(page, encoding='utf-8')
+    sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
+    loc="https://bmaker.kr/beobin"
+    if loc+"</loc>" not in sm:
+        sm=sm.replace('</urlset>', f'  <url><loc>{loc}</loc><lastmod>{TODAY}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>\n</urlset>')
+        (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
+    lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
+    line=f"- [법인사업자 정책자금 대출](https://bmaker.kr/beobin): 받은 사례 {len(rows)}건 중 법인 {N}건(총 {TOT}, 평균 {AVG}, 보통 {DMED}일) — 기보 {len(by['기보'])}건·신보 {len(by['신보'])}건·중진공 {len(by['중진공'])}건, 매출 규모별 집계, 업력 3년 이하 {young}건, 함께 진행 {multi}건"
+    if '- [법인사업자 정책자금 대출]' in lt: lt=re.sub(r'- \[법인사업자 정책자금 대출\][^\n]*', line, lt)
+    else: lt=lt.replace('- [정책자금 접수 일정]', line+'\n- [정책자금 접수 일정]')
+    (ROOT/'llms.txt').write_text(lt, encoding='utf-8')
+    print(f"[법인사업자 허브 빌드 OK] 법인 {N}건 · {TOT} (기준일 {TODAY})")
+
 if __name__=='__main__':
     build()
+    build_corp()

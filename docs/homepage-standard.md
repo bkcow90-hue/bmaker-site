@@ -100,9 +100,9 @@
   `_redirects` 에 17개 재단 전부 `/jaedan-<slug> → /jaedan#<slug>` 예비 301(실존 파일 우선이라 페이지가 있으면 작동 안 함).
 - **검색 의도 대표 페이지(2026-10-31):** 의도 하나에 대표 한 장. `/gaein`(개인사업자 정책자금 대출) · `/sosangin`(소상공인 사업자대출) ·
   `/sojingong`(소상공인 정책자금 대출) · `/jungjingong`(중소기업 정책자금 대출) · `/jungsogieop`(중소기업 정책자금 컨설팅) ·
-  `/gibo`(기술보증기금 대출) · `/sinbo`(신용보증기금 대출). 같은 대상(소상공인·중소기업)의 의도는 기관명이 아니라
+  `/gibo`(기술보증기금 대출) · `/sinbo`(신용보증기금 대출) · `/beobin`(법인사업자 정책자금 대출, 2026-11-10 추가 — `/gaein` 의 짝, 원장의 법인 건만 집계. `/jungjingong` 은 중진공 직접대출·억대 설계, `/beobin` 은 법인 형태 기준 기관 선택). 같은 대상(소상공인·중소기업)의 의도는 기관명이 아니라
   꼬리 — `정책자금 대출` / `사업자대출` / `컨설팅` — 로 나눈다(`/sojingong` 은 "소상공인 정책자금" 네이버 노출 출처라 title 에서 빼지 않는다).
-  이 7장의 title 은 `{메인 키워드 통째로}, {A}부터 {B}까지 | 비즈니스 메이커` — 아래 title 형식의 예외. h1 에도 메인 키워드를 통째로 넣는다.
+  이 8장의 title 은 `{메인 키워드 통째로}, {A}부터 {B}까지 | 비즈니스 메이커` — 아래 title 형식의 예외. h1 에도 메인 키워드를 통째로 넣는다.
   예: `/jungsogieop` title·h1 = "중소기업 정책자금 컨설팅, 자금 진단부터 기관 선택까지", `/gaein` h1 = "개인사업자 정책자금 대출, 종류부터 받은 사례까지".
   A·B 는 본문이 실제로 다루는 단계만 쓴다(본문에 없는 서비스를 title 에 넣지 않는다).
   h1 아래 첫 문단은 메인 키워드를 포함한 40자 이내 즉답(`p.intent-answer`), FAQ 에 `{메인 키워드} 조건` 질문 1개(답은 조건 종류만, 판정 기준·수치 없음).
@@ -359,3 +359,4 @@
 - 2026-11-02 블로그 정리(대표 승인): 주제 이탈 26편 삭제(파일 삭제 → 404, sitemap·feed·llms·목록·카테고리 제외), 유지 42편 중 14편을 허브 5장(/sosangin·/jungsogieop·/jungjingong·/gibo·/gaein) "관련 글"로 연결, /startup 에 소자본 창업 아이템 글 링크, 9절 주제 가드. /sojingong·/sinbo·/jaedan 8편은 11/8 이후(docs/measure-log.md). 브랜치 chore/blog-cleanup-1102 (PR 머지 = 승인)
 - 2026-11-09 AI 티 탈출·성장 지시문(대표 지시, 채팅): 0절 카피 기준 7항 신설, 4-1 히어로 H1 "신청 조건부터 확인해 드립니다"·사진 자리 원장 최근 5건 띠, 기준 섹션 소개를 대표 1인칭+서명, 진단 섹션 "첫 통화에서 묻는 것", 절차 "시점→오는 것", FAQ 6개 답변 전화 말투, 8-1 도시 title 에서 "대출" 제거. 제목·메타(WP2): /cheongnyeon·/hyeoksin·/bojeung(funding-guides.json), /sinyongchwiyak·/jangaein(build_funds 오버라이드), /startup, 홈. 근거·순서·측정은 `docs/growth-plan-2026-11.md`, 변경 전 수치는 `docs/seo-log.md`. 비용 FAQ 문구는 변호사 검토 전 손대지 않음(2026-11-05 중기부·경찰청 발표 — 대출 실행 조건 수수료의 대부업법 쟁점). 브랜치 feat/anti-ai-growth-1109 (PR 머지 = 승인)
 - 2026-11-10 노출 다각화 묶음(대표 지시 "할 수 있는 것 전부, 머지만 하게"): 인증·연구소 가이드 3장(/venture-certification·/innobiz-mainbiz·/research-institute, funding-guides.json, 문의 분야 certification, 끝에 최종 확인일·검토자) — 공식 요건 수치는 ChatGPT 웹 검증 반영. 업종 랜딩 /industry/jejo·/dosomae·/online-shoppingmall 추가와 build_cases → industry.build 재연결(직답은 "받은 사례 N건", 카드 "건당 평균"). 블로그 summary 60자 미만이면 meta description = 질문형 제목 + summary. 사이트 밖 실행 원고 `docs/offsite-2026-11.md`. 브랜치 feat/growth-batch-1110 (PR 머지 = 승인)
+- 2026-11-10 법인·중소기업 노출 보강(대표 지시, 채팅): 검색 의도 대표 페이지에 `/beobin`(법인사업자 정책자금 대출) 추가 — build_gaein.py 의 build_corp() 가 원장 법인 건으로 생성. `/gaein`·`/jungjingong`·`/jungsogieop` 함께 보기에 연결. 링크 미리보기 이미지 `assets/og.png` 를 로고+회사 소개 문구 카드로 교체(주소 동일). 블로그 대기열에 법인·중소기업 주제 12개 추가. 브랜치 feat/og-card-and-corp-page (PR 머지 = 승인)
