@@ -8,8 +8,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html", "schedule.html", "sinyongchwiyak.html", "jaedojeon.html", "hyeoksin.html", "cheongnyeon.html", "gaein.html", "consulting.html"]
-SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "consulting"]
+PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html", "schedule.html", "sinyongchwiyak.html", "jaedojeon.html", "hyeoksin.html", "cheongnyeon.html", "gaein.html", "beobin.html", "consulting.html"]
+SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "beobin", "consulting"]
 
 NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program", "corporate-loan-documents", "working-capital-facility",
                 "venture-certification", "innobiz-mainbiz", "research-institute"]  # 2026-11-10 인증·연구소 가이드

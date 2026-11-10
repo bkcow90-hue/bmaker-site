@@ -130,6 +130,7 @@ def build():
 
     <div class="related">
       <p class="t">함께 보기</p>
+      <a href="/beobin">법인사업자 정책자금 대출</a>
       <a href="/gaein">개인사업자 정책자금 총정리</a>
       <a href="/gibo">기술보증기금 대출</a>
       <a href="/sinbo">신용보증기금 사업자대출</a>

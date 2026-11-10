@@ -7,9 +7,23 @@
 첫 문단 직답 · 본문 내부 링크 3개 이하 · 금칙어·비용 구조 문구 금지 · 사실은 공식 출처 링크 · reviewed: false ·
 기존 글·자금 페이지와 같은 질문이면 쓰지 않는다(카니발).
 
+법인·중소기업 주제(L1~L12, 2026-11-10 대표 지시)는 숫자 주제와 **하루씩 번갈아** 쓴다 — 어제 숫자 주제를 썼으면 오늘은 L 주제.
+
 | # | 제목(안) | 분류 | 연결할 페이지 | 상태 |
 |---|---|---|---|---|
 | 1 | 정책자금 거절 통보를 받았다면, 언제 다시 신청할 수 있나요? | guide | /geojeol · /cases | 발행 2026-11-10 |
+| L1 | 신용보증기금과 기술보증기금, 우리 법인은 어디가 먼저일까요? | guide | /beobin · /sinbo · /gibo | 대기 |
+| L2 | 법인 설립 1년 차, 매출이 적어도 정책자금 상담이 되나요? | guide | /beobin | 대기 |
+| L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 대기 |
+| L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 대기 |
+| L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 대기 |
+| L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 대기 |
+| L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 대기 |
+| L8 | 벤처기업확인을 받으면 자금 심사에서 무엇이 달라지나요? | guide | /venture-certification | 대기 |
+| L9 | 기업부설연구소가 있는 법인, 기술보증 상담에서 어떻게 쓰이나요? | guide | /research-institute · /gibo | 대기 |
+| L10 | 기존 보증이 있는 법인, 추가 보증 상담 전에 확인할 것 | guide | /sinbo | 대기 |
+| L11 | 결산 전과 후, 법인 자금 신청은 언제가 나을까요? | guide | /jungsogieop | 대기 |
+| L12 | 재무 담당자가 없는 법인, 자금 신청 자료는 누가 모으나요? | guide | /corporate-loan-documents | 대기 |
 | 2 | 연구원 1명뿐인 회사, 연구소 설립 전에 무엇부터 정리할까요? | guide | /research-institute | 대기 |
 | 3 | 벤처기업확인, 사업계획서에서 평가자가 가장 먼저 보는 것은? | guide | /venture-certification | 대기 |
 | 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 대기 |
