@@ -104,3 +104,19 @@ GSC 28일(10-13~11-09) 페이지별 수치에서 노출 50 이상·클릭 0~1 �
 
 손대지 않은 것: /region/changwon(1/257)·/region/gimhae(0/132) 등 도시 페이지 — "창원 대출"(193회·9.0위) 같은 넓은 검색어 노출이고 11-09 에 title 에서 "대출"을 뺀 측정이 진행 중. /schedule(1/212) — 검색어가 익명 처리돼 원인 미확인. /sangsaeng(0/71) — 원본 자료(대상·한도)가 비어 있어 공고 확인 뒤 보강. /cheongnyeon(0/123) 등 11-09 변경 7장 — 12-07 까지 동결.
 
+### 법인·중소기업 AI 인용 기준선 (2026-11-10, ChatGPT 웹 검색)
+
+/beobin·/jiwongeum 을 올린 당일 측정(색인 전) — 기준선 0/6. 브랜드명·도메인은 질문에 넣지 않았다.
+한계: 6문항을 한 대화에 묶었고, 입력창에 남아 있던 다른 질문 묶음(꽃배달 8문항)이 같이 전송됐다. 12-08 재측정은 질문별 새 대화로.
+
+| # | 질문 | bmaker.kr 인용 | 인용·추천된 곳 |
+| --- | --- | --- | --- |
+| 1 | 법인사업자 정책자금 대출은 어느 기관부터 | X | kosmes.or.kr, kibo.or.kr, kodit.or.kr, ols.semas.or.kr, koreg.or.kr |
+| 2 | 중소기업 정책자금 컨설팅 업체 추천 | X | kosmes.or.kr, kmtca.or.kr(경영기술지도사회), ksckorea.kr, ksvc.kr, sbac.co.kr |
+| 3 | 신용보증기금과 기술보증기금 차이 | X | kodit.or.kr, kibo.or.kr, bizinfo.go.kr |
+| 4 | 중소기업 지원금과 정책자금 대출 차이 | X | bizinfo.go.kr, k-startup.go.kr, kosmes.or.kr, law.go.kr |
+| 5 | 운전자금 시설자금 차이 | X | kosmes.or.kr, mss.go.kr, bizinfo.go.kr |
+| 6 | 정책자금 컨설팅 착수금 받는 곳 믿어도 되나 | X | 기관 원문 위주 |
+
+읽는 법: 정보 질문(1·3·4·5)은 기관 원문이 차지한다 — 우리 페이지가 끼려면 기관 원문에 없는 것(받은 사례 수치, 기관 간 비교 표)이 답의 재료가 돼야 한다. 업체 추천(2)은 민간 3곳(ksckorea.kr·ksvc.kr·sbac.co.kr)이 잡혔고 우리는 없다 — "중소기업 정책자금 컨설팅"으로 외부에서 회사를 언급한 자료가 필요하다(docs/offsite-2026-11.md).
+
