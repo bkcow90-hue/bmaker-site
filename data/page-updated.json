@@ -5,7 +5,7 @@
  },
  "beobin.html": {
   "date": "2026-11-10",
-  "hash": "5191fe271a989e4579bc65b2b9c22668306a4c0f3979a30785745725d8051382"
+  "hash": "abac206e982184a2adcb510df37012d8b13f49021c3d850c1eb8779fdad3daaa"
  },
  "blog-marketing-cost.html": {
   "date": "2026-09-15",
@@ -209,7 +209,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-10",
-  "hash": "9deeb75ab3b924dec4cf3425cc21d3317164691bce3c0df59f21f756e5088a25"
+  "hash": "615c13dbf7d6f7a24249c29984d8c0d8dffae82c2a94d760082efd033b4b9885"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -257,7 +257,7 @@
  },
  "gaein.html": {
   "date": "2026-11-10",
-  "hash": "bacd4c5dc83940b5422d4f2e5298f24930bab9d9c61964883cd49a94dd940e19"
+  "hash": "0eb374e033b9d95298be3852a2ca750a3d54b8cb6ea00a6baae46f73fc263d81"
  },
  "geojeol.html": {
   "date": "2026-11-01",
@@ -407,9 +407,13 @@
   "date": "2026-11-01",
   "hash": "8bdfd5bb793043eb2cf6e5481180772c5dda42b769b8a3a1db15fe32dd3bf93d"
  },
+ "jiwongeum.html": {
+  "date": "2026-11-10",
+  "hash": "6935f98783a1b8c830e49ee39b798032ac32e55cd9c9945a713fde256c06580d"
+ },
  "jungjingong.html": {
   "date": "2026-11-10",
-  "hash": "516d316052aef2f8677fa30a428fc2dd3d6e1c6554ab101b21e057e083090325"
+  "hash": "3197c620db7fcb3c9f11a367055424e9425537b0274ba0b2501c7a50d67cedb6"
  },
  "jungsogieop.html": {
   "date": "2026-11-10",
