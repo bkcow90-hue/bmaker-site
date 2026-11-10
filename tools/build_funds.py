@@ -430,6 +430,28 @@ EXTRA_SECTIONS = {
  'gingeup': """<h2>세 경로를 먼저 구분하세요</h2><div class="tablewrap"><table><thead><tr><th>경로</th><th>먼저 확인할 것</th><th>처음 가는 곳</th></tr></thead><tbody><tr><td>재해피해 대리대출</td><td>지자체 재해 중소기업·소상공인 확인증</td><td>해당 지자체와 취급은행</td></tr><tr><td>일시적경영애로 대리대출</td><td>매출 15% 이상 감소 또는 공고가 정한 예외 사유</td><td>소진공 온라인신청 공고</td></tr><tr><td>일시적경영애로 직접대출</td><td>연매출 1억400만원 미만, 업력 7년 미만과 경영애로 사유</td><td><a href="/ilsijeok">일시적경영애로자금</a></td></tr></tbody></table></div><p>재해피해 유형은 공단 확인서를 요구하지 않습니다. 매출 비교기간과 인정 증빙은 유형별 원문 기준이며, 공고에 없는 사유를 끼워 맞추거나 매출·피해 자료를 부풀리면 안 됩니다.</p><p class="note">출처: <a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=321&amp;bbsTypeCd=01">재해피해 대리대출 안내</a> · <a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=405&amp;bbsTypeCd=01">4분기 일시적경영애로 대리대출 안내</a> · <a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=402&amp;bbsTypeCd=01">9월 일시적경영애로 직접대출 안내</a> (2026-10-04 확인)</p>"""
 }
 
+# 준비 서류 체크리스트 — 자금 공통(2026-11-10). title 을 11/9 에 바꾼 4장은 12/7 측정까지 본문도 그대로 둔다.
+DOCS_SKIP = {'sinyongchwiyak', 'jangaein', 'cheongnyeon', 'hyeoksin'}
+DOCS_ROWS = [
+ ('사업자등록증명', '국세청 홈택스 · 정부24', '상호·업종·개업일이 지금 사업 내용과 맞는지'),
+ ('부가가치세과세표준증명 (면세사업자는 수입금액증명)', '국세청 홈택스', '공고가 요구하는 기간의 매출이 모두 들어 있는지'),
+ ('국세 납세증명서', '국세청 홈택스 · 정부24', '체납이 없는지, 증명서 유효기간이 남았는지'),
+ ('지방세 납세증명서', '정부24 · 위택스', '체납이 없는지, 증명서 유효기간이 남았는지'),
+ ('상시근로자 수 확인 서류 (예: 건강보험 사업장 가입자 명부)', '국민건강보험공단', '업종별 소상공인 기준 안에 드는지'),
+ ('임대차계약서 (사업장을 빌려 쓰는 경우)', '보관 중인 계약서', '사업자등록 주소와 계약서 주소가 같은지'),
+ ('법인등기사항전부증명서 (법인인 경우)', '대법원 인터넷등기소', '대표자·본점 주소가 최신인지'),
+]
+def docs_html(d):
+    if d['자금ID'] in DOCS_SKIP:
+        return ''
+    rows = ''.join('<tr><td>%s</td><td>%s</td><td>%s</td></tr>' % (esc(a), esc(b), esc(c)) for a, b, c in DOCS_ROWS)
+    link = (' <a href="%s" rel="noopener" target="_blank">%s 공고 원문</a>에서 제출 서류 목록을 한 번 더 확인하세요.' % (esc(d['공고 링크']), esc(d['자금명']))) if d.get('공고 링크') else ''
+    return ('\n    <h2>%s 준비 서류와 발급처</h2>'
+            '<p>소상공인 정책자금 신청에 공통으로 쓰이는 서류와 발급처입니다. 온라인 신청에서는 일부 서류가 동의 절차로 자동 조회되기도 하고, 조회되지 않는 서류만 따로 올립니다.</p>'
+            '<div class="tablewrap"><table><thead><tr><th>서류</th><th>발급처</th><th>미리 볼 것</th></tr></thead><tbody>%s</tbody></table></div>'
+            '<p>이 자금의 대상 요건을 확인하는 서류는 따로 있습니다. 유형별 증빙과 인정 기간은 회차 공고가 정하므로, 위 서류를 갖췄다고 요건이 채워지는 것은 아닙니다.%s</p>'
+            ) % (esc(d['자금명']), rows, link)
+
 # 자체 사례가 없는 자금 페이지가 링크로 가리키는 기관 페이지 — 공통 블록(최근 사례·직접/대리 구분)은 여기에 한 번만 둔다
 PEER_HUB = {'소상공인시장진흥공단': ('/sojingong', '소진공 정책자금 안내')}
 PEER_START, PEER_END = '<!-- peer-cases:start -->', '<!-- peer-cases:end -->'
@@ -581,7 +603,7 @@ def build():
     {asof_html(d, asof_ym, peer_link)}
     {inline_form}
     {meas_html}
-    {EXTRA_SECTIONS.get(d["자금ID"],"")}
+    {EXTRA_SECTIONS.get(d["자금ID"],"")}{docs_html(d)}
     {faq_html}
     <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
