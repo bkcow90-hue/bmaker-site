@@ -56,12 +56,14 @@ def build():
          ("소진공과 중진공, 어디로 가야 하나요?","업종·상시근로자·매출과 자금별 공고를 함께 확인합니다. 소진공은 소상공인 대상 자금, 중진공은 중소기업 대상 정책자금을 운영합니다. 규모만으로 단정하지 않고 상품별 대상과 예외·제외요건을 확인해야 합니다."),
          ("억대 자금은 어떻게 만들어지나요?", f"한 자금으로 억대를 채우기보다 조합으로 설계되는 경우가 많습니다. 받은 사례의 동시 설계 {len(combo)}건이 그 방식입니다 — 기보 2억 9,000만에 소진공을 더하거나, 기보 2억에 중진공 청년창업자금을 더하는 식. 검토 순서는 자금 용도·기존 부채·접수 일정·중복지원 제한에 따라 달라집니다. 동시 진행 기록이 모든 자금의 실행 완료를 뜻하지는 않습니다."),
          ("사업계획서가 그렇게 중요한가요?","중진공 직접대출에서는 특히 그렇습니다. 심사가 보는 것은 문장이 아니라 숫자 정합 — 산출 근거, 집행 계획, 상환 계획의 일치입니다. 5요소와 감점 포인트를 별도 가이드로 정리해 두었습니다."),
+         ("중소기업 대출과 중소기업 정책자금 대출은 무엇이 다른가요?", "중소기업 대출은 은행의 일반 기업대출까지 포함하는 넓은 말이고, 중소기업 정책자금 대출은 그중 정부 재원으로 공단이 직접 빌려주거나 보증기관 보증서로 은행이 실행하는 대출입니다. 심사 기준과 금리 구조, 접수 시기가 일반 대출과 다릅니다."),
+         ("중소기업 지원금은 대출과 무엇이 다른가요?", "중소기업 지원금은 원금을 상환하지 않는 대신 자부담과 정산이 따르고, 공고 기간에 신청해 평가로 선정됩니다. 분야별 지원사업은 중소기업 지원금 안내에서 확인할 수 있습니다."),
          ("기간과 비용은요?", f"법인 받은 사례 기준 첫 상담 접수부터 보통 {CDMED}일이었습니다(개인보다 서류·심사 호흡이 깁니다). 비용은 실행 전 0원, 실행된 경우에만 성공보수 — 요율은 자금 종류·규모에 따라 계약 시 안내합니다."),
          ('중진공 재도약지원자금과 소진공 재도전특별자금은 같은 자금인가요?','다른 자금입니다. 재도약지원자금은 중소벤처기업진흥공단(중진공)이 재창업·구조개선·사업전환 등 기업 상황별로 나눠 운영하고, 재도전특별자금은 소상공인시장진흥공단(소진공)의 소상공인 직접대출입니다. 기관·대상·조건이 달라 어느 쪽인지부터 구분합니다.')]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
     svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"중소기업·법인 정책자금 진단·설계 (중진공·기보·신보)","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/jungjingong"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"중소기업 정책자금","item":"https://bmaker.kr/jungjingong"}]}, ensure_ascii=False)
-    faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("개인사업자 정책자금 총정리", chr(60)+"a href=\'/gaein\'"+chr(62)+"개인사업자 정책자금 총정리"+chr(60)+"/a"+chr(62)).replace("별도 가이드", chr(60)+"a href=\'/gyehoekseo\'"+chr(62)+"별도 가이드"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
+    faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("개인사업자 정책자금 총정리", chr(60)+"a href=\'/gaein\'"+chr(62)+"개인사업자 정책자금 총정리"+chr(60)+"/a"+chr(62)).replace("별도 가이드", chr(60)+"a href=\'/gyehoekseo\'"+chr(62)+"별도 가이드"+chr(60)+"/a"+chr(62)).replace("중소기업 지원금 안내", chr(60)+"a href=\'/jiwongeum\'"+chr(62)+"중소기업 지원금 안내"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
     page=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -135,6 +137,7 @@ def build():
       <a href="/gibo">기술보증기금 대출</a>
       <a href="/sinbo">신용보증기금 사업자대출</a>
       <a href="/certification">기업인증 (벤처·이노비즈)</a>
+      <a href="/jiwongeum">중소기업 지원금</a>
       <a href="/cases">받은 사례 전체</a>
     </div>
     <div class="cta-box">

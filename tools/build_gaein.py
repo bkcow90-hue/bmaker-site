@@ -79,11 +79,13 @@ def build():
          ("매출이 얼마부터 가능한가요?", f"자금마다 다릅니다. 받은 사례의 개인사업자 {N}건에는 연매출 3천만원 미만 {small}건도 있습니다. 매출보다는 연체·체납 여부와 자금 용도의 정합이 더 자주 결과를 가릅니다."),
          ("사업자등록 1년이 안 됐는데요?", f"업력 1년 이하로 실행된 개인사업자 기록이 {young}건 있습니다. 창업 초기 전용 자금(청년·재도전 등)이나 재단 특례보증이 대상이 되는 경우가 많고, 자금 용도와 집행 계획을 구체적으로 준비하는 것이 관건입니다."),
          ("신용점수가 낮거나 예전에 폐업했어도 되나요?", f"기록으로 답하면 — 개인사업자 실행 {N}건 중 신용 600점대 {low}건, 폐업 후 재창업 {rest}건, 세금 체납 이력 정리 후 실행 {tax}건입니다. 다만 현재 연체·미정리 체납은 먼저 해소해야 합니다. 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
+         ("개인사업자는 어느 기관에서 가장 많이 받았나요?", f"개인사업자 받은 사례 {N}건은 지역 신용보증재단 {cnt['재단']}건, 소상공인시장진흥공단 {cnt['소진공']}건, 신용보증기금 {cnt['신보']}건, 기술보증기금 {cnt['기보']}건, 중소벤처기업진흥공단 {cnt['중진공']}건입니다."),
+         ("개인사업자도 중소기업 대출이나 중소기업 지원금 대상인가요?", "될 수 있습니다. 중소기업은 법인만 뜻하는 말이 아니라 규모 기준이어서, 개인사업자도 소상공인이나 중소기업에 해당하면 대상이 됩니다. 원금을 상환하지 않는 지원사업은 중소기업 지원금 안내에 따로 정리했습니다."),
          ("얼마나 걸리고, 비용은요?", f"개인사업자 기록 기준 첫 상담 접수부터 보통 {DMED}일입니다. 저희는 착수금·진행비 등 실행 전 비용을 받지 않고, 실제 실행된 경우에만 성공보수를 받습니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
     art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":TITLE.split(" | ")[0],"datePublished":"2026-09-02","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/gaein"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"개인사업자 정책자금","item":"https://bmaker.kr/gaein"}]}, ensure_ascii=False)
-    faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("저신용·재창업 가이드", chr(60)+"a href=\'/jeosinyong\'"+chr(62)+"저신용·재창업 가이드"+chr(60)+"/a"+chr(62)).replace("착수금 사기 구별법 페이지", chr(60)+"a href=\'/chaksugeum\'"+chr(62)+"착수금 사기 구별법 페이지"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
+    faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("저신용·재창업 가이드", chr(60)+"a href=\'/jeosinyong\'"+chr(62)+"저신용·재창업 가이드"+chr(60)+"/a"+chr(62)).replace("착수금 사기 구별법 페이지", chr(60)+"a href=\'/chaksugeum\'"+chr(62)+"착수금 사기 구별법 페이지"+chr(60)+"/a"+chr(62)).replace("중소기업 지원금 안내", chr(60)+"a href=\'/jiwongeum\'"+chr(62)+"중소기업 지원금 안내"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
     page=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -200,6 +202,7 @@ CORP_ANSWER='법인사업자 정책자금 대출은 기보·신보·중진공이
 SALES_ORDER=['3억~5억','5억~10억','10억~30억','30억~50억','50억원 이상']
 
 def build_corp():
+    from collections import Counter
     rows=[r for r in csv.DictReader(open(ROOT/'data'/'cases.source.csv',encoding='utf-8-sig',newline='')) if r['사이트 공개'].upper()=='Y']
     corp=[r for r in rows if r['사업 형태'].strip()=='법인']
     ind=[r for r in rows if r['사업 형태'].strip()=='개인']
@@ -225,7 +228,6 @@ def build_corp():
             top=max(('기보','신보','중진공'), key=lambda i:sum(1 for r in rs if inst_of(r)==i))
             sales_rows.append(f'<tr><td>{k}</td><td>{len(rs)}건</td><td>{won2(round(sum(amt(rs))/len(rs)))}</td><td>{won2(min(amt(rs)))}~{won2(max(amt(rs)))}</td><td>{top}</td></tr>')
     sales_html="".join(sales_rows)
-    from collections import Counter
     top_ind=Counter(r['업종'].strip() for r in corp if r['업종'].strip()).most_common(8)
     ind_html="".join(f'<li>{esc(k)} {v}건</li>' for k,v in top_ind)
     recent=sorted(corp, key=lambda r:(r['실행 연월'], r['사례ID']), reverse=True)[:8]
@@ -235,6 +237,11 @@ def build_corp():
     restart=sum(1 for r in corp if r['폐업 이력'].strip() in ('있음','재창업'))
     c700=sum(1 for r in corp if r['신용점수 구간'].strip()=='700점대')
     over1=sum(1 for x in a if x>=10000)
+    NONMFG=('솔루션','소프트웨어','플랫폼','물류','운송','유통','도소매','광고')
+    nm=[r for r in corp if any(k in r['업종'] for k in NONMFG) and '제조' not in r['업종']]
+    nonmfg=len(nm)
+    nonmfg_top=' · '.join(f"{k} {v}건" for k,v in Counter(r['업종'].strip() for r in nm).most_common(3))
+    under10=sum(1 for r in corp if r['연매출 구간'].strip() in ('3억~5억','5억~10억','6천만원 미만','7억원 미만'))
     rr_all=rate_range([r['금리'] for r in corp])
     IAVG=won2(round(sum(amt(ind))/len(ind))) if ind else ''
     faq=[(f"{CORP_KEYWORD} 조건은 무엇인가요?", "법인 설립일과 업력, 업종, 매출과 재무제표, 대표자 신용과 연체·세금 체납 여부, 기존 대출·보증 잔액, 자금 용도를 봅니다. 기관마다 공고와 심사 기준이 따로 있습니다."),
@@ -242,12 +249,17 @@ def build_corp():
          ("설립한 지 얼마 안 된 법인도 되나요?", f"법인 받은 사례 {N}건 중 업력 3년 이하가 {young}건입니다. 초기 법인은 매출 실적보다 사업계획과 자금 용도, 대표자 경력 자료의 비중이 커집니다."),
          ("법인은 얼마까지 받을 수 있나요?", f"정해진 답은 없고 기관·자금·재무 상태에 따라 달라집니다. 받은 사례에서는 법인 {N}건이 건당 {LO}~{HI}, 평균 {AVG}였고 1억원 이상이 {over1}건입니다. 집계 금액은 개별 신청 한도가 아닙니다."),
          ("여러 기관을 함께 진행할 수 있나요?", f"가능한 경우가 있습니다. 법인 받은 사례 {N}건 중 {multi}건이 다른 기관 자금이나 지자체 이차보전과 함께 진행됐습니다. 순서와 조합은 중소기업 정책자금 대출 안내에 정리돼 있습니다."),
+         ("중소기업 대출과 법인사업자 정책자금 대출은 다른 건가요?", "대상이 겹칩니다. 법인사업자 대부분은 규모 기준으로 중소기업에 해당하고, 중소기업 대출 가운데 정부 재원이나 보증기관 보증을 쓰는 것이 정책자금 대출입니다. 은행이 자체 심사로 내주는 일반 기업대출과는 금리 구조와 심사 기준이 다릅니다."),
+         ("제조업이 아닌 법인도 받았나요?", f"받았습니다. 법인 받은 사례 {N}건 중 소프트웨어·플랫폼·물류·유통·도소매 같은 비제조 업종이 {nonmfg}건입니다({nonmfg_top}). 업종보다 매출·기술·자금 용도를 어떻게 설명하느냐가 기관 선택을 가릅니다."),
+         ("매출 10억원 미만 법인도 받았나요?", f"법인 받은 사례 {N}건 중 연매출 10억원 미만이 {under10}건입니다. 매출 규모가 작을수록 사업계획과 대표자 경력 자료를 함께 봅니다."),
+         ("법인도 중소기업 지원금을 받을 수 있나요?", "받을 수 있습니다. 지원금은 원금을 상환하지 않는 대신 자부담과 정산이 따르고 공고 기간에만 신청합니다. 분야별 사업은 중소기업 지원금 안내에 정리돼 있습니다."),
          ("얼마나 걸리고, 비용은요?", f"법인 받은 사례 기준 첫 상담 접수부터 보통 {DMED}일입니다. 저희는 착수금·진행비 등 실행 전 비용을 받지 않고, 실제 실행된 경우에만 성공보수를 받습니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":x}} for q,x in faq]}, ensure_ascii=False)
     art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":CORP_TITLE.split(" | ")[0],"datePublished":"2026-11-10","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/beobin"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"법인사업자 정책자금","item":"https://bmaker.kr/beobin"}]}, ensure_ascii=False)
     def link(x):
         return (x.replace("중소기업 정책자금 대출 안내", "<a href='/jungjingong'>중소기업 정책자금 대출 안내</a>")
+                 .replace("중소기업 지원금 안내", "<a href='/jiwongeum'>중소기업 지원금 안내</a>")
                  .replace("착수금 사기 구별법 페이지", "<a href='/chaksugeum'>착수금 사기 구별법 페이지</a>"))
     faq_html="".join(f'<details><summary>{q}</summary><div class="body">{link(x)}</div></details>' for q,x in faq)
     g=(ROOT/'gaein.html').read_text(encoding='utf-8')
@@ -332,6 +344,7 @@ def build_corp():
       <a href="/jungsogieop">중소기업 정책자금 컨설팅</a>
       <a href="/gibo">기술보증기금 대출</a>
       <a href="/sinbo">신용보증기금 대출</a>
+      <a href="/jiwongeum">중소기업 지원금</a>
       <a href="/cases">받은 사례 전체</a>
       <a href="/gaein">개인사업자 정책자금 대출</a>
     </div>
