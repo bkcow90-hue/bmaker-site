@@ -12,8 +12,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-10",
-  "hash": "7adca0adcfebf762b4a75ea5b3dc1ab1e074cbd605b5aeaf3bc8794994e850d8"
+  "date": "2026-11-11",
+  "hash": "f0278f553b44afc1c4be97518bebe41beceda31986522389fc9c9089b89cd048"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -60,8 +60,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-10",
-  "hash": "5254ad5f54cae5a7a6c83171e3407482fc381bd09806b1e5d1d2a5f244b34ac1"
+  "date": "2026-11-11",
+  "hash": "2512641ed9110a61284b0c7da9881a63adb445370e7fb34782e905762bf30cfb"
  },
  "blog/category/news.html": {
   "date": "2026-11-02",
@@ -82,6 +82,10 @@
  "blog/content-production-guarantee-funding-requirement.html": {
   "date": "2026-11-10",
   "hash": "a368f862c8c7c5de6dc9f62c984f512f81b423999d7c200f55167ef2df244cd5"
+ },
+ "blog/corporate-sinbo-or-gibo-first.html": {
+  "date": "2026-11-11",
+  "hash": "f02dd67f028f63eb228cb1b0039cb8d9d4d7f836f31c2a3d973d8b3d03b826a4"
  },
  "blog/equipment-funding-evidence.html": {
   "date": "2026-11-02",
@@ -208,8 +212,8 @@
   "hash": "4c8a036dc0ac10235d5ee0e08b4f18e996e8289a61a932e6c5ff5b7f29e2240f"
  },
  "business-guide.html": {
-  "date": "2026-11-10",
-  "hash": "615c13dbf7d6f7a24249c29984d8c0d8dffae82c2a94d760082efd033b4b9885"
+  "date": "2026-11-11",
+  "hash": "8bed4847ceaca2f391a57920f12ff90c5d4e37455282c89aecd0c756400571af"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -300,8 +304,8 @@
   "hash": "5993c209fcd359cf0994a41ad4c13555d230316131c626d1a3bec329a7408e98"
  },
  "index.html": {
-  "date": "2026-11-10",
-  "hash": "9888c28270348e7cda753deff27508eb73b52faa8cee7e99bb7fff466bf480fe"
+  "date": "2026-11-11",
+  "hash": "cf6d8d899278306ef6b3c2fef65f5c75ead09489f0b779efe569ea50b74c2e07"
  },
  "industry/dosomae.html": {
   "date": "2026-11-10",
