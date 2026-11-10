@@ -126,7 +126,19 @@ def stamp_assets(s):
             # 줄바꿈 무관 — Windows 체크아웃(CRLF)과 CI·배포(LF)에서 같은 값이 나와야 한다
             _versions[path] = hashlib.sha256(f.read_bytes().replace(b'\r', b'')).hexdigest()[:10]
         return f'{ref}?v={_versions[path]}"'
-    return ASSET.sub(one, s)
+    return OG_IMAGE.sub(og_one, ASSET.sub(one, s))
+
+
+# 링크 미리보기 이미지(og.png) — /assets/* 이미지는 하루 캐시라 파일만 바꾸면 카카오톡·스레드와 방문자 캐시에
+# 옛 이미지가 남는다(2026-11-10 카드 교체 때 확인). 주소에 내용 해시를 붙여 바뀐 날 바로 새 주소가 되게 한다.
+OG_IMAGE = re.compile(r'(<meta property="og:image" content="https://bmaker\.kr/assets/og\.png)(?:\?v=[0-9a-f]+)?"')
+_og_version = []
+
+
+def og_one(m):
+    if not _og_version:
+        _og_version.append(hashlib.sha256((ROOT / 'assets/og.png').read_bytes()).hexdigest()[:10])
+    return f'{m.group(1)}?v={_og_version[0]}"'
 
 
 def canonical_of(s):
