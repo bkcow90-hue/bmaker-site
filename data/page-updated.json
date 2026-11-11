@@ -12,8 +12,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-11",
-  "hash": "f0278f553b44afc1c4be97518bebe41beceda31986522389fc9c9089b89cd048"
+  "date": "2026-11-12",
+  "hash": "8a65e9c166db686ac69741e748e7afcc49286479dafbff6de64132e2d12c47d4"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -60,8 +60,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-11",
-  "hash": "2512641ed9110a61284b0c7da9881a63adb445370e7fb34782e905762bf30cfb"
+  "date": "2026-11-12",
+  "hash": "3e6663a7e465da028c38e42ed3953e8d8c4e7278e93cfea05bc73eed3b8e3207"
  },
  "blog/category/news.html": {
   "date": "2026-11-02",
@@ -203,6 +203,10 @@
   "date": "2026-11-10",
   "hash": "db4b88db479218dbb9844605b3265972f4a687cd1da4f0aa1ea098b8bccea552"
  },
+ "blog/venture-business-plan-first-look.html": {
+  "date": "2026-11-12",
+  "hash": "44ea44e2cbcf49bc158a7583f2adddcb5a9f96ed0c33930b2f54f1e69ff9caee"
+ },
  "blog/youth-savings-small-business-certificate-october-2026.html": {
   "date": "2026-11-10",
   "hash": "beb2fd4ed752e0ddf85ae051ff0fd77fa4643cb3c07c72887487f9f6869ce3a5"
@@ -212,8 +216,8 @@
   "hash": "4c8a036dc0ac10235d5ee0e08b4f18e996e8289a61a932e6c5ff5b7f29e2240f"
  },
  "business-guide.html": {
-  "date": "2026-11-11",
-  "hash": "8bed4847ceaca2f391a57920f12ff90c5d4e37455282c89aecd0c756400571af"
+  "date": "2026-11-12",
+  "hash": "41470a6cee3e9acf0bac562e1d203e28725e5abc3f76a4b8dc5fe175ae249e67"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -304,8 +308,8 @@
   "hash": "5993c209fcd359cf0994a41ad4c13555d230316131c626d1a3bec329a7408e98"
  },
  "index.html": {
-  "date": "2026-11-11",
-  "hash": "cf6d8d899278306ef6b3c2fef65f5c75ead09489f0b779efe569ea50b74c2e07"
+  "date": "2026-11-12",
+  "hash": "d5203b77d0ce5d62bb7a8ae36120b60f6282ca793e9b83cf6c7ae33c9e38b330"
  },
  "industry/dosomae.html": {
   "date": "2026-11-10",
