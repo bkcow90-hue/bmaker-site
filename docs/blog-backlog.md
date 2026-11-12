@@ -12,9 +12,9 @@
 | # | 제목(안) | 분류 | 연결할 페이지 | 상태 |
 |---|---|---|---|---|
 | 1 | 정책자금 거절 통보를 받았다면, 언제 다시 신청할 수 있나요? | guide | /geojeol · /cases | 발행 2026-11-10 |
-| L1 | 신용보증기금과 기술보증기금, 우리 법인은 어디가 먼저일까요? | guide | /beobin · /sinbo · /gibo | 대기 |
-| L2 | 법인 설립 1년 차, 매출이 적어도 정책자금 상담이 되나요? | guide | /beobin | 대기 |
-| L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 대기 |
+| L1 | 신용보증기금과 기술보증기금, 우리 법인은 어디가 먼저일까요? | guide | /beobin · /sinbo · /gibo | 발행 2026-11-11 |
+| L2 | 법인 설립 1년 차, 매출이 적어도 정책자금 상담이 되나요? | guide | /beobin | 보류 (/beobin FAQ "설립한 지 얼마 안 된 법인도 되나요?"·2026-10-24 글과 같은 질문, 2026-11-13) |
+| L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 발행 2026-11-13 (PR #109) |
 | L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 대기 |
 | L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 대기 |
 | L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 대기 |
@@ -30,8 +30,8 @@
 | G4 | 스마트공장 지원사업, 신청 전에 공장에서 정리할 자료는? | guide | /jiwongeum · /industry/jejo | 대기 |
 | G5 | 창업 3년 차, 창업패키지와 정책자금 중 무엇을 먼저 볼까요? | guide | /jiwongeum · /startup | 대기 |
 | G6 | 지원사업 사업계획서와 대출용 사업계획서는 무엇이 다른가요? | guide | /jiwongeum · /gyehoekseo | 대기 |
-| 2 | 연구원 1명뿐인 회사, 연구소 설립 전에 무엇부터 정리할까요? | guide | /research-institute | 대기 |
-| 3 | 벤처기업확인, 사업계획서에서 평가자가 가장 먼저 보는 것은? | guide | /venture-certification | 대기 |
+| 2 | 연구원 1명뿐인 회사, 연구소 설립 전에 무엇부터 정리할까요? | guide | /research-institute | 보류 (/research-institute 본문과 같은 질문, 2026-11-12) |
+| 3 | 벤처기업확인, 사업계획서에서 평가자가 가장 먼저 보는 것은? | guide | /venture-certification | 발행 2026-11-12 (PR #109) |
 | 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 대기 |
 | 5 | 보증서는 나왔는데 은행 대출이 늦어진다면 무엇을 확인할까요? | guide | /bojeung · /jaedan | 대기 |
 | 6 | 법인 전환 직후 정책자금, 개인사업자 때 실적을 인정받나요? | guide | /jungjingong · /gaein | 대기 |
