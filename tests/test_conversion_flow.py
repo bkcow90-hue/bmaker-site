@@ -109,5 +109,5 @@ def test_forms_carry_no_fee_notice_but_home_faq_does():
     diagnosis = _section(home, 'id="diagnosis"')
     assert '진단은 무료입니다.' in diagnosis and not fee.search(diagnosis), '진단 섹션은 "진단은 무료입니다."까지'
     faq = _section(home, 'id="faq"')
-    assert '착수금·진행비 등 실행 전 비용은 일절 받지 않고' in faq and '성공보수' in faq, 'FAQ에서 비용 고지가 사라졌다'
+    assert '계약 전에 금액과 조건을 서면으로 안내합니다' in faq and '성공보수' not in faq, 'FAQ 비용 답은 범위·서면 안내 문장만(2026-11-12)'
 
