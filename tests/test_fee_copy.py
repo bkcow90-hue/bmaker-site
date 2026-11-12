@@ -145,7 +145,28 @@ def test_fee_structure_only_in_faq_and_llms():
     assert not found, f'비용 구조 설명은 FAQ 비용 답·llms 파일에만 — {len(lines)}건\n' + '\n'.join(lines[:60])
 
 
-def test_llms_keep_fee_structure():
-    """llms 파일은 비용 구조 설명을 유지하는 곳이다(대표 결정 1B)."""
+# 2026-11-12 대표 결정: 대출 실행·승인에 연동된 보수 표현(성공보수 등)은 우리 소개 문장 어디에도 쓰지 않는다.
+# 정책자금 대출 실행을 조건으로 한 보수는 대부업법상 중개수수료로 평가될 수 있다(2026-11-05 중기부·경찰청 발표).
+LINKED = re.compile(r'성공\s?보수|성과\s?보수|실행된 경우에만|실행 시에만|실행되지 않으면 비용|실행 전 비용 0원|실행 전 0원|무착수금')
+
+
+def test_no_result_linked_fee_wording_anywhere():
+    bad = []
     for f in ('llms.txt', 'llms-full.txt'):
-        assert KW.search((ROOT / f).read_text(encoding='utf-8')), f
+        for line in (ROOT / f).read_text(encoding='utf-8').splitlines():
+            if LINKED.search(line):
+                bad.append(f'{f}: {line[:80]}')
+    for p in pages():
+        name = p.relative_to(ROOT).as_posix()
+        s = _Scan()
+        s.feed(p.read_text(encoding='utf-8'))
+        chunks = [d for d, _ in s.text] + [c for _, c in s.meta] + s.ld
+        for chunk in chunks:
+            for sent in sentences(chunk):
+                if not LINKED.search(sent):
+                    continue
+                # /chaksugeum 의 일반 정보(우리 소개 아님)만 허용
+                if name == 'chaksugeum.html' and not OURS.search(sent):
+                    continue
+                bad.append(f'{name}: {sent[:80]}')
+    assert not bad, '실행 연동 보수 표현 금지 — ' + str(len(bad)) + '건\n' + '\n'.join(bad[:40])
