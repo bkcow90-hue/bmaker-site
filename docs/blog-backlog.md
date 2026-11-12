@@ -13,8 +13,8 @@
 |---|---|---|---|---|
 | 1 | 정책자금 거절 통보를 받았다면, 언제 다시 신청할 수 있나요? | guide | /geojeol · /cases | 발행 2026-11-10 |
 | L1 | 신용보증기금과 기술보증기금, 우리 법인은 어디가 먼저일까요? | guide | /beobin · /sinbo · /gibo | 발행 2026-11-11 |
-| L2 | 법인 설립 1년 차, 매출이 적어도 정책자금 상담이 되나요? | guide | /beobin | 대기 |
-| L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 대기 |
+| L2 | 법인 설립 1년 차, 매출이 적어도 정책자금 상담이 되나요? | guide | /beobin | 보류 (/beobin FAQ "설립한 지 얼마 안 된 법인도 되나요?"·2026-10-24 글과 같은 질문, 2026-11-13) |
+| L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 발행 2026-11-13 (PR #109) |
 | L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 대기 |
 | L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 대기 |
 | L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 대기 |
