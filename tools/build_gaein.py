@@ -81,7 +81,7 @@ def build():
          ("신용점수가 낮거나 예전에 폐업했어도 되나요?", f"기록으로 답하면 — 개인사업자 실행 {N}건 중 신용 600점대 {low}건, 폐업 후 재창업 {rest}건, 세금 체납 이력 정리 후 실행 {tax}건입니다. 다만 현재 연체·미정리 체납은 먼저 해소해야 합니다. 기준은 저신용·재창업 가이드에 실측으로 정리돼 있습니다."),
          ("개인사업자는 어느 기관에서 가장 많이 받았나요?", f"개인사업자 받은 사례 {N}건은 지역 신용보증재단 {cnt['재단']}건, 소상공인시장진흥공단 {cnt['소진공']}건, 신용보증기금 {cnt['신보']}건, 기술보증기금 {cnt['기보']}건, 중소벤처기업진흥공단 {cnt['중진공']}건입니다."),
          ("개인사업자도 중소기업 대출이나 중소기업 지원금 대상인가요?", "될 수 있습니다. 중소기업은 법인만 뜻하는 말이 아니라 규모 기준이어서, 개인사업자도 소상공인이나 중소기업에 해당하면 대상이 됩니다. 원금을 상환하지 않는 지원사업은 중소기업 지원금 안내에 따로 정리했습니다."),
-         ("얼마나 걸리고, 비용은요?", f"개인사업자 기록 기준 첫 상담 접수부터 보통 {DMED}일입니다. 저희는 착수금·진행비 등 실행 전 비용을 받지 않고, 실제 실행된 경우에만 성공보수를 받습니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
+         ("얼마나 걸리고, 비용은요?", f"개인사업자 기록 기준 첫 상담 접수부터 보통 {DMED}일입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}, ensure_ascii=False)
     art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":TITLE.split(" | ")[0],"datePublished":"2026-09-02","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/gaein"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"개인사업자 정책자금","item":"https://bmaker.kr/gaein"}]}, ensure_ascii=False)
@@ -253,7 +253,7 @@ def build_corp():
          ("제조업이 아닌 법인도 받았나요?", f"받았습니다. 법인 받은 사례 {N}건 중 소프트웨어·플랫폼·물류·유통·도소매 같은 비제조 업종이 {nonmfg}건입니다({nonmfg_top}). 업종보다 매출·기술·자금 용도를 어떻게 설명하느냐가 기관 선택을 가릅니다."),
          ("매출 10억원 미만 법인도 받았나요?", f"법인 받은 사례 {N}건 중 연매출 10억원 미만이 {under10}건입니다. 매출 규모가 작을수록 사업계획과 대표자 경력 자료를 함께 봅니다."),
          ("법인도 중소기업 지원금을 받을 수 있나요?", "받을 수 있습니다. 지원금은 원금을 상환하지 않는 대신 자부담과 정산이 따르고 공고 기간에만 신청합니다. 분야별 사업은 중소기업 지원금 안내에 정리돼 있습니다."),
-         ("얼마나 걸리고, 비용은요?", f"법인 받은 사례 기준 첫 상담 접수부터 보통 {DMED}일입니다. 저희는 착수금·진행비 등 실행 전 비용을 받지 않고, 실제 실행된 경우에만 성공보수를 받습니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
+         ("얼마나 걸리고, 비용은요?", f"법인 받은 사례 기준 첫 상담 접수부터 보통 {DMED}일입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다 — 착수금 사기 구별법 페이지에서 업계 관행과 확인법을 볼 수 있습니다.")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":x}} for q,x in faq]}, ensure_ascii=False)
     art=json.dumps({"@context":"https://schema.org","@type":"Article","headline":CORP_TITLE.split(" | ")[0],"datePublished":"2026-11-10","dateModified":str(TODAY),"inLanguage":"ko","author":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"publisher":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커"},"mainEntityOfPage":"https://bmaker.kr/beobin"}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"법인사업자 정책자금","item":"https://bmaker.kr/beobin"}]}, ensure_ascii=False)

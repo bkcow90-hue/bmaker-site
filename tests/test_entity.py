@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ORG_ID = "https://bmaker.kr/#org"
-FEE = "착수금·진행비 등 실행 전 비용은 일절 받지 않고, 자금이 실제 실행된 경우에만 성공보수를 받습니다."
+FEE = "자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다."
 SERVICE_PAGES = ["sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "funding.html", "marketing.html", "startup.html"]
 
 
@@ -44,7 +44,7 @@ def test_fee_policy_wording_is_single_sentence_everywhere():
     home = (ROOT / "index.html").read_text(encoding="utf-8")
     llms = (ROOT / "llms.txt").read_text(encoding="utf-8")
     assert FEE in home, "홈에 고정 요금 문장 없음"
-    assert "착수금·진행비 등 실행 전 비용은 일절 받지 않고" in llms
+    assert "계약 전에 금액과 조건을 서면으로 안내" in llms
     for text, where in ((home, "index.html"), (llms, "llms.txt")):
         assert not re.search(r"성공보수[^.\n]{0,20}\d+\s*%|\d+\s*%[^.\n]{0,10}성공보수", text), f"{where}: 성공보수 요율 노출 금지"
         assert "갚" not in text, f"{where}: '갚다' 계열 표현 금지 (상환/돌려주다 사용)"
