@@ -115,16 +115,22 @@ def test_general_cta_does_not_reset_service_choice(browser_page, site):
 
 @pytest.mark.parametrize("width", [320, 390, 860, 1440])
 def test_hero_ledger_card_replaces_photo(browser_page, site, width):
-    """2026-11-09 규격 4-1: 히어로 사진 자리에 원장 최근 5건 띠. 생성 이미지 금지."""
+    """2026-11-13 규격 0절: 히어로는 무음 루프 영상 층(문구 없음), 원장 최근 5건 띠는 #cases 안으로 내려갔다."""
     page = browser_page
     page.set_viewport_size({"width": width, "height": 844})
     page.goto(site, wait_until="networkidle")
     expect(page.locator(".hero-visual img")).to_have_count(0)
-    items = page.locator(".hero-ledger .ledger-card li")
+    expect(page.locator(".hero .ledger-card")).to_have_count(0)
+    video = page.locator(".hero .hero-media video.hero-video")
+    expect(video).to_have_count(1)
+    assert video.get_attribute("muted") is not None and video.get_attribute("playsinline") is not None
+    assert video.get_attribute("data-src-desktop") == "/assets/video/hero-1280.mp4"
+    assert video.get_attribute("data-src-mobile") == "/assets/video/hero-m.mp4"  # 휴대폰(600px 이하)용 세로 영상
+    items = page.locator("#cases .ledger-card li")
     expect(items).to_have_count(5)
-    card_w = page.locator(".hero-ledger .ledger-card").evaluate("e=>e.getBoundingClientRect().width")
+    card_w = page.locator("#cases .ledger-card").evaluate("e=>e.getBoundingClientRect().width")
     assert 0 < card_w <= width
-    expect(page.locator(".hero-ledger .lc-note")).to_contain_text("같은 결과를 약속하지 않습니다")
+    expect(page.locator("#cases .lc-note")).to_contain_text("같은 결과를 약속하지 않습니다")
 
 
 def test_business_routes_and_balanced_cases_are_visible(browser_page, site):
@@ -195,9 +201,8 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     hero = page.locator('.hero')
     expect(hero.locator('a')).to_have_count(1)
     expect(hero.locator('aside')).to_have_count(0)
-    # 2026-11-09 규격 4-1: 히어로 사진 자리에 원장 최근 5건 띠(링크 없음) — 숫자 근거는 띠 안에서만
-    expect(hero.locator('.ledger-card li')).to_have_count(5)
-    expect(hero.locator('.ledger-card a')).to_have_count(0)
+    # 2026-11-13: 원장 최근 5건 띠는 히어로에서 빠지고 #cases(폼 뒤)로 — 히어로에는 숫자 근거가 없다
+    expect(hero.locator('.ledger-card')).to_have_count(0)
     expect(hero).not_to_contain_text('성과 보수')
     expect(page.locator('#cases .case-proof')).to_contain_text('받은 사례')
     # 비용 구조 설명은 FAQ 비용 답·llms 에만 — 진단 섹션은 '진단은 무료입니다.'까지(대표 결정 2026-09-28)
@@ -205,9 +210,9 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     expect(page.locator('#diagnosis')).not_to_contain_text('성과 보수')
     assert page.locator('#cases .case-proof').get_attribute('href') == '/cases'
     expect(hero.locator('h1')).to_contain_text('정책자금')
-    backgrounds = page.evaluate("performance.getEntriesByType('resource').filter(e=>e.name.includes('hero-architecture')).map(e=>e.name)")
-    variant = 'hero-architecture-mobile-v1.webp' if width <= 860 else 'hero-architecture-v1.webp'
-    assert backgrounds == [site + '/assets/' + variant], 'Fetch only the background needed by this viewport'
+    posters = page.evaluate("performance.getEntriesByType('resource').filter(e=>e.name.includes('hero-poster')).map(e=>e.name)")
+    variant = 'hero-poster-m.webp' if width <= 600 else 'hero-poster.webp'
+    assert sorted(set(posters)) == [site + '/assets/video/' + variant], 'Fetch only the poster needed by this viewport'
 
 
 def test_hero_motion_is_finite_readable_and_respects_reduced_motion(browser_page, site):
