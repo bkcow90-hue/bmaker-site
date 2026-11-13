@@ -125,7 +125,7 @@ def test_hero_ledger_card_replaces_photo(browser_page, site, width):
     expect(video).to_have_count(1)
     assert video.get_attribute("muted") is not None and video.get_attribute("playsinline") is not None
     assert video.get_attribute("data-src-desktop") == "/assets/video/hero-1280.mp4"
-    assert video.get_attribute("data-src-mobile") == "/assets/video/hero-720.mp4"
+    assert video.get_attribute("data-src-mobile") == "/assets/video/hero-m.mp4"  # 휴대폰(600px 이하)용 세로 영상
     items = page.locator("#cases .ledger-card li")
     expect(items).to_have_count(5)
     card_w = page.locator("#cases .ledger-card").evaluate("e=>e.getBoundingClientRect().width")
@@ -211,7 +211,7 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     assert page.locator('#cases .case-proof').get_attribute('href') == '/cases'
     expect(hero.locator('h1')).to_contain_text('정책자금')
     posters = page.evaluate("performance.getEntriesByType('resource').filter(e=>e.name.includes('hero-poster')).map(e=>e.name)")
-    variant = 'hero-poster-720.webp' if width <= 860 else 'hero-poster.webp'
+    variant = 'hero-poster-m.webp' if width <= 600 else 'hero-poster.webp'
     assert sorted(set(posters)) == [site + '/assets/video/' + variant], 'Fetch only the poster needed by this viewport'
 
 
