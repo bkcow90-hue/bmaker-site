@@ -74,6 +74,18 @@ html:has(link[rel=canonical][href$="/viral-marketing-guide"]) .hero,
 html:has(link[rel=canonical][href$="/online-ad-guide"]) .hero,
 html:has(link[rel=canonical][href$="/blog-marketing-cost"]) .hero{--illust:url(/assets/illust/shopnight.webp);--illust-s:url(/assets/illust/shopnight-s.webp)}
 
+/* 오른쪽에 상담 상자가 있는 히어로(소상공인·재단·보증·인증 등 22장) — 그림을 배경에 깔면 상자에 가려진다.
+   배경 그림은 끄고, 그림을 상담 상자 맨 위에 얹는다(2026-11-14 대표 "그림 가려져 있고 어설프다"). */
+.hero:has(.sc-hero-grid,.jd-hero-grid)::after{display:none}
+.hero:has(.sc-hero-grid,.jd-hero-grid){padding-bottom:revert!important}
+.hero:has(.sc-hero-grid,.jd-hero-grid) h1,.hero:has(.sc-hero-grid,.jd-hero-grid) p{max-width:none!important}
+.sc-consult,.jd-consult{overflow:hidden}
+.sc-consult::before,.jd-consult::before{content:"";display:block;height:190px;margin:-28px -28px 24px;background:#0C1832 var(--illust) no-repeat center 60%/auto 108%;
+  -webkit-mask-image:linear-gradient(#000 86%,transparent);mask-image:linear-gradient(#000 86%,transparent)}
+@media(max-width:959px){.sc-consult::before,.jd-consult::before{height:170px;background-image:var(--illust-s)}}
+/* 가운데 정렬 버튼 줄이 있는 히어로는 글 폭만 줄인다 */
+@media(min-width:960px){.hero .actions{max-width:calc(100% - 330px)}}
+
 /* 표 — 옅은 머리, 둥근 틀 */
 .tablewrap{border:1px solid var(--rule)!important;border-radius:12px!important;background:#fff}
 .tablewrap th{background:var(--mist)!important;color:var(--ink-navy)!important;font-weight:700;border-bottom:1px solid var(--rule)}
