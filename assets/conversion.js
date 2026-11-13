@@ -462,6 +462,11 @@
     // 인라인 진단 폼(자금·재단 상세)에는 업종·문의 칸이 없다. 없는 칸은 빈 값으로 둔다.
     const fieldValue = id => document.getElementById(id)?.value.trim() || '';
     const industry = fieldValue('lf-biz');
+    // 가이드북 이메일(홈 폼에만 있다, 선택) — 적었으면 형식만 확인하고, codedaum /api/lead 가 PDF 링크 메일을 보낸다(2026-11-13)
+    const emailEl = document.getElementById('lf-email');
+    const email = emailEl ? emailEl.value.trim() : '';
+    if (emailEl) emailEl.setCustomValidity(!email || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? '' : '이메일 주소를 확인해 주세요.');
+    if (emailEl && !emailEl.reportValidity()) return;
     const memo = fieldValue('lf-memo');
     // 사업자 형태와 유입 페이지는 /api/lead 가 화이트리스트로 거르는 최상위 키로는 전달되지
     // 않는다(2026-09-28 메일 템플릿 렌더로 확인). 업종·통화시간과 같이 answers_text 와
@@ -479,11 +484,13 @@
       kind: 'consult', service: serviceKey === 'policy' ? 'pfm' : serviceKey, service_name: serviceLabel, delivery_required: true,
       consultation_service: serviceKey,
       name: name.value.trim(), phone: digits,
+      email: email, guidebook_request: email !== '',
       preferred_time: preferredTime,
       answers_text: ['[문의 분야] ' + serviceLabel]
         .concat(bizType ? ['[사업자 형태] ' + bizType] : [])
         .concat(['[예약] 통화 희망: ' + preferredTime, '업종: ' + (industry || '미입력'), '문의: ' + (memo || '미입력')])
         .concat(leadPage ? ['[유입] ' + leadPage] : [])
+        .concat(email ? ['[가이드북] 이메일 발송 요청'] : [])
         .concat(['[신청 경로] ' + source]).join(' · '),
       diagnosis: Object.assign({ '문의 분야': serviceLabel },
         bizType ? { '사업자 형태': bizType } : null,
@@ -521,6 +528,9 @@
       message.textContent = offHours
         ? '신청이 접수됐습니다. 지금은 상담 시간(평일 09:00~18:00)이 아니어서 다음 영업일에 정하신 시간대로 전화드리겠습니다. 급한 내용은 카카오톡으로 남겨 주세요.'
         : '신청이 접수됐습니다. 평일 09:00~18:00 중 정하신 시간대에 전화드리겠습니다. 급한 문의는 1666-2425로 연락해 주세요.';
+      if (email) message.textContent += result.guidebook === 'sent'
+        ? ' 가이드북은 적어 주신 이메일로 보냈습니다. 몇 분 안에 도착하지 않으면 스팸함도 확인해 주세요.'
+        : ' 가이드북 메일은 상담 전화 때 다시 보내드리겠습니다.';
       form.reset(); selectedTime = '';
       [...timeButtons, ...bizButtons].forEach(b => b.setAttribute('aria-pressed', 'false'));
       track('generate_lead', { cta_location: ctaLocation, method: 'consultation_form', service_category: serviceKey });
