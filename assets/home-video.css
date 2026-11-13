@@ -1,0 +1,65 @@
+/* 홈 영상형 개편 (2026-11-13, 대표 지시) — 규격 5절 "배경 영상" 예외 조항.
+   영상은 업종 분위기 연출용 AI 생성 영상이며 고객사 현장·자사 사무실 촬영본이 아니다.
+   문구는 전부 HTML 이고, 영상이 없어도(정지 이미지·모션 저감) 같은 내용이 보인다. */
+#top .hero.hero-cinematic{min-height:min(86vh,760px);display:flex;align-items:center;padding:96px 0 120px}
+#top .hero-cinematic .hero-grid{width:100%;grid-template-columns:minmax(0,760px);justify-content:start;gap:0}
+#top .hero-cinematic .hero-media{position:absolute;inset:0;z-index:0;pointer-events:none;background:#0e1b33 url('/assets/video/hero-poster.webp') center/cover no-repeat}
+#top .hero-cinematic .hero-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}
+#top .hero-cinematic .hero-media video.on{opacity:1}
+#top .hero-cinematic .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,16,32,.9) 0%,rgba(9,16,32,.66) 45%,rgba(9,16,32,.18) 85%),linear-gradient(0deg,rgba(9,16,32,.6),transparent 40%)}
+#top .hero-reel{position:absolute;z-index:2;left:0;right:0;bottom:30px}
+#top .hero-reel ol.wrap{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+#top .hero-reel li{position:relative;padding-top:12px;font-size:.84rem;line-height:1.5;color:#fff;opacity:.5;transition:opacity .5s}
+#top .hero-reel li:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.28)}
+#top .hero-reel li.on{opacity:1}
+#top .hero-reel li.on:before{background:#fff}
+#top .hero-reel b{display:block;font-size:.95rem}
+@media(max-width:860px){
+  #top .hero.hero-cinematic{min-height:0;padding:44px 0 52px}
+  #top .hero-cinematic .hero-media{background-image:url('/assets/video/hero-poster-720.webp')}
+  #top .hero-cinematic .hero-shade{background:linear-gradient(180deg,rgba(9,16,32,.66),rgba(9,16,32,.8))}
+  #top .hero-reel{display:none}
+}
+
+/* 진단 구역 영상 */
+#top .diag-media{margin:0 0 30px;border-radius:4px;overflow:hidden;aspect-ratio:16/9;max-height:420px;background:#e9e6df url('/assets/video/diag-poster.webp') center/cover no-repeat}
+#top .diag-media video{display:block;width:100%;height:100%;object-fit:cover}
+
+/* 함께 일하는 사람들 · 협력 파트너 — 사진은 3:4 원본 비율 그대로(6절, 자르지 않음) */
+#top .team-list{display:grid;gap:20px;margin-top:44px}
+#top .person{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:center;background:#fff;border:1px solid var(--line)}
+#top .person-photo{position:relative;margin:0;aspect-ratio:3/4;background:#e9e9e9}
+#top .person-photo img{display:block;width:100%;height:100%}
+#top .person-photo:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--navy,#0e1b33)}
+#top .person-body{padding:30px 36px 28px;min-width:0}
+#top .person-role{margin:0;font-size:.78rem;font-weight:700;letter-spacing:.08em;color:#1e44b8}
+#top .person-name{margin:6px 0 2px;font-family:var(--display);font-size:1.55rem;color:var(--navy,#0e1b33)}
+#top .person-name small{margin-left:6px;font-family:'Pretendard Variable',Pretendard,sans-serif;font-size:.95rem;font-weight:600;color:#5a6476}
+#top .person-org{margin:0 0 4px;font-weight:700;color:var(--navy,#0e1b33)}
+#top .person-quote{margin:10px 0 18px;padding-left:12px;border-left:2px solid #1e44b8;color:#3a4356;line-height:1.65}
+#top .person-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+#top .person-cols>div{border-top:2px solid var(--navy,#0e1b33);padding-top:10px;min-width:0}
+#top .person-cols h4,#top .person-cols .ceo-credentials p{margin:0 0 8px;font-size:.78rem;font-weight:800;color:#5a6476;letter-spacing:.02em}
+#top .person-cols ul{list-style:none;margin:0;padding:0;font-size:.92rem;line-height:1.6;color:#263043}
+#top .person-cols li+li{margin-top:3px}
+#top .person-cols .ceo-credentials{margin:0;padding:10px 0 0;border:0;border-top:2px solid var(--navy,#0e1b33);border-radius:0}
+#top .person-cols .ceo-credentials span{font-weight:500;opacity:.75}
+#top .partner-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:40px 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+#top .partner-head h3{margin:0;font-family:var(--display);font-size:1.3rem;color:var(--navy,#0e1b33)}
+#top .partner-head p{margin:0;color:#5a6476;font-size:.92rem}
+#top .partner .person-photo:after{background:#1e44b8}
+#top .partner-more{margin:16px 0 0;color:#5a6476;font-size:.92rem;line-height:1.7}
+@media(max-width:860px){
+  #top .person{grid-template-columns:150px minmax(0,1fr);align-items:start}
+  #top .person-body{padding:20px}
+  #top .person-cols{grid-template-columns:1fr;gap:14px}
+}
+@media(max-width:560px){
+  #top .person{grid-template-columns:1fr}
+  #top .person-photo{width:56%;margin:22px auto 0}
+}
+@media(prefers-reduced-motion:reduce){#top .hero-cinematic .hero-media video,#top .diag-media video{display:none}}
+#top .about .about-grid{grid-template-columns:1fr}
+#top .about .about-grid>div{max-width:760px}
+#top .cases-ledger{max-width:520px;margin:28px 0 8px}
+#top .cases-ledger .ledger-card{border-radius:4px}

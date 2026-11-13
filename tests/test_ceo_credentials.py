@@ -1,4 +1,4 @@
-"""대표 자격 표기(대표 2026-10-04 PR #27 답변).
+"""대표 자격 표기(대표 2026-10-04 PR #27 답변, 2026-11-13 ISO 표기 "심사원 자격 보유"로 대표 정정).
 
 - 자격은 홈 회사소개(#about)의 "대표 자격" 항목과 Person(#founder) JSON-LD 에만 둔다. 다른 페이지·llms 에 쓰지 않는다.
 - 대표 개인 자격임을 분명히 한다("김상표 대표 개인 자격"). 회사가 ISO 인증을 받은 것처럼 읽히는 문구 금지 —
@@ -9,8 +9,8 @@ import json, re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CREDS = ['ISO 9001·14001·45001 내부심사원', '창업상권분석지도사 1급(민간자격)', 'AI 창업지도사(민간자격)']
-MARKERS = ('내부심사원', '창업상권분석지도사', 'AI 창업지도사')
+CREDS = ['ISO 9001·14001·45001 심사원 자격 보유', '창업상권분석지도사 1급(민간자격)', 'AI 창업지도사(민간자격)']
+MARKERS = ('45001 심사원', '창업상권분석지도사', 'AI 창업지도사')
 # 회사(비즈니스 메이커·당사)가 ISO 인증 주체로 읽히는 문장
 COMPANY_ISO = re.compile(r'(비즈니스 메이커|당사|저희)[^.。<]{0,40}ISO[^.。<]{0,20}(인증|획득|보유)'
                          r'|ISO[^.。<]{0,15}인증\s?(기업|회사|획득|보유|업체)')
@@ -46,7 +46,7 @@ def test_person_has_credentials():
                 founder = f
     assert founder, 'Organization.founder(#founder) 를 찾지 못했습니다.'
     names = [c['name'] for c in founder.get('hasCredential', [])]
-    assert names == ['ISO 9001·14001·45001 내부심사원', '창업상권분석지도사 1급', 'AI 창업지도사']
+    assert names == ['ISO 9001·14001·45001 심사원 자격 보유', '창업상권분석지도사 1급', 'AI 창업지도사']
     assert all('인증' not in json.dumps(c, ensure_ascii=False) for c in founder['hasCredential'])
 
 
