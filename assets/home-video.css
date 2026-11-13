@@ -174,3 +174,8 @@
   #top .fold{transition:none}
   .scroll-prog{display:none}
 }
+
+/* 자금 안내 드롭다운 3묶음(2026-11-14) */
+.nav-drop-menu .nav-drop-h{margin:0 0 4px;padding:6px 10px 2px;font-size:.74rem;font-weight:700;color:#7A8499;letter-spacing:0}
+@media(min-width:841px){.nav-drop[open] .nav-drop-menu{display:grid!important;grid-template-columns:repeat(3,minmax(150px,1fr));gap:4px 10px;min-width:560px;padding:12px}}
+@media(max-width:840px){.nav-drop-menu .nav-drop-h{padding:12px 28px 4px}.nav-drop-col{border-bottom:1px solid #EEF1F6}}

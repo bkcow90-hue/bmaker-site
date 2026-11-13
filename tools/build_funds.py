@@ -644,20 +644,79 @@ def build():
     CAT_DESC={'직접대출':'소상공인시장진흥공단이 직접 대출을 실행하는 트랙입니다.',
               '대리대출':'은행이 심사·실행하는 경로입니다. 상품에 따라 보증서·신용·담보 방식 등을 확인합니다.',
               '기타':'그 외 트랙입니다.'}
+    # 2026-11-14 개편(대표 "일정 일러스트 구리다, 내용이 AI 같다"): 1년 흐름 → 중진공·보증기관(우리 원장 숫자) → 소진공 회차.
+    # 확인일이 STALE_DAYS 넘은 소진공 카드는 접어 둔다 — 오래된 정보를 '재확인' 딱지로 늘어놓지 않는다.
+    STALE_DAYS = 14
+    def card(d, cls, txt, st, pt, pc):
+        return (f'<article class="sch-card"><div class="sch-top"><a class="sch-name" href="/{d["자금ID"]}">{esc(d["자금명"])}</a>'
+                f'<span class="badge b-{cls}" style="margin:0"{sched_attrs(st, pt, pc)}>{esc(txt)}</span></div>'
+                f'<p class="sch-memo">{esc(d["다음 회차 메모"]) or "회차 공고 확인 필요"}</p>'
+                f'<p class="sch-meta"><span>자료 확인 {esc(d["최종 확인일"])}</span><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></p></article>')
+    def is_stale(d):
+        try: return (TODAY - datetime.date.fromisoformat(d["최종 확인일"])).days > STALE_DAYS
+        except Exception: return True
     sch_rows=""
     for cat in ('직접대출','대리대출','기타'):
         group=sorted(((d, *schedule_status(d)) for d in F if cat_of(d)==cat), key=lambda x:(order[x[1]], x[3], x[0]['자금명']))
         if not group: continue
-        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0"{sched_attrs(st, pt, pc)}>{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td><td><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></td></tr>' for d,cls,txt,_,st,pt,pc in group)
-        sch_rows+=f'<h2>{cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n<div class="tablewrap"><table><thead><tr><th>자금</th><th>기관</th><th>상태</th><th>메모</th><th>자료 확인일</th><th>출처</th></tr></thead><tbody>{rows}</tbody></table></div>\n'
+        fresh=[g for g in group if not is_stale(g[0])]; stale=[g for g in group if is_stale(g[0])]
+        body=''
+        if fresh:
+            body+='<div class="sch-cards">'+''.join(card(d,cls,txt,st,pt,pc) for d,cls,txt,_,st,pt,pc in fresh)+'</div>'
+        if stale:
+            last=max(g[0]["최종 확인일"] for g in stale)
+            body+=(f'<details class="sch-stale"{" open" if not fresh else ""}><summary>{len(stale)}건은 마지막 확인이 {last[5:7].lstrip("0")}월 {last[8:10].lstrip("0")}일입니다 — 지금 접수 여부는 '
+                   f'<a href="https://ols.semas.or.kr" target="_blank" rel="noopener">소상공인정책자금 누리집</a>에서 확인하세요</summary>'
+                   '<div class="sch-cards">'+''.join(card(d,cls,txt,st,pt,pc) for d,cls,txt,_,st,pt,pc in stale)+'</div></details>')
+        sch_rows+=f'<h2>소진공 {cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n{body}\n'
+    # 중진공·보증기관 — 회차형이 아니라 연초 공고·연중 신청. 설명 대신 우리 원장 숫자(사이트 공개 Y 행)를 쓴다.
+    def ledger_line(match):
+        import statistics
+        with open(ROOT/'data'/'cases.source.csv', encoding='utf-8-sig') as f:
+            rows=[r for r in csv.DictReader(f) if (r.get('사이트 공개') or '').strip().upper()=='Y' and match(r.get('기관',''))]
+        if not rows: return ''
+        days=[int(float(r['소요일'])) for r in rows if (r.get('소요일') or '').strip()]
+        from collections import Counter
+        top=[int(m) for m,_ in Counter(r['실행 연월'][5:7] for r in rows if r.get('실행 연월')).most_common(2)]
+        line=f'저희가 받은 사례 {len(rows)}건'
+        if days: line+=f', 첫 상담부터 정산까지 보통 {int(statistics.median(days))}일'
+        if len(top)==2: line+=f'. {min(top)}월·{max(top)}월에 가장 많이 받았습니다'
+        return line+'.'
+    OTHER = [
+        ('/jungjingong', '중진공 정책자금', lambda k: inst_evidence.classify(k) == '중진공', 'soon', '2027년 공고 대기',
+         '연초에 한 번 크게 열립니다. 2026년은 1월 5일 시작(서울·지방 1월 5~6일, 인천·경기 1월 7~8일).',
+         'https://www.newspim.com/news/view/20260102000260', '2026년 접수 발표'),
+        ('/sinbo', '신용보증기금', lambda k: inst_evidence.classify(k) == '신보', 'check', '연중 신청',
+         '일반 보증은 연중 상담 후 신청합니다. 특례보증만 공고 기간이 따로 있습니다.',
+         'https://www.kodit.co.kr', '신보 누리집'),
+        ('/gibo', '기술보증기금', lambda k: inst_evidence.classify(k) == '기보', 'check', '연중 신청',
+         '기술평가 보증은 연중 신청합니다. 창업·혁신 특례는 공고마다 기간이 있습니다.',
+         'https://www.kibo.or.kr', '기보 누리집'),
+        ('/jaedan', '지역신용보증재단', lambda k: inst_evidence.classify(k) == '재단', 'check', '연중 신청 · 지자체 자금은 공고별',
+         '보증은 연중입니다. 지자체 육성자금은 연초·하반기 공고로 열리고 예산이 떨어지면 닫힙니다.',
+         'https://www.koreg.or.kr', '신용보증재단중앙회'),
+    ]
+    other_cards="".join(
+        f'<article class="sch-card sch-inst"><div class="sch-top"><a class="sch-name" href="{h}">{n}</a><span class="badge b-{c}" style="margin:0">{t}</span></div>'
+        f'<p class="sch-memo">{m}</p><p class="sch-ours">{ledger_line(fn)}</p>'
+        f'<p class="sch-meta"><span>자료 확인 2026-11-13</span><a href="{u}" target="_blank" rel="noopener">{ul}</a></p></article>'
+        for h,n,fn,c,t,m,u,ul in OTHER)
+    YEAR=[(1,['중진공 새해 접수 시작','지자체 육성자금 공고','소진공 1분기 회차']),(2,[]),(3,['법인세 신고 — 법인 재무제표 확정']),
+          (4,['소진공 2분기 회차']),(5,['종합소득세 신고 — 개인사업자 소득 확정']),(6,[]),(7,['소진공 3분기 회차','지자체 하반기 공고']),
+          (8,[]),(9,[]),(10,['소진공 4분기 회차']),(11,['기존 대출·결산 숫자 정리']),(12,['다음 해 운용계획 공고'])]
+    year_html='<ol class="sch-year" aria-label="정책자금 1년 흐름">'+''.join(
+        f'<li data-m="{m}"{" class=now" if m==TODAY.month else ""}><b>{m}월</b>'+''.join(f'<span>{esc(e)}</span>' for e in ev)+'</li>' for m,ev in YEAR)+'</ol>'
+    year_html+='<script>(function(){var m=new Date().getMonth()+1;document.querySelectorAll(".sch-year li").forEach(function(li){li.classList.toggle("now",+li.dataset.m===m)})})();</script>'
+    sch_rows=(f'<h2>1년 흐름</h2>\n<p>소진공은 분기마다(보통 분기 첫 달) 회차가 열리고, 중진공·지자체는 연초에 한 번 크게 열립니다. 노란 칸이 이번 달입니다.</p>\n{year_html}\n'
+              f'<h2>중진공·보증기관</h2>\n<p>분기 회차 없이 연초 공고와 연중 신청으로 움직입니다. 새해 준비는 <a href="/2027-jeongchaekjageum">2027년 1월 접수 전에 준비할 것</a>에 정리했습니다.</p>\n<div class="sch-cards">{other_cards}</div>\n') + sch_rows
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 접수 일정","item":"https://bmaker.kr/schedule"}]}, ensure_ascii=False)
     sch=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정책자금 접수 일정 2026 — 공고상 신청 기간·확인일 | 비즈니스 메이커</title>
-<meta name="description" content="소상공인·중소기업 정책자금의 공고상 신청 기간과 자료 확인일을 정리합니다. 기관의 현재 접수 여부와 잔여 예산은 신청 전 최신 공고에서 확인하세요.">
+<title>정책자금 접수 일정 2026 — 중진공·소진공·보증기관 신청 기간 | 비즈니스 메이커</title>
+<meta name="description" content="중진공·소진공·신보·기보·지역신용보증재단 정책자금의 공고상 신청 기간과 자료 확인일을 정리합니다. 기관의 현재 접수 여부와 잔여 예산은 신청 전 최신 공고에서 확인하세요.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="정책자금 접수 일정 — 공고상 신청 기간·확인일">
 <meta property="og:description" content="공고상 일정과 자료 확인일 안내. 현재 접수 여부·잔여 예산은 기관 확인이 필요합니다.">
@@ -679,14 +738,14 @@ def build():
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 접수 일정</p>
     <h1 class="serif">정책자금 접수 일정</h1>
-    <p>예정 일정은 날짜 기준으로 계산합니다. 기관의 실시간 접수·예산 상태를 자동 확인하는 것은 아닙니다. 신청 전 기관 안내의 최신 공고를 확인해 주세요.</p>
+    <p>언제 열리고 언제 닫히는지, 기관별로 한 장에 모았습니다.</p>
   </div>
 </section>
 <main>
   <div class="wrap">
     <p class="asof">기준일 {FASOF.year}년 {FASOF.month}월 {FASOF.day}일 · 조건자료 확인일은 각 행에 보존하고, 접수 안내 확인일은 메모에 구분합니다. 접수중 표시는 확인 시점의 공식 안내이며 잔여 예산을 뜻하지 않습니다. 신청 전 소상공인정책자금의 회차 공고를 확인하세요.</p>
     {sch_rows}
-    <h2>접수일 전에 확인할 것</h2><p>접수일은 대출이 실행되는 날이 아닙니다. 직접대출은 공단 심사 뒤 약정을 거쳐 실행되고, 대리대출은 공단의 지원대상 확인서를 받은 뒤 보증기관과 은행 심사를 한 번 더 거칩니다. 돈이 필요한 날을 접수일에 맞춰 잡지 마세요.</p><p>모든 자금이 선착순은 아닙니다. 혁신성장촉진자금은 2026년 8월부터 일부 유형에 정책우선도 평가를 적용해, 정해진 기간에 접수한 신청을 모아 평가합니다. 평가에 선정돼도 대출 심사는 따로 진행됩니다(<a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=393&amp;bbsTypeCd=01">소진공 접수방식 변경 공지</a>, 2026-09-21 확인).</p><p>지원대상 확인서는 대출 승인이 아니고 유효기간이 있습니다. 유효기간 안에 보증·은행 절차를 마쳐야 하므로 확인서를 받기 전에 보증기관·은행 상담 일정을 함께 잡아 두세요.</p>
+    <h2>접수일 전에 확인할 것</h2><p>접수일은 대출이 실행되는 날이 아닙니다. 직접대출은 공단 심사 뒤 약정을 거쳐 실행되고, 대리대출은 공단의 지원대상 확인서를 받은 뒤 보증기관과 은행 심사를 한 번 더 거칩니다. 자금이 필요한 날을 접수일에 맞춰 잡지 마세요.</p><p>모든 자금이 선착순은 아닙니다. 혁신성장촉진자금은 2026년 8월부터 일부 유형에 정책우선도 평가를 적용해, 정해진 기간에 접수한 신청을 모아 평가합니다. 평가에 선정돼도 대출 심사는 따로 진행됩니다(<a href="https://ols.semas.or.kr/ols/man/SMAN052M/page.do?bltwtrSeq=393&amp;bbsTypeCd=01">소진공 접수방식 변경 공지</a>, 2026-09-21 확인).</p><p>지원대상 확인서는 대출 승인이 아니고 유효기간이 있습니다. 유효기간 안에 보증·은행 절차를 마쳐야 하므로 확인서를 받기 전에 보증기관·은행 상담 일정을 함께 잡아 두세요.</p>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 접수 기간·요건은 각 기관 공고가 기준이고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <div class="related">
       <p class="t">함께 보기</p>
@@ -731,5 +790,8 @@ def build():
     (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
     print(f"[자금 빌드 OK] {len(F)}개 자금 페이지 + schedule.html 생성 (기준일 {TODAY})")
 
+import inst_evidence  # 보증기관 페이지 받은 사례 블록(2026-11-14)
+
 if __name__=='__main__':
     build()
+    inst_evidence.apply()

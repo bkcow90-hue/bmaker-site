@@ -1,0 +1,152 @@
+/* 세부 페이지 공통 다듬기 (2026-11-14 개정 — 대표 "AI 티가 난다, 일러스트로 해결")
+   홈(index.html)을 뺀 모든 페이지에 build_lastmod 가 <head> 끝에 넣는다. 같은 선택자면 페이지 <style> 보다 이쪽이 이긴다.
+   원칙: 꾸밈은 히어로의 종이 오려붙이기 그림 한 장뿐. 형광펜·테이프·점무늬는 쓰지 않는다.
+   노랑은 '지금 열려 있음'처럼 뜻이 있는 곳에만. 그림은 assets/illust/ (힉스필드 gpt_image_2_6, 2026-11-14). */
+:root{--ink-navy:#14234A;--mist:#F3F6FA;--rule:#DFE5EE;--ok:#1F7A55;--warn:#8A5A0E}
+
+/* 히어로 — 그림 배경색(#0C1832)에 맞춘 남색, 오른쪽에 그림 */
+.hero{position:relative;overflow:hidden;background:#0C1832!important;--illust:url(/assets/illust/steps.webp);--illust-s:url(/assets/illust/steps-s.webp)}
+.hero .wrap{position:relative;z-index:1}
+.hero::after{content:"";position:absolute;right:max(0px,calc(50% - 620px));top:50%;transform:translateY(-50%);width:400px;height:302px;background:var(--illust) no-repeat center/contain;
+  -webkit-mask-image:radial-gradient(ellipse 72% 72% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 72% 72% at 50% 50%,#000 62%,transparent 100%);pointer-events:none}
+@media(min-width:960px){.hero h1,.hero>.wrap>p,.hero .answer{max-width:calc(100% - 330px)}}
+@media(max-width:959px){.hero{padding-bottom:210px!important}.hero::after{top:auto;bottom:0;transform:none;right:50%;margin-right:-150px;width:300px;height:226px;background-image:var(--illust-s)}}
+@media(max-width:600px){.hero{padding-bottom:180px!important}.hero::after{width:240px;height:181px;margin-right:-120px}}
+html:has(link[rel=canonical][href*="/blog"]) .hero{--illust:url(/assets/illust/steps.webp);--illust-s:url(/assets/illust/steps-s.webp)}
+html:has(link[rel=canonical][href$="/sinyongchwiyak"]) .hero,
+html:has(link[rel=canonical][href$="/jaedojeon"]) .hero,
+html:has(link[rel=canonical][href$="/hyeoksin"]) .hero,
+html:has(link[rel=canonical][href$="/cheongnyeon"]) .hero,
+html:has(link[rel=canonical][href$="/ilban-gyeongyeong"]) .hero,
+html:has(link[rel=canonical][href$="/jangaein"]) .hero,
+html:has(link[rel=canonical][href$="/gingeup"]) .hero,
+html:has(link[rel=canonical][href$="/sogongin"]) .hero,
+html:has(link[rel=canonical][href$="/daehwan"]) .hero,
+html:has(link[rel=canonical][href$="/ilsijeok"]) .hero,
+html:has(link[rel=canonical][href$="/ilsijeok-homeplus"]) .hero,
+html:has(link[rel=canonical][href$="/matching"]) .hero,
+html:has(link[rel=canonical][href$="/sangsaeng"]) .hero,
+html:has(link[rel=canonical][href$="/hyeoksin-sahoe"]) .hero,
+html:has(link[rel=canonical][href$="/hyeoksin-jolup"]) .hero,
+html:has(link[rel=canonical][href$="/working-capital-facility"]) .hero,
+html:has(link[rel=canonical][href$="/sanghwan"]) .hero,
+html:has(link[rel=canonical][href$="/geojeol"]) .hero,
+html:has(link[rel=canonical][href$="/jeosinyong"]) .hero,
+html:has(link[rel=canonical][href$="/microfinance-business"]) .hero,
+html:has(link[rel=canonical][href$="/gyehoekseo"]) .hero,
+html:has(link[rel=canonical][href$="/corporate-loan-documents"]) .hero,
+html:has(link[rel=canonical][href$="/chaksugeum"]) .hero{--illust:url(/assets/illust/counter.webp);--illust-s:url(/assets/illust/counter-s.webp)}
+html:has(link[rel=canonical][href$="/sojingong"]) .hero,
+html:has(link[rel=canonical][href$="/jungjingong"]) .hero,
+html:has(link[rel=canonical][href$="/sinbo"]) .hero,
+html:has(link[rel=canonical][href$="/gibo"]) .hero,
+html:has(link[rel=canonical][href$="/bojeung"]) .hero,
+html:has(link[rel=canonical][href$="/jaedan"]) .hero,
+html:has(link[rel=canonical][href$="/funding"]) .hero{--illust:url(/assets/illust/building.webp);--illust-s:url(/assets/illust/building-s.webp)}
+html:has(link[rel=canonical][href$="/schedule"]) .hero,
+html:has(link[rel=canonical][href$="/2026-4q-sosangin"]) .hero,
+html:has(link[rel=canonical][href$="/2027-jeongchaekjageum"]) .hero{--illust:url(/assets/illust/calendar.webp);--illust-s:url(/assets/illust/calendar-s.webp)}
+html:has(link[rel=canonical][href$="/region"]) .hero,
+html:has(link[rel=canonical][href*="/region/"]) .hero,
+html:has(link[rel=canonical][href*="/jaedan-"]) .hero{--illust:url(/assets/illust/map.webp);--illust-s:url(/assets/illust/map-s.webp)}
+html:has(link[rel=canonical][href*="/industry/"]) .hero{--illust:url(/assets/illust/street.webp);--illust-s:url(/assets/illust/street-s.webp)}
+html:has(link[rel=canonical][href$="/cases"]) .hero,
+html:has(link[rel=canonical][href$="/stats"]) .hero,
+html:has(link[rel=canonical][href$="/work"]) .hero,
+html:has(link[rel=canonical][href$="/faq"]) .hero{--illust:url(/assets/illust/folders.webp);--illust-s:url(/assets/illust/folders-s.webp)}
+html:has(link[rel=canonical][href$="/beobin"]) .hero,
+html:has(link[rel=canonical][href$="/jungsogieop"]) .hero,
+html:has(link[rel=canonical][href$="/consulting"]) .hero,
+html:has(link[rel=canonical][href$="/business-guide"]) .hero,
+html:has(link[rel=canonical][href$="/startup-consulting-cost"]) .hero,
+html:has(link[rel=canonical][href$="/education"]) .hero,
+html:has(link[rel=canonical][href$="/education-program"]) .hero{--illust:url(/assets/illust/meeting.webp);--illust-s:url(/assets/illust/meeting-s.webp)}
+html:has(link[rel=canonical][href$="/certification"]) .hero,
+html:has(link[rel=canonical][href$="/innobiz-mainbiz"]) .hero,
+html:has(link[rel=canonical][href$="/venture-certification"]) .hero,
+html:has(link[rel=canonical][href$="/research-institute"]) .hero,
+html:has(link[rel=canonical][href$="/jiwongeum"]) .hero{--illust:url(/assets/illust/lab.webp);--illust-s:url(/assets/illust/lab-s.webp)}
+html:has(link[rel=canonical][href$="/gaein"]) .hero,
+html:has(link[rel=canonical][href$="/sosangin"]) .hero,
+html:has(link[rel=canonical][href$="/startup"]) .hero,
+html:has(link[rel=canonical][href$="/marketing"]) .hero,
+html:has(link[rel=canonical][href$="/viral-marketing-guide"]) .hero,
+html:has(link[rel=canonical][href$="/online-ad-guide"]) .hero,
+html:has(link[rel=canonical][href$="/blog-marketing-cost"]) .hero{--illust:url(/assets/illust/shopnight.webp);--illust-s:url(/assets/illust/shopnight-s.webp)}
+
+/* 오른쪽에 상담 상자가 있는 히어로(소상공인·재단·보증·인증 등 22장) — 그림을 배경에 깔면 상자에 가려진다.
+   배경 그림은 끄고, 그림을 상담 상자 맨 위에 얹는다(2026-11-14 대표 "그림 가려져 있고 어설프다"). */
+.hero:has(.sc-hero-grid,.jd-hero-grid)::after{display:none}
+.hero:has(.sc-hero-grid,.jd-hero-grid){padding-bottom:revert!important}
+.hero:has(.sc-hero-grid,.jd-hero-grid) h1,.hero:has(.sc-hero-grid,.jd-hero-grid) p{max-width:none!important}
+.sc-consult,.jd-consult{overflow:hidden}
+.sc-consult::before,.jd-consult::before{content:"";display:block;height:190px;margin:-28px -28px 24px;background:#0C1832 var(--illust) no-repeat center 60%/auto 108%;
+  -webkit-mask-image:linear-gradient(#000 86%,transparent);mask-image:linear-gradient(#000 86%,transparent)}
+@media(max-width:959px){.sc-consult::before,.jd-consult::before{height:170px;background-image:var(--illust-s)}}
+/* 가운데 정렬 버튼 줄이 있는 히어로는 글 폭만 줄인다 */
+@media(min-width:960px){.hero .actions{max-width:calc(100% - 330px)}}
+
+/* 표 — 옅은 머리, 둥근 틀 */
+.tablewrap{border:1px solid var(--rule)!important;border-radius:12px!important;background:#fff}
+.tablewrap th{background:var(--mist)!important;color:var(--ink-navy)!important;font-weight:700;border-bottom:1px solid var(--rule)}
+.tablewrap td{border-top:1px solid #EDF1F7!important}
+.tablewrap tr:nth-child(even) td{background:#fff!important}
+
+/* 상태 배지 — 늘어나지 않는 알약 */
+.badge{display:inline-flex!important;align-items:center;width:auto!important;max-width:100%;border-radius:999px!important;padding:3px 10px!important;font-size:.8rem!important;line-height:1.45;font-weight:700}
+td .badge{white-space:nowrap}
+
+/* 함께 보기 — 칩 */
+.related{border-top:1px solid var(--rule);padding-top:20px;margin-top:36px}
+.related .t{font-weight:700;color:var(--ink-navy)}
+.related a{display:inline-block;background:var(--mist);border:1px solid var(--rule);border-radius:999px;padding:6px 14px;margin:0 6px 8px 0;font-size:.88rem;color:var(--ink-navy);text-decoration:none}
+.related a:hover{background:#fff;border-color:var(--ink-navy)}
+
+main details[open]{border-color:var(--ink-navy)}
+
+/* 접수 일정(/schedule) — 1년 흐름 띠, 기관 카드, 오래된 회차 접기 */
+.sch-year{list-style:none;margin:18px 0 8px;padding:0;display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:#fff}
+.sch-year li{padding:14px 12px 16px;border-left:1px solid #EDF1F7;min-height:112px;display:flex;flex-direction:column;gap:6px}
+.sch-year li:nth-child(6n+1){border-left:0}.sch-year li:nth-child(n+7){border-top:1px solid #EDF1F7}
+.sch-year b{font-size:.82rem;color:var(--ink-navy)}
+.sch-year span{font-size:.8rem;line-height:1.45;color:#4A5468;word-break:keep-all}
+.sch-year li.now{background:#FFF4CC}
+.sch-year li.now{box-shadow:inset 0 3px 0 #F2C230}.sch-year li.now b::after{content:" · 이번 달";font-weight:600;color:var(--warn);font-size:.74rem}
+@media(max-width:700px){.sch-year{grid-template-columns:repeat(3,1fr)}.sch-year li{min-height:96px;border-top:1px solid #EDF1F7;border-left:1px solid #EDF1F7}.sch-year li:nth-child(3n+1){border-left:0}.sch-year li:nth-child(-n+3){border-top:0}}
+.sch-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:18px 0 8px}
+.sch-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px}
+.sch-top{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.sch-name{font-family:'Noto Serif KR',serif;font-weight:700;font-size:1.05rem;color:var(--ink-navy);text-decoration:none;line-height:1.4}
+.sch-name:hover{text-decoration:underline}
+main .sch-memo{margin:0;font-size:.9rem;color:#3E475A;line-height:1.65}
+main .sch-ours{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink-navy);font-weight:600;padding:10px 12px;background:var(--mist);border-radius:8px}
+main .sch-meta{margin:auto 0 0;padding-top:10px;border-top:1px solid #EDF1F7;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.78rem;color:#7A8499}
+.sch-meta a{color:#1E44B8;text-decoration:underline}
+.sch-card .badge.b-open{background:#FFE9A8;color:#5C4300}
+.sch-card .badge.b-soon{background:#E8EEFC;color:#1E44B8}
+.sch-card .badge.b-check{background:#EEF1F6;color:#4A5468}
+.sch-card .badge.b-closed{background:#EEF0F4;color:#6A7385}
+.sch-stale{margin:14px 0 8px;border:1px solid var(--rule);border-radius:12px;background:#FAFBFD}
+.sch-stale>summary{display:block!important;cursor:pointer;padding:14px 18px;font-size:.9rem;color:#3E475A;line-height:1.6}
+.sch-stale>.sch-cards{margin:0;padding:0 14px 14px}
+.sch-stale .sch-card{opacity:.85}
+
+/* 자금 안내 드롭다운 3묶음(2026-11-14) */
+.nav-drop-menu .nav-drop-h{margin:0 0 4px;padding:6px 10px 2px;font-size:.74rem;font-weight:700;color:#7A8499;letter-spacing:0}
+@media(min-width:841px){.nav-drop[open] .nav-drop-menu{display:grid!important;grid-template-columns:repeat(3,minmax(150px,1fr));gap:4px 10px;min-width:560px;padding:12px}}
+@media(max-width:840px){.nav-drop-menu .nav-drop-h{padding:12px 28px 4px}.nav-drop-col{border-bottom:1px solid #EEF1F6}}
+
+/* 보증기관 받은 사례 블록(/sinbo·/gibo, tools/inst_evidence.py) */
+.ie-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.ie-stats div{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+.ie-stats b{display:block;font-size:1.15rem;color:var(--ink-navy)}
+.ie-stats span{font-size:.8rem;color:#6A7385}
+.ie-who{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:22px;margin:8px 0 22px}
+main .ie-h{font-weight:700;color:var(--ink-navy);margin:0 0 8px;font-size:.92rem}
+.ie-bars{list-style:none;margin:0;padding:0}
+.ie-bars li{display:grid;grid-template-columns:minmax(72px,auto) 1fr 44px;align-items:center;gap:8px;font-size:.84rem;padding:4px 0}
+.ie-k{color:#3E475A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ie-bar{height:8px;background:var(--mist);border-radius:4px;overflow:hidden}
+.ie-bar i{display:block;height:100%;background:#2E4A86;border-radius:4px}
+.ie-v{text-align:right;color:#6A7385;font-size:.8rem}
+@media(max-width:760px){.ie-stats{grid-template-columns:1fr 1fr}.ie-who{grid-template-columns:1fr;gap:16px}}

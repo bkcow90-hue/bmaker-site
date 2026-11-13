@@ -20,10 +20,9 @@ def test_sinbo_meta_numbers_come_from_ledger():
     ogd = html.unescape(re.search(r'<meta property="og:description" content="(.*?)"', s).group(1))
     assert title == og and desc == ogd
     assert '실측' not in title + desc
-    cid = re.search(r"'sinbo\.html':\('(E\d+)'", (TOOLS / 'build_cases.py').read_text(encoding='utf-8')).group(1)
-    row = next(r for r in csv.DictReader(open(ROOT / 'data' / 'cases.source.csv', encoding='utf-8-sig'))
-               if r['사례ID'] == cid)
-    assert f"받은 사례({_won2(row['실행 금액(만원)'])}·{norm_rate(row['금리']).strip()})" in desc
+    # 2026-11-14: 한 건의 금액·금리 대신 신보 사례 건수(본문 data-stat="sinbo-n" 과 같은 값)
+    n = re.search(r'data-stat="sinbo-n">(\d+)<', s).group(1)
+    assert f"받은 사례 {n}건" in desc
 
 
 def test_sinbo_h1_and_answer_lead_with_structure():

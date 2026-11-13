@@ -383,14 +383,14 @@ td a{color:var(--blue-deep);text-decoration:underline}
         # 검색 의도 대표 페이지(규격 2절, 2026-10-31): 메인 키워드 '신용보증기금 대출' 통째로
         '신용보증기금 대출, 사업자 조건부터 은행 실행까지 | 비즈니스 메이커',
         '신용보증기금(신보) 사업자대출은 신보 보증서로 은행에서 대출받는 구조입니다. 대상·한도·금리와 신청 순서를 정리하고, '
-        '받은 사례({won}·{rate})를 공개합니다. 지역신용보증재단·기술보증기금 중 어디가 맞는지부터 확인하세요.')}
+        '받은 사례 {n}건을 사업 형태·업종별로 공개합니다. 지역신용보증재단·기술보증기금 중 어디가 맞는지부터 확인하세요.')}
     for f,(cid,title,desc_t) in META_CASE.items():
         p=ROOT/f
         if not p.exists(): continue
         c=next((r for r in D if r['사례ID']==cid), None)
         if c is None: die(f"{f} 메타 사례 {cid} 가 공개 원장에 없습니다 — META_CASE 를 고치세요.")
         if not (c['금리'] or '').strip(): die(f"{f} 메타 사례 {cid} 의 금리가 비어 있습니다.")
-        desc=desc_t.format(won=won2(int(c['실행 금액(만원)'])), rate=c['금리'].strip())
+        desc=desc_t.format(won=won2(int(c['실행 금액(만원)'])), rate=c['금리'].strip(), n=STATS['sinbo-n'])
         t,d=escape(title, quote=True), escape(desc, quote=True)
         s0=p.read_text(encoding='utf-8'); s=s0
         s=re.sub(r'<title>[^<]*</title>', lambda _: f'<title>{t}</title>', s, count=1)
