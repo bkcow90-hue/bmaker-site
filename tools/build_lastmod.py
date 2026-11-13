@@ -200,6 +200,15 @@ def stamp_polish(s, key):
     return s.replace('</head>', POLISH + '\n</head>', 1)
 
 
+NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
+_NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
+
+
+def stamp_nav(s):
+    """자금 안내 드롭다운을 한 벌로 맞춘다(2026-11-14 대표 "자금안내 순서가 안 맞는다") — 빌더마다 복사본이 달라 여기서 통일."""
+    return _NAV_RE.sub(lambda m: NAV_MENU, s, count=1)
+
+
 def stamp_reviewed(s):
     """본문에 검토자 바이라인('검토 김상표(대표) · 최종 확인 …')이 있으면 같은 날짜로 reviewedBy JSON-LD 를 단다.
     바이라인이 없으면 블록도 없앤다 — 본문 표기와 구조화 데이터가 어긋나지 않게(tools/reviewer.py, 2026-10-04)."""
@@ -276,7 +285,7 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_assets(stamp_polish(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date)), key))
+        s = stamp_assets(stamp_polish(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date))), key))
         s = trust_copy.stamp_org(trust_copy.stamp_footer_trust(s, n_cases, n_ev))
         if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')

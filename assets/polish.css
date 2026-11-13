@@ -1,80 +1,125 @@
-/* 세부 페이지 공통 다듬기 (2026-11-13 대표 "세부페이지들 너무 구려, 일러스트 느낌으로")
-   홈(index.html)을 뺀 모든 페이지에 build_lastmod 가 <head> 끝에 붙인다 — 페이지마다 복사된 <style> 뒤라 같은 선택자면 이쪽이 이긴다.
-   방향: 공고문 위에 손으로 그린 선. 히어로에 페이지 성격별 선화 1장, 소제목 아래 형광펜 한 줄. 나머지는 조용하게. */
-:root{--ink-navy:#14234A;--mist:#F1F5FB;--rule:#DCE3EE;--hl:#FFD54A;--ok:#1F7A55;--warn:#9A6412}
+/* 세부 페이지 공통 다듬기 (2026-11-14 개정 — 대표 "AI 티가 난다, 일러스트로 해결")
+   홈(index.html)을 뺀 모든 페이지에 build_lastmod 가 <head> 끝에 넣는다. 같은 선택자면 페이지 <style> 보다 이쪽이 이긴다.
+   원칙: 꾸밈은 히어로의 종이 오려붙이기 그림 한 장뿐. 형광펜·테이프·점무늬는 쓰지 않는다.
+   노랑은 '지금 열려 있음'처럼 뜻이 있는 곳에만. 그림은 assets/illust/ (힉스필드 gpt_image_2_6, 2026-11-14). */
+:root{--ink-navy:#14234A;--mist:#F3F6FA;--rule:#DFE5EE;--ok:#1F7A55;--warn:#8A5A0E}
 
-/* 히어로 — 오른쪽에 선화. 글은 왼쪽 60% 안에 */
-.hero{position:relative;overflow:hidden;background:var(--navy,#0E1B33) radial-gradient(circle at 1px 1px,rgba(255,255,255,.07) 1px,transparent 1.4px) 0 0/22px 22px}
+/* 히어로 — 그림 배경색(#0C1832)에 맞춘 남색, 오른쪽에 그림 */
+.hero{position:relative;overflow:hidden;background:#0C1832!important;--illust:url(/assets/illust/steps.webp);--illust-s:url(/assets/illust/steps-s.webp)}
 .hero .wrap{position:relative;z-index:1}
-.hero::after{content:"";position:absolute;right:max(24px,calc(50% - 560px));bottom:-6px;width:300px;height:232px;background:url(/assets/illust/document.svg) no-repeat center/contain;opacity:.95;pointer-events:none}
-html:has(link[rel=canonical][href$="/schedule"]) .hero::after,
-html:has(link[rel=canonical][href*="/2026-4q"]) .hero::after,
-html:has(link[rel=canonical][href*="/2027-"]) .hero::after{background-image:url(/assets/illust/calendar.svg)}
-html:has(link[rel=canonical][href*="/industry/"]) .hero::after{background-image:url(/assets/illust/shop.svg)}
-html:has(link[rel=canonical][href*="/jaedan"]) .hero::after,
-html:has(link[rel=canonical][href*="/region"]) .hero::after,
-html:has(link[rel=canonical][href$="/sinbo"]) .hero::after,
-html:has(link[rel=canonical][href$="/gibo"]) .hero::after,
-html:has(link[rel=canonical][href$="/bojeung"]) .hero::after,
-html:has(link[rel=canonical][href$="/sojingong"]) .hero::after,
-html:has(link[rel=canonical][href$="/jungjingong"]) .hero::after{background-image:url(/assets/illust/building.svg)}
-html:has(link[rel=canonical][href$="/cases"]) .hero::after,
-html:has(link[rel=canonical][href$="/stats"]) .hero::after{background-image:url(/assets/illust/folder.svg)}
-@media(min-width:900px){.hero h1,.hero>.wrap>p{max-width:calc(100% - 300px)}}
-@media(max-width:899px){.hero::after{width:150px;height:116px;right:12px;bottom:-4px;opacity:.5}}
-@media(max-width:600px){.hero{padding-bottom:96px!important}.hero::after{width:104px;height:80px;right:14px;bottom:6px;opacity:.9}}
+.hero::after{content:"";position:absolute;right:max(0px,calc(50% - 620px));top:50%;transform:translateY(-50%);width:400px;height:302px;background:var(--illust) no-repeat center/contain;
+  -webkit-mask-image:radial-gradient(ellipse 72% 72% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 72% 72% at 50% 50%,#000 62%,transparent 100%);pointer-events:none}
+@media(min-width:960px){.hero h1,.hero>.wrap>p,.hero .answer{max-width:calc(100% - 330px)}}
+@media(max-width:959px){.hero{padding-bottom:210px!important}.hero::after{top:auto;bottom:0;transform:none;right:50%;margin-right:-150px;width:300px;height:226px;background-image:var(--illust-s)}}
+@media(max-width:600px){.hero{padding-bottom:180px!important}.hero::after{width:240px;height:181px;margin-right:-120px}}
+html:has(link[rel=canonical][href*="/blog"]) .hero{--illust:url(/assets/illust/steps.webp);--illust-s:url(/assets/illust/steps-s.webp)}
+html:has(link[rel=canonical][href$="/sinyongchwiyak"]) .hero,
+html:has(link[rel=canonical][href$="/jaedojeon"]) .hero,
+html:has(link[rel=canonical][href$="/hyeoksin"]) .hero,
+html:has(link[rel=canonical][href$="/cheongnyeon"]) .hero,
+html:has(link[rel=canonical][href$="/ilban-gyeongyeong"]) .hero,
+html:has(link[rel=canonical][href$="/jangaein"]) .hero,
+html:has(link[rel=canonical][href$="/gingeup"]) .hero,
+html:has(link[rel=canonical][href$="/sogongin"]) .hero,
+html:has(link[rel=canonical][href$="/daehwan"]) .hero,
+html:has(link[rel=canonical][href$="/ilsijeok"]) .hero,
+html:has(link[rel=canonical][href$="/ilsijeok-homeplus"]) .hero,
+html:has(link[rel=canonical][href$="/matching"]) .hero,
+html:has(link[rel=canonical][href$="/sangsaeng"]) .hero,
+html:has(link[rel=canonical][href$="/hyeoksin-sahoe"]) .hero,
+html:has(link[rel=canonical][href$="/hyeoksin-jolup"]) .hero,
+html:has(link[rel=canonical][href$="/working-capital-facility"]) .hero,
+html:has(link[rel=canonical][href$="/sanghwan"]) .hero,
+html:has(link[rel=canonical][href$="/geojeol"]) .hero,
+html:has(link[rel=canonical][href$="/jeosinyong"]) .hero,
+html:has(link[rel=canonical][href$="/microfinance-business"]) .hero,
+html:has(link[rel=canonical][href$="/gyehoekseo"]) .hero,
+html:has(link[rel=canonical][href$="/corporate-loan-documents"]) .hero,
+html:has(link[rel=canonical][href$="/chaksugeum"]) .hero{--illust:url(/assets/illust/counter.webp);--illust-s:url(/assets/illust/counter-s.webp)}
+html:has(link[rel=canonical][href$="/sojingong"]) .hero,
+html:has(link[rel=canonical][href$="/jungjingong"]) .hero,
+html:has(link[rel=canonical][href$="/sinbo"]) .hero,
+html:has(link[rel=canonical][href$="/gibo"]) .hero,
+html:has(link[rel=canonical][href$="/bojeung"]) .hero,
+html:has(link[rel=canonical][href$="/jaedan"]) .hero,
+html:has(link[rel=canonical][href$="/funding"]) .hero{--illust:url(/assets/illust/building.webp);--illust-s:url(/assets/illust/building-s.webp)}
+html:has(link[rel=canonical][href$="/schedule"]) .hero,
+html:has(link[rel=canonical][href$="/2026-4q-sosangin"]) .hero,
+html:has(link[rel=canonical][href$="/2027-jeongchaekjageum"]) .hero{--illust:url(/assets/illust/calendar.webp);--illust-s:url(/assets/illust/calendar-s.webp)}
+html:has(link[rel=canonical][href$="/region"]) .hero,
+html:has(link[rel=canonical][href*="/region/"]) .hero,
+html:has(link[rel=canonical][href*="/jaedan-"]) .hero{--illust:url(/assets/illust/map.webp);--illust-s:url(/assets/illust/map-s.webp)}
+html:has(link[rel=canonical][href*="/industry/"]) .hero{--illust:url(/assets/illust/street.webp);--illust-s:url(/assets/illust/street-s.webp)}
+html:has(link[rel=canonical][href$="/cases"]) .hero,
+html:has(link[rel=canonical][href$="/stats"]) .hero,
+html:has(link[rel=canonical][href$="/work"]) .hero,
+html:has(link[rel=canonical][href$="/faq"]) .hero{--illust:url(/assets/illust/folders.webp);--illust-s:url(/assets/illust/folders-s.webp)}
+html:has(link[rel=canonical][href$="/beobin"]) .hero,
+html:has(link[rel=canonical][href$="/jungsogieop"]) .hero,
+html:has(link[rel=canonical][href$="/consulting"]) .hero,
+html:has(link[rel=canonical][href$="/business-guide"]) .hero,
+html:has(link[rel=canonical][href$="/startup-consulting-cost"]) .hero,
+html:has(link[rel=canonical][href$="/education"]) .hero,
+html:has(link[rel=canonical][href$="/education-program"]) .hero{--illust:url(/assets/illust/meeting.webp);--illust-s:url(/assets/illust/meeting-s.webp)}
+html:has(link[rel=canonical][href$="/certification"]) .hero,
+html:has(link[rel=canonical][href$="/innobiz-mainbiz"]) .hero,
+html:has(link[rel=canonical][href$="/venture-certification"]) .hero,
+html:has(link[rel=canonical][href$="/research-institute"]) .hero,
+html:has(link[rel=canonical][href$="/jiwongeum"]) .hero{--illust:url(/assets/illust/lab.webp);--illust-s:url(/assets/illust/lab-s.webp)}
+html:has(link[rel=canonical][href$="/gaein"]) .hero,
+html:has(link[rel=canonical][href$="/sosangin"]) .hero,
+html:has(link[rel=canonical][href$="/startup"]) .hero,
+html:has(link[rel=canonical][href$="/marketing"]) .hero,
+html:has(link[rel=canonical][href$="/viral-marketing-guide"]) .hero,
+html:has(link[rel=canonical][href$="/online-ad-guide"]) .hero,
+html:has(link[rel=canonical][href$="/blog-marketing-cost"]) .hero{--illust:url(/assets/illust/shopnight.webp);--illust-s:url(/assets/illust/shopnight-s.webp)}
 
-/* 소제목 — 형광펜 한 줄 */
-main h2{position:relative;padding-bottom:10px;letter-spacing:-.01em}
-main h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 8'%3E%3Cpath d='M2 5c10-3 20-3 30-1s20 2 30-1' stroke='%23FFD54A' stroke-width='3.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat}
-
-/* 표 — 무거운 남색 머리 대신 옅은 머리, 둥근 틀 */
-.tablewrap{border:1px solid var(--rule)!important;border-radius:14px!important;background:#fff;box-shadow:0 1px 0 var(--rule)}
+/* 표 — 옅은 머리, 둥근 틀 */
+.tablewrap{border:1px solid var(--rule)!important;border-radius:12px!important;background:#fff}
 .tablewrap th{background:var(--mist)!important;color:var(--ink-navy)!important;font-weight:700;border-bottom:1px solid var(--rule)}
 .tablewrap td{border-top:1px solid #EDF1F7!important}
 .tablewrap tr:nth-child(even) td{background:#fff!important}
-.tablewrap tbody tr:hover td{background:#FAFBFE!important}
 
-/* 상태 배지 — 늘어나지 않는 알약, 앞에 점 */
-.badge{display:inline-flex!important;align-items:center;gap:6px;width:auto!important;max-width:100%;white-space:normal;border-radius:999px!important;padding:4px 11px 4px 9px!important;font-size:.8rem!important;line-height:1.45;font-weight:700}
-.badge::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.75}
+/* 상태 배지 — 늘어나지 않는 알약 */
+.badge{display:inline-flex!important;align-items:center;width:auto!important;max-width:100%;border-radius:999px!important;padding:3px 10px!important;font-size:.8rem!important;line-height:1.45;font-weight:700}
 td .badge{white-space:nowrap}
 
-/* 안내 상자 — 메모지에 테이프 */
-.wrap .callout{position:relative;background:#FFFCF0;border:1px solid #F1E3B0;border-left:1px solid #F1E3B0;border-radius:4px 14px 14px 14px;padding:22px 24px 20px}
-.wrap .callout::before{content:"";position:absolute;top:-9px;left:22px;width:58px;height:18px;background:rgba(255,213,74,.75);transform:rotate(-3deg);border-radius:2px}
-
 /* 함께 보기 — 칩 */
-.related{border-top:1px dashed var(--rule);padding-top:20px;margin-top:36px}
+.related{border-top:1px solid var(--rule);padding-top:20px;margin-top:36px}
 .related .t{font-weight:700;color:var(--ink-navy)}
 .related a{display:inline-block;background:var(--mist);border:1px solid var(--rule);border-radius:999px;padding:6px 14px;margin:0 6px 8px 0;font-size:.88rem;color:var(--ink-navy);text-decoration:none}
 .related a:hover{background:#fff;border-color:var(--ink-navy)}
 
-/* 질문 — 펼친 칸은 왼쪽 선 */
-main details{border-radius:12px;transition:border-color .15s}
-main details[open]{border-color:var(--ink-navy);box-shadow:inset 3px 0 0 var(--hl)}
+main details[open]{border-color:var(--ink-navy)}
 
-/* 마지막 안내 상자 — 오른쪽 아래 선화 */
-.cta-box{position:relative;overflow:hidden}
-.cta-box::after{content:"";position:absolute;right:-18px;bottom:-22px;width:150px;height:116px;background:url(/assets/illust/document.svg) no-repeat center/contain;opacity:.22;pointer-events:none}
-.cta-box>*{position:relative;z-index:1}
-
-/* 기준일 줄 */
-.asof{border-left:3px solid var(--hl);padding-left:12px}
-
-@media(prefers-reduced-motion:reduce){main details{transition:none}}
-
-/* 접수 일정 카드(/schedule) — 표 대신 자금별 한 장 */
+/* 접수 일정(/schedule) — 1년 흐름 띠, 기관 카드, 오래된 회차 접기 */
+.sch-year{list-style:none;margin:18px 0 8px;padding:0;display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:#fff}
+.sch-year li{padding:14px 12px 16px;border-left:1px solid #EDF1F7;min-height:112px;display:flex;flex-direction:column;gap:6px}
+.sch-year li:nth-child(6n+1){border-left:0}.sch-year li:nth-child(n+7){border-top:1px solid #EDF1F7}
+.sch-year b{font-size:.82rem;color:var(--ink-navy)}
+.sch-year span{font-size:.8rem;line-height:1.45;color:#4A5468;word-break:keep-all}
+.sch-year li.now{background:#FFF4CC}
+.sch-year li.now{box-shadow:inset 0 3px 0 #F2C230}.sch-year li.now b::after{content:" · 이번 달";font-weight:600;color:var(--warn);font-size:.74rem}
+@media(max-width:700px){.sch-year{grid-template-columns:repeat(3,1fr)}.sch-year li{min-height:96px;border-top:1px solid #EDF1F7;border-left:1px solid #EDF1F7}.sch-year li:nth-child(3n+1){border-left:0}.sch-year li:nth-child(-n+3){border-top:0}}
 .sch-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:18px 0 8px}
-.sch-card{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px}
-.sch-card:hover{border-color:var(--ink-navy)}
+.sch-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px}
 .sch-top{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .sch-name{font-family:'Noto Serif KR',serif;font-weight:700;font-size:1.05rem;color:var(--ink-navy);text-decoration:none;line-height:1.4}
-.sch-name:hover{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px}
-main .sch-memo{margin:0;font-size:.88rem;color:#4A5468;line-height:1.65;flex:1}
-main .sch-meta{margin:0;padding-top:10px;border-top:1px dashed var(--rule);display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.78rem;color:#7A8499}
-.sch-meta a{color:var(--blue-deep,#1E44B8);text-decoration:underline}
-.sch-card .badge.b-open{background:#E6F4EC;color:var(--ok)}
+.sch-name:hover{text-decoration:underline}
+main .sch-memo{margin:0;font-size:.9rem;color:#3E475A;line-height:1.65}
+main .sch-ours{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink-navy);font-weight:600;padding:10px 12px;background:var(--mist);border-radius:8px}
+main .sch-meta{margin:auto 0 0;padding-top:10px;border-top:1px solid #EDF1F7;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.78rem;color:#7A8499}
+.sch-meta a{color:#1E44B8;text-decoration:underline}
+.sch-card .badge.b-open{background:#FFE9A8;color:#5C4300}
 .sch-card .badge.b-soon{background:#E8EEFC;color:#1E44B8}
-.sch-card .badge.b-check{background:#FFF6DB;color:var(--warn)}
+.sch-card .badge.b-check{background:#EEF1F6;color:#4A5468}
 .sch-card .badge.b-closed{background:#EEF0F4;color:#6A7385}
+.sch-stale{margin:14px 0 8px;border:1px solid var(--rule);border-radius:12px;background:#FAFBFD}
+.sch-stale>summary{display:block!important;cursor:pointer;padding:14px 18px;font-size:.9rem;color:#3E475A;line-height:1.6}
+.sch-stale>.sch-cards{margin:0;padding:0 14px 14px}
+.sch-stale .sch-card{opacity:.85}
+
+/* 자금 안내 드롭다운 3묶음(2026-11-14) */
+.nav-drop-menu .nav-drop-h{margin:0 0 4px;padding:6px 10px 2px;font-size:.74rem;font-weight:700;color:#7A8499;letter-spacing:0}
+@media(min-width:841px){.nav-drop[open] .nav-drop-menu{display:grid!important;grid-template-columns:repeat(3,minmax(150px,1fr));gap:4px 10px;min-width:560px;padding:12px}}
+@media(max-width:840px){.nav-drop-menu .nav-drop-h{padding:12px 28px 4px}.nav-drop-col{border-bottom:1px solid #EEF1F6}}
