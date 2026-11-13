@@ -39,7 +39,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | G6 | 지원사업 사업계획서와 대출용 사업계획서는 무엇이 다른가요? | guide | /jiwongeum · /gyehoekseo | 대기 |
 | 2 | 연구원 1명뿐인 회사, 연구소 설립 전에 무엇부터 정리할까요? | guide | /research-institute | 보류 (/research-institute 본문과 같은 질문, 2026-11-12) |
 | 3 | 벤처기업확인, 사업계획서에서 평가자가 가장 먼저 보는 것은? | guide | /venture-certification | 발행 2026-11-12 (PR #109) |
-| 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 대기 |
+| 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 발행 2026-11-14 |
 | 5 | 보증서는 나왔는데 은행 대출이 늦어진다면 무엇을 확인할까요? | guide | /bojeung · /jaedan | 대기 |
 | 6 | 법인 전환 직후 정책자금, 개인사업자 때 실적을 인정받나요? | guide | /jungjingong · /gaein | 대기 |
 | 7 | 매출이 줄어든 해에 운전자금을 신청하면 불리할까요? | guide | /working-capital-facility | 대기 |
