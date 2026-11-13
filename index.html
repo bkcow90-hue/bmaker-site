@@ -1017,7 +1017,7 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
     <form class="apply-form" id="leadForm" aria-labelledby="apply-title">
       <h2 id="apply-title">내 사업 상담 신청</h2>
       <div class="form-returns"><p class="form-returns-title">진단에서 돌려드리는 것</p><ol><li>신청해 볼 기관·자금 후보</li><li>지금 부족한 요건</li><li>준비 순서와 서류</li><li>진행이 어렵다면 그 이유</li></ol></div>
-      <p class="form-intro">상담 신청하시면 「정책자금 자가진단 가이드북」 PDF를 연락처로 함께 보내드립니다.</p>
+      <p class="form-intro">이메일을 함께 남기시면 「정책자금 자가진단 가이드북」 PDF를 보내드립니다.</p>
       <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
       <label for="lf-service">문의 분야</label>
       <select id="lf-service" name="consultation_service" aria-describedby="service-help">
@@ -1034,6 +1034,9 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
       <label for="lf-phone">연락처 (필수)</label>
       <input id="lf-phone" name="phone" type="tel" placeholder="010-0000-0000" required autocomplete="tel" inputmode="tel" maxlength="20" aria-describedby="phone-help">
       <p id="phone-help" class="form-help">상담 연락을 받을 번호를 입력해 주세요.</p>
+      <label for="lf-email">가이드북 받을 이메일 (선택)</label>
+      <input id="lf-email" name="email" type="email" placeholder="name@company.com" autocomplete="email" inputmode="email" maxlength="120" aria-describedby="email-help">
+      <p id="email-help" class="form-help">적어 주시면 가이드북 PDF를 이 주소로 보내드려요. 비워 두셔도 상담 신청은 됩니다.</p>
       <details class="form-options" id="lf-options"><summary>업종·통화 시간·문의 내용 추가 (선택)</summary>
       <label for="lf-biz">업종 (선택)</label>
       <input id="lf-biz" name="industry" type="text" placeholder="예: 음식점, 제조업, 도소매">
@@ -1172,7 +1175,7 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
 
 </script>
 
-<script src="/assets/conversion.js?v=00888359a0" defer></script>
+<script src="/assets/conversion.js?v=d219e28795" defer></script>
 <script src="/assets/home-video.js?v=6c41baaa45" defer></script>
 <script>(function(){var els=document.querySelectorAll('.hero .count');if(!els.length)return;var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;els.forEach(function(el){var end=parseInt(el.getAttribute('data-count'),10)||0,suf=el.getAttribute('data-suffix')||'';if(rm||!end)return;var t0=null,dur=1100;el.textContent='0'+suf;function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(end*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);});})();</script>
 </body>

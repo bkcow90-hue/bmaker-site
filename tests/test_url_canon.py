@@ -20,7 +20,7 @@ PAGES += [f"{slug}.html" for slug in LOAN_GUIDES]
 SLUGS += LOAN_GUIDES
 
 # 분기별 접수 안내 — 손으로 만드는 정적 페이지(빌더 대상이 아님)
-QUARTERLY = ["2026-4q-sosangin"]
+QUARTERLY = ["2026-4q-sosangin", "2027-jeongchaekjageum"]
 PAGES += [f"{slug}.html" for slug in QUARTERLY]
 SLUGS += QUARTERLY
 
@@ -30,7 +30,9 @@ PAGES += [f"{slug}.html" for slug in HUBS]
 SLUGS += HUBS
 
 # 업종 의도 랜딩 — 하위 디렉터리. 정본 URL 도 /industry/<slug> 형태다
-INDUSTRY = ["industry/eumsikjeom", "industry/jejo", "industry/dosomae", "industry/online-shoppingmall"]  # 2026-11-10 3개 추가
+INDUSTRY = ["industry/eumsikjeom", "industry/jejo", "industry/dosomae", "industry/online-shoppingmall",
+            "industry/geonseol", "industry/miyong", "industry/gyoyuk", "industry/mullyu", "industry/it",
+            "industry/sikpum", "industry/hwajangpum", "industry/bio"]  # 2026-11-13 8개 추가  # 2026-11-10 3개 추가
 PAGES += [f"{slug}.html" for slug in INDUSTRY]
 SLUGS += INDUSTRY
 

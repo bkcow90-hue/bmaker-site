@@ -3,6 +3,10 @@
   "date": "2026-10-04",
   "hash": "a9732cf39e23e82ef632dbd05e7749c2e16de07049b03ca59a4dec27c0eacd0c"
  },
+ "2027-jeongchaekjageum.html": {
+  "date": "2026-11-13",
+  "hash": "acae1a7edd016489f1db461ce2a738a02781efcd234dff6d22771187d4018361"
+ },
  "beobin.html": {
   "date": "2026-11-12",
   "hash": "01341ef20400a8b1de98263623570dfc7bef7e1a08d81c395059f1e75f64926b"
@@ -236,8 +240,8 @@
   "hash": "436767a0cc32717e9a067d93eaf50d27fd6508e13443d2b2a963b3a38e409afd"
  },
  "cheongnyeon.html": {
-  "date": "2026-11-09",
-  "hash": "93efa9531bd4f1e81f2aff6e0905ab8a031befb17bada308b5f16b034590d9ec"
+  "date": "2026-11-13",
+  "hash": "ea7a8ff15b7efc1c50e0d9e340e82960f1ddd62cf8e32cf43c8b7fabc796e311"
  },
  "consulting.html": {
   "date": "2026-11-12",
@@ -248,8 +252,8 @@
   "hash": "b494457a371f38392aa110ba48477ab4b4430f0e0573d91380d1b6514f8100a4"
  },
  "daehwan.html": {
-  "date": "2026-11-10",
-  "hash": "0f34000e1e7c2db1f53201fc82103e2f98fe592209c2dddc5a3ae3561d399357"
+  "date": "2026-11-13",
+  "hash": "9039f3318417d1f13494e20d9c6e4bcc8d7386d3819131ece7aac522c0c94f4a"
  },
  "education-program.html": {
   "date": "2026-09-28",
@@ -280,56 +284,88 @@
   "hash": "47188ad08006d955b1eb3f53d87defdb98c100de3b07548d3be435ce5d6477f6"
  },
  "gingeup.html": {
-  "date": "2026-11-10",
-  "hash": "b737194679bbc82f6d16a74cee7bc201519f64e99b8bdb3db7c229fc260d616f"
+  "date": "2026-11-13",
+  "hash": "073bf09f1ea29e734043487dc495a80bc0cba4dc2eec3078cda69e5c371991b0"
  },
  "gyehoekseo.html": {
   "date": "2026-11-01",
   "hash": "6d986e98b7e7a380c5d222a1288cfcaa9978e9f92c6307a62da13945b2066f8e"
  },
  "hyeoksin-jolup.html": {
-  "date": "2026-11-10",
-  "hash": "16a658edb0c0e92daa2593b9249976c7f6a87e2820c66f481bb48fa09b6bb80d"
+  "date": "2026-11-13",
+  "hash": "d2ea7b5454cf9baebc4918da723fffdc7460c4b64a813562ce985405ece3098d"
  },
  "hyeoksin-sahoe.html": {
-  "date": "2026-11-10",
-  "hash": "5b2e0170fe11c3962808920b5120f2e336d2889614dd7535b9f14692ba6e880b"
+  "date": "2026-11-13",
+  "hash": "2fcf4a0a0f6f6a40ec10bfc27aa2e87ab81cb68f2403a39db290b3ad3d00b655"
  },
  "hyeoksin.html": {
-  "date": "2026-11-09",
-  "hash": "80c719ca5f069e27fffa538625960a8bb90d289bd2c94155eb1bb77a90c313e5"
+  "date": "2026-11-13",
+  "hash": "333467123d5c2b1e5f4f09038aa032f398420c5561997aa88ad2aee169fd087f"
  },
  "ilban-gyeongyeong.html": {
-  "date": "2026-11-10",
-  "hash": "a71edda2b7d61209ec47f371229a52a22c25f803703076716afb90c31b1454b7"
+  "date": "2026-11-13",
+  "hash": "234aa64c8b7b1b686b6bec6daf4a37620666a76b4780892a1d1e5ecccf8cb663"
  },
  "ilsijeok-homeplus.html": {
-  "date": "2026-11-10",
-  "hash": "cd5e6ca26961cd99fae5a1659f47f2c5150b8b4d932aff2fd4620f02b0df7fdc"
+  "date": "2026-11-13",
+  "hash": "cb11ac9121810f52d97905f295e69a50d92dbf6f8dfd6e451ba0a3ee747ab5c9"
  },
  "ilsijeok.html": {
-  "date": "2026-11-10",
-  "hash": "5993c209fcd359cf0994a41ad4c13555d230316131c626d1a3bec329a7408e98"
+  "date": "2026-11-13",
+  "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
   "date": "2026-11-13",
-  "hash": "e8574788a673be896357ed495329276f44c7db7e255489d3cb79e9ff341603e1"
+  "hash": "86bd9b3eaf358fca6d14ff75805bbe7aa93887fce72bae7ecf1d9d1b353ff957"
+ },
+ "industry/bio.html": {
+  "date": "2026-11-13",
+  "hash": "33e5a82d353d17c4240c995b036a10b6227df8f53fad36653e90be47cfefbe0c"
  },
  "industry/dosomae.html": {
-  "date": "2026-11-10",
-  "hash": "a1dff81d390c0c3b9759486ef1de75f369c9058f28fe6450321e3dcb15112dba"
+  "date": "2026-11-13",
+  "hash": "498124ea6f0193e53d17ea899a43dc4879cab85db1cf4fa4a6337a0db14a5f3b"
  },
  "industry/eumsikjeom.html": {
-  "date": "2026-11-10",
-  "hash": "4c3c664e36f1cab6dd7618abd39a1b25a770605763b524328dcb360a961fa3c4"
+  "date": "2026-11-13",
+  "hash": "5d0891ef1030bdb3feb1f27c9a9920a57040d1d06ea924ca25d19efdcedb1154"
+ },
+ "industry/geonseol.html": {
+  "date": "2026-11-13",
+  "hash": "7118d47735890688e513da23a8dbaf47fd923e7d489aa4af2b9add5183829c95"
+ },
+ "industry/gyoyuk.html": {
+  "date": "2026-11-13",
+  "hash": "86ad34d0cdbc9ae4df0f8b8d78cd053e02d65317bf2e355abec10f842ab7b667"
+ },
+ "industry/hwajangpum.html": {
+  "date": "2026-11-13",
+  "hash": "59928c5f646a505aea6bc59acccb841830b6c6c8eff9d2a88e71f425c227da35"
+ },
+ "industry/it.html": {
+  "date": "2026-11-13",
+  "hash": "5964403d2b175e122f2a300c6f8f768f2ac6a9b2ddc07ad4bdf85405d399b2c2"
  },
  "industry/jejo.html": {
-  "date": "2026-11-10",
-  "hash": "4a9a4d6796d73aa1e4111940ab1c66643e9d5d5438022f255451fc8e73158f3b"
+  "date": "2026-11-13",
+  "hash": "16efcdedb0fd413e53de1784d763cc95b0213f6b6db24ae5fd4e4565c59264f6"
+ },
+ "industry/miyong.html": {
+  "date": "2026-11-13",
+  "hash": "56e1a2b978a511ca728a4f4880a4d46eb2f80d604d8e19dafb77d8939a18acf4"
+ },
+ "industry/mullyu.html": {
+  "date": "2026-11-13",
+  "hash": "5e60734bc8196ec4f24d50893519813a59fe837f9221900509ea62b207f2b2fc"
  },
  "industry/online-shoppingmall.html": {
-  "date": "2026-11-10",
-  "hash": "13b57e461037e94b9b8aa37955f29ae0b8e3a98cff15fb458a70d4bede8e2a16"
+  "date": "2026-11-13",
+  "hash": "4b96cd24ca9918fc17a22139cbccd76603ae4064b533f72461caf009b4f1426f"
+ },
+ "industry/sikpum.html": {
+  "date": "2026-11-13",
+  "hash": "83eecf04b85d9dbcd3d3ecc2f67c963eb2cde1c032808034743486c70ba03036"
  },
  "innobiz-mainbiz.html": {
   "date": "2026-11-10",
@@ -408,12 +444,12 @@
   "hash": "2657e47cf3a501a78808574481b6472db884d17c147d3aaca346d034612c75ae"
  },
  "jaedojeon.html": {
-  "date": "2026-11-10",
-  "hash": "61c1b529c3f01168c4cf55015d7d7cd15cfa21f2f280d2bbb891de496a8199aa"
+  "date": "2026-11-13",
+  "hash": "b4fea27265eb0d20a1aff1c1244d2f917081306ff06106df868aa36d5075bbee"
  },
  "jangaein.html": {
-  "date": "2026-11-09",
-  "hash": "b5f796b473a8c4f8f1aacc107245f56f6d88b20c12f34bb8e3ac4e07056b3e59"
+  "date": "2026-11-13",
+  "hash": "3ef39ce5198b03c6b655941cd9fd489f4b34801452dfd0fdbf36f2da0a07c874"
  },
  "jeosinyong.html": {
   "date": "2026-11-01",
@@ -436,8 +472,8 @@
   "hash": "74224d6bcba8d7393f00c649db5da4aaaf867e1f98b9c3307833296ae13f08b2"
  },
  "matching.html": {
-  "date": "2026-11-10",
-  "hash": "44c31da4ece1c9769546ff90954e0c4ee0efd2ac6e8a4d116e8a9510d46fc6a7"
+  "date": "2026-11-13",
+  "hash": "77ff6ba821ebded63587dd12ab1fb4a2a6985c541ca868bf268305b1875a2220"
  },
  "microfinance-business.html": {
   "date": "2026-09-28",
@@ -540,24 +576,24 @@
   "hash": "f54bcf6248f0dec04700ba9da4d1471e70c041d7bc2d292772e970dedd94f189"
  },
  "sangsaeng.html": {
-  "date": "2026-11-10",
-  "hash": "d229e3505ea99bf2bb221869e1fef76f7264f34972c9a5106d5419278ad1e790"
+  "date": "2026-11-13",
+  "hash": "c98a83715835707539bd8192a0c393a35448a04984aa5276488e7c8b848db23c"
  },
  "schedule.html": {
   "date": "2026-11-13",
-  "hash": "9cfad8c413e48daf22434e684d2c358a2aa0434d995f336a05761ae65dcdf3a3"
+  "hash": "21f027dfbfaf2d19ad5dd5ff07f7aa7e81ad6b7b0f769157ca1b14082e4ad5ba"
  },
  "sinbo.html": {
   "date": "2026-11-01",
   "hash": "95101b43962f28a6ba1a27495a8e6a803961e4aed4fe0bdb9b77554ffb30ee64"
  },
  "sinyongchwiyak.html": {
-  "date": "2026-11-09",
-  "hash": "5bbc4c3b9b0e230999a59e3f9164066be05778f8d53dce02996f37b813741457"
+  "date": "2026-11-13",
+  "hash": "ccadad2dda2b5c5a3eeaf443e09ed1dce93fddb66b77b0d298bbfb85f7287dfa"
  },
  "sogongin.html": {
-  "date": "2026-11-10",
-  "hash": "821fe332498c5a36f0db0289cd3d0313117c0f066beba7a34d32ab10dcaf3ed4"
+  "date": "2026-11-13",
+  "hash": "55ee5a31cc6be5e961f0c1d949a3ff7ba5f794cee49af2047f32d2d17e399575"
  },
  "sojingong.html": {
   "date": "2026-11-01",

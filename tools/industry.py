@@ -15,11 +15,18 @@ TODAY = build_date()   # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul �
 ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 원장이 바뀐 날
 
 INDUSTRIES = [
-    # slug, 타일 이름, 검색 질문(h1·title), 랜딩 생성 여부, 업종 열 키워드
+    # slug, 타일 이름, 검색 질문(h1·title), 랜딩 생성 여부, 업종 열 키워드 — 위에서부터 첫 매칭이라 좁은 업종을 넓은 업종(제조·도소매)보다 위에 둔다
     dict(slug='online-shoppingmall', name='온라인쇼핑몰', question='온라인쇼핑몰 정책자금, 받을 수 있나요?', landing=True, place='쇼핑몰', keys=('이커머스', '온라인 도소매', '쇼핑몰', '스마트스토어')),
     dict(slug='eumsikjeom', name='음식점·카페', question='음식점·카페 정책자금, 받을 수 있나요?', landing=True, place='가게', keys=('음식', '카페', '베이커리', '요식', '식당', '주점')),
-    dict(slug='geonseol', name='건설·인테리어', question='건설·인테리어 정책자금, 받을 수 있나요?', landing=False, keys=('건설', '인테리어')),
-    dict(slug='miyong', name='미용·서비스', question='미용·서비스업 정책자금, 받을 수 있나요?', landing=False, keys=('뷰티', '미용', '헤어', '네일', '피부'), exact=('서비스업',)),
+    dict(slug='geonseol', name='건설·인테리어', question='건설·인테리어 정책자금, 받을 수 있나요?', landing=True, place='현장', keys=('건설', '인테리어')),
+    dict(slug='miyong', name='미용·서비스', question='미용·서비스업 정책자금, 받을 수 있나요?', landing=True, place='매장', keys=('뷰티', '미용', '헤어', '네일', '피부'), exact=('서비스업',)),
+    # 2026-11-13 경쟁사 업종 페이지 대응(대표 "따라할 것은 전부") — 원장 업종 열에서 10건 이상 모이는 업종만 연다
+    dict(slug='gyoyuk', name='교육서비스', question='교육서비스업 정책자금, 받을 수 있나요?', landing=True, place='학원', keys=('교육',)),
+    dict(slug='mullyu', name='물류·운송', question='물류·운송업 정책자금, 받을 수 있나요?', landing=True, place='회사', keys=('물류', '운송')),
+    dict(slug='it', name='IT·소프트웨어', question='IT·소프트웨어 기업 정책자금, 받을 수 있나요?', landing=True, place='회사', keys=('소프트웨어', 'AI', '플랫폼', '핀테크', '솔루션')),
+    dict(slug='sikpum', name='식품 제조·유통', question='식품 제조·유통 정책자금, 받을 수 있나요?', landing=True, place='공장', keys=('식품',)),
+    dict(slug='hwajangpum', name='화장품', question='화장품 제조·수출 기업 정책자금, 받을 수 있나요?', landing=True, place='회사', keys=('화장품',)),
+    dict(slug='bio', name='바이오·의료기기', question='바이오·의료기기 기업 정책자금, 받을 수 있나요?', landing=True, place='회사', keys=('바이오', '의료기기')),
     dict(slug='dosomae', name='도소매·유통', question='도소매·유통 정책자금, 받을 수 있나요?', landing=True, place='매장', keys=('도소매', '소매', '유통')),
     dict(slug='jejo', name='제조업', question='제조업 정책자금, 받을 수 있나요?', landing=True, place='공장', keys=('제조', '가공', '설비', '장비')),
 ]
@@ -131,7 +138,7 @@ def landing_html(ind, rows, all_n, period):
 </section>
 <main>
   <div class="wrap">
-    <p>받은 사례 원장({period})에서 업종이 {ind['name']}인 건만 골라 모았습니다.</p>
+    <p>받은 사례 원장({period})에서 업종이 {ind['name']}인 건만 골라 모았습니다. {mix_sentence(rows)}</p>
     <div class="cards">
       <div class="card"><b>{n}건</b><span>{ind['name']} 받은 사례 (전체 {all_n}건 중)</span></div>
       <div class="card"><b>{won2(total)}</b><span>받은 금액 합계</span></div>
@@ -158,6 +165,18 @@ def landing_html(ind, rows, all_n, period):
 </body>
 </html>
 '''
+
+
+def mix_sentence(rows):
+    """업종마다 다른 한 문장 — 어느 기관을 많이 거쳤는지(원장에서 센다, 판정 기준은 쓰지 않는다)."""
+    from collections import Counter
+    inst = Counter(r['기관'].strip() for r in rows if r['기관'].strip()).most_common(2)
+    if not inst:
+        return ''
+    head = f"이 업종 사례에서 가장 많이 거친 기관은 {esc(inst[0][0])}({inst[0][1]}건)"
+    if len(inst) > 1:
+        head += f", 다음이 {esc(inst[1][0])}({inst[1][1]}건)"
+    return head + "입니다. 같은 업종이라도 업력·매출·기존 대출에 따라 순서가 달라집니다."
 
 
 def tiles_html(groups):
