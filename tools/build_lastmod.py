@@ -190,6 +190,16 @@ def stamp_jsonld(s, date):
     return s.replace('</head>', block + '</head>', 1)
 
 
+POLISH = '<link rel="stylesheet" href="/assets/polish.css">'
+
+
+def stamp_polish(s, key):
+    """세부 페이지 공통 다듬기 CSS(2026-11-13) — 홈을 뺀 모든 페이지 <head> 끝에 한 번. 본문 해시와 무관하다."""
+    if key == 'index.html' or '/assets/polish.css' in s or '</head>' not in s:
+        return s
+    return s.replace('</head>', POLISH + '\n</head>', 1)
+
+
 def stamp_reviewed(s):
     """본문에 검토자 바이라인('검토 김상표(대표) · 최종 확인 …')이 있으면 같은 날짜로 reviewedBy JSON-LD 를 단다.
     바이라인이 없으면 블록도 없앤다 — 본문 표기와 구조화 데이터가 어긋나지 않게(tools/reviewer.py, 2026-10-04)."""
@@ -266,7 +276,7 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_assets(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date)))
+        s = stamp_assets(stamp_polish(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date)), key))
         s = trust_copy.stamp_org(trust_copy.stamp_footer_trust(s, n_cases, n_ev))
         if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')

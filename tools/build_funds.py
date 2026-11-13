@@ -648,16 +648,33 @@ def build():
     for cat in ('직접대출','대리대출','기타'):
         group=sorted(((d, *schedule_status(d)) for d in F if cat_of(d)==cat), key=lambda x:(order[x[1]], x[3], x[0]['자금명']))
         if not group: continue
-        rows="".join(f'<tr><td><a href="/{d["자금ID"]}"><b>{esc(d["자금명"])}</b></a></td><td>{esc(d["기관"])}</td><td><span class="badge b-{cls}" style="margin:0"{sched_attrs(st, pt, pc)}>{esc(txt)}</span></td><td>{esc(d["다음 회차 메모"]) or "—"}</td><td>{esc(d["최종 확인일"])}</td><td><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></td></tr>' for d,cls,txt,_,st,pt,pc in group)
-        sch_rows+=f'<h2>{cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n<div class="tablewrap"><table><thead><tr><th>자금</th><th>기관</th><th>상태</th><th>메모</th><th>자료 확인일</th><th>출처</th></tr></thead><tbody>{rows}</tbody></table></div>\n'
+        rows="".join(f'<article class="sch-card"><div class="sch-top"><a class="sch-name" href="/{d["자금ID"]}">{esc(d["자금명"])}</a><span class="badge b-{cls}" style="margin:0"{sched_attrs(st, pt, pc)}>{esc(txt)}</span></div><p class="sch-memo">{esc(d["다음 회차 메모"]) or "회차 공고 확인 필요"}</p><p class="sch-meta"><span>{esc(d["기관"])}</span><span>자료 확인 {esc(d["최종 확인일"])}</span><a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))}</a></p></article>' for d,cls,txt,_,st,pt,pc in group)
+        sch_rows+=f'<h2>소진공 {cat} ({len(group)})</h2>\n<p>{CAT_DESC[cat]}</p>\n<div class="sch-cards">{rows}</div>\n'
+    # 소진공 밖 기관(2026-11-13 대표 "소진공만 나와있고 중진공 같은 건 내용도 없어") — 회차형이 아니라 연초 공고·연중 신청이라 카드 문장으로 둔다
+    OTHER = [
+        ('/jungjingong', '중진공 정책자금', '중소벤처기업진흥공단', 'soon', '2027년 공고 대기',
+         '2026년은 1월 5일 접수 시작(서울·지방 기업 1월 5~6일, 인천·경기 기업 1월 7~8일). 2027년 일정은 12월 말 운용계획 공고 뒤 확정됩니다.',
+         'https://www.newspim.com/news/view/20260102000260', '2026년 접수 발표'),
+        ('/sinbo', '신용보증기금 보증', '신용보증기금', 'check', '연중 신청 · 특례는 별도 공고',
+         '일반 보증은 연중 영업점·온라인으로 상담 후 신청합니다. 예산이 정해진 특례보증은 공고 기간 안에만 받습니다.',
+         'https://www.kodit.co.kr', '신보 안내'),
+        ('/gibo', '기술보증기금 보증', '기술보증기금', 'check', '연중 신청 · 특례는 별도 공고',
+         '기술평가 보증은 연중 신청합니다. 창업·혁신 특례 프로그램은 각각의 공고 기간을 따릅니다.',
+         'https://www.kibo.or.kr', '기보 안내'),
+        ('/jaedan', '지역신용보증재단 보증', '17개 지역신용보증재단', 'check', '연중 신청 · 지자체 자금은 공고별',
+         '재단 보증은 연중 신청합니다. 지자체 육성자금·이차보전은 지자체마다 연초·반기 공고로 열리고 예산이 떨어지면 닫힙니다.',
+         'https://www.koreg.or.kr', '신용보증재단중앙회'),
+    ]
+    other_cards="".join(f'<article class="sch-card"><div class="sch-top"><a class="sch-name" href="{h}">{n}</a><span class="badge b-{c}" style="margin:0">{t}</span></div><p class="sch-memo">{m}</p><p class="sch-meta"><span>{inst}</span><span>자료 확인 2026-11-13</span><a href="{u}" target="_blank" rel="noopener">{ul}</a></p></article>' for h,n,inst,c,t,m,u,ul in OTHER)
+    sch_rows=(f'<h2>중진공·보증기관 ({len(OTHER)})</h2>\n<p>중소기업 정책자금과 보증은 분기 회차가 아니라 연초 공고와 연중 신청으로 움직입니다. 새해 접수 준비는 <a href="/2027-jeongchaekjageum">2027년 1월 접수 전에 준비할 것</a>에 정리했습니다.</p>\n<div class="sch-cards">{other_cards}</div>\n') + sch_rows
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 접수 일정","item":"https://bmaker.kr/schedule"}]}, ensure_ascii=False)
     sch=f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정책자금 접수 일정 2026 — 공고상 신청 기간·확인일 | 비즈니스 메이커</title>
-<meta name="description" content="소상공인·중소기업 정책자금의 공고상 신청 기간과 자료 확인일을 정리합니다. 기관의 현재 접수 여부와 잔여 예산은 신청 전 최신 공고에서 확인하세요.">
+<title>정책자금 접수 일정 2026 — 중진공·소진공·보증기관 신청 기간 | 비즈니스 메이커</title>
+<meta name="description" content="중진공·소진공·신보·기보·지역신용보증재단 정책자금의 공고상 신청 기간과 자료 확인일을 정리합니다. 기관의 현재 접수 여부와 잔여 예산은 신청 전 최신 공고에서 확인하세요.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="정책자금 접수 일정 — 공고상 신청 기간·확인일">
 <meta property="og:description" content="공고상 일정과 자료 확인일 안내. 현재 접수 여부·잔여 예산은 기관 확인이 필요합니다.">
@@ -679,7 +696,7 @@ def build():
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 접수 일정</p>
     <h1 class="serif">정책자금 접수 일정</h1>
-    <p>예정 일정은 날짜 기준으로 계산합니다. 기관의 실시간 접수·예산 상태를 자동 확인하는 것은 아닙니다. 신청 전 기관 안내의 최신 공고를 확인해 주세요.</p>
+    <p>중진공·보증기관은 연초 공고와 연중 신청, 소진공은 분기 회차로 열립니다. 기관의 실시간 접수·예산 상태를 자동 확인하는 것은 아니니 신청 전 최신 공고를 확인해 주세요.</p>
   </div>
 </section>
 <main>

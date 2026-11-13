@@ -91,7 +91,7 @@ def _badges(browser, site, at):
         text: el.textContent.trim(),
     }))""")
     observed = page.evaluate(
-        """() => [...document.querySelectorAll('td .badge:not([data-sched-start])')].map(el => el.textContent.trim())""")
+        """() => [...document.querySelectorAll('.sch-card .badge:not([data-sched-start])')].map(el => el.textContent.trim())""")
     context.close()
     return out, observed
 

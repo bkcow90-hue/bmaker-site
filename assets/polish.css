@@ -1,0 +1,80 @@
+/* 세부 페이지 공통 다듬기 (2026-11-13 대표 "세부페이지들 너무 구려, 일러스트 느낌으로")
+   홈(index.html)을 뺀 모든 페이지에 build_lastmod 가 <head> 끝에 붙인다 — 페이지마다 복사된 <style> 뒤라 같은 선택자면 이쪽이 이긴다.
+   방향: 공고문 위에 손으로 그린 선. 히어로에 페이지 성격별 선화 1장, 소제목 아래 형광펜 한 줄. 나머지는 조용하게. */
+:root{--ink-navy:#14234A;--mist:#F1F5FB;--rule:#DCE3EE;--hl:#FFD54A;--ok:#1F7A55;--warn:#9A6412}
+
+/* 히어로 — 오른쪽에 선화. 글은 왼쪽 60% 안에 */
+.hero{position:relative;overflow:hidden;background:var(--navy,#0E1B33) radial-gradient(circle at 1px 1px,rgba(255,255,255,.07) 1px,transparent 1.4px) 0 0/22px 22px}
+.hero .wrap{position:relative;z-index:1}
+.hero::after{content:"";position:absolute;right:max(24px,calc(50% - 560px));bottom:-6px;width:300px;height:232px;background:url(/assets/illust/document.svg) no-repeat center/contain;opacity:.95;pointer-events:none}
+html:has(link[rel=canonical][href$="/schedule"]) .hero::after,
+html:has(link[rel=canonical][href*="/2026-4q"]) .hero::after,
+html:has(link[rel=canonical][href*="/2027-"]) .hero::after{background-image:url(/assets/illust/calendar.svg)}
+html:has(link[rel=canonical][href*="/industry/"]) .hero::after{background-image:url(/assets/illust/shop.svg)}
+html:has(link[rel=canonical][href*="/jaedan"]) .hero::after,
+html:has(link[rel=canonical][href*="/region"]) .hero::after,
+html:has(link[rel=canonical][href$="/sinbo"]) .hero::after,
+html:has(link[rel=canonical][href$="/gibo"]) .hero::after,
+html:has(link[rel=canonical][href$="/bojeung"]) .hero::after,
+html:has(link[rel=canonical][href$="/sojingong"]) .hero::after,
+html:has(link[rel=canonical][href$="/jungjingong"]) .hero::after{background-image:url(/assets/illust/building.svg)}
+html:has(link[rel=canonical][href$="/cases"]) .hero::after,
+html:has(link[rel=canonical][href$="/stats"]) .hero::after{background-image:url(/assets/illust/folder.svg)}
+@media(min-width:900px){.hero h1,.hero>.wrap>p{max-width:calc(100% - 300px)}}
+@media(max-width:899px){.hero::after{width:150px;height:116px;right:12px;bottom:-4px;opacity:.5}}
+@media(max-width:600px){.hero{padding-bottom:96px!important}.hero::after{width:104px;height:80px;right:14px;bottom:6px;opacity:.9}}
+
+/* 소제목 — 형광펜 한 줄 */
+main h2{position:relative;padding-bottom:10px;letter-spacing:-.01em}
+main h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 8'%3E%3Cpath d='M2 5c10-3 20-3 30-1s20 2 30-1' stroke='%23FFD54A' stroke-width='3.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat}
+
+/* 표 — 무거운 남색 머리 대신 옅은 머리, 둥근 틀 */
+.tablewrap{border:1px solid var(--rule)!important;border-radius:14px!important;background:#fff;box-shadow:0 1px 0 var(--rule)}
+.tablewrap th{background:var(--mist)!important;color:var(--ink-navy)!important;font-weight:700;border-bottom:1px solid var(--rule)}
+.tablewrap td{border-top:1px solid #EDF1F7!important}
+.tablewrap tr:nth-child(even) td{background:#fff!important}
+.tablewrap tbody tr:hover td{background:#FAFBFE!important}
+
+/* 상태 배지 — 늘어나지 않는 알약, 앞에 점 */
+.badge{display:inline-flex!important;align-items:center;gap:6px;width:auto!important;max-width:100%;white-space:normal;border-radius:999px!important;padding:4px 11px 4px 9px!important;font-size:.8rem!important;line-height:1.45;font-weight:700}
+.badge::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.75}
+td .badge{white-space:nowrap}
+
+/* 안내 상자 — 메모지에 테이프 */
+.wrap .callout{position:relative;background:#FFFCF0;border:1px solid #F1E3B0;border-left:1px solid #F1E3B0;border-radius:4px 14px 14px 14px;padding:22px 24px 20px}
+.wrap .callout::before{content:"";position:absolute;top:-9px;left:22px;width:58px;height:18px;background:rgba(255,213,74,.75);transform:rotate(-3deg);border-radius:2px}
+
+/* 함께 보기 — 칩 */
+.related{border-top:1px dashed var(--rule);padding-top:20px;margin-top:36px}
+.related .t{font-weight:700;color:var(--ink-navy)}
+.related a{display:inline-block;background:var(--mist);border:1px solid var(--rule);border-radius:999px;padding:6px 14px;margin:0 6px 8px 0;font-size:.88rem;color:var(--ink-navy);text-decoration:none}
+.related a:hover{background:#fff;border-color:var(--ink-navy)}
+
+/* 질문 — 펼친 칸은 왼쪽 선 */
+main details{border-radius:12px;transition:border-color .15s}
+main details[open]{border-color:var(--ink-navy);box-shadow:inset 3px 0 0 var(--hl)}
+
+/* 마지막 안내 상자 — 오른쪽 아래 선화 */
+.cta-box{position:relative;overflow:hidden}
+.cta-box::after{content:"";position:absolute;right:-18px;bottom:-22px;width:150px;height:116px;background:url(/assets/illust/document.svg) no-repeat center/contain;opacity:.22;pointer-events:none}
+.cta-box>*{position:relative;z-index:1}
+
+/* 기준일 줄 */
+.asof{border-left:3px solid var(--hl);padding-left:12px}
+
+@media(prefers-reduced-motion:reduce){main details{transition:none}}
+
+/* 접수 일정 카드(/schedule) — 표 대신 자금별 한 장 */
+.sch-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:18px 0 8px}
+.sch-card{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px}
+.sch-card:hover{border-color:var(--ink-navy)}
+.sch-top{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.sch-name{font-family:'Noto Serif KR',serif;font-weight:700;font-size:1.05rem;color:var(--ink-navy);text-decoration:none;line-height:1.4}
+.sch-name:hover{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px}
+main .sch-memo{margin:0;font-size:.88rem;color:#4A5468;line-height:1.65;flex:1}
+main .sch-meta{margin:0;padding-top:10px;border-top:1px dashed var(--rule);display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.78rem;color:#7A8499}
+.sch-meta a{color:var(--blue-deep,#1E44B8);text-decoration:underline}
+.sch-card .badge.b-open{background:#E6F4EC;color:var(--ok)}
+.sch-card .badge.b-soon{background:#E8EEFC;color:#1E44B8}
+.sch-card .badge.b-check{background:#FFF6DB;color:var(--warn)}
+.sch-card .badge.b-closed{background:#EEF0F4;color:#6A7385}

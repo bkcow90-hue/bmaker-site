@@ -7,7 +7,7 @@ def _funds():
         return [d for d in csv.DictReader(f) if (d.get("사이트 공개") or "").strip().upper()=="Y"]
 def test_fund_pages_and_schedule_align():
     F=_funds(); sch=(ROOT/"schedule.html").read_text(encoding="utf-8")
-    assert sch.count("<tr><td><a href=") == len(F) >= 1
+    assert sch.count('<article class="sch-card"><div class="sch-top"><a class="sch-name" href="/') == len(F) + 4 >= 5  # 소진공 자금 + 중진공·보증기관 4장(2026-11-13)
     for d in F:
         p=ROOT/(d["자금ID"]+".html")
         assert p.exists(), d["자금ID"]
