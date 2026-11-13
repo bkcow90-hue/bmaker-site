@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-13",
-  "hash": "ece82efd6130b149d9226f6cbfe1dc9a565d51529830e1e82ce04abbb4c97f0e"
+  "date": "2026-11-14",
+  "hash": "27746034a1ae7f38736974cab2cf0bcf4b0817ef8a78203c9dd9c00ff6aecfcf"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -64,8 +64,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-13",
-  "hash": "88ac460e830d4f63a7795524703ecd4e9ebcd99ece9d649139143228f64a0d79"
+  "date": "2026-11-14",
+  "hash": "6040ec9f95aeedd701426870298b490b5be5dfddb25b71ab2827711c43a7be74"
  },
  "blog/category/news.html": {
   "date": "2026-11-02",
@@ -118,6 +118,10 @@
  "blog/homeplus-direct-loan-repayment-deferral.html": {
   "date": "2026-11-10",
   "hash": "a373c03f8827b5b703c78983d55feeac65d5cbb119fa10d97d52f01027c3dc58"
+ },
+ "blog/innobiz-site-visit-prep.html": {
+  "date": "2026-11-14",
+  "hash": "397bbc87b589fc366cac31ed863c233d4451213dd0da58e8d4b291650509488a"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
   "date": "2026-11-10",
@@ -224,8 +228,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-13",
-  "hash": "feb3c8bce4a0ca846b1799901de016801657d7ae84594b0f909354c16efb3463"
+  "date": "2026-11-14",
+  "hash": "39a4249dc5437df19597e8d166cd5fd41b46fa6cca814852caa45809fd3c4086"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -316,8 +320,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-13",
-  "hash": "86bd9b3eaf358fca6d14ff75805bbe7aa93887fce72bae7ecf1d9d1b353ff957"
+  "date": "2026-11-14",
+  "hash": "090c2ffccccfff3fd17438dd1c00b27e5d0cb06fe5dc483979ffed9e0401fc3c"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
