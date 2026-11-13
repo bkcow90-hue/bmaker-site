@@ -1,10 +1,10 @@
 ---
-title: "정책자금 서류 보완 요청을 받았을 때 정리하는 방법"
+title: "정책자금 서류보완·보완요청을 받았을 때 정리하는 순서"
 date: 2026-09-21
 updated: 2026-09-21
 category: guide
 summary: "정책자금 신청 후 보완 요청을 받은 경우 요청 문구·자료·담당자·기한을 정리하고 제출 전 확인할 항목을 안내합니다."
-tags: [서류 보완, 심사]
+tags: [서류보완, 보완요청, 서류 보완, 심사]
 image: /assets/og.png
 draft: false
 wp_url: https://blog.bmaker.kr/application-supplement-log/
