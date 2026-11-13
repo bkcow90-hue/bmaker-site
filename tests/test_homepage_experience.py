@@ -126,7 +126,7 @@ class HomepageExperienceTests(unittest.TestCase):
         return out
 
     def test_hero_heading_is_next_choice_copy_with_single_cta(self):
-        self.assertEqual(" ".join(self.hero_heading_lines), "소상공인·중소기업 정책자금, 신청 조건부터 확인해 드립니다.")
+        self.assertEqual(" ".join(self.hero_heading_lines), "정책자금은 어디서 받느냐보다 어떤 순서로 받느냐입니다.")
         hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())
         ctas = [e for e in self._inside_hero("a")]
         self.assertEqual([" ".join(a["text"].split()) for a in ctas], ["무료 진단 신청"])
