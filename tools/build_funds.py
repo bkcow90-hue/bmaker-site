@@ -683,16 +683,16 @@ def build():
         if len(top)==2: line+=f'. {min(top)}월·{max(top)}월에 가장 많이 받았습니다'
         return line+'.'
     OTHER = [
-        ('/jungjingong', '중진공 정책자금', lambda k: '진흥공단' in k and '소상공인' not in k, 'soon', '2027년 공고 대기',
+        ('/jungjingong', '중진공 정책자금', lambda k: inst_evidence.classify(k) == '중진공', 'soon', '2027년 공고 대기',
          '연초에 한 번 크게 열립니다. 2026년은 1월 5일 시작(서울·지방 1월 5~6일, 인천·경기 1월 7~8일).',
          'https://www.newspim.com/news/view/20260102000260', '2026년 접수 발표'),
-        ('/sinbo', '신용보증기금', lambda k: k.startswith('신용보증기금'), 'check', '연중 신청',
+        ('/sinbo', '신용보증기금', lambda k: inst_evidence.classify(k) == '신보', 'check', '연중 신청',
          '일반 보증은 연중 상담 후 신청합니다. 특례보증만 공고 기간이 따로 있습니다.',
          'https://www.kodit.co.kr', '신보 누리집'),
-        ('/gibo', '기술보증기금', lambda k: k.startswith('기술보증기금'), 'check', '연중 신청',
+        ('/gibo', '기술보증기금', lambda k: inst_evidence.classify(k) == '기보', 'check', '연중 신청',
          '기술평가 보증은 연중 신청합니다. 창업·혁신 특례는 공고마다 기간이 있습니다.',
          'https://www.kibo.or.kr', '기보 누리집'),
-        ('/jaedan', '지역신용보증재단', lambda k: '재단' in k, 'check', '연중 신청 · 지자체 자금은 공고별',
+        ('/jaedan', '지역신용보증재단', lambda k: inst_evidence.classify(k) == '재단', 'check', '연중 신청 · 지자체 자금은 공고별',
          '보증은 연중입니다. 지자체 육성자금은 연초·하반기 공고로 열리고 예산이 떨어지면 닫힙니다.',
          'https://www.koreg.or.kr', '신용보증재단중앙회'),
     ]
@@ -790,5 +790,8 @@ def build():
     (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
     print(f"[자금 빌드 OK] {len(F)}개 자금 페이지 + schedule.html 생성 (기준일 {TODAY})")
 
+import inst_evidence  # 보증기관 페이지 받은 사례 블록(2026-11-14)
+
 if __name__=='__main__':
     build()
+    inst_evidence.apply()

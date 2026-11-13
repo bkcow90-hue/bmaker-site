@@ -135,3 +135,18 @@ main .sch-meta{margin:auto 0 0;padding-top:10px;border-top:1px solid #EDF1F7;dis
 .nav-drop-menu .nav-drop-h{margin:0 0 4px;padding:6px 10px 2px;font-size:.74rem;font-weight:700;color:#7A8499;letter-spacing:0}
 @media(min-width:841px){.nav-drop[open] .nav-drop-menu{display:grid!important;grid-template-columns:repeat(3,minmax(150px,1fr));gap:4px 10px;min-width:560px;padding:12px}}
 @media(max-width:840px){.nav-drop-menu .nav-drop-h{padding:12px 28px 4px}.nav-drop-col{border-bottom:1px solid #EEF1F6}}
+
+/* 보증기관 받은 사례 블록(/sinbo·/gibo, tools/inst_evidence.py) */
+.ie-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.ie-stats div{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+.ie-stats b{display:block;font-size:1.15rem;color:var(--ink-navy)}
+.ie-stats span{font-size:.8rem;color:#6A7385}
+.ie-who{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:22px;margin:8px 0 22px}
+main .ie-h{font-weight:700;color:var(--ink-navy);margin:0 0 8px;font-size:.92rem}
+.ie-bars{list-style:none;margin:0;padding:0}
+.ie-bars li{display:grid;grid-template-columns:minmax(72px,auto) 1fr 44px;align-items:center;gap:8px;font-size:.84rem;padding:4px 0}
+.ie-k{color:#3E475A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ie-bar{height:8px;background:var(--mist);border-radius:4px;overflow:hidden}
+.ie-bar i{display:block;height:100%;background:#2E4A86;border-radius:4px}
+.ie-v{text-align:right;color:#6A7385;font-size:.8rem}
+@media(max-width:760px){.ie-stats{grid-template-columns:1fr 1fr}.ie-who{grid-template-columns:1fr;gap:16px}}
