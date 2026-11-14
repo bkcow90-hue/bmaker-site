@@ -630,7 +630,9 @@ def build_index(posts, cats, style, hdr, foot, category=None):
             ("blogPost" if not category else "hasPart"): [
                 {"@type": "BlogPosting", "headline": p['title'], "url": f"{SITE}/blog/{p['slug']}",
                  "datePublished": p['date']} for p in mine]}]
-    page = head(title, desc, url, 'website', lds, style) + hdr + '\n<main>\n'
+    # 2026-11-14 claude-seo 진단 M1: 짧은 title(30자 미만) 보강 — 화면 h1 은 그대로 두고 <title> 만 길게.
+    seo_title = {None: '정책자금 실무 블로그, 신청 준비·지원정보·공고 소식', 'news': '정책자금 소식, 공고·협약·제도 변경 — 정책자금 실무 블로그'}.get(category, title)
+    page = head(seo_title, desc, url, 'website', lds, style) + hdr + '\n<main>\n'
     if category is None or service == 'startup':
         page = page.replace('</head>', STARTUP_CSS + '</head>')
     page = page.replace('<body data-service="policy">', f'<body data-service="{service}">')
