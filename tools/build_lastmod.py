@@ -27,6 +27,7 @@ from builddate import build_date
 from reviewer import BYLINE_RE, reviewed_ld
 import sync_inline_form_js
 import trust_copy
+import noindex
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / 'data' / 'page-updated.json'
@@ -285,7 +286,7 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_assets(stamp_polish(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(s0, date), date))), key))
+        s = stamp_assets(stamp_polish(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(noindex.stamp(s0, key), date), date))), key))
         s = trust_copy.stamp_org(trust_copy.stamp_footer_trust(s, n_cases, n_ev))
         if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')
@@ -298,6 +299,7 @@ def main():
             p.write_text(stamp_assets(s0), encoding='utf-8')
             touched.append(p.name)
     REG.write_text(json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + '\n', encoding='utf-8')
+    SITEMAP.write_text(noindex.strip_sitemap(SITEMAP.read_text(encoding='utf-8')), encoding='utf-8')
     sm_changed, unknown = stamp_sitemap({k: v['date'] for k, v in out.items()})
     print(f"[갱신일 스탬프 OK] {len(out)}개 페이지 (수정 {len(touched)}개, 신규 seed {len(seeded)}개, "
           f"sitemap {'갱신' if sm_changed else '그대로'}, 원장 빌드일 {led}, 오늘 {TODAY})"

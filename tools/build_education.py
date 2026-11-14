@@ -3,6 +3,7 @@ from pathlib import Path
 import html
 import json
 import re
+import noindex
 
 ROOT = Path(__file__).resolve().parents[1]
 FAQ = [
@@ -31,7 +32,7 @@ def render_programs(programs, table=False):
 
 
 def main():
-    shell = (ROOT / 'marketing.html').read_text(encoding='utf-8')
+    shell = noindex.strip((ROOT / 'marketing.html').read_text(encoding='utf-8'))
     programs = json.loads((ROOT / 'docs/education-programs.json').read_text(encoding='utf-8'))
     for slug, title, description in [
         ('education', '소상공인·중소기업 정책자금 교육·출강 | 비즈니스 메이커', '소상공인·중소기업·법인 대표와 재무·회계·총무 담당자를 위한 정책자금 준비 교육. 60분 입문, 90분 기업 자금계획, 120분 실무 워크숍과 기업·단체 맞춤 출강을 안내합니다.'),
