@@ -5,6 +5,7 @@ import json
 import re
 import csv
 from builddate import build_date
+import noindex
 from startup_page import build as build_startup
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -105,7 +106,7 @@ def main():
     page = re.sub(r'<script type="application/ld\+json">(.*?)</script>', repayment_schema, page, flags=re.S)
     path.write_text(page, encoding='utf-8')
     shell = re.sub(r'<link rel="stylesheet" href="/assets/editorial\.css(?:\?v=[0-9a-f]+)?">', '',
-                   (ROOT / 'marketing.html').read_text(encoding='utf-8'))
+                   noindex.strip((ROOT / 'marketing.html').read_text(encoding='utf-8')))
     for item in ITEMS:
         path = ROOT / (item['slug'] + '.html')
         url = 'https://bmaker.kr/' + item['slug']
@@ -157,7 +158,7 @@ def main():
             page = re.sub(r'<div class="sticky".*?</div>', lambda _: bar, page, flags=re.S)
         path.write_text(stylesheet(page), encoding='utf-8')
 
-    for slug, selection in [('business-guide', ITEMS), ('marketing', [x for x in ITEMS if x['service'] == 'marketing']), ('startup', [x for x in ITEMS if x['service'] == 'startup' and x['new']]), ('funding', ITEMS[:5])]:
+    for slug, selection in [('business-guide', [x for x in ITEMS if x['slug'] not in noindex.NOINDEX]), ('marketing', [x for x in ITEMS if x['service'] == 'marketing']), ('startup', [x for x in ITEMS if x['service'] == 'startup' and x['new']]), ('funding', [x for x in ITEMS if x['slug'] not in noindex.NOINDEX][:5])]:
         path = ROOT / (slug + '.html')
         page = replace_block(path.read_text(encoding='utf-8'), 'editorial-links', cards(selection))
         path.write_text(stylesheet(page), encoding='utf-8')
@@ -190,6 +191,8 @@ def main():
     path = ROOT / 'sitemap.xml'
     sitemap = path.read_text(encoding='utf-8')
     for item in ITEMS:
+        if item['slug'] in noindex.NOINDEX:
+            continue
         url = 'https://bmaker.kr/' + item['slug']
         if '<loc>' + url + '</loc>' not in sitemap:
             sitemap = sitemap.replace('</urlset>', f'<url><loc>{url}</loc></url>\n</urlset>')

@@ -136,3 +136,7 @@ GSC 3개월(2026-08-14~11-13): 클릭 204 · 노출 1.08만 · CTR 1.9% · 평�
 손대지 않은 것(측정 중): /hyeoksin(231·6.3) · /cheongnyeon(201·9.2) · /sinyongchwiyak(73·10.5) · /startup · /bojeung — 11-09 title 교체, 12-07 판정. 도시 페이지(창원 대출 202·9.1 등) — 11-09 title 템플릿, 12-07 판정.
 측정 오염 기록: PR #114(11-14)에서 /sinbo·/gibo·/bojeung 본문의 한 건짜리 사례 표를 원장 집계 블록으로 바꾸고 /sinbo description 을 사례 건수로 바꿨다(대표 지시). 이 세 장의 11-01·11-09·11-10 변경 효과는 12월 판정에서 따로 떼어 보지 못한다.
 자동화: 매주 월요일 검색어 루프 예약 작업(대표 PC 크롬·브라우저로 GSC·자동완성 수집 → 이 표 갱신·대기열 추가 PR).
+
+### 마케팅 4장 색인 제외 (2026-11-14, 브랜치 seo/drop-marketing)
+
+/marketing·/viral-marketing-guide·/online-ad-guide·/blog-marketing-cost → noindex,follow, sitemap 에서 뺌. GSC 3개월 이 페이지 검색어 클릭 0(블로그작성비용 노출 11 등). 기대 효과는 작다 — 주제 집중(정책자금 전문 사이트 신호)과 크롤 예산 정리. 판정: 12-12 에 Search Console "색인 생성됨, noindex 로 제외" 4건 확인, 주력 페이지 노출 추이 비교. /startup-consulting-cost 는 유지.
