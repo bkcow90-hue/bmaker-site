@@ -140,3 +140,21 @@ GSC 3개월(2026-08-14~11-13): 클릭 204 · 노출 1.08만 · CTR 1.9% · 평�
 ### 마케팅 4장 색인 제외 (2026-11-14, 브랜치 seo/drop-marketing)
 
 /marketing·/viral-marketing-guide·/online-ad-guide·/blog-marketing-cost → noindex,follow, sitemap 에서 뺌. GSC 3개월 이 페이지 검색어 클릭 0(블로그작성비용 노출 11 등). 기대 효과는 작다 — 주제 집중(정책자금 전문 사이트 신호)과 크롤 예산 정리. 판정: 12-12 에 Search Console "색인 생성됨, noindex 로 제외" 4건 확인, 주력 페이지 노출 추이 비교. /startup-consulting-cost 는 유지.
+
+### claude-seo 진단 1회차 적용 (2026-11-14, seo/claude-seo-audit-fixes-1114)
+
+진단: claude-seo 2.6.0 `/seo audit` 방식, 종합 82점·급함 0건(보고서는 대표에게 전달, 저장소 밖). 적용한 것과 4주 뒤(12-12) 볼 것:
+
+| 항목 | 변경 전 | 바꾼 것 | 12-12 확인 |
+| --- | --- | --- | --- |
+| H1 /jaedan-* 17장 | "서울신용보증재단 소상공인 대출" 28회·9.7위·클릭 0, "사업자 대출" 23회·7.1위·0 | title `{재단명} 소상공인 대출·사업자대출, {꼬리}`, description·첫 문단 직답, 조사(이라면/라면) 교정 | 두 검색어 클릭 |
+| H2 /sangsaeng | 31회·7.0위·0, 대상·한도 공란 | 유형(일반·성장·도약)별 대상·한도·4분기 금리 표(생활법령·소진공 출처) | 노출·순위 |
+| H3 홈 | 모바일 77점, LCP 5.6초 | 히어로 이미지 preload 를 head 맨 앞으로, home-trust.css 비차단 로드 | PageSpeed 재측정 |
+| M1 | 30자 미만 title 5장 | /work·/business-guide·/blog·/blog/category/news·/blog/about-editorial title 보강 | — |
+| M2 /faq | 178단어 | 질문 6→10(개인·법인 창구, 대출·지원금 차이, 기간, 착수금) | — |
+| M6 robots.txt | Content-Signal 이 * 그룹에만 | AI 크롤러 9개 그룹마다 반복 | — |
+| L1 | 로고 이미지 크기 미지정 18장 | width·height 지정 | — |
+
+보류: /jangaein 설명문(12-07 동결), /region/changwon title 길이(측정 중), 사례 첫 이미지 지연 로딩(LCP 아님 — 해당 없음 판정), 삭제 글 410(선택), LocalBusiness 구조화 데이터(다음 회차).
+확인 필요(대표): 자금 시트의 상생성장지원자금 금리 칸이 "연4.25%"(8-30 확인) — 소진공 4분기 표기는 연 4.52%. 시트에서 고쳐야 다음 동기화 때 덮이지 않는다.
+

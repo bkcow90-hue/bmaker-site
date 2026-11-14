@@ -1,5 +1,5 @@
 ---
-title: "운영자와 편집 기준"
+title: "운영자와 편집 기준, 블로그 글은 누가 어떻게 쓰나"
 date: 2026-09-21
 updated: 2026-09-22
 category: guide

@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- LCP(히어로 배경) 이미지를 head 맨 앞에서 미리 받는다 — 2026-11-14 claude-seo 진단 H3 -->
+<link rel="preload" as="image" href="/assets/video/hero-poster-m.webp" media="(max-width: 600px)" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/video/hero-poster.webp" media="(min-width: 601px)" fetchpriority="high">
 <meta name="google-site-verification" content="pYFQ0bCzJK6oCwZgeb2HImwBh26bOLuSZGSItBM0k-I" />
 <title>소상공인·중소기업 정책자금 컨설팅, 받은 사례 공개 | 비즈니스 메이커</title>
 <meta name="description" content="소상공인·개인사업자부터 제조·기술 중소기업 법인까지 정책자금 가능성과 준비 순서를 진단합니다. 개인·법인 사례와 근거를 확인하세요. 마케팅·창업·기업인증도 별도 상담합니다.">
@@ -13,7 +16,7 @@
 <meta property="og:description" content="소상공인·개인사업자와 제조·기술 중소기업 법인의 정책자금 가능성을 진단합니다. 개인·법인 사례, 비용 조건과 상담팀의 역할을 확인하세요. 전국 무료 상담(대면·비대면 선택).">
 <meta property="og:url" content="https://bmaker.kr/">
 <meta property="og:locale" content="ko_KR">
-<link rel="stylesheet" href="/assets/home-trust.css?v=2c3321a498">
+<link rel="stylesheet" href="/assets/home-trust.css?v=2c3321a498" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/assets/home-trust.css?v=2c3321a498"></noscript>
 <link rel="canonical" href="https://bmaker.kr/">
 <link rel="icon" type="image/png" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -839,8 +842,6 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
 }
 </style>
 <link rel="stylesheet" href="/assets/hero-v1.css?v=f10131fbef">
-<link rel="preload" as="image" href="/assets/video/hero-poster-m.webp" media="(max-width: 600px)" fetchpriority="high">
-<link rel="preload" as="image" href="/assets/video/hero-poster.webp" media="(min-width: 601px)" fetchpriority="high">
 <link rel="stylesheet" href="/assets/home-video.css?v=31bd641826">
 <link rel="stylesheet" href="/assets/education.css?v=0ce55a835b" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/assets/education.css?v=0ce55a835b"></noscript><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/#webpage", "url": "https://bmaker.kr/", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-11-13"}</script></head>
