@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-14",
-  "hash": "b089be447036db769471790700478e0b447c5d86832e2a4d5b285a3041b8d22a"
+  "date": "2026-11-15",
+  "hash": "2cb1016dc17b8c4d52b4937e2c31def61df0a9cff445a92b1ce4896aed069d6e"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -64,8 +64,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-14",
-  "hash": "98c38b406e72f8be2b12676f34da736e5a4f8c62294bbc350e4d13fd961ac27a"
+  "date": "2026-11-15",
+  "hash": "96799faaea86b1bd72a1b3d9164465a9bc41a849e0e9a0e5e0154118df121162"
  },
  "blog/category/news.html": {
   "date": "2026-11-14",
@@ -118,6 +118,10 @@
  "blog/homeplus-direct-loan-repayment-deferral.html": {
   "date": "2026-11-10",
   "hash": "a373c03f8827b5b703c78983d55feeac65d5cbb119fa10d97d52f01027c3dc58"
+ },
+ "blog/innobiz-site-visit-prep.html": {
+  "date": "2026-11-14",
+  "hash": "397bbc87b589fc366cac31ed863c233d4451213dd0da58e8d4b291650509488a"
  },
  "blog/innovation-loan-smart-technology-use-2026-q4.html": {
   "date": "2026-11-10",
@@ -203,6 +207,10 @@
   "date": "2026-11-02",
   "hash": "5460c7de7920f6e57e64996a9b903e19e7195f59215e063889ebc95b14096ffd"
  },
+ "blog/support-grant-clawback.html": {
+  "date": "2026-11-15",
+  "hash": "5493b1cd30f999cfca096e90c257a282016526c27f6b9af251cd268c8d032b15"
+ },
  "blog/support-programs.html": {
   "date": "2026-11-02",
   "hash": "aee9014c94d5f4d559ea076fd36e6a387228fb478024d883bec6fa7f4d4ccc7b"
@@ -224,8 +232,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-14",
-  "hash": "c0cb45e41f116632e697466bc235aba705bba04334c346083e0e4978d6d11d03"
+  "date": "2026-11-15",
+  "hash": "df8d0e1404a5e134b9ecb0d75a9e492b9bb8e573cbc1dfc2df55c1b052fbf7c7"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -316,8 +324,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-13",
-  "hash": "86bd9b3eaf358fca6d14ff75805bbe7aa93887fce72bae7ecf1d9d1b353ff957"
+  "date": "2026-11-15",
+  "hash": "029862ef71806af69f3f68829b9260bb10389678febb3b7efc89f661450ff1b7"
  },
  "industry/bio.html": {
   "date": "2026-11-13",

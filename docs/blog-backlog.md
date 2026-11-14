@@ -36,7 +36,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L13 | 기업부설연구소 실사에서는 무엇을 확인하나요? | guide | /research-institute · /certification | 대기 |
 | L14 | 기업부설연구소가 있으면 정책자금 심사에서 무엇이 달라지나요? | guide | /research-institute · /jungjingong | 대기 |
 | L15 | 벤처인증 혜택, 법인세·취득세 감면과 정책자금 우대까지 | guide | /venture-certification · /certification | 대기 |
-| G1 | 중소기업 지원금, 선정되고도 돈을 돌려주는 경우는 언제인가요? | guide | /jiwongeum | 대기 |
+| G1 | 중소기업 지원금, 선정되고도 환수되는 경우는 언제인가요? | guide | /jiwongeum | 발행 2026-11-15 (PR #115) |
 | G2 | 수출바우처, 수출 실적이 없는 회사도 신청할 수 있나요? | guide | /jiwongeum | 대기 |
 | G3 | 지원사업 자부담 현금이 부족할 때 대표가 먼저 정리할 것 | guide | /jiwongeum · /jungjingong | 대기 |
 | G4 | 스마트공장 지원사업, 신청 전에 공장에서 정리할 자료는? | guide | /jiwongeum · /industry/jejo | 대기 |
@@ -44,7 +44,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | G6 | 지원사업 사업계획서와 대출용 사업계획서는 무엇이 다른가요? | guide | /jiwongeum · /gyehoekseo | 대기 |
 | 2 | 연구원 1명뿐인 회사, 연구소 설립 전에 무엇부터 정리할까요? | guide | /research-institute | 보류 (/research-institute 본문과 같은 질문, 2026-11-12) |
 | 3 | 벤처기업확인, 사업계획서에서 평가자가 가장 먼저 보는 것은? | guide | /venture-certification | 발행 2026-11-12 (PR #109) |
-| 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 대기 |
+| 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 발행 2026-11-14 |
 | 5 | 보증서는 나왔는데 은행 대출이 늦어진다면 무엇을 확인할까요? | guide | /bojeung · /jaedan | 대기 |
 | 6 | 법인 전환 직후 정책자금, 개인사업자 때 실적을 인정받나요? | guide | /jungjingong · /gaein | 대기 |
 | 7 | 매출이 줄어든 해에 운전자금을 신청하면 불리할까요? | guide | /working-capital-facility | 대기 |
