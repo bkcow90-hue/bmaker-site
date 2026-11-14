@@ -9,6 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["index.html", "sojingong.html", "jungjingong.html", "bojeung.html", "certification.html", "privacy.html", "cases.html", "stats.html", "jeosinyong.html", "chaksugeum.html", "sanghwan.html", "gyehoekseo.html", "geojeol.html", "jaedan.html", "gibo.html", "sinbo.html", "schedule.html", "sinyongchwiyak.html", "jaedojeon.html", "hyeoksin.html", "cheongnyeon.html", "gaein.html", "beobin.html", "consulting.html"]
+# 2026-11-14 마케팅 4장은 색인 제외(tools/noindex.py) — 파일·canonical 은 그대로, sitemap 에서만 빠진다
+NOINDEX = {"marketing", "viral-marketing-guide", "online-ad-guide", "blog-marketing-cost"}
 SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "beobin", "consulting"]
 
 NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program", "corporate-loan-documents", "working-capital-facility",
@@ -99,7 +101,7 @@ def _jaedan_slugs():
 def test_sitemap_matches_canonicals():
     locs = re.findall(r"<loc>([^<]+)</loc>", _read("sitemap.xml"))
     expected = (["https://bmaker.kr/"]
-                + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy"]
+                + [f"https://bmaker.kr/{s}" for s in SLUGS if s != "privacy" and s not in NOINDEX]
                 + [f"https://bmaker.kr/{s}" for s in _fund_slugs() if s not in SLUGS]
                 + [f"https://bmaker.kr/{s}" for s in _jaedan_slugs() if s not in SLUGS])
     assert sorted(locs) == sorted(expected)

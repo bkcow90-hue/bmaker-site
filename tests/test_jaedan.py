@@ -51,14 +51,14 @@ def test_retired_pages_are_gone_and_redirected():
 
 
 def test_region_pages_have_unique_data_titles_and_synced_faq():
-    """지역 재단 페이지 title 은 '{재단명} 사업자대출, {데이터 꼬리}' — 꼬리까지 서로 달라야 하고 og:title 과 같다.
+    """지역 재단 페이지 title 은 '{재단명} 소상공인 대출·사업자대출, {데이터 꼬리}' (2026-11-14) — 꼬리까지 서로 달라야 하고 og:title 과 같다.
     FAQPage JSON-LD 질문은 화면의 지역 FAQ 와 같고, 공통 FAQ 는 허브에만 있다."""
     import json
     tails = set()
     for d in _rows():
         h = (ROOT/(d["재단ID"]+".html")).read_text(encoding="utf-8")
         title = re.search(r"<title>(.*?)</title>", h).group(1)
-        assert title.startswith(d["재단명"] + " 사업자대출, "), title
+        assert title.startswith(d["재단명"] + " 소상공인 대출·사업자대출, "), title
         tails.add(title.split(", ", 1)[1])
         assert f'<meta property="og:title" content="{title}">' in h
         faq = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S)]

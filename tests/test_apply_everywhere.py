@@ -86,8 +86,8 @@ except ImportError:
 # 2026-11-10: 컨설팅·법인 준비서류·운전/시설자금도 본문 중간 정적 폼으로 전환(동적 목록에서 뺌).
 PAGE_END = set('''/sojingong /jungjingong /industry/eumsikjeom /industry/jejo /industry/dosomae /industry/online-shoppingmall /industry/geonseol /industry/miyong /industry/gyoyuk /industry/mullyu /industry/it /industry/sikpum /industry/hwajangpum /industry/bio /cases /stats /jeosinyong
 /chaksugeum /sanghwan /gyehoekseo /geojeol /gibo /sinbo /faq /schedule /gaein /beobin
-/funding /marketing /work /business-guide /online-ad-guide /blog-marketing-cost
-/viral-marketing-guide /startup-consulting-cost /education /education-program
+/funding /work /business-guide
+/startup-consulting-cost /education /education-program
 /microfinance-business'''.split())
 
 

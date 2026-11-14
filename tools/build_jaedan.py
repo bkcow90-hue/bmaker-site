@@ -144,8 +144,9 @@ def title_tails(rows):
 
 def description(d, C, rates):
     lim=f" 2026 공고 한도: {d['limit_2026']}." if d.get('limit_2026') else ''
-    s=(f"{d['지역(시도)']} 사업장 보증 창구 {d['재단명']} — 본점·대표전화와 재단 공고 확인 내용,"
-       f" 받은 사례 {len(C)}건"+(f"({rates})" if rates else '')+f".{lim}")
+    # 2026-11-14 claude-seo 진단 H1: 검색어("○○신용보증재단 소상공인 대출·사업자 대출")로 바로 답하는 문장으로 시작.
+    s=(f"{d['재단명']} 소상공인 대출·사업자대출은 재단 보증서로 은행에서 받는 대출입니다. {d['지역(시도)']} 사업장 창구,"
+       f" 본점·대표전화, 재단 공고, 받은 사례 {len(C)}건"+(f"({rates})" if rates else '')+f".{lim}")
     return s if len(s)<=160 else s[:157].rstrip()+'…'
 
 def notice_facts(d):
@@ -220,7 +221,8 @@ def build():
         C=cases_for(d['지역(시도)'])
         amts=[int(r['실행 금액(만원)']) for r in C]
         rates=rate_range([r['금리'] for r in C])
-        title_txt=f"{d['재단명']} 사업자대출, {tails[d['재단ID']]}"
+        # 2026-11-14 claude-seo 진단 H1: "서울신용보증재단 소상공인 대출"(28회·9.7위)·"사업자 대출"(23회·7.1위) 클릭 0 → 두 검색어를 title 에 그대로.
+        title_txt=f"{d['재단명']} 소상공인 대출·사업자대출, {tails[d['재단ID']]}"
         rows_html="".join(f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["업종"]) or "—"}</td><td>{esc(r["자금명"])[:28]}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td><a href="/cases#case-{r["사례ID"]}">받은 사례</a></td></tr>' for r in sorted(C, key=lambda x:(x["실행 연월"], x["사례ID"]), reverse=True)[:10])
         # 사례 3건 미만 지역은 위에서 퇴역시켜 여기 오지 않는다. 다른 지역 사례로 채우지 않는다.
         meas=(f'<h2>{esc(d["지역(시도)"])} 사업장이 받은 재단 보증부 대출 {len(C)}건</h2>\n<p>공개 원장 중 {esc(d["재단명"])} 보증으로 받은 사례입니다. 총 {won2(sum(amts))}'+(f' · 금리 {rates}' if rates else '')+f' (각 실행 시점 기준), 최근 10건. 전체 맥락은 <a href="/cases">받은 사례</a>에서.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>업종</th><th>상품</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>{rows_html}</tbody></table></div>')
@@ -271,7 +273,7 @@ def build():
 <section class="hero sc-hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › <a href="/jaedan">신용보증재단</a> › {esc(d['재단명'])}</p>
-    {hero_content('<h1 class="serif">' + esc(d['재단명']) + ' 사업자대출,<br class="pc"> 보증서로 은행 문턱을 넘습니다</h1>', '<p>사업장이 ' + esc(d['지역(시도)']) + '라면 이 재단이 창구입니다' + memo + '.</p>', consulting)}
+    {hero_content('<h1 class="serif">' + esc(d['재단명']) + ' 사업자대출,<br class="pc"> 보증서로 은행 문턱을 넘습니다</h1>', '<p class="intent-answer">' + esc(d['재단명']) + ' 소상공인 대출·사업자대출은 재단이 보증서를 내주고 은행이 실행하는 대출입니다.</p><p>사업장이 ' + esc(d['지역(시도)']) + ('이라면' if (ord(d['지역(시도)'][-1]) - 0xAC00) % 28 else '라면') + ' 이 재단이 창구입니다' + memo + '.</p>', consulting)}
   </div>
 </section>
 <main>
