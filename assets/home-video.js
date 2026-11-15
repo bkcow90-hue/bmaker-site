@@ -54,13 +54,22 @@
   }, { rootMargin: '200px' }).observe(diag);
 })();
 
+/* 첫 화면이 그려진 뒤에 실행한다(2026-11-15). 아래 두 묶음은 화면 아래쪽을 다듬는 일인데 배치 계산이 무거워,
+   먼저 돌면 히어로 배경(LCP)이 그려지는 시점이 그만큼 늦어진다. 스크립트가 없어도 내용은 전부 보인다. */
+function afterPaint(fn) {
+  var run = function () { setTimeout(fn, 0); };
+  if (window.requestAnimationFrame) requestAnimationFrame(function () { requestAnimationFrame(run); });
+  else run();
+}
+
 /* 휴대폰 구성 — 옆으로 넘기는 카드의 위치 점, 긴 문단 "더 보기", 이력·원장 띠 접기.
    글은 전부 HTML 에 있다. 스크립트가 없으면 전부 펼쳐진 채로 보인다. */
-(function () {
+afterPaint(function () {
   var phone = window.matchMedia && matchMedia('(max-width: 760px)').matches;
 
   // 1) 카드 묶음 위치 점 (CSS 가 760px 이하에서만 옆 넘김으로 바꾼다)
   var CARS = '#top .entry-grid, #top .trust-list, #top .why-grid, #top .svc-grid, #top .audience-routes, #top .case-track, #top .guides .g-grid';
+  var marks = [];
   document.querySelectorAll(CARS).forEach(function (car) {
     var n = car.children.length; if (n < 2) return;
     var dots = document.createElement('div');
@@ -77,8 +86,9 @@
       for (var j = 0; j < n; j++) dots.children[j].classList.toggle('on', j === idx);
     };
     car.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(mark); }, { passive: true });
-    mark();
+    marks.push(mark);
   });
+  marks.forEach(function (m) { m(); }); // 점을 전부 넣은 뒤 한꺼번에 계산한다
 
   if (phone) {
     // 2) 긴 문단은 세 줄만 보이고 "더 보기"
@@ -129,10 +139,10 @@
     addEventListener('scroll', function () { if (!q) q = requestAnimationFrame(paint); }, { passive: true });
     paint();
   }
-})();
+});
 
 /* 스크롤 움직임 — 카드·사람·절차·숫자. 모션 저감이면 실행하지 않는다(내용은 처음부터 보임). */
-(function () {
+afterPaint(function () {
   if (!('IntersectionObserver' in window)) return;
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var phone = matchMedia('(max-width: 760px)').matches;
@@ -151,8 +161,10 @@
 
   function prep(sel, step) {
     var groups = new Map();
-    document.querySelectorAll(sel).forEach(function (el) {
-      if (el.getBoundingClientRect().top < vh) return; // 이미 보이는 것은 숨기지 않는다
+    var els = [].slice.call(document.querySelectorAll(sel));
+    var tops = els.map(function (el) { return el.getBoundingClientRect().top; }); // 위치는 한 번에 읽고, 그 뒤에 한 번에 쓴다
+    els.forEach(function (el, k) {
+      if (tops[k] < vh) return; // 이미 보이는 것은 숨기지 않는다
       var p = el.parentElement, i = groups.get(p) || 0; groups.set(p, i + 1);
       el.style.setProperty('--mo-d', Math.min(i, 6) * step + 'ms');
       el.classList.add('mo'); io.observe(el);
@@ -163,9 +175,11 @@
     ? '#top .car, #top .diag-media, #top #process .step, #top .ev-row a, #top .exp-banner, #top .person .fold-btn'
     : '#top .entry-card, #top .why-card, #top .diag-media, #top #process .step, #top .person-body, #top .case, #top .ev-row a, #top .trust-list article', 90);
   // 사진은 clip-path 로 가려 두므로(교차 판정이 안 잡힘) 카드 전체를 관찰한다
-  document.querySelectorAll('#top .person').forEach(function (card) {
+  var cards = [].slice.call(document.querySelectorAll('#top .person'));
+  var cardTops = cards.map(function (card) { return card.getBoundingClientRect().top; });
+  cards.forEach(function (card, k) {
     var ph = card.querySelector('.person-photo');
-    if (!ph || card.getBoundingClientRect().top < vh) return;
+    if (!ph || cardTops[k] < vh) return;
     ph.classList.add('mo'); io.observe(card);
   });
   var steps = document.querySelector('#top #process .steps'); if (steps) io.observe(steps);
@@ -185,4 +199,4 @@
     if (!n || el.getBoundingClientRect().top < vh) return;
     el.setAttribute('data-count', n); io.observe(el);
   });
-})();
+});
