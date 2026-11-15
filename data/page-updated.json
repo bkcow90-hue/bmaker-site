@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-15",
-  "hash": "2cb1016dc17b8c4d52b4937e2c31def61df0a9cff445a92b1ce4896aed069d6e"
+  "date": "2026-11-16",
+  "hash": "1671596477510f95e3c74ed96803a1f79e6a9b954ac663d25646a8891635130f"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -64,8 +64,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-15",
-  "hash": "96799faaea86b1bd72a1b3d9164465a9bc41a849e0e9a0e5e0154118df121162"
+  "date": "2026-11-16",
+  "hash": "5596c0dd67066c0d39a2b0dc5f08352fcc45897a59ab6ba7c1930ad82e8d42dd"
  },
  "blog/category/news.html": {
   "date": "2026-11-14",
@@ -114,6 +114,10 @@
  "blog/guarantee-bank-questions.html": {
   "date": "2026-11-02",
   "hash": "39274a1a4c0815b8665beab379f5e74356a3cc03c446c20fc72df11d4981cf4b"
+ },
+ "blog/guarantee-issued-bank-loan-delay.html": {
+  "date": "2026-11-16",
+  "hash": "bfa1e78def1b349f14782863b54832cabe5ba4dacc85d67429eb36ddfae16e0d"
  },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
   "date": "2026-11-10",
@@ -232,8 +236,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-15",
-  "hash": "df8d0e1404a5e134b9ecb0d75a9e492b9bb8e573cbc1dfc2df55c1b052fbf7c7"
+  "date": "2026-11-16",
+  "hash": "714711bf3a0bb14ea660b2a63f9468c0c1a2db2d07f1a9dbcaf5bba2afd3f050"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -324,8 +328,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-15",
-  "hash": "029862ef71806af69f3f68829b9260bb10389678febb3b7efc89f661450ff1b7"
+  "date": "2026-11-16",
+  "hash": "b547ee5a9cea28eddee1e9071f0de6ea2a491254da41aa587e986780b63b04ea"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
