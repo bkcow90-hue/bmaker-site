@@ -413,7 +413,7 @@
  },
  "jaedan-gyeonggi.html": {
   "date": "2026-11-15",
-  "hash": "70faf2ea85f553d9264b42867a717262aad9130d8fc24fed4eeacb1b4ce8f3c3"
+  "hash": "4a54b79369d257bb682841660765e60d77872e8574989ff3fbdcd8721886d534"
  },
  "jaedan-gyeongnam.html": {
   "date": "2026-11-15",
@@ -440,8 +440,8 @@
   "hash": "a894b314216d1c392bd7c3c7871297004f35e56fb434733b3509d8200812feb2"
  },
  "jaedan-seoul.html": {
-  "date": "2026-11-14",
-  "hash": "d0c8105f3c7a75d237cbc4b4c9ca40c863fdc1462e53842ec4758cb0f794b505"
+  "date": "2026-11-15",
+  "hash": "14ce3670b9586564eb16deb0d37a1230b764c2a0b652241b1cdba6ab4dc8cff3"
  },
  "jaedan-ulsan.html": {
   "date": "2026-11-14",
@@ -497,7 +497,7 @@
  },
  "region.html": {
   "date": "2026-11-15",
-  "hash": "79f539100b6073c83f51a7a7cc62dcaf7062f06d449f8f7eac99200610da177f"
+  "hash": "2869c6e9d4ec25375ff4fc7016f54fbd212adc2797e37dac368c95672807c02a"
  },
  "region/ansan.html": {
   "date": "2026-11-10",
@@ -567,6 +567,10 @@
   "date": "2026-11-10",
   "hash": "9520d95c28b9a35413e68589bdbc89b5b7c5c7ce32d64b86ccf54e898b341f52"
  },
+ "region/icheon.html": {
+  "date": "2026-11-15",
+  "hash": "33b6995faba35e143d30986c304fdb20aabafc7a4444d38de0eceb8403d99fcc"
+ },
  "region/iksan.html": {
   "date": "2026-11-15",
   "hash": "1076565807d674ba2d238a82a1d459dd947f3ce677171c785ddd09bdb3f26532"
@@ -618,6 +622,10 @@
  "region/seoul-gangseo.html": {
   "date": "2026-11-10",
   "hash": "b29d6a95b5bd6809d5e52c0c66699ef21fb24945924c8649b7ef2881766bc478"
+ },
+ "region/seoul-songpa.html": {
+  "date": "2026-11-15",
+  "hash": "a5cccab16821f718775dc8d56030466f9a60e5cc4f8c84fb331f3482f7754ec8"
  },
  "region/siheung.html": {
   "date": "2026-11-10",
