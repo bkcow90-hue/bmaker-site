@@ -462,7 +462,7 @@
     // 인라인 진단 폼(자금·재단 상세)에는 업종·문의 칸이 없다. 없는 칸은 빈 값으로 둔다.
     const fieldValue = id => document.getElementById(id)?.value.trim() || '';
     const industry = fieldValue('lf-biz');
-    // 가이드북 이메일(홈 폼에만 있다, 선택) — 적었으면 형식만 확인하고, codedaum /api/lead 가 PDF 링크 메일을 보낸다(2026-11-13)
+    // 가이드북 이메일(홈 폼에만 있다, 선택) — 적었으면 형식만 확인하고, bmaker.kr /api/lead(workers/site) 가 PDF 링크 메일을 보낸다(2026-11-13, 11-16 codedaum 에서 옮김)
     const emailEl = document.getElementById('lf-email');
     const email = emailEl ? emailEl.value.trim() : '';
     if (emailEl) emailEl.setCustomValidity(!email || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? '' : '이메일 주소를 확인해 주세요.');
@@ -514,7 +514,7 @@
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 22000);
     try {
-      const response = await fetch('https://codedaum.pages.dev/api/lead', {
+      const response = await fetch('/api/lead', {
         method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload), signal: controller.signal
       });

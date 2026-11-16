@@ -126,11 +126,12 @@ def phone(browser, sent=None):
     page = browser.new_page(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, reduced_motion='reduce')
 
     def route(r):
-        if r.request.url.startswith('http://127.0.0.1:'):
-            return r.continue_()
+        # /api/lead 는 같은 도메인(2026-11-16 codedaum 에서 옮김) — 로컬 서버로 넘기기 전에 가로챈다
         if '/api/lead' in r.request.url and sent is not None:
             sent.append(json.loads(r.request.post_data or '{}'))
             return r.fulfill(status=200, content_type='application/json', body='{"ok":true,"delivery":"accepted"}')
+        if r.request.url.startswith('http://127.0.0.1:'):
+            return r.continue_()
         return r.abort()
     page.route('**/*', route)
     return page

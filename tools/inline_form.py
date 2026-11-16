@@ -7,7 +7,7 @@
 홈 폼 HTML 만 복사해 브라우저 기본 모양(19px 입력칸·회색 버튼)으로 PR #7 부터 배포돼 있었다.
 문구가 두 빌더에서 갈리면 페이지별 전환율 비교가 무의미해진다.
 
-전송은 기존 assets/conversion.js 와 https://codedaum.pages.dev/api/lead 를 그대로 쓴다.
+전송은 기존 assets/conversion.js 와 /api/lead(같은 도메인, workers/site — 2026-11-16 codedaum 에서 옮김)를 그대로 쓴다.
 conversion.js 가 읽는 ID 규약:
   lf-name · lf-phone · lf-consent · lf-website(허니팟) · lf-service(hidden) · applyMsg
   #lf-time .time-opt      통화 희망 시간대
