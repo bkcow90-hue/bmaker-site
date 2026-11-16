@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-16",
-  "hash": "1671596477510f95e3c74ed96803a1f79e6a9b954ac663d25646a8891635130f"
+  "date": "2026-11-15",
+  "hash": "2cb1016dc17b8c4d52b4937e2c31def61df0a9cff445a92b1ce4896aed069d6e"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -64,8 +64,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-16",
-  "hash": "5596c0dd67066c0d39a2b0dc5f08352fcc45897a59ab6ba7c1930ad82e8d42dd"
+  "date": "2026-11-15",
+  "hash": "96799faaea86b1bd72a1b3d9164465a9bc41a849e0e9a0e5e0154118df121162"
  },
  "blog/category/news.html": {
   "date": "2026-11-14",
@@ -114,10 +114,6 @@
  "blog/guarantee-bank-questions.html": {
   "date": "2026-11-02",
   "hash": "39274a1a4c0815b8665beab379f5e74356a3cc03c446c20fc72df11d4981cf4b"
- },
- "blog/guarantee-issued-bank-loan-delay.html": {
-  "date": "2026-11-16",
-  "hash": "bfa1e78def1b349f14782863b54832cabe5ba4dacc85d67429eb36ddfae16e0d"
  },
  "blog/homeplus-direct-loan-repayment-deferral.html": {
   "date": "2026-11-10",
@@ -237,7 +233,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-16",
-  "hash": "714711bf3a0bb14ea660b2a63f9468c0c1a2db2d07f1a9dbcaf5bba2afd3f050"
+  "hash": "506f96c052bcdd5450a56ba6528c5eaf10018d65f4bfd943b7ef82f15a745948"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -288,8 +284,8 @@
   "hash": "243239615e92e789657c978b65ee736c7a76172663535e326e01fcd5117be2ed"
  },
  "geojeol.html": {
-  "date": "2026-11-01",
-  "hash": "68b7d8c88c7d974977afaff9759cafe9f376cda0098fbc20fac65865528fa346"
+  "date": "2026-11-16",
+  "hash": "23f1503efd16653bcafd90fbb207427feb4a08489129aeb7d156da11dfb5f751"
  },
  "gibo.html": {
   "date": "2026-11-14",
@@ -328,8 +324,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-16",
-  "hash": "b547ee5a9cea28eddee1e9071f0de6ea2a491254da41aa587e986780b63b04ea"
+  "date": "2026-11-15",
+  "hash": "029862ef71806af69f3f68829b9260bb10389678febb3b7efc89f661450ff1b7"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
@@ -490,6 +486,10 @@
  "microfinance-business.html": {
   "date": "2026-09-28",
   "hash": "a294b1db99c3b9cbd481a0ad882c176fc395f88eb3e8d751a88058f5fef93846"
+ },
+ "modoo-startup-consulting.html": {
+  "date": "2026-11-16",
+  "hash": "5897dc1ccc401e15e6d1c6ec72f8f464cfe702704318ad4b7ca297af785ce3d8"
  },
  "online-ad-guide.html": {
   "date": "2026-09-15",
@@ -664,12 +664,12 @@
   "hash": "c2e865b2a32aacd1e0c889ebb2ff429adf0c57c206c74425358552021f37c793"
  },
  "schedule.html": {
-  "date": "2026-11-14",
-  "hash": "3ca85401f36e7e4411336aa5e1f22527b59dd8e86e42208c749c5eda5af1bd95"
+  "date": "2026-11-16",
+  "hash": "4571d072aca7bf6104235be89e896c0f36e781bd35d559a60132a1b443830286"
  },
  "sinbo.html": {
-  "date": "2026-11-14",
-  "hash": "9a5a3ffb5dde090456dbe7754d03fb3a9e63ae1af03381b3d04801cdafa1c184"
+  "date": "2026-11-16",
+  "hash": "6d510592bf0cae40b0a91dc78b8a7db5962f2c6442939b2a79c1b7d64b5c844c"
  },
  "sinyongchwiyak.html": {
   "date": "2026-11-13",
@@ -688,12 +688,12 @@
   "hash": "72b8e4f8919e1ccaf496e7696d502524f8057469e6a6a349b6d6a06beb93678d"
  },
  "startup-consulting-cost.html": {
-  "date": "2026-10-28",
-  "hash": "132e1147028ec38be0fd9f936f27185b1e6b450209359432a9a2a88bf591b343"
+  "date": "2026-11-16",
+  "hash": "dca42171a767d1cdf9653cdea45fae020be7557f1cbd9aa6eeed07e14e2983e9"
  },
  "startup.html": {
-  "date": "2026-11-09",
-  "hash": "af3ebcd2dc2f5d16730fda3db19cd6e03a6a94d8c2979312fbd947a01df591d5"
+  "date": "2026-11-16",
+  "hash": "8897daf7bd0a14f7836da7369967640e6562735b73a8a5d7ac354fcca0cefb1b"
  },
  "stats.html": {
   "date": "2026-11-01",

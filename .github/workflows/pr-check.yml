@@ -165,7 +165,7 @@ jobs:
           fi
           exit $RC
       - name: node 테스트
-        run: node tests/test_conversion.mjs && node tests/test_analytics.mjs && node tests/test_blog_redirect.mjs
+        run: node tests/test_conversion.mjs && node tests/test_analytics.mjs && node tests/test_blog_redirect.mjs && node tests/test_lead_worker.mjs
       # 커밋된 산출물이 곧 1회차 기준이므로, 체인을 한 번만 돌려 git status 로 판정하면
       # "커밋 전에 체인을 돌렸는가" 와 "체인이 결정적인가" 를 한 번에 본다.
       # 입력은 커밋된 소스뿐이다 — 빌더에는 네트워크 호출이 없고(시트 fetch 는 ledger.yml 의
