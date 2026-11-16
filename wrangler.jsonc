@@ -1,8 +1,14 @@
 {
   "name": "bmaker-site",
   "compatibility_date": "2026-08-26",
+  // /api/* 만 Worker 가 먼저 받고 나머지는 정적 파일 (2026-11-16 신청 API 를 codedaum 에서 옮김)
+  "main": "workers/site/index.js",
+  // 대시보드에서 넣은 일반 변수(LEAD_TO·LEAD_FROM·GUIDEBOOK_URL 등)를 배포 때 지우지 않는다
+  "keep_vars": true,
   "assets": {
     "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   }
