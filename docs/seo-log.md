@@ -189,3 +189,13 @@ GSC 3개월(2026-08-14~11-13): 클릭 204 · 노출 1.08만 · CTR 1.9% · 평�
 - 조치: `/modoo-startup-consulting` 신설(대표 키워드 "모두의 창업 컨설팅"), /startup FAQ 에서 연결, 블로그 대기열 54~59번.
 - 확인: 12-15 네이버·구글에서 "모두의 창업 컨설팅"·"모두의 창업" 노출·클릭, 이 페이지 경유 창업 상담 신청 수.
 
+## 2026-11-16 AI 답변용 질문 30개 대조 (AEO·GEO)
+
+사람들이 AI 에 묻는 문장형 질문 30개(기관 선택·지역·내 상황·거절·절차·받은 뒤)를 담당 페이지의 FAQ·소제목과 대조했다.
+
+- 이미 답이 있음 26개: /gaein·/beobin·/jungjingong·/jaedan·/region/*·/geojeol·/sanghwan·/gyehoekseo·/2027-jeongchaekjageum·/working-capital-facility·/venture-certification·/research-institute·/jiwongeum·/consulting·/chaksugeum 등.
+- 이번에 FAQ 추가 2개: /geojeol "은행에서 대출이 거절된 사업자도 정책자금을 신청할 수 있나요?", /sinbo "신용보증기금과 기술보증기금은 무엇이 다른가요?"(본문 비교 표와 같은 내용).
+- 블로그 대기열에 이미 있음 2개: 현장 실사(23번), 매출이 줄어든 해(7번).
+- 남은 빈 곳: /sinyongchwiyak·/schedule 은 FAQ 가 0개. 자금 사실을 공고에서 확인해야 해서 이번에는 넣지 않았다(다음 검색어 루프에서 처리).
+- 확인: 12-08 AI 인용 재측정 때 이 30개 중 6~8개를 질문으로 써서 인용 여부 기록.
+
