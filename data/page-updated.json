@@ -232,8 +232,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-15",
-  "hash": "df8d0e1404a5e134b9ecb0d75a9e492b9bb8e573cbc1dfc2df55c1b052fbf7c7"
+  "date": "2026-11-16",
+  "hash": "506f96c052bcdd5450a56ba6528c5eaf10018d65f4bfd943b7ef82f15a745948"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -487,6 +487,10 @@
   "date": "2026-09-28",
   "hash": "a294b1db99c3b9cbd481a0ad882c176fc395f88eb3e8d751a88058f5fef93846"
  },
+ "modoo-startup-consulting.html": {
+  "date": "2026-11-16",
+  "hash": "5897dc1ccc401e15e6d1c6ec72f8f464cfe702704318ad4b7ca297af785ce3d8"
+ },
  "online-ad-guide.html": {
   "date": "2026-09-15",
   "hash": "7e01ac7c7ef1af6f7372a59e7e7416f6925bd56732f61971e47fb9dd91dd501f"
@@ -684,12 +688,12 @@
   "hash": "72b8e4f8919e1ccaf496e7696d502524f8057469e6a6a349b6d6a06beb93678d"
  },
  "startup-consulting-cost.html": {
-  "date": "2026-10-28",
-  "hash": "132e1147028ec38be0fd9f936f27185b1e6b450209359432a9a2a88bf591b343"
+  "date": "2026-11-16",
+  "hash": "dca42171a767d1cdf9653cdea45fae020be7557f1cbd9aa6eeed07e14e2983e9"
  },
  "startup.html": {
-  "date": "2026-11-09",
-  "hash": "af3ebcd2dc2f5d16730fda3db19cd6e03a6a94d8c2979312fbd947a01df591d5"
+  "date": "2026-11-16",
+  "hash": "8897daf7bd0a14f7836da7369967640e6562735b73a8a5d7ac354fcca0cefb1b"
  },
  "stats.html": {
   "date": "2026-11-01",

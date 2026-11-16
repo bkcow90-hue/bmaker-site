@@ -87,7 +87,7 @@ except ImportError:
 PAGE_END = set('''/sojingong /jungjingong /industry/eumsikjeom /industry/jejo /industry/dosomae /industry/online-shoppingmall /industry/geonseol /industry/miyong /industry/gyoyuk /industry/mullyu /industry/it /industry/sikpum /industry/hwajangpum /industry/bio /cases /stats /jeosinyong
 /chaksugeum /sanghwan /gyehoekseo /geojeol /gibo /sinbo /faq /schedule /gaein /beobin
 /funding /work /business-guide
-/startup-consulting-cost /education /education-program
+/startup-consulting-cost /modoo-startup-consulting /education /education-program
 /microfinance-business'''.split())
 
 

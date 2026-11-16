@@ -14,7 +14,8 @@ NOINDEX = {"marketing", "viral-marketing-guide", "online-ad-guide", "blog-market
 SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cases", "stats", "jeosinyong", "chaksugeum", "sanghwan", "gyehoekseo", "geojeol", "jaedan", "gibo", "sinbo", "schedule", "sinyongchwiyak", "jaedojeon", "hyeoksin", "cheongnyeon", "gaein", "beobin", "consulting"]
 
 NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program", "corporate-loan-documents", "working-capital-facility",
-                "venture-certification", "innobiz-mainbiz", "research-institute", "jiwongeum"]  # 2026-11-10 인증·연구소 가이드
+                "venture-certification", "innobiz-mainbiz", "research-institute", "jiwongeum",
+                "modoo-startup-consulting"]  # 2026-11-10 인증·연구소 가이드
 PAGES += [f"{slug}.html" for slug in NEW_SERVICES]
 SLUGS += NEW_SERVICES
 LOAN_GUIDES = ["microfinance-business"]  # sme-business-loans 는 2026-10-31 /jungsogieop 로 301
