@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-17",
-  "hash": "fd3acc8cfae2de4dc4c97384ff8d607e0389ab543a83c5e0fe0133885c91fd59"
+  "date": "2026-11-18",
+  "hash": "2ce7f213c9dc7212ef5b100a2d078f0e4a9171fa370f30e3e3c21eb306ff8f75"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -72,8 +72,8 @@
   "hash": "215d7e5924277f2358a411d9685bc8590c452af4a95db2e3ba3c7dba4ed8f510"
  },
  "blog/category/startup.html": {
-  "date": "2026-11-02",
-  "hash": "2e3d2653675e843545ea3aa9f48574491f192ffb2acf9ba70d73ca07cef3c54a"
+  "date": "2026-11-18",
+  "hash": "a6462eccd04181f27eb25f68571f5e6ae215114df60b82673bf1eb96760dd509"
  },
  "blog/cheongju-prototype-voucher-payment-method.html": {
   "date": "2026-11-10",
@@ -167,6 +167,10 @@
   "date": "2026-11-02",
   "hash": "bf5531ec9b00e5d7114892e9c618fed9dd681954cad08f2497284b64ccd2cf8d"
  },
+ "blog/modoo-startup-consulting-before-apply.html": {
+  "date": "2026-11-18",
+  "hash": "527bc3ef55b1fe4fb3cb40da5b71f5c09e41448244732f2443319772c55e5931"
+ },
  "blog/new-business-operating-loan-eligibility.html": {
   "date": "2026-11-10",
   "hash": "e84410d3120ad4f0378106d18bfff5adab7a9c240aee1be06e0425d062e6cb55"
@@ -240,8 +244,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-17",
-  "hash": "fad393eab42b68e6569e91a2ed57adf9530ce0257505b5e0f6c1e4bc8394f851"
+  "date": "2026-11-18",
+  "hash": "00736c0ee4683cc3c6d81e9f8309634c0aba84f6ac3cc8c649e9dabf8186677c"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -332,8 +336,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-17",
-  "hash": "d63520ebf8a4670ae6a526f10e3ce737282d2aac13d5a240ff21d0df42dcddd5"
+  "date": "2026-11-18",
+  "hash": "fbb8c71d80278a9c54db3efa3d1eb3414b24d411895d416cd785ed6c4161083a"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
