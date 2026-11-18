@@ -15,7 +15,8 @@ SLUGS = ["sojingong", "jungjingong", "bojeung", "certification", "privacy", "cas
 
 NEW_SERVICES = ["funding", "marketing", "startup", "work", "business-guide", "online-ad-guide", "blog-marketing-cost", "viral-marketing-guide", "startup-consulting-cost", "education", "education-program", "corporate-loan-documents", "working-capital-facility",
                 "venture-certification", "innobiz-mainbiz", "research-institute", "jiwongeum",
-                "modoo-startup-consulting"]  # 2026-11-10 인증·연구소 가이드
+                "modoo-startup-consulting",
+                "cheongnyeon-changeop", "changeop-giban", "sinseongjang", "kosme-gingeup", "jaedoyak", "sinsijang"]  # 2026-11-10 인증·연구소 가이드
 PAGES += [f"{slug}.html" for slug in NEW_SERVICES]
 SLUGS += NEW_SERVICES
 LOAN_GUIDES = ["microfinance-business"]  # sme-business-loans 는 2026-10-31 /jungsogieop 로 301
