@@ -28,7 +28,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 
 | # | 제목(안) | 분류 | 연결할 페이지 | 상태 |
 |---|---|---|---|---|
-| 58 | 모두의 창업 컨설팅, 신청 전에 창업 컨설턴트와 무엇을 정리하나요? | startup | /modoo-startup-consulting · /startup | 대기 |
+| 58 | 모두의 창업 컨설팅, 신청 전에 창업 컨설턴트와 무엇을 정리하나요? | startup | /modoo-startup-consulting · /startup | 발행 2026-11-18 (PR #121) |
 | 59 | 모두의 창업 도전신청서, 혼자 쓸 때와 창업 컨설팅을 받을 때 달라지는 것 | startup | /modoo-startup-consulting · /startup | 대기 |
 | 54 | 모두의 창업에 도전한 뒤, 사업자등록을 하면 어떤 창업자금을 알아볼 수 있나요? | startup | /startup · /cheongnyeon | 대기 |
 | 55 | 모두의 창업 1라운드에서 떨어졌다면, 다음에 준비할 수 있는 창업 지원은? | startup | /startup · /jiwongeum | 대기 |
@@ -38,7 +38,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L1 | 신용보증기금과 기술보증기금, 우리 법인은 어디가 먼저일까요? | guide | /beobin · /sinbo · /gibo | 발행 2026-11-11 |
 | L2 | 법인 설립 1년 차, 매출이 적어도 정책자금 상담이 되나요? | guide | /beobin | 보류 (/beobin FAQ "설립한 지 얼마 안 된 법인도 되나요?"·2026-10-24 글과 같은 질문, 2026-11-13) |
 | L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 발행 2026-11-13 (PR #109) |
-| L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 대기 |
+| L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 발행 2026-11-17 (PR #121) |
 | L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 대기 |
 | L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 대기 |
 | L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 대기 |
@@ -61,7 +61,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | 2 | 연구원 1명뿐인 회사, 연구소 설립 전에 무엇부터 정리할까요? | guide | /research-institute | 보류 (/research-institute 본문과 같은 질문, 2026-11-12) |
 | 3 | 벤처기업확인, 사업계획서에서 평가자가 가장 먼저 보는 것은? | guide | /venture-certification | 발행 2026-11-12 (PR #109) |
 | 4 | 이노비즈 현장평가 전날, 대표가 준비할 자료는? | guide | /innobiz-mainbiz | 발행 2026-11-14 |
-| 5 | 보증서는 나왔는데 은행 대출이 늦어진다면 무엇을 확인할까요? | guide | /bojeung · /jaedan | 대기 |
+| 5 | 보증서는 나왔는데 은행 대출이 늦어진다면 무엇을 확인할까요? | guide | /bojeung · /jaedan | 발행 2026-11-16 |
 | 6 | 법인 전환 직후 정책자금, 개인사업자 때 실적을 인정받나요? | guide | /jungjingong · /gaein | 대기 |
 | 7 | 매출이 줄어든 해에 운전자금을 신청하면 불리할까요? | guide | /working-capital-facility | 대기 |
 | 8 | 세금 체납이 있으면 정책자금 상담부터 막히나요? | guide | /geojeol | 대기 |
