@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-18",
-  "hash": "2ce7f213c9dc7212ef5b100a2d078f0e4a9171fa370f30e3e3c21eb306ff8f75"
+  "date": "2026-11-19",
+  "hash": "fe4b701542bd966873e8a6c5f428d5a01474845ce34dd5c4e6134a9b446b49b1"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -64,8 +64,8 @@
   "hash": "d6dcab4de360e8580b4fd6644a64b50f6151cf6c9b98a486a5f2bdf284e46a22"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-17",
-  "hash": "04d8e3954c9f90c68609125425d3e27c5c138db575f0b74ff4f8fef37e592f7e"
+  "date": "2026-11-19",
+  "hash": "57c007e5f12f96235b412200f6b414c647b8858b8ddf042b32bcbb1e8726d707"
  },
  "blog/category/news.html": {
   "date": "2026-11-14",
@@ -90,6 +90,10 @@
  "blog/corporate-ceo-credit-review.html": {
   "date": "2026-11-13",
   "hash": "27cf482fa78a129d700e16eddd8afb760cd4fedbfb55abe4960157ae958707d9"
+ },
+ "blog/corporate-gajigeupgeum-guarantee-consult.html": {
+  "date": "2026-11-19",
+  "hash": "a631990790971bd78fe65c55cb7b19f411950d9bde3d35a47f7cd76fbf02cbb5"
  },
  "blog/corporate-high-debt-ratio-statements.html": {
   "date": "2026-11-17",
@@ -245,7 +249,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-19",
-  "hash": "866968d9ca097ad38da73da16bbe60ee1fa29d2c6e09f83bd8f748c2dc249bb9"
+  "hash": "f246f2cec2b6623e4ff12d575dd4a56ce52c6f9122b44d96f6a6cf06c8c012d3"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -348,8 +352,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-18",
-  "hash": "fbb8c71d80278a9c54db3efa3d1eb3414b24d411895d416cd785ed6c4161083a"
+  "date": "2026-11-19",
+  "hash": "49d7bd387c44ce238ddb7b04cb3c6eed0d5f61f16c1fe58f4405ed7013025742"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
