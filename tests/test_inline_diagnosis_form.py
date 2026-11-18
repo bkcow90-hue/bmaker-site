@@ -75,7 +75,8 @@ def test_no_other_page_gained_a_form():
     expected = set(FORM_PAGES) | {"index", "2026-4q-sosangin", "2027-jeongchaekjageum", "sosangin", "jungsogieop", "blog", "region", "bojeung", "certification", "startup",
                                   "consulting", "corporate-loan-documents", "working-capital-facility",
                                   "venture-certification", "innobiz-mainbiz", "research-institute", "jiwongeum",
-                                  "cheongnyeon-changeop", "changeop-giban", "sinseongjang", "kosme-gingeup", "jaedoyak", "sinsijang"}  # 2026-11-10 인증·연구소 가이드
+                                  "cheongnyeon-changeop", "changeop-giban", "sinseongjang", "kosme-gingeup", "jaedoyak", "sinsijang",
+                                  "nongsinbo", "maechul-chaegwon-boheom", "gwangwang-gigeum", "suchul-bojeung"}  # 2026-11-10 인증·연구소 가이드
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 
