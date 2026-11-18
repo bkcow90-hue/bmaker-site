@@ -109,5 +109,5 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | 29 | 정책자금 신청 후 연락이 없다면 어디에 확인하나요? | guide | /schedule | 대기 |
 | 30 | 기술보증 상담에서 특허가 없으면 불리한가요? | guide | /gibo | 대기 |
 | 60 | 신용보증기금·기술보증기금 보증부 대출, 기간은 보통 몇 년으로 정해지나요? | guide | /sinbo · /gibo | 대기 |
-| 61 | 중진공 청년창업자금과 소진공 청년 대상 자금, 어디부터 알아봐야 하나요? | startup | /jungjingong · /cheongnyeon | 대기 |
+| 61 | 중진공 청년창업자금과 소진공 청년 대상 자금, 어디부터 알아봐야 하나요? | startup | /cheongnyeon-changeop · /cheongnyeon | 대기 |
 | 62 | 시설자금 대출 금리는 운전자금 대출과 어떻게 다르게 정해지나요? | guide | /working-capital-facility · /jungjingong | 대기 |

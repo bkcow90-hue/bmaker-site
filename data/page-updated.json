@@ -244,8 +244,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-18",
-  "hash": "00736c0ee4683cc3c6d81e9f8309634c0aba84f6ac3cc8c649e9dabf8186677c"
+  "date": "2026-11-19",
+  "hash": "03f8782cd31bcfbc4bc7bdfd85592ee3a5e5e0c3935f294aaaf53769e1cee628"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -258,6 +258,14 @@
  "chaksugeum.html": {
   "date": "2026-11-12",
   "hash": "436767a0cc32717e9a067d93eaf50d27fd6508e13443d2b2a963b3a38e409afd"
+ },
+ "changeop-giban.html": {
+  "date": "2026-11-19",
+  "hash": "eca22ca8474c2dfa98cf9150135a883a7076ec6c8ebf137f0d1fe12e49d4ff46"
+ },
+ "cheongnyeon-changeop.html": {
+  "date": "2026-11-19",
+  "hash": "9abb6e8233a2fef7e03807a879b7cf1c42745c48aa727033bbda4ef49460a28d"
  },
  "cheongnyeon.html": {
   "date": "2026-11-13",
@@ -467,6 +475,10 @@
   "date": "2026-11-13",
   "hash": "b4fea27265eb0d20a1aff1c1244d2f917081306ff06106df868aa36d5075bbee"
  },
+ "jaedoyak.html": {
+  "date": "2026-11-19",
+  "hash": "00eb1eaf86710ecbca72572819a9d4215dbc946d157d201827f8cbd49d42b6c0"
+ },
  "jangaein.html": {
   "date": "2026-11-13",
   "hash": "3ef39ce5198b03c6b655941cd9fd489f4b34801452dfd0fdbf36f2da0a07c874"
@@ -480,12 +492,16 @@
   "hash": "6935f98783a1b8c830e49ee39b798032ac32e55cd9c9945a713fde256c06580d"
  },
  "jungjingong.html": {
-  "date": "2026-11-12",
-  "hash": "2aec3977bfc1de0807b9693d4fc500cc74c387c37e22e75309a104740e91d545"
+  "date": "2026-11-19",
+  "hash": "756bd5d3fd3b1696ca77f6e1094e8fe4612df82ca9cbb1ad273dfb56f1e6c94b"
  },
  "jungsogieop.html": {
   "date": "2026-11-12",
   "hash": "37869d6a6af06de3c9609026eb79f88828e0b86eb8270c6b84df3f800f9f3c4d"
+ },
+ "kosme-gingeup.html": {
+  "date": "2026-11-19",
+  "hash": "2181d60a3246696701bc4f4c7a7482b1c80e6d91a0a542877b9c036f0649d596"
  },
  "marketing.html": {
   "date": "2026-11-12",
@@ -682,6 +698,14 @@
  "sinbo.html": {
   "date": "2026-11-16",
   "hash": "6d510592bf0cae40b0a91dc78b8a7db5962f2c6442939b2a79c1b7d64b5c844c"
+ },
+ "sinseongjang.html": {
+  "date": "2026-11-19",
+  "hash": "3425fdbab42818e77bf89c52ee88ddc98fedebccb1b33bc3cac63fde880d2835"
+ },
+ "sinsijang.html": {
+  "date": "2026-11-19",
+  "hash": "851b8d64390928c7ac0fd313b8da6817b4e5543e7eb787791e47d8761ed76e2e"
  },
  "sinyongchwiyak.html": {
   "date": "2026-11-13",
