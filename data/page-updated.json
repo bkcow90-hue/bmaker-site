@@ -245,7 +245,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-19",
-  "hash": "03f8782cd31bcfbc4bc7bdfd85592ee3a5e5e0c3935f294aaaf53769e1cee628"
+  "hash": "866968d9ca097ad38da73da16bbe60ee1fa29d2c6e09f83bd8f748c2dc249bb9"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -314,6 +314,10 @@
  "gingeup.html": {
   "date": "2026-11-13",
   "hash": "073bf09f1ea29e734043487dc495a80bc0cba4dc2eec3078cda69e5c371991b0"
+ },
+ "gwangwang-gigeum.html": {
+  "date": "2026-11-19",
+  "hash": "74c8a36b4e3a024def9cb120b38bdc1d9604950f2e6b7aad5bd9ae91648e1cea"
  },
  "gyehoekseo.html": {
   "date": "2026-11-01",
@@ -503,6 +507,10 @@
   "date": "2026-11-19",
   "hash": "2181d60a3246696701bc4f4c7a7482b1c80e6d91a0a542877b9c036f0649d596"
  },
+ "maechul-chaegwon-boheom.html": {
+  "date": "2026-11-19",
+  "hash": "fe199aeda7567308f1e5dd5f73a32955a2bce00309dfdc4ee19056a9740a5153"
+ },
  "marketing.html": {
   "date": "2026-11-12",
   "hash": "74224d6bcba8d7393f00c649db5da4aaaf867e1f98b9c3307833296ae13f08b2"
@@ -518,6 +526,10 @@
  "modoo-startup-consulting.html": {
   "date": "2026-11-16",
   "hash": "5897dc1ccc401e15e6d1c6ec72f8f464cfe702704318ad4b7ca297af785ce3d8"
+ },
+ "nongsinbo.html": {
+  "date": "2026-11-19",
+  "hash": "bc967ccc442292ff9b61c967c420df8ed78bf09e36394b6ea4c550b33c97add7"
  },
  "online-ad-guide.html": {
   "date": "2026-09-15",
@@ -705,7 +717,7 @@
  },
  "sinsijang.html": {
   "date": "2026-11-19",
-  "hash": "851b8d64390928c7ac0fd313b8da6817b4e5543e7eb787791e47d8761ed76e2e"
+  "hash": "90378d236d100f91f42469da2ad1c53ae538c84ba15e3e2a5421be6355929c8f"
  },
  "sinyongchwiyak.html": {
   "date": "2026-11-13",
@@ -734,6 +746,10 @@
  "stats.html": {
   "date": "2026-11-01",
   "hash": "f0f43488b6dfa5520b6b4abbd4f3df02866e931aad20a8178c2e6c44b0b786d8"
+ },
+ "suchul-bojeung.html": {
+  "date": "2026-11-19",
+  "hash": "e73af6776d22e6e82533bcb2c5ec2a81e01513e3790ca748e48166ea5f1b7929"
  },
  "venture-certification.html": {
   "date": "2026-11-10",
