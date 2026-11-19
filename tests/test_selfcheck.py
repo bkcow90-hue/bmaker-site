@@ -299,3 +299,32 @@ def test_review_sheet_fills_and_result_is_an_itemised_report(browser_page, site)
     expect(page.locator("#selfcheck")).to_be_visible()
     expect(sheet.locator('li[data-key="form"] b')).to_have_text("답하는 중")
     expect(sheet.locator('li[data-key="tax"] b')).to_have_text("미입력")
+
+
+def test_top_menu_first_item_on_every_page():
+    """자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸(2026-11-19 대표 "메뉴에서도 쉽게 보이게")."""
+    first = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+    for name in ("index.html", "sosangin.html", "cases.html", "blog.html", "jagajindan.html", "region/index.html" if (ROOT / "region/index.html").exists() else "region.html"):
+        text = (ROOT / name).read_text(encoding="utf-8")
+        assert text.count(first) == 1, name
+        assert text.count('class="nav-check"') == 1, name
+    for css in ("assets/polish.css", "assets/home-video.css"):
+        text = (ROOT / css).read_text(encoding="utf-8")
+        assert "a.nav-check{color:#234780" in text, css
+        assert "\\n" not in text, f"{css}: 글자 그대로의 \\n 이 섞이면 뒤 규칙이 깨진다"
+
+
+def test_menu_item_is_styled_and_shown_on_narrow_subpages(browser_page, site):
+    """세부 페이지는 좁은 화면에 펼침 메뉴가 없다 — 헤더 아래 한 줄로 자가진단이 보여야 한다."""
+    page = browser_page
+    page.route("**/*", lambda r: r.continue_() if r.request.url.startswith("http://127.0.0.1:") else r.abort())
+    page.goto(f"{site}/sosangin.html", wait_until="networkidle")
+    link = page.locator("header .nav-check")
+    expect(link).to_be_visible()
+    assert link.evaluate("e => getComputedStyle(e).color") == "rgb(35, 71, 128)"
+    assert link.evaluate("e => getComputedStyle(e).fontWeight") == "800"
+    assert link.get_attribute("href") == "/jagajindan"
+    assert not page.evaluate("document.documentElement.scrollWidth > innerWidth + 1")
+    # 자가진단 페이지 안에서는 자기 자신으로 가는 줄을 보이지 않는다
+    page.goto(f"{site}/jagajindan.html", wait_until="networkidle")
+    expect(page.locator("header .nav-check")).to_be_hidden()

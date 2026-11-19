@@ -150,3 +150,15 @@ main .ie-h{font-weight:700;color:var(--ink-navy);margin:0 0 8px;font-size:.92rem
 .ie-bar i{display:block;height:100%;background:#2E4A86;border-radius:4px}
 .ie-v{text-align:right;color:#6A7385;font-size:.8rem}
 @media(max-width:760px){.ie-stats{grid-template-columns:1fr 1fr}.ie-who{grid-template-columns:1fr;gap:16px}}
+
+/* 상단 메뉴의 자가진단 — 다른 메뉴와 구분되는 테두리 칸(2026-11-19). 휴대폰 펼침 메뉴에서는 굵은 글자만 */
+header .nav-links a.nav-check{color:#234780!important;font-weight:800!important}
+@media(min-width:1101px){header .nav-links a.nav-check{border:1.5px solid #234780;border-radius:4px;padding:5px 11px;margin:-6px 0}header .nav-links a.nav-check:hover{background:#234780;color:#fff!important}}
+/* 좁은 화면(상단 메뉴가 접히는 폭)에서는 헤더 바로 아래 한 줄로 자가진단만 보인다 — 세부 페이지에는 펼침 메뉴가 없어서(2026-11-19) */
+@media(max-width:1100px){
+  header .nav-links{display:block!important;position:absolute;top:100%;left:0;right:0;margin:0;padding:0;background:#F7F5F0;border-bottom:1px solid #E1DED6;white-space:nowrap;overflow:hidden}
+  header .nav-links>*:not(.nav-check){display:none!important}
+  header .nav-links a.nav-check{display:block;padding:8px 20px;border:0;font-size:.86rem;line-height:1.4;text-align:center;text-overflow:ellipsis;overflow:hidden}
+  header .nav-links a.nav-check::after{content:"  우리 사업장도 신청할 수 있는지 확인";font-weight:500;color:#4a5669}
+  html:has(link[rel=canonical][href$="/jagajindan"]) header .nav-links{display:none!important}
+}

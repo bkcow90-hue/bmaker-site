@@ -179,3 +179,7 @@
 .nav-drop-menu .nav-drop-h{margin:0 0 4px;padding:6px 10px 2px;font-size:.74rem;font-weight:700;color:#7A8499;letter-spacing:0}
 @media(min-width:841px){.nav-drop[open] .nav-drop-menu{display:grid!important;grid-template-columns:repeat(3,minmax(150px,1fr));gap:4px 10px;min-width:560px;padding:12px}}
 @media(max-width:840px){.nav-drop-menu .nav-drop-h{padding:12px 28px 4px}.nav-drop-col{border-bottom:1px solid #EEF1F6}}
+
+/* 상단 메뉴의 자가진단 — 다른 메뉴와 구분되는 테두리 칸(2026-11-19). 휴대폰 펼침 메뉴에서는 굵은 글자만 */
+header .nav-links a.nav-check{color:#234780!important;font-weight:800!important}
+@media(min-width:1101px){header .nav-links a.nav-check{border:1.5px solid #234780;border-radius:4px;padding:5px 11px;margin:-6px 0}header .nav-links a.nav-check:hover{background:#234780;color:#fff!important}}
