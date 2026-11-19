@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://bmaker.kr/</loc><lastmod>2026-11-18</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://bmaker.kr/</loc><lastmod>2026-11-19</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://bmaker.kr/sojingong</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bmaker.kr/jungjingong</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bmaker.kr/bojeung</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -80,8 +80,8 @@
   <url><loc>https://bmaker.kr/region/jeonju</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/gimhae</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/region/pohang</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-11-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-11-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bmaker.kr/blog</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bmaker.kr/blog/category/guide</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/fund</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/category/news</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bmaker.kr/blog/2027-kriss-technology-home-doctor</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -187,4 +187,5 @@
 <url><loc>https://bmaker.kr/maechul-chaegwon-boheom</loc><lastmod>2026-11-19</lastmod></url>
 <url><loc>https://bmaker.kr/gwangwang-gigeum</loc><lastmod>2026-11-19</lastmod></url>
 <url><loc>https://bmaker.kr/suchul-bojeung</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://bmaker.kr/blog/corporate-gajigeupgeum-guarantee-consult</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
