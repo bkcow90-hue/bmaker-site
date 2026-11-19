@@ -29,7 +29,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | # | 제목(안) | 분류 | 연결할 페이지 | 상태 |
 |---|---|---|---|---|
 | 58 | 모두의 창업 컨설팅, 신청 전에 창업 컨설턴트와 무엇을 정리하나요? | startup | /modoo-startup-consulting · /startup | 발행 2026-11-18 (PR #121) |
-| 59 | 모두의 창업 도전신청서, 혼자 쓸 때와 창업 컨설팅을 받을 때 달라지는 것 | startup | /modoo-startup-consulting · /startup | 대기 |
+| 59 | 모두의 창업 도전신청서, 혼자 쓸 때와 창업 컨설팅을 받을 때 달라지는 것 | startup | /modoo-startup-consulting · /startup | 발행 2026-11-20 |
 | 54 | 모두의 창업에 도전한 뒤, 사업자등록을 하면 어떤 창업자금을 알아볼 수 있나요? | startup | /startup · /cheongnyeon | 대기 |
 | 55 | 모두의 창업 1라운드에서 떨어졌다면, 다음에 준비할 수 있는 창업 지원은? | startup | /startup · /jiwongeum | 대기 |
 | 56 | 모두의 창업과 예비창업패키지, 무엇이 다르고 같이 신청할 수 있나요? | startup | /startup · /jiwongeum | 대기 |
