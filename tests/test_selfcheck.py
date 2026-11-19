@@ -219,3 +219,57 @@ def test_answers_travel_with_the_lead(browser_page, site):
     assert "체납 있고, 당장 정리하기 어려움" in sent[0]["answers_text"]
     assert "/jagajindan (정책자금 자가진단)" in sent[0]["answers_text"]
     assert sent[0]["service"] == "pfm"
+
+
+def test_restart_clears_only_what_the_check_filled(browser_page, site):
+    """다시 하기를 누르면 이전 진단 답이 신청 폼에 남지 않는다 — 새 진단을 끝내기 전에 신청해도 옛 체납·연체 답이 실려 가지 않게.
+    고객이 직접 적은 이름·연락처는 그대로 둔다(2026-11-19 PR #132 검토 의견)."""
+    page = browser_page
+    sent = []
+    _open(page, site, sent)
+    _answer(page, ("form", "corp"), ("years", "y3"), ("industry", "mfg"), ("revenue", "m5"),
+            ("tax", "hard"), ("overdue", "now"), ("purpose", "run"))
+    page.fill("#lf-name", "테스트")
+    page.fill("#lf-phone", "010-1234-5678")
+    page.locator("#scResult .sc-r-again").click()
+    expect(page.locator("#lf-memo")).to_have_value("")
+    expect(page.locator("#lf-biz")).to_have_value("")
+    expect(page.locator('#lf-biztype .biz-opt[aria-pressed="true"]')).to_have_count(0)
+    expect(page.locator("#inline-diag-title")).to_have_text("우리 회사도 되는지 무료로 확인")
+    expect(page.locator("#lf-name")).to_have_value("테스트")
+    expect(page.locator("#lf-phone")).to_have_value("010-1234-5678")
+    expect(page.locator("#scCount")).to_have_text("1 / 7")
+
+    page.evaluate("document.getElementById('leadForm').scrollIntoView()")
+    page.check("#lf-consent")
+    page.locator('#leadForm button[type="submit"]').click()
+    page.wait_for_timeout(600)
+    assert len(sent) == 1
+    assert "자가진단" not in sent[0]["answers_text"].replace("/jagajindan (정책자금 자가진단)", "")
+    assert "체납" not in sent[0]["answers_text"] and "연체" not in sent[0]["answers_text"]
+
+
+def test_fast_changes_and_back_do_not_skip_a_question(browser_page, site):
+    """답을 빠르게 바꾸거나 바로 뒤로 가도 문항이 건너뛰어지지 않는다 — 넘어가는 예약은 하나만(2026-11-19 PR #132 검토 의견)."""
+    page = browser_page
+    _open(page, site)
+    # 180ms 안에 답을 세 번 바꾼다 → 다음 질문은 2번(업력)이어야 한다
+    page.evaluate("""() => {
+        for (const v of ['ind', 'corp', 'ind']) {
+            const r = document.querySelector('#scForm input[name="form"][value="' + v + '"]');
+            r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }""")
+    page.wait_for_timeout(400)
+    expect(page.locator("#scCount")).to_have_text("2 / 7")
+    expect(page.locator('#scForm fieldset[data-key="years"]')).to_be_visible()
+
+    # 답을 고른 직후(예약이 걸린 상태) 바로 뒤로 간다 → 1번에 머물러야 한다
+    page.evaluate("""() => {
+        const r = document.querySelector('#scForm input[name="years"][value="y3"]');
+        r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true }));
+        document.getElementById('scBack').click();
+    }""")
+    page.wait_for_timeout(400)
+    expect(page.locator("#scCount")).to_have_text("1 / 7")
+    expect(page.locator('#scForm fieldset[data-key="form"]')).to_be_visible()

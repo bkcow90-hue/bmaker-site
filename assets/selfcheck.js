@@ -21,6 +21,9 @@
   var answers = {};
   var order = [];   // 지나온 질문 번호 — '이전'이 건너뛴 질문을 다시 건너뛰게
   var current = 0;
+  var pending = null;     // 다음 질문으로 넘어가는 예약은 한 번에 하나만
+  var autoBiz = null;     // 진단이 대신 눌러 둔 사업자 형태 버튼
+  var formTitle = '';     // 신청 폼의 원래 제목
 
   function track(name, params) {
     try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch (_) { /* 계측 실패가 진단을 막지 않게 */ }
@@ -210,13 +213,29 @@
     // 사업자 형태 버튼을 답에 맞춰 눌러 둔다(다시 묻지 않게)
     var want = { ind: '개인사업자', corp: '법인사업자', pre: '창업 예정' }[answers.form];
     [].slice.call(document.querySelectorAll('#lf-biztype .biz-opt')).forEach(function (b) {
-      if (b.textContent.trim() === want && b.getAttribute('aria-pressed') !== 'true') b.click();
+      if (b.textContent.trim() === want && b.getAttribute('aria-pressed') !== 'true') { b.click(); autoBiz = b; }
     });
     var title = document.getElementById('inline-diag-title');
-    if (title) title.textContent = '이 결과로 무료 진단 받기';
+    if (title) { if (!formTitle) formTitle = title.textContent; title.textContent = '이 결과로 무료 진단 받기'; }
   }
 
+  function cancelPending() {
+    if (pending !== null) { window.clearTimeout(pending); pending = null; }
+  }
+  // 진단이 채운 값만 지운다 — 고객이 직접 적은 이름·연락처·통화 시간은 그대로 둔다
+  function clearLeadForm() {
+    var memo = document.getElementById('lf-memo');
+    if (memo) memo.value = '';
+    var biz = document.getElementById('lf-biz');
+    if (biz) biz.value = '';
+    if (autoBiz && autoBiz.getAttribute('aria-pressed') === 'true') autoBiz.click();
+    autoBiz = null;
+    var title = document.getElementById('inline-diag-title');
+    if (title && formTitle) title.textContent = formTitle;
+  }
   function restart() {
+    cancelPending();
+    clearLeadForm();
     form.reset();
     answers = {}; order = [];
     result.hidden = true; form.hidden = false;
@@ -231,10 +250,14 @@
     if (!input || input.type !== 'radio') return;
     answers[input.name] = input.value;
     if (!started) { started = true; track('selfcheck_start', {}); }
-    // 고른 것이 눈에 보인 뒤 넘어간다
-    window.setTimeout(next, 180);
+    // 고른 것이 눈에 보인 뒤 넘어간다. 빠르게 답을 바꿔도 예약은 하나만 남기고,
+    // 그 사이 다른 질문으로 옮겨 갔으면 넘기지 않는다(문항이 건너뛰어지지 않게).
+    var from = current;
+    cancelPending();
+    pending = window.setTimeout(function () { pending = null; if (current === from) next(); }, 180);
   });
   if (back) back.addEventListener('click', function () {
+    cancelPending();
     if (!order.length) return;
     var i = order.pop();
     // 돌아간 질문은 답을 비운다 — 같은 답을 다시 눌러도 change 가 나서 넘어가게
