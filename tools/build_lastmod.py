@@ -201,7 +201,7 @@ def stamp_polish(s, key):
     return s.replace('</head>', POLISH + '\n</head>', 1)
 
 
-NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
+NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/jagajindan">정책자금 자가진단</a><a href="/schedule">접수 일정</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
 _NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
 
 

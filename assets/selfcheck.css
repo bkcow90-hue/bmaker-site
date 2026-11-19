@@ -1,0 +1,55 @@
+/* 정책자금 자가진단 (/jagajindan) — v4 "장부와 공문서": 괘선, 낮은 라운드, 종이 톤 */
+.sc-box{margin:8px 0 34px;border-top:2px solid var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:var(--paper,#F7F5F0);padding:26px 24px 24px;scroll-margin-top:84px}
+.sc-top{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sc-count{font-variant-numeric:tabular-nums;font-weight:800;font-size:.9rem;color:var(--navy,#0E1B33);white-space:nowrap}
+.sc-track{flex:1;height:4px;background:#dcd8cf;overflow:hidden}
+.sc-bar{display:block;height:100%;width:0;background:var(--navy,#0E1B33);transition:width .25s ease}
+.sc-back{border:0;background:none;font:inherit;font-size:.86rem;font-weight:700;color:#4a5669;cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+.sc-back[hidden]{display:none}
+
+.sc-q{border:0;padding:0;margin:0 0 26px;min-width:0}
+.sc-q[hidden]{display:none}
+.sc-q legend{display:block;padding:0;margin:0 0 6px;font-family:var(--display,'Noto Serif KR',serif);font-size:1.22rem;line-height:1.45;font-weight:700;color:var(--navy,#0E1B33)}
+.sc-q legend:focus{outline:none}
+.sc-q .sc-hint{margin:0 0 14px;font-size:.88rem;line-height:1.6;color:#4a5669}
+.sc-opts{display:grid;gap:8px}
+.sc-opts label{display:block;position:relative;cursor:pointer}
+.sc-opts input{position:absolute;opacity:0;width:1px;height:1px}
+.sc-opts span{display:block;padding:14px 16px;min-height:50px;border:1px solid #bdc7d8;border-radius:4px;background:#fff;color:#1A2233;font-size:1rem;font-weight:600;line-height:1.45}
+@media(hover:hover){.sc-opts label:hover span{border-color:var(--navy,#0E1B33)}}
+.sc-opts input:checked + span{background:#234780;border-color:#234780;color:#fff}
+.sc-opts input:focus-visible + span{outline:3px solid var(--kakao,#FEE500);outline-offset:2px}
+.sc-live .sc-q{margin-bottom:0}
+.sc-live .sc-q:last-of-type{margin-bottom:0}
+.sc-noscript{margin:18px 0 0;font-size:.88rem;color:#4a5669}
+
+.sc-result{margin:8px 0 34px;border-top:2px solid var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:#fff;padding:26px 24px;scroll-margin-top:84px}
+.sc-result[hidden]{display:none}
+.sc-r-kicker{margin:0 0 6px;font-size:.84rem;font-weight:800;color:#4a5669}
+.sc-result h2{margin:0;padding:0;border:0;font-size:1.5rem;line-height:1.4;color:var(--navy,#0E1B33)}
+.sc-result h2:focus{outline:none}
+.sc-r-sub{margin:10px 0 0;font-size:1rem;line-height:1.7;color:#3A4356}
+.sc-r-list{list-style:none;margin:22px 0 0;padding:0;border-top:1px solid var(--line,#E1DED6)}
+.sc-r-list li{padding:16px 0 16px 16px;border-bottom:1px solid var(--line,#E1DED6);border-left:3px solid #bdc7d8}
+.sc-r-list li.sc-r-fix{border-left-color:#234780}
+.sc-r-list li.sc-r-stop{border-left-color:#b32b28}
+.sc-r-list b{display:block;font-size:.98rem;color:var(--navy,#0E1B33);margin-bottom:4px}
+.sc-r-list span{display:block;font-size:.94rem;line-height:1.7;color:#3A4356}
+.sc-r-cases{margin:18px 0 0;font-size:.94rem;color:#3A4356}
+.sc-r-cases a{color:#1e44b8;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+.sc-r-ask{margin:22px 0 0;padding:16px 18px;background:var(--paper,#F7F5F0);border:1px solid var(--line,#E1DED6)}
+.sc-r-ask p{margin:0 0 6px;font-size:.92rem;font-weight:800;color:var(--navy,#0E1B33)}
+.sc-r-ask ul{margin:0;padding-left:20px;font-size:.94rem;line-height:1.75;color:#3A4356}
+.sc-r-ask .sc-r-ask-foot{margin:10px 0 0;font-weight:400;color:#3A4356;line-height:1.7}
+.sc-r-cta{display:block;margin:22px 0 0;padding:16px;text-align:center;background:#234780;border:1px solid #234780;border-radius:4px;color:#fff;font-size:1.04rem;font-weight:700;text-decoration:none}
+.sc-r-cta:hover{background:#1b3a69}
+.sc-r-again{display:block;margin:12px auto 0;border:0;background:none;font:inherit;font-size:.88rem;color:#4a5669;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px}
+.sc-r-fine{margin:10px 0 0;font-size:.82rem;line-height:1.6;color:#526077;text-align:center}
+.sc-stats{margin:0 0 6px;font-size:.92rem;color:#3A4356}
+
+@media(max-width:680px){
+  .sc-box,.sc-result{padding:22px 18px;margin-left:-4px;margin-right:-4px}
+  .sc-q legend{font-size:1.12rem}
+  .sc-result h2{font-size:1.3rem}
+}
+@media (prefers-reduced-motion:reduce){.sc-bar{transition:none}}
