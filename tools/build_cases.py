@@ -370,8 +370,11 @@ td a{color:var(--blue-deep);text-decoration:underline}
            'sojingong-n':_n('소진공'),'sojingong-won':_won('소진공'),'jungjin-n':_n('중진공'),
            'corp-n':str(sum(1 for r in D if r['사업 형태'].strip()=='법인')),'ind-n':str(sum(1 for r in D if r['사업 형태'].strip()=='개인')),
            'corp-won':won2(sum(int(r['실행 금액(만원)']) for r in D if r['사업 형태'].strip()=='법인')),
-           'ind-won':won2(sum(int(r['실행 금액(만원)']) for r in D if r['사업 형태'].strip()=='개인'))}
-    for f in ('index.html','sojingong.html','bojeung.html','gibo.html','sinbo.html','jaedan.html','stats.html','consulting.html'):
+           'ind-won':won2(sum(int(r['실행 금액(만원)']) for r in D if r['사업 형태'].strip()=='개인')),
+           # /jagajindan 자가진단(2026-11-19): 체납 이력·재창업 사례 건수
+           'tax-n':str(sum(1 for r in D if r.get('체납 이력','').strip()=='있음')),
+           'restart-n':str(sum(1 for r in D if r.get('폐업 이력','').strip() in ('있음','재창업')))}
+    for f in ('index.html','sojingong.html','bojeung.html','gibo.html','sinbo.html','jaedan.html','stats.html','consulting.html','jagajindan.html'):
         p=ROOT/f
         if not p.exists(): continue
         s0=p.read_text(encoding='utf-8'); s=s0

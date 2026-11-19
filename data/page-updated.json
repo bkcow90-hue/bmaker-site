@@ -308,8 +308,8 @@
   "hash": "243239615e92e789657c978b65ee736c7a76172663535e326e01fcd5117be2ed"
  },
  "geojeol.html": {
-  "date": "2026-11-16",
-  "hash": "23f1503efd16653bcafd90fbb207427feb4a08489129aeb7d156da11dfb5f751"
+  "date": "2026-11-19",
+  "hash": "9b70799c869056071e2720cca3e8a8077061fd458c872233510009284369f24b"
  },
  "gibo.html": {
   "date": "2026-11-14",
@@ -353,7 +353,7 @@
  },
  "index.html": {
   "date": "2026-11-19",
-  "hash": "49d7bd387c44ce238ddb7b04cb3c6eed0d5f61f16c1fe58f4405ed7013025742"
+  "hash": "0784664ab5195f42ed7fa7e72447c8c6513abdae7e76c1146948fb89a462c6e3"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
@@ -487,13 +487,17 @@
   "date": "2026-11-19",
   "hash": "00eb1eaf86710ecbca72572819a9d4215dbc946d157d201827f8cbd49d42b6c0"
  },
+ "jagajindan.html": {
+  "date": "2026-11-19",
+  "hash": "1bd8dc29616d41bc89dce52c7bbe1255894739d9bc31712f42d9de73f7b2e0f6"
+ },
  "jangaein.html": {
   "date": "2026-11-13",
   "hash": "3ef39ce5198b03c6b655941cd9fd489f4b34801452dfd0fdbf36f2da0a07c874"
  },
  "jeosinyong.html": {
-  "date": "2026-11-01",
-  "hash": "8bdfd5bb793043eb2cf6e5481180772c5dda42b769b8a3a1db15fe32dd3bf93d"
+  "date": "2026-11-19",
+  "hash": "1bb315b22d36008038fd6253b4389c0e0b17d9165f58674a3c729e674ed20ff8"
  },
  "jiwongeum.html": {
   "date": "2026-11-10",
@@ -708,8 +712,8 @@
   "hash": "c2e865b2a32aacd1e0c889ebb2ff429adf0c57c206c74425358552021f37c793"
  },
  "schedule.html": {
-  "date": "2026-11-17",
-  "hash": "3ca85401f36e7e4411336aa5e1f22527b59dd8e86e42208c749c5eda5af1bd95"
+  "date": "2026-11-19",
+  "hash": "4571d072aca7bf6104235be89e896c0f36e781bd35d559a60132a1b443830286"
  },
  "sinbo.html": {
   "date": "2026-11-16",

@@ -205,9 +205,17 @@ NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-d
 _NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
 
 
+NAV_FIRST = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴">'
+NAV_CHECK = '<a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+
+
 def stamp_nav(s):
     """자금 안내 드롭다운을 한 벌로 맞춘다(2026-11-14 대표 "자금안내 순서가 안 맞는다") — 빌더마다 복사본이 달라 여기서 통일."""
-    return _NAV_RE.sub(lambda m: NAV_MENU, s, count=1)
+    s = _NAV_RE.sub(lambda m: NAV_MENU, s, count=1)
+    # 자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸에 따로 둔다(2026-11-19 대표 "메뉴에서도 쉽게 보이게")
+    if NAV_CHECK not in s:
+        s = s.replace(NAV_FIRST, NAV_FIRST + NAV_CHECK, 1)
+    return s
 
 
 def stamp_reviewed(s):
