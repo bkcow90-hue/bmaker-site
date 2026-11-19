@@ -47,6 +47,20 @@
     for (var j = 0; j <= i; j++) if (!skipped(j)) n++;
     return n;
   }
+  // 검토표(답한 내용) — 답할 때마다 한 줄씩 채워진다
+  var sheet = document.getElementById('scSheet');
+  function paintSheet() {
+    if (!sheet) return;
+    [].slice.call(sheet.children).forEach(function (li) {
+      var key = li.getAttribute('data-key');
+      var idx = -1;
+      steps.forEach(function (st, j) { if (st.getAttribute('data-key') === key) idx = j; });
+      var skip = idx >= 0 && skipped(idx);
+      var value = li.querySelector('b');
+      li.className = skip ? 'is-skip' : answers[key] ? 'is-done' : idx === current && !form.hidden ? 'is-now' : '';
+      if (value) value.textContent = skip ? '해당 없음' : answers[key] ? label(key) : idx === current && !form.hidden ? '답하는 중' : '미입력';
+    });
+  }
   function show(i) {
     current = i;
     steps.forEach(function (s, j) { s.hidden = j !== i; });
@@ -55,6 +69,7 @@
     if (count) count.textContent = pos + ' / ' + total;
     if (bar) bar.style.width = Math.round(((pos - 1) / total) * 100) + '%';
     if (back) back.hidden = order.length === 0;
+    paintSheet();
   }
   function next() {
     var i = current + 1;
@@ -97,6 +112,21 @@
     stop: ['지금은 신청보다 정리가 먼저예요', '이대로 접수하면 멈출 가능성이 큽니다. 다만 정리 순서에 따라 다시 볼 수 있는 경우가 있어요.']
   };
 
+  // 항목별 표의 소견 칸 — 답 하나가 어느 단계인지
+  var ROW = { form: { pre: 'pre' }, years: { u1: 'young' }, revenue: { none: 'norev' }, industry: { restricted: 'restricted' },
+    tax: { payable: 'taxpay', hard: 'taxhard', unknown: 'taxunknown' }, overdue: { past: 'overpast', now: 'overnow', unknown: 'overunknown' } };
+  var ROW_NAME = { form: '사업자 형태', years: '업력', industry: '업종', revenue: '매출', tax: '세금 체납', overdue: '연체', purpose: '자금 용도' };
+  var VERDICT = { clear: '걸림 없음', note: '참고', fix: '확인 필요', stop: '정리 먼저' };
+  function rowLevel(key) {
+    var note = ROW[key] && ROW[key][answers[key]];
+    return note ? NOTES[note].level : 'clear';
+  }
+  function stamp() {
+    var d = new Date();
+    var two = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '.' + two(d.getMonth() + 1) + '.' + two(d.getDate()) + ' ' + two(d.getHours()) + ':' + two(d.getMinutes());
+  }
+
   function collect() {
     var keys = [];
     if (answers.form === 'pre') keys.push('pre');
@@ -136,13 +166,48 @@
 
     result.innerHTML = '';
     result.setAttribute('data-level', level);
-    result.appendChild(el('p', 'sc-r-kicker', '자가진단 결과'));
+
+    // 문서 머리 — 제목·작성 시각·참고용 도장
+    var answered = steps.filter(function (st, i) { return !skipped(i); });
+    var headBox = el('div', 'sc-doc-head');
+    var headText = el('div');
+    headText.appendChild(el('p', 'sc-r-kicker', '정책자금 자가진단 결과서'));
+    headText.appendChild(el('p', 'sc-doc-meta', '작성 ' + stamp() + ' · 답하신 ' + answered.length + '개 항목 기준'));
+    headBox.appendChild(headText);
+    var seal = el('span', 'sc-seal', '참고용'); seal.setAttribute('aria-hidden', 'true');
+    headBox.appendChild(seal);
+    result.appendChild(headBox);
+
+    result.appendChild(el('p', 'sc-doc-label', '종합 소견'));
     var h = el('h2', 'serif', head[0].replace('{n}', String(blocking.length)));
     h.id = 'scResultTitle'; h.setAttribute('tabindex', '-1');
     result.appendChild(h);
     result.appendChild(el('p', 'sc-r-sub', head[1]));
 
+    // 항목별 표 — 항목 · 답 · 소견
+    var table = el('table', 'sc-r-table');
+    var cap = el('caption', null, '항목별 검토'); table.appendChild(cap);
+    var thead = el('thead'); var hr = el('tr');
+    ['항목', '답하신 내용', '소견'].forEach(function (t) { var th = el('th', null, t); th.scope = 'col'; hr.appendChild(th); });
+    thead.appendChild(hr); table.appendChild(thead);
+    var tbody = el('tbody');
+    answered.forEach(function (st, n) {
+      var key = st.getAttribute('data-key');
+      var lv = rowLevel(key);
+      var tr = el('tr', 'sc-v-' + lv);
+      tr.style.setProperty('--i', n);
+      var th = el('th', null, ROW_NAME[key]); th.scope = 'row';
+      tr.appendChild(th);
+      tr.appendChild(el('td', null, label(key)));
+      var td = el('td'); td.appendChild(el('span', 'sc-verdict', VERDICT[lv])); tr.appendChild(td);
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    var wrap = el('div', 'sc-r-tablewrap'); wrap.appendChild(table);
+    result.appendChild(wrap);
+
     if (keys.length) {
+      result.appendChild(el('p', 'sc-doc-label', '항목별 소견'));
       var list = el('ul', 'sc-r-list');
       keys.forEach(function (k) {
         var li = el('li', 'sc-r-' + NOTES[k].level);
@@ -171,7 +236,12 @@
     var box = el('div', 'sc-r-ask');
     box.appendChild(el('p', null, '자가진단에서 묻지 않은 것'));
     var ul = el('ul');
-    ask.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+    ask.forEach(function (t) {
+      var li = el('li');
+      li.appendChild(el('span', null, t));
+      li.appendChild(el('i', null, '미확인'));
+      ul.appendChild(li);
+    });
     box.appendChild(ul);
     box.appendChild(el('p', 'sc-r-ask-foot', '전화에서 이것만 들으면 신청해 볼 기관과 자금 후보, 준비 순서를 말씀드릴 수 있어요. 진단은 무료입니다.'));
     result.appendChild(box);
@@ -184,9 +254,12 @@
     again.addEventListener('click', restart);
     result.appendChild(again);
     result.appendChild(el('p', 'sc-r-fine', '이 결과는 답하신 내용만으로 본 참고 안내입니다. 승인 여부와 조건은 각 심사 기관이 결정합니다.'));
+    result.appendChild(el('p', 'sc-doc-sign', '검토 기준 작성 · 비즈니스 메이커 대표 김상표'));
 
     form.hidden = true;
     result.hidden = false;
+    var box0 = document.getElementById('selfcheck');
+    if (box0) box0.hidden = true;
     if (bar) bar.style.width = '100%';
     fillLeadForm(level, keys);
     track('selfcheck_complete', { result_level: level, flag_count: keys.length });
@@ -239,8 +312,10 @@
     form.reset();
     answers = {}; order = [];
     result.hidden = true; form.hidden = false;
+    var box0 = document.getElementById('selfcheck');
+    if (box0) box0.hidden = false;
     show(0);
-    form.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    (box0 || form).scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
   // ── 시작 ──────────────────────────────────────────────────────────────

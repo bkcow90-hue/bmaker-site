@@ -273,3 +273,29 @@ def test_fast_changes_and_back_do_not_skip_a_question(browser_page, site):
     page.wait_for_timeout(400)
     expect(page.locator("#scCount")).to_have_text("1 / 7")
     expect(page.locator('#scForm fieldset[data-key="form"]')).to_be_visible()
+
+
+def test_review_sheet_fills_and_result_is_an_itemised_report(browser_page, site):
+    """검토표는 답할 때마다 한 줄씩 채워지고, 결과서는 항목별 표(항목·답·소견)로 나온다(2026-11-19 디자인 개편)."""
+    page = browser_page
+    _open(page, site)
+    _answer(page, ("form", "pre"), ("industry", "it"))
+    sheet = page.locator("#scSheet")
+    expect(sheet.locator('li[data-key="form"] b')).to_have_text("창업 예정 (사업자등록 전)")
+    expect(sheet.locator('li[data-key="years"] b')).to_have_text("해당 없음")
+    expect(sheet.locator('li[data-key="industry"] b')).to_have_text("IT, 기술, 콘텐츠")
+    _answer(page, ("tax", "unknown"), ("overdue", "now"), ("purpose", "startup"))
+    result = page.locator("#scResult")
+    expect(page.locator("#selfcheck")).to_be_hidden()
+    rows = result.locator(".sc-r-table tbody tr")
+    expect(rows).to_have_count(5)   # 창업 예정은 업력·매출을 묻지 않는다
+    verdicts = [rows.nth(i).locator(".sc-verdict").inner_text() for i in range(5)]
+    assert verdicts == ["참고", "걸림 없음", "확인 필요", "정리 먼저", "걸림 없음"], verdicts
+    expect(result.locator(".sc-doc-meta")).to_contain_text("답하신 5개 항목 기준")
+    expect(result.locator(".sc-seal")).to_have_text("참고용")
+    expect(result.locator(".sc-r-ask li i").first).to_have_text("미확인")
+    # 다시 하면 질문 상자가 돌아오고 검토표가 비워진다
+    result.locator(".sc-r-again").click()
+    expect(page.locator("#selfcheck")).to_be_visible()
+    expect(sheet.locator('li[data-key="form"] b')).to_have_text("답하는 중")
+    expect(sheet.locator('li[data-key="tax"] b')).to_have_text("미입력")
