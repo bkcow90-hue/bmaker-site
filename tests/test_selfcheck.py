@@ -52,7 +52,7 @@ def test_faq_screen_matches_faqpage_schema():
     ld = next(json.loads(m) for m in re.findall(
         r'<script type="application/ld\+json">(.*?)</script>', PAGE, re.S) if '"FAQPage"' in m)
     screen = re.findall(r'<details><summary>(.*?)</summary><div class="body">(.*?)</div></details>', PAGE, re.S)
-    assert len(screen) == 6
+    assert len(screen) == 9   # 2026-11-19 검색어 대응 3문항 추가(사전진단·신용점수·기관별 조건)
     assert [(q["name"], q["acceptedAnswer"]["text"]) for q in ld["mainEntity"]] == screen
 
 
