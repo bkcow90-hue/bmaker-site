@@ -43,3 +43,5 @@ Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://bmaker.kr/sitemap.xml
+
+#DaumWebMasterTool:53b8bfa512b1d659f9013c5f73b5a3363b2d0f697f4843dea14b07a696300cdf:MqfNpbtb2g8b8TIcUfNFlQ==
