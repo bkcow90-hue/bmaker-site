@@ -57,6 +57,20 @@ r = await post(noGuide, { email: 'ceo@example.com', guidebook_request: true });
 assert.equal((await r.json()).guidebook, undefined);
 assert.equal(calls.filter((c) => c.url.includes('api.resend.com')).length, 1);
 
+// 4-1) 가이드북 요청은 CRM 에 '가이드북 요청=예' · '요청 가이드북'으로 간다(2026-11-23). 요청이 없으면 싣지 않는다.
+//      GUIDEBOOK_URL 이 없어 메일을 못 보낸 경우에도 CRM 에는 요청이 남아야 직원이 따로 보낼 수 있다.
+const crmFields = () => JSON.parse(calls.find((c) => c.url.includes('/api/auto-intake')).opts.body).items[0].fields;
+assert.equal(crmFields()['가이드북 요청'], '예');
+assert.equal(crmFields()['요청 가이드북'], '정책자금 자가진단 가이드북');
+assert.equal(crmFields()['서비스'], '종합 상담 (general)');
+calls = [];
+r = await post(env, { request_id: '11111111-2222-3333-4444-666666666666' });
+assert.equal((await r.json()).ok, true);
+assert.ok(!('가이드북 요청' in crmFields()) && !('요청 가이드북' in crmFields()), '요청 없는 신청에는 가이드북 칸 없음');
+calls = [];
+r = await post(env, { request_id: '11111111-2222-3333-4444-777777777777', guidebook_request: 'true' });
+assert.ok(!('가이드북 요청' in crmFields()), 'true(불리언)만 요청으로 본다');
+
 // 5) GET 은 거절, OPTIONS 는 204
 r = await worker.fetch(new Request('https://bmaker.kr/api/lead'), { ASSETS: assets }, ctx);
 assert.equal(r.status, 405);

@@ -199,6 +199,8 @@ async function sendWithRetry(env, lead) {
 // GUIDEBOOK_URL, a bmaker.kr address; unset = feature off). One attempt,
 // short timeout, idempotent per request id so a retried submit does not send a
 // second copy. The mail is informational (what they asked for), no offers.
+// CRM 의 '요청 가이드북' 칸에 들어가는 이름. 가이드북이 늘면 폼이 고른 이름을 여기로 넘긴다.
+const GUIDEBOOK_NAME = '정책자금 자가진단 가이드북';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function wantsGuidebook(payload, lead, env) {
@@ -339,6 +341,12 @@ function crmItem(lead, payload) {
     put(key === '유입 페이지' ? '유입' : key, value);
   }
   put('진단 결과', lead.result);
+  // 가이드북 요청(홈 폼의 가이드북 이메일 칸) — CRM 이 고객 항목 '가이드북 요청'(예) · '요청 가이드북'(이름)에 넣어
+  // 가이드북을 보내야 할 고객만 거를 수 있게 한다(2026-11-23). 요청하지 않은 신청에는 싣지 않는다(CRM 이 '아니오'로 적는다).
+  if (payload?.guidebook_request === true) {
+    put('가이드북 요청', '예');
+    put('요청 가이드북', GUIDEBOOK_NAME);
+  }
   put('신청 경로', lead.source);
   // Korean 12h form with '(KST)': the CRM's parser pins it to +09:00.
   put('제출 시각', lead.submittedAt);
