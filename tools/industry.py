@@ -6,6 +6,7 @@ build_cases.py 가 원장 빌드 끝에서 build(rows) 를 호출한다(8빌더 
 랜딩은 landing=True 인 업종만 생성한다(2026-09 시안: 음식점·카페, 2026-11-10 제조업·도소매·온라인쇼핑몰 추가). 나머지 타일은 받은 사례 원장으로 연결.
 """
 import json, re, statistics, datetime
+from collections import Counter
 from builddate import build_date, data_date
 from pathlib import Path
 
@@ -17,7 +18,7 @@ ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 원
 INDUSTRIES = [
     # slug, 타일 이름, 검색 질문(h1·title), 랜딩 생성 여부, 업종 열 키워드 — 위에서부터 첫 매칭이라 좁은 업종을 넓은 업종(제조·도소매)보다 위에 둔다
     dict(slug='online-shoppingmall', name='온라인쇼핑몰', question='온라인쇼핑몰 정책자금, 받을 수 있나요?', landing=True, place='쇼핑몰', keys=('이커머스', '온라인 도소매', '쇼핑몰', '스마트스토어')),
-    dict(slug='eumsikjeom', name='음식점·카페', question='음식점·카페 정책자금, 받을 수 있나요?', landing=True, place='가게', keys=('음식', '카페', '베이커리', '요식', '식당', '주점')),
+    dict(slug='eumsikjeom', alias='요식업 정책자금', name='음식점·카페', question='음식점·카페 정책자금, 받을 수 있나요?', landing=True, place='가게', keys=('음식', '카페', '베이커리', '요식', '식당', '주점')),
     dict(slug='geonseol', name='건설·인테리어', question='건설·인테리어 정책자금, 받을 수 있나요?', landing=True, place='현장', keys=('건설', '인테리어')),
     dict(slug='miyong', name='미용·서비스', question='미용·서비스업 정책자금, 받을 수 있나요?', landing=True, place='매장', keys=('뷰티', '미용', '헤어', '네일', '피부'), exact=('서비스업',)),
     # 2026-11-13 경쟁사 업종 페이지 대응(대표 "따라할 것은 전부") — 원장 업종 열에서 10건 이상 모이는 업종만 연다
@@ -96,7 +97,7 @@ def landing_html(ind, rows, all_n, period):
     other_links = ' · '.join(f'<a href="/industry/{o["slug"]}">{o["name"]}</a>' for o in INDUSTRIES if o['landing'] and o['slug'] != ind['slug'])
     crumb = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
-        {"@type": "ListItem", "position": 2, "name": "업종별 정책자금", "item": "https://bmaker.kr/#industry"},
+        {"@type": "ListItem", "position": 2, "name": "업종별 정책자금", "item": "https://bmaker.kr/industry"},
         {"@type": "ListItem", "position": 3, "name": ind['name'], "item": url}]}, ensure_ascii=False)
     art = json.dumps({"@context": "https://schema.org", "@type": "Article", "headline": title, "description": answer,
                       "dateModified": str(ASOF), "inLanguage": "ko",
@@ -104,6 +105,8 @@ def landing_html(ind, rows, all_n, period):
                       "publisher": {"@type": "Organization", "@id": "https://bmaker.kr/#org", "name": "비즈니스 메이커"},
                       "mainEntityOfPage": url, "isBasedOn": "https://bmaker.kr/data/cases.csv"}, ensure_ascii=False)
     desc = f"{answer} 받은 사례 원장({period})에서 업종이 {ind['name']}인 {n}건을 기관·자금·금액·금리까지 표로 공개합니다."
+    if ind.get('alias'):   # 구글 자동완성에 실제로 뜨는 다른 이름(2026-11-22 검색어 2회차)
+        desc = f"{ind['alias']} 받은 사례. " + desc
     return f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -131,7 +134,7 @@ def landing_html(ind, rows, all_n, period):
 {hdr}
 <section class="hero">
   <div class="wrap">
-    <p class="crumb"><a href="/">홈</a> › <a href="/#industry">업종별 정책자금</a> › {ind['name']}</p>
+    <p class="crumb"><a href="/">홈</a> › <a href="/industry">업종별 정책자금</a> › {ind['name']}</p>
     <h1 class="serif">{title}</h1>
     <p class="answer">{answer}</p>
   </div>
@@ -157,7 +160,7 @@ def landing_html(ind, rows, all_n, period):
       <p>무료로 먼저 봐드립니다.</p>
       <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry">무료 진단 신청 →</a></div>
     </div>
-    <p class="related">다른 업종: {other_links} · <a href="/cases">받은 사례 전체</a></p>
+    <p class="related">다른 업종: {other_links} · <a href="/industry">업종별 정책자금 전체</a> · <a href="/cases">받은 사례 전체</a></p>
   </div>
 </main>
 {foot}
@@ -165,6 +168,98 @@ def landing_html(ind, rows, all_n, period):
 </body>
 </html>
 '''
+
+
+HUB_TITLE = '업종별 정책자금, 음식점·제조업 등 12개 업종 받은 사례'
+HUB_URL = 'https://bmaker.kr/industry'
+
+
+def hub_html(groups, all_n, period):
+    """업종 허브 /industry (2026-11-22). 홈 개편 때 업종 타일이 빠져 업종 랜딩 12장으로 들어오는 길이 서로뿐이었고,
+    서치콘솔에서 10장이 '발견됨 - 색인 생성되지 않음'(한 번도 안 읽힘)이었다. 메뉴·푸터에서 이 허브로, 허브에서 12장으로 잇는다."""
+    inds = [i for i in INDUSTRIES if i['landing'] and groups.get(i['slug'])]
+    inds.sort(key=lambda i: -len(groups[i['slug']]))
+    n_all = sum(len(groups[i['slug']]) for i in inds)
+    answer = f"{len(inds)}개 업종, 받은 사례 {n_all}건을 업종별로 공개합니다."
+    if len(answer) > ANSWER_MAX:
+        raise SystemExit(f"[업종 허브 빌드 실패] 첫 문단 직답이 {len(answer)}자: {answer}")
+    style = re.search(r'<style>.*?</style>', (TEMPLATE_ROOT / 'sojingong.html').read_text(encoding='utf-8'), re.S).group(0)
+    src = (TEMPLATE_ROOT / 'jaedan.html').read_text(encoding='utf-8')
+    hdr = _abs_assets(re.search(r'<header>.*?</header>', src, re.S).group(0))
+    foot = _abs_assets(re.search(r'<footer>.*?</footer>', src, re.S).group(0))
+    rows = ''.join(
+        f'<tr><td><a href="/industry/{i["slug"]}">{esc(i["name"])} 정책자금</a></td><td style="white-space:nowrap">{len(groups[i["slug"]])}건</td>'
+        f'<td style="white-space:nowrap">{won2(sum(r["amt"] for r in groups[i["slug"]]))}</td>'
+        f'<td>{esc(Counter(r["기관"].strip() for r in groups[i["slug"]] if r["기관"].strip()).most_common(1)[0][0])}</td></tr>'
+        for i in inds)
+    crumb = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
+        {"@type": "ListItem", "position": 2, "name": "업종별 정책자금", "item": HUB_URL}]}, ensure_ascii=False)
+    items = json.dumps({"@context": "https://schema.org", "@type": "ItemList", "name": "업종별 정책자금", "itemListElement": [
+        {"@type": "ListItem", "position": n + 1, "name": i['name'] + ' 정책자금', "url": f"https://bmaker.kr/industry/{i['slug']}"}
+        for n, i in enumerate(inds)]}, ensure_ascii=False)
+    desc = (f"{answer} 음식점·제조업·도소매·온라인쇼핑몰·건설·미용·교육·물류·IT·식품·화장품·바이오 업종별로 기관·자금·금액을 표로 보고, "
+            "정책자금 지원제외 업종인지 확인하는 방법을 안내합니다.")
+    return f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{HUB_TITLE} | 비즈니스 메이커</title>
+<meta name="description" content="{desc}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{HUB_TITLE} | 비즈니스 메이커">
+<meta property="og:description" content="{answer}">
+<meta property="og:url" content="{HUB_URL}">
+<meta property="og:image" content="https://bmaker.kr/assets/og.png">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="{HUB_URL}">
+<link rel="icon" type="image/png" href="/assets/icon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap">
+<script type="application/ld+json">{crumb}</script>
+<script type="application/ld+json">{items}</script>
+{style}
+{TBL}
+</head>
+<body>
+{hdr}
+<section class="hero">
+  <div class="wrap">
+    <p class="crumb"><a href="/">홈</a> › 업종별 정책자금</p>
+    <h1 class="serif">업종별 정책자금, 우리 업종은 받은 사례가 있을까요?</h1>
+    <p class="answer">{answer}</p>
+  </div>
+</section>
+<main>
+  <div class="wrap">
+    <p>받은 사례 원장({period}) 전체 {all_n}건을 업종으로 나눴습니다. 업종 이름을 누르면 그 업종의 사례만 기관·자금·금액·금리까지 볼 수 있습니다.</p>
+    <div class="tablewrap"><table><thead><tr><th>업종</th><th>받은 사례</th><th>받은 금액 합계</th><th>가장 많이 거친 기관</th></tr></thead><tbody>{rows}</tbody></table></div>
+    <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 기업 수가 아닌 사례 건수 · 과거 사례가 지금 신청의 결과를 뜻하지는 않습니다.</p>
+
+    <h2>정책자금 지원제외 업종</h2>
+    <p>정책자금은 대부분의 업종이 신청할 수 있지만, 기관마다 융자에서 빼는 업종을 공고에 따로 적어 둡니다. 유흥주점, 사행성 업종, 부동산 임대업처럼 제외 업종 목록에 든 업종은 신청 단계에서 걸립니다.</p>
+    <p>목록은 해마다 소진공·중진공의 융자계획 공고에 실리고 기관마다 조금씩 다릅니다. 같은 사업자라도 사업자등록증의 업태·종목과 실제 영업 내용에 따라 달리 보는 경우가 있어, 애매하면 공고의 제외 업종 표와 업종 코드를 대조해 봐야 합니다. <a href="/jagajindan">1분 자가진단</a>에서 업종을 포함한 일곱 가지를 먼저 살펴볼 수 있습니다.</p>
+
+    <h2>표에 없는 업종이라면</h2>
+    <p>받은 사례가 10건 넘게 모인 업종만 따로 열었습니다. 표에 없는 업종도 <a href="/cases">받은 사례 전체</a>에서 업종 이름으로 찾아볼 수 있고, 사업자 형태로 보려면 <a href="/gaein">개인사업자</a>·<a href="/beobin">법인사업자</a> 안내가 빠릅니다.</p>
+
+    <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
+
+    <div class="cta-box">
+      <h3 class="serif">우리 업종도 되는지</h3>
+      <p>무료로 먼저 봐드립니다.</p>
+      <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry_hub">무료 진단 신청 →</a></div>
+    </div>
+    <p class="related"><a href="/sosangin">소상공인 정책자금 컨설팅</a> · <a href="/jungsogieop">중소기업 정책자금 컨설팅</a> · <a href="/region">지역별 창구</a> · <a href="/schedule">접수 일정</a></p>
+  </div>
+</main>
+{foot}
+<script src="/assets/conversion.js" defer></script>
+</body>
+</html>
+"""
 
 
 def mix_sentence(rows):
@@ -235,6 +330,19 @@ def build(rows, period, root=None):
             lt = re.sub(r'- \[' + re.escape(ind['question']) + r'\][^\n]*', lambda m: line, lt)
         else:
             lt = lt.replace('- [정책자금 접수 일정]', line + '\n- [정책자금 접수 일정]')
+    hub = hub_html(groups, len(rows), period)
+    if '갚' in hub:
+        raise SystemExit("[업종 허브 빌드 실패] 생성물에 '갚' 포함")
+    (ROOT / 'industry.html').write_text(hub, encoding='utf-8')
+    if HUB_URL + '</loc>' in sm:
+        sm = re.sub(r'(<loc>' + re.escape(HUB_URL) + r'</loc><lastmod>)[^<]+', r'\g<1>' + str(TODAY), sm)
+    else:
+        sm = sm.replace('</urlset>', f'  <url><loc>{HUB_URL}</loc><lastmod>{TODAY}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n</urlset>')
+    hub_line = f"- [업종별 정책자금]({HUB_URL}): 받은 사례 원장을 12개 업종으로 나눈 목록과 업종별 랜딩 링크. 정책자금 지원제외 업종은 기관별 융자계획 공고의 제외 업종 표로 확인"
+    if '- [업종별 정책자금]' in lt:
+        lt = re.sub(r'- \[업종별 정책자금\][^\n]*', lambda m: hub_line, lt)
+    else:
+        lt = lt.replace('- [정책자금 접수 일정]', hub_line + '\n- [정책자금 접수 일정]')
     (ROOT / 'sitemap.xml').write_text(sm, encoding='utf-8')
     (ROOT / 'llms.txt').write_text(lt, encoding='utf-8')
     counts = ' · '.join(f"{BY_SLUG[s]['name']} {len(groups.get(s, []))}" for s in TILE_ORDER)

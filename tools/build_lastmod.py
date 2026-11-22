@@ -201,7 +201,7 @@ def stamp_polish(s, key):
     return s.replace('</head>', POLISH + '\n</head>', 1)
 
 
-NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
+NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/industry">업종별 정책자금</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
 _NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
 
 
@@ -215,6 +215,21 @@ def stamp_nav(s):
     # 자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸에 따로 둔다(2026-11-19 대표 "메뉴에서도 쉽게 보이게")
     if NAV_CHECK not in s:
         s = s.replace(NAV_FIRST, NAV_FIRST + NAV_CHECK, 1)
+    return s
+
+
+# 푸터 둘째 줄 — 구글이 한 번도 안 읽은 쪽(업종 랜딩 10장·기업인증 3장, 서치콘솔 2026-11-22)으로 가는 길을 전 페이지에 둔다.
+FOOT_MORE = ('<p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">1분 자가진단</a> · '
+             '<a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · '
+             '<a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p>')
+_FOOT_MORE_RE = re.compile(r'<p class="foot-more">.*?</p>', re.S)
+
+
+def stamp_foot_more(s):
+    s = _FOOT_MORE_RE.sub('', s)
+    for anchor in ('<p class="foot-trust">', '<p class="lastmod"'):   # 신뢰 줄이 없는 푸터(/cases 등)는 날짜 줄 앞에
+        if anchor in s and '<footer' in s:
+            return s.replace(anchor, FOOT_MORE + anchor, 1)
     return s
 
 
@@ -294,7 +309,7 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_assets(stamp_polish(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(noindex.stamp(s0, key), date), date))), key))
+        s = stamp_assets(stamp_polish(stamp_foot_more(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(noindex.stamp(s0, key), date), date)))), key))
         s = trust_copy.stamp_org(trust_copy.stamp_footer_trust(s, n_cases, n_ev))
         if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')

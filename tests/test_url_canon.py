@@ -25,7 +25,7 @@ PAGES += [f"{slug}.html" for slug in LOAN_GUIDES]
 SLUGS += LOAN_GUIDES
 
 # 분기별 접수 안내 — 손으로 만드는 정적 페이지(빌더 대상이 아님)
-QUARTERLY = ["2026-4q-sosangin", "2027-jeongchaekjageum", "jagajindan"]   # 정적 안내 페이지(자가진단 2026-11-19 포함)
+QUARTERLY = ["2026-4q-sosangin", "2027-jeongchaekjageum", "jagajindan", "industry"]   # 정적 안내 페이지(자가진단 2026-11-19 포함)
 PAGES += [f"{slug}.html" for slug in QUARTERLY]
 SLUGS += QUARTERLY
 
