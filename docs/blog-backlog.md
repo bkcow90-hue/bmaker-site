@@ -40,7 +40,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L3 | 법인 대표 개인 신용이 법인 자금 심사에 영향을 주나요? | guide | /beobin | 발행 2026-11-13 (PR #109) |
 | L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 발행 2026-11-17 (PR #121) |
 | L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 발행 2026-11-19 |
-| L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 대기 |
+| L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 발행 2026-11-23 |
 | L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 대기 |
 | L8 | 벤처기업확인을 받으면 자금 심사에서 무엇이 달라지나요? | guide | /venture-certification | 대기 |
 | L9 | 기업부설연구소가 있는 법인, 기술보증 상담에서 어떻게 쓰이나요? | guide | /research-institute · /gibo | 대기 |
