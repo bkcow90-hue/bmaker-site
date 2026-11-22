@@ -16,8 +16,8 @@
   "hash": "ca086ef85aa59182dba3e65691c74277e07c6972310fdc4664880faba4d8a5f7"
  },
  "blog.html": {
-  "date": "2026-11-21",
-  "hash": "c8aa479eaac709d7b8e1992dc804d1f6b8d0e04523b9c2f2a5f66bc3cbe3411c"
+  "date": "2026-11-22",
+  "hash": "95c32207f062732beef6483ee014e22041e2ee920166c87fbaf9d06c1702c838"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-02",
@@ -72,8 +72,8 @@
   "hash": "215d7e5924277f2358a411d9685bc8590c452af4a95db2e3ba3c7dba4ed8f510"
  },
  "blog/category/startup.html": {
-  "date": "2026-11-20",
-  "hash": "b2537b65b26294225cc182586c9704ae9f2f921af6c7b9aa72184569763f24d6"
+  "date": "2026-11-22",
+  "hash": "84dce304122bfdaad2d12ee48bd63716291b17ff3659b8ab7e83adc5b0ab388c"
  },
  "blog/cheongju-prototype-voucher-payment-method.html": {
   "date": "2026-11-10",
@@ -175,6 +175,10 @@
   "date": "2026-11-02",
   "hash": "bf5531ec9b00e5d7114892e9c618fed9dd681954cad08f2497284b64ccd2cf8d"
  },
+ "blog/modoo-after-business-registration-startup-fund.html": {
+  "date": "2026-11-22",
+  "hash": "3e9557842a0527c58b1faf93cf0120fdd7cb1fd6a4fe5128e88d0d0462644db9"
+ },
  "blog/modoo-application-self-vs-consulting.html": {
   "date": "2026-11-20",
   "hash": "52ada858121db973d2a797d3082d64d9efbad2fb4338f203a450e4e4bbe43802"
@@ -256,8 +260,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-21",
-  "hash": "bb2a3dda044ee9ae0f980f6236c0565b0c4e634adf86ef8606a49fd3ee53456b"
+  "date": "2026-11-22",
+  "hash": "760fb14206e95c6a90df37ad6026bc81279c75075e2a84dadc3af575d660c7eb"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -360,8 +364,8 @@
   "hash": "3372eaa43f5fea6042c7ad0b3fc4b243ebd9eaa26e517a4e4a9cd8a6712f0b49"
  },
  "index.html": {
-  "date": "2026-11-21",
-  "hash": "0400beb621c49a428ab793bd1f8e87ee956528a01c863d840446ba97c0320ef2"
+  "date": "2026-11-22",
+  "hash": "9186c9ea284480c09b489b78c212cee6f31ece73609b5cdb0191477c60ea7bb1"
  },
  "industry/bio.html": {
   "date": "2026-11-13",
