@@ -111,3 +111,15 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | 60 | 신용보증기금·기술보증기금 보증부 대출, 기간은 보통 몇 년으로 정해지나요? | guide | /sinbo · /gibo | 대기 |
 | 61 | 중진공 청년창업자금과 소진공 청년 대상 자금, 어디부터 알아봐야 하나요? | startup | /cheongnyeon-changeop · /cheongnyeon | 대기 |
 | 62 | 시설자금 대출 금리는 운전자금 대출과 어떻게 다르게 정해지나요? | guide | /working-capital-facility · /jungjingong | 대기 |
+| 63 | 세금 체납이 있으면 사업자대출이 안 되나요? 국세·지방세·부가세별로 보는 것 | guide | /jagajindan · /geojeol | 대기 |
+| 64 | 4대보험 체납이 있을 때 정책자금 신청 전에 정리할 것 | guide | /jagajindan | 대기 |
+| 65 | 정책자금 종류, 직접대출·대리대출·보증서 대출은 무엇이 다른가요? | guide | /sojingong · /bojeung | 대기 |
+| 66 | 정책자금 받는법, 처음 알아보는 사장님이 밟는 순서 | guide | /gaein · /schedule | 대기 |
+| 67 | 정책자금 지원 대상 확인서는 어디서 발급하나요? | guide | /sojingong | 대기 |
+| 68 | 사업자 1년 미만도 받을 수 있는 정책자금이 있나요? | startup | /changeop-giban · /jagajindan | 대기 |
+| 69 | 매출이 아직 없는 사업자, 대출 상담에서 무엇을 보나요? | startup | /changeop-giban | 대기 |
+| 70 | 벤처인증을 받으면 무엇이 달라지나요? | guide | /venture-certification | 대기 |
+| 71 | 기업부설연구소를 세우면 무엇이 달라지나요? | guide | /research-institute | 대기 |
+| 72 | 정책자금 지원제외 업종, 우리 업종 코드로 확인하는 법 | guide | /industry · /jagajindan | 대기 |
+
+> 63~72: 2026-11-22 검색어 2회차(손님 유형 질문 → 구글 자동완성 대조)에서 "답하는 쪽이 없는 말". 근거 docs/keywords/2026-11-22-customer-questions.md. 정책자금 컨설팅 불법·등록제·후기는 보수 구조 변경과 맞물려 대표 확인 전에는 쓰지 않는다(번호를 주지 않았다).
