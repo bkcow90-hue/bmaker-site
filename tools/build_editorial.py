@@ -32,6 +32,12 @@ def render(body, embedded=False):
         elif block.startswith('## '):
             level = 3 if embedded else 2
             result.append(f'<h{level}>{inline(block[3:])}</h{level}>')
+        elif block.startswith('{{tool:') and block.rstrip().endswith('}}'):
+            # 도구 위젯(2026-11-25) — tools/widgets/<이름>.html 을 그대로 넣는다(판정기·계산기)
+            name = block.strip()[7:-2]
+            if not re.fullmatch(r'[a-z0-9-]+', name):
+                raise SystemExit(f'도구 이름이 잘못됐습니다: {name}')
+            result.append((ROOT / 'tools' / 'widgets' / f'{name}.html').read_text(encoding='utf-8').strip())
         elif block.startswith('|'):
             # 마크다운 표(2026-11-09 WP4) — 첫 줄 머리, 둘째 줄 구분선, 나머지 본문
             rows = [[c.strip() for c in ln.strip().strip('|').split('|')] for ln in block.splitlines()]
