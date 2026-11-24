@@ -518,6 +518,50 @@ def check(posts):
 
 
 # ── 빌드 ─────────────────────────────────────────────────────
+
+
+_RELATED = {}
+
+
+def related_posts(p, posts, n=4):
+    """관련 글 n편 — 태그가 많이 겹치는 글 먼저, 같으면 발행일이 가까운 글.
+
+    2026-11-25 이전에는 같은 분류의 최신 4편만 골라, 새 글 몇 편에 링크가 몰리고
+    오래된 글은 목록·분류 페이지 2곳에서만 연결됐다. 태그·발행일 기준으로 고르면
+    글마다 이웃이 달라져 링크가 고르게 퍼진다. 어느 글도 0편에서 연결되는 일이 없게,
+    아무도 고르지 않은 글은 발행일이 가장 가까운 글의 마지막 자리에 넣는다.
+    """
+    key_all = tuple(x['slug'] for x in posts)
+    if _RELATED.get('key') != key_all:
+        from datetime import date as _d
+        def day(x):
+            y, m, d = (int(v) for v in str(x['date'])[:10].split('-'))
+            return _d(y, m, d).toordinal()
+        pick = {}
+        for q in posts:
+            mine, here = set(q.get('tags') or []), day(q)
+            def key(x, q=q, mine=mine, here=here):
+                return (-len(mine & set(x.get('tags') or [])), 0 if x['category'] == q['category'] else 1,
+                        abs(day(x) - here), x['slug'])
+            pick[q['slug']] = sorted((x for x in posts if x is not q), key=key)[:n]
+        for _ in range(len(posts)):
+            count = {}
+            for lst in pick.values():
+                for x in lst:
+                    count[x['slug']] = count.get(x['slug'], 0) + 1
+            orphans = [x for x in posts if not count.get(x['slug'])]
+            if not orphans:
+                break
+            o = orphans[0]
+            hosts = sorted((q for q in posts if q is not o and count.get(pick[q['slug']][-1]['slug'], 0) > 1),
+                           key=lambda q: (abs(day(q) - day(o)), q['slug']))
+            if not hosts:
+                break
+            pick[hosts[0]['slug']][-1] = o
+        _RELATED.clear(); _RELATED.update(key=key_all, pick=pick)
+    return _RELATED['pick'][p['slug']]
+
+
 def build_post(p, posts, terms, style, hdr, foot):
     url = f"{SITE}/blog/{p['slug']}"
     service = 'startup' if p['category'] == 'startup' else 'policy'
@@ -532,7 +576,7 @@ def build_post(p, posts, terms, style, hdr, foot):
     already = set(re.findall(r'href="(/[a-z0-9-]+)"', article + faq_html))
     linked = autolink(article + '\n<!--faq-->\n' + faq_html, terms, already)
     article, faq_html = linked.split('\n<!--faq-->\n', 1)
-    related = [x for x in posts if x is not p and x['category'] == p['category']][:4]
+    related = related_posts(p, posts)
     related_html = ''.join(f'<a href="/blog/{x["slug"]}">{esc(x["title"])}</a>' for x in related)
     related_html += f'<a href="/blog/category/{p["category"]}">{esc(cat_label)} 전체</a><a href="/blog">블로그 전체</a>'
 
