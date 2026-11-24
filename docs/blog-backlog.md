@@ -41,9 +41,9 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 발행 2026-11-17 (PR #121) |
 | L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 발행 2026-11-19 |
 | L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 발행 2026-11-23 |
-| L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 대기 |
-| L8 | 벤처기업확인을 받으면 자금 심사에서 무엇이 달라지나요? | guide | /venture-certification | 대기 |
-| L9 | 기업부설연구소가 있는 법인, 기술보증 상담에서 어떻게 쓰이나요? | guide | /research-institute · /gibo | 대기 |
+| L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 보류 (/sinsijang·/suchul-bojeung 이 수출 실적 구간별 자금·보증을 이미 답함, 2026-11-25) |
+| L8 | 벤처기업확인을 받으면 자금 심사에서 무엇이 달라지나요? | guide | /venture-certification | 보류 (/venture-certification "확인 후 정책자금에서 달라지는 점"·FAQ 와 같은 질문, 2026-11-25) |
+| L9 | 기업부설연구소가 있는 법인, 기술보증 상담에서 어떻게 쓰이나요? | guide | /research-institute · /gibo | 발행 2026-11-25 |
 | L10 | 기존 보증이 있는 법인, 추가 보증 상담 전에 확인할 것 | guide | /sinbo | 대기 |
 | L11 | 결산 전과 후, 법인 자금 신청은 언제가 나을까요? | guide | /jungsogieop | 대기 |
 | L12 | 재무 담당자가 없는 법인, 자금 신청 자료는 누가 모으나요? | guide | /corporate-loan-documents | 대기 |
