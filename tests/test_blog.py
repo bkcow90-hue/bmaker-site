@@ -129,13 +129,11 @@ def test_article_contract(path):
     art = re.search(r'<article>(.*?)</article>', main, re.S).group(1).strip()
     assert art.startswith('<p class="answer">'), f'{path.name}: 첫 문단 직답이 아니다'
     source = next(p for p in LIVE if p['slug'] == path.stem)
-    if source.get('carousel'):
-        assert re.search(r'<p class="byline">김상표 \| 비즈니스 메이커 대표 · 내용 확인 \d{4}-\d{2}-\d{2}</p>', art), path.name
-    elif source.get('reviewed') is False:
-        assert f'작성 비즈니스 메이커 · 자료 확인 {source["updated"]}' in art
-        assert not any('reviewedBy' in n for n in lds(s)), path.name
-    else:
-        assert re.search(r'<p class="byline">작성 비즈니스 메이커 · 검토 김상표\(대표\) · 최종 확인 \d{4}-\d{2}</p>', art), path.name
+    # 전 글 작성자는 대표 실명(2026-11-25). 회사명 작성·별도 검토자 표기는 쓰지 않는다.
+    assert re.search(r'<p class="byline"><a href="/daepyo">김상표</a> \| 비즈니스 메이커 대표 · 내용 확인 \d{4}-\d{2}-\d{2}</p>', art), path.name
+    post = next(n for n in lds(s) if n.get('@type') == 'BlogPosting')
+    assert post['author']['@type'] == 'Person' and post['author']['name'] == '김상표', path.name
+    assert not any('reviewedBy' in n for n in lds(s)), path.name
     assert re.search(r'본 안내는 \d{4}년 \d{1,2}월 기준', art), f'{path.name}: 기준일 문장 없음'
     # 고지 문장 통일(규격 3절, 2026-10-04): 정부·공공기관 아님 + 금융기관 아님
     if source.get('carousel'):
@@ -164,9 +162,10 @@ BODY_LINK_LEGACY = {
 
 
 def body_links(s):
-    """<article> 안의 내부 링크. 브레드크럼(히어로)·관련 글(별도 섹션)은 article 밖이고, 본문 CTA 는 뺀다."""
+    """<article> 안의 내부 링크. 브레드크럼(히어로)·관련 글(별도 섹션)은 article 밖이고, 본문 CTA 와 작성자 줄은 뺀다."""
     art = re.search(r'<article>(.*?)</article>', s, re.S).group(1)
     art = re.sub(r'<p class="blog-cta">.*?</p>', '', art, flags=re.S)
+    art = re.sub(r'<p class="byline">.*?</p>', '', art, flags=re.S)   # 작성자 줄의 대표 소개 링크는 본문 링크가 아니다(2026-11-25)
     return re.findall(r'<a\b[^>]*\bhref="((?:/(?!/)|https://bmaker\.kr)[^"]*)"', art)
 
 

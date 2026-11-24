@@ -146,6 +146,16 @@ def main():
                                 'dateModified': str(build_date()),
                                 'author': {'@type': 'Organization', 'name': '비즈니스 메이커', '@id': 'https://bmaker.kr/#org'},
                                 'publisher': {'@type': 'Organization', 'name': '비즈니스 메이커', '@id': 'https://bmaker.kr/#org'}})
+            if item.get('profile'):
+                # 대표 소개 페이지(2026-11-25): 글이 아니라 사람 소개이므로 Article 대신 ProfilePage. 사람 정보의 원본은 홈 #founder 노드다.
+                schemas = [x for x in schemas if x.get('@type') != 'Article']
+                schemas.append({'@context': 'https://schema.org', '@type': 'ProfilePage', 'url': url, 'inLanguage': 'ko',
+                                'dateModified': str(build_date()),
+                                'mainEntity': {'@type': 'Person', '@id': 'https://bmaker.kr/#founder', 'name': '김상표',
+                                               'jobTitle': '비즈니스 메이커 대표', 'url': url,
+                                               'image': 'https://bmaker.kr/assets/ceo-160.webp',
+                                               'worksFor': {'@id': 'https://bmaker.kr/#org'},
+                                               'sameAs': ['https://www.linkedin.com/in/sang-pyo-kim-328b19154/']}})
             page = page.replace('</head>', ''.join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + '</script>' for x in schemas) + '</head>')
         else:
             page = path.read_text(encoding='utf-8')
