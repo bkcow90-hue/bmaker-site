@@ -268,8 +268,8 @@
   "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
  },
  "business-guide.html": {
-  "date": "2026-11-24",
-  "hash": "2b0204f72bac77df508e072433f868b3d736da5ec4e8f6dd0d22852c85edbab4"
+  "date": "2026-11-25",
+  "hash": "61726c5b663ff8bcc06b8bc9fed6642f11c45fe60be9090f4f19e740746f002d"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -762,6 +762,10 @@
  "sojingong.html": {
   "date": "2026-11-01",
   "hash": "3c5d33d738a5fa8b329f55a40ecbe8f80e6fcdf7fb016873cb49bd38382f2638"
+ },
+ "sosangin-gijun.html": {
+  "date": "2026-11-25",
+  "hash": "9a3f2abd865ba4c8c9b7254d420bdf3ffc6cb800bf122004e58f82df193774c8"
  },
  "sosangin.html": {
   "date": "2026-11-23",
