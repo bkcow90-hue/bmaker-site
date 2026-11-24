@@ -264,12 +264,16 @@
   "hash": "beb2fd4ed752e0ddf85ae051ff0fd77fa4643cb3c07c72887487f9f6869ce3a5"
  },
  "bojeung.html": {
-  "date": "2026-11-14",
-  "hash": "0ae4aa173f86ec850c6f96071603715f66a7f9af19cdcd4e3455610c28fef669"
+  "date": "2026-11-25",
+  "hash": "db8a588c07072a4d351102b77cf5f153c2b75b9fb700e8a620b552c0624ffb58"
+ },
+ "bojeungryo-gyesangi.html": {
+  "date": "2026-11-25",
+  "hash": "14abc53dfbc99f6289bd655be09af55c93333391e2422db4fba5ac90b0c47b24"
  },
  "business-guide.html": {
   "date": "2026-11-25",
-  "hash": "8412db1165b48c02fac6bc1d2c519ea7859726802f3e0b9d229443382a30f832"
+  "hash": "878634c5b4c1a6b785950f29f901c15ac60281ae93d0447f5b313fd7edbc2937"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -284,12 +288,16 @@
   "hash": "436767a0cc32717e9a067d93eaf50d27fd6508e13443d2b2a963b3a38e409afd"
  },
  "changeop-giban.html": {
-  "date": "2026-11-19",
-  "hash": "eca22ca8474c2dfa98cf9150135a883a7076ec6c8ebf137f0d1fe12e49d4ff46"
+  "date": "2026-11-25",
+  "hash": "048918c4fd3446f8041b56609aed7165f926ab1651412bfd94761da42bcdaeaf"
  },
  "cheongnyeon-changeop.html": {
-  "date": "2026-11-19",
-  "hash": "9abb6e8233a2fef7e03807a879b7cf1c42745c48aa727033bbda4ef49460a28d"
+  "date": "2026-11-25",
+  "hash": "5046e891741f097b53f5b9d194436f90e5ff3491787c732cfbca420c2c8a23ac"
+ },
+ "cheongnyeon-nai.html": {
+  "date": "2026-11-25",
+  "hash": "4f20673cf9f8dd7f1259d5afc17de3766827f77cba9a21e361db2c9595d2ae5d"
  },
  "cheongnyeon.html": {
   "date": "2026-11-13",
@@ -307,6 +315,10 @@
   "date": "2026-11-22",
   "hash": "0fb0c759bcc690ac8a2e394b490acd2597bd92289235348921d50c81aa787366"
  },
+ "dogu.html": {
+  "date": "2026-11-25",
+  "hash": "3a0a4a33a9d28323d7b6338c8b07c470c8f9ff29dbb9e8e5f06a358d8919cd60"
+ },
  "education-program.html": {
   "date": "2026-09-28",
   "hash": "c75784b6a42f4eb319864c16a8563089b08e8057f0339f155d1988f63db636a5"
@@ -314,6 +326,10 @@
  "education.html": {
   "date": "2026-11-02",
   "hash": "7dcc0c31ef0d2c8327e3908a77b386def8023e89d717880349554c897e20e30f"
+ },
+ "eopryeok-gyesangi.html": {
+  "date": "2026-11-25",
+  "hash": "ef4958531e6d7c39e0864b1e51b05343e60ef47c3647250d4a3db45cbe3e3c3d"
  },
  "faq.html": {
   "date": "2026-11-14",
@@ -326,6 +342,10 @@
  "gaein.html": {
   "date": "2026-11-23",
   "hash": "243239615e92e789657c978b65ee736c7a76172663535e326e01fcd5117be2ed"
+ },
+ "geochi-gyesangi.html": {
+  "date": "2026-11-25",
+  "hash": "5463b93e9cc22411437bb8f3d456f7232fe30029f8f75689de3c007c22aa8c93"
  },
  "geojeol.html": {
   "date": "2026-11-19",
@@ -513,11 +533,15 @@
  },
  "jagajindan.html": {
   "date": "2026-11-25",
-  "hash": "2231ef32010e97beee0bedbbf187cb0fe55f009826af92070118264930db23c7"
+  "hash": "43fb775c2800d0cf5fcc0c6f4ce0601ae3e425e07bb2ee55541a15c9695cb1a6"
  },
  "jangaein.html": {
   "date": "2026-11-13",
   "hash": "3ef39ce5198b03c6b655941cd9fd489f4b34801452dfd0fdbf36f2da0a07c874"
+ },
+ "jeoe-eopjong.html": {
+  "date": "2026-11-25",
+  "hash": "ad8a9a05c40419dd59a7324d97b3e0bea1ec33c741961dcff09e393e352b855e"
  },
  "jeosinyong.html": {
   "date": "2026-11-19",
@@ -728,8 +752,8 @@
   "hash": "8a20e790b131ebdc3f298a9ba9185eee2f84e7e843c9833e1dffcaa16449a5c3"
  },
  "research-institute.html": {
-  "date": "2026-11-22",
-  "hash": "958f3c21686d9dcdd13e25ce388ec0f87297ffa5c22914e85a453666057be1a7"
+  "date": "2026-11-25",
+  "hash": "9a5b50589ce56b936c5767a72daa244b6ab33c4351842c63aff4a0ed49c9588a"
  },
  "sanghwan.html": {
   "date": "2026-11-02",
@@ -748,8 +772,8 @@
   "hash": "6d510592bf0cae40b0a91dc78b8a7db5962f2c6442939b2a79c1b7d64b5c844c"
  },
  "sinseongjang.html": {
-  "date": "2026-11-19",
-  "hash": "3425fdbab42818e77bf89c52ee88ddc98fedebccb1b33bc3cac63fde880d2835"
+  "date": "2026-11-25",
+  "hash": "302e5cdf2d8e59e47146348dd4940175408cb68fd7a4786ad4da563377fd2f96"
  },
  "sinsijang.html": {
   "date": "2026-11-19",
