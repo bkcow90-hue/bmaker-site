@@ -31,7 +31,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | 58 | 모두의 창업 컨설팅, 신청 전에 창업 컨설턴트와 무엇을 정리하나요? | startup | /modoo-startup-consulting · /startup | 발행 2026-11-18 (PR #121) |
 | 59 | 모두의 창업 도전신청서, 혼자 쓸 때와 창업 컨설팅을 받을 때 달라지는 것 | startup | /modoo-startup-consulting · /startup | 발행 2026-11-20 |
 | 54 | 모두의 창업에 도전한 뒤, 사업자등록을 하면 어떤 창업자금을 알아볼 수 있나요? | startup | /startup · /cheongnyeon | 발행 2026-11-22 |
-| 55 | 모두의 창업 1라운드에서 떨어졌다면, 다음에 준비할 수 있는 창업 지원은? | startup | /startup · /jiwongeum | 대기 |
+| 55 | 모두의 창업 1라운드에서 떨어졌다면, 다음에 준비할 수 있는 창업 지원은? | startup | /startup · /jiwongeum | 발행 2026-11-24 |
 | 56 | 모두의 창업과 예비창업패키지, 무엇이 다르고 같이 신청할 수 있나요? | startup | /startup · /jiwongeum | 대기 |
 | 57 | 모두의 창업 로컬 트랙, 가게 창업을 준비하는 분이 확인할 것 | startup | /startup · /region | 대기 |
 | 1 | 정책자금 거절 통보를 받았다면, 언제 다시 신청할 수 있나요? | guide | /geojeol · /cases | 발행 2026-11-10 |
