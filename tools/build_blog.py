@@ -589,17 +589,12 @@ def build_post(p, posts, terms, style, hdr, foot):
             "description": p['summary'], "inLanguage": "ko", "mainEntityOfPage": url, "url": url,
             "image": SITE + p['image'], "datePublished": p['date'], "dateModified": p['updated'],
             "articleSection": cat_label, "keywords": p['tags'],
-            "author": ({"@type": "Person", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/#about"}
-                       if p.get('carousel') else {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND, "url": SITE + "/"}),
+            # 작성자는 전 글 대표 실명(대표 2026-11-25 "블로그 작성자는 실명으로"). 회사는 publisher 로만 둔다.
+            "author": {"@type": "Person", "@id": f"{SITE}/#founder", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/#about"},
             "publisher": {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND,
                           "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/logo.png"}}},
            crumb_ld([('홈', SITE + '/'), ('블로그', SITE + '/blog'),
-                     (cat_label, f"{SITE}/blog/category/{p['category']}"), (p['title'], url)]),
-           # 검토자(대표 2026-10-04 저자 신호 D): reviewedBy 는 WebPage 속성이라 같은 주소의 WebPage 노드로 둔다
-           {"@context": "https://schema.org", "@type": "WebPage", "@id": url + "#webpage", "url": url,
-            "reviewedBy": PERSON, "lastReviewed": p["updated"][:7]}]
-    if p.get('reviewed') is False:
-        lds = [n for n in lds if 'reviewedBy' not in n]
+                     (cat_label, f"{SITE}/blog/category/{p['category']}"), (p['title'], url)])]
     if faq:
         lds.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": faq_text(a)}}
@@ -631,8 +626,7 @@ def build_post(p, posts, terms, style, hdr, foot):
 </main>{foot}<script src="/assets/conversion.js" defer></script></body></html>
 '''
         return page
-    byline = (f'작성 {BRAND} · 자료 확인 {p["updated"]}' if p.get('reviewed') is False
-              else f'작성 {BRAND} · 검토 김상표(대표) · 최종 확인 {p["updated"][:7]}')
+    byline = f'김상표 | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}'
     disclaimer = (f'이 글은 창업 비교를 위한 일반 정보이며 특정 브랜드의 매출·수익 예측이 아닙니다. 계약·세무 등 개별 사안은 해당 전문가에게 확인하세요. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.'
                   if service == 'startup' else f'이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.')
     page += f'''<section class="block"><div class="wrap post">
