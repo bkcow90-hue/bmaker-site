@@ -51,6 +51,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L14 | 기업부설연구소가 있으면 정책자금 심사에서 무엇이 달라지나요? | guide | /research-institute · /jungjingong | 대기 |
 | L15 | 벤처인증 혜택, 법인세·취득세 감면과 정책자금 우대까지 | guide | /venture-certification · /certification | 대기 |
 | L16 | 기업부설연구소 연구노트, 무엇을 어떻게 남겨야 사후관리에서 문제가 없나요? | guide | /research-institute | 대기 |
+| L17 | 벤처인증 신청부터 확인서 발급까지 보통 얼마나 걸리나요? | guide | /venture-certification | 대기 |
 | G1 | 중소기업 지원금, 선정되고도 환수되는 경우는 언제인가요? | guide | /jiwongeum | 발행 2026-11-15 (PR #115) |
 | G2 | 수출바우처, 수출 실적이 없는 회사도 신청할 수 있나요? | guide | /jiwongeum | 발행 2026-11-21 |
 | G3 | 지원사업 자부담 현금이 부족할 때 대표가 먼저 정리할 것 | guide | /jiwongeum · /jungjingong | 대기 |
@@ -121,5 +122,11 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | 70 | 벤처인증을 받으면 무엇이 달라지나요? | guide | /venture-certification | 대기 |
 | 71 | 기업부설연구소를 세우면 무엇이 달라지나요? | guide | /research-institute | 대기 |
 | 72 | 정책자금 지원제외 업종, 우리 업종 코드로 확인하는 법 | guide | /industry · /jagajindan | 대기 |
+| 73 | 신용보증재단 대출 심사 기간, 신청부터 보증서 발급까지 보통 얼마나 걸리나요? | guide | /jaedan · /bojeung | 대기 |
+| 74 | 신용보증기금 대출 금액은 무엇을 보고 정해지나요? | guide | /sinbo · /bojeung | 대기 |
+| 75 | 소상공인 대환대출, 비대면으로 신청할 수 있나요? | guide | /daehwan | 대기 |
+| 76 | 중진공 정책자금 대출기간과 거치기간, 자금별로 어떻게 다른가요? | guide | /jungjingong | 대기 |
 
 > 63~72: 2026-11-22 검색어 2회차(손님 유형 질문 → 구글 자동완성 대조)에서 "답하는 쪽이 없는 말". 근거 docs/keywords/2026-11-22-customer-questions.md. 정책자금 컨설팅 불법·등록제·후기는 보수 구조 변경과 맞물려 대표 확인 전에는 쓰지 않는다(번호를 주지 않았다).
+
+> 73~76·L17: 2026-11-24 검색어 루프 3회차 — 네이버 자동완성에서 지난주(11-17)에 없던 연관어 중 우리 페이지·글이 답하지 않는 것(신용보증재단 대출 심사 기간, 신용보증기금 대출 금액, 소상공인 대환대출 비대면, 중진공 정책자금 기간, 벤처인증 기간). 근거 docs/keywords/2026-11-24-naver-autocomplete.json. 뺀 것: 연체·상환 계열, 정책자금 컨설팅 업체 세금·벤처인증 컨설팅(보수 구조 계열), kb 소상공인 대출(은행 상품), 이미 답이 있는 것(청년창업자금대출 조건 → /cheongnyeon-changeop, 기업부설연구소 실사 → L13, 인원 → /research-institute, 정책자금 종류 → 65, 대환대출 거절 → 48, 중진공 정책자금 금액 → /jungjingong FAQ, 재단 대출 이자 → /jaedan).
