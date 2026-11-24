@@ -1,0 +1,37 @@
+<style>
+.tool-box{margin:8px 0 30px;border-top:3px double var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:var(--paper,#F7F5F0);padding:24px 22px;scroll-margin-top:84px}
+.tool-box h2{margin:0 0 6px;font-size:20px}
+.tool-box .tool-note{margin:0 0 16px;font-size:14px;color:#55606f}
+.tool-row{display:grid;gap:6px;margin:0 0 14px}
+.tool-row label{font-weight:700;font-size:15px}
+.tool-row select,.tool-row input{width:100%;min-height:48px;padding:10px 12px;border:1px solid #b9c1cf;border-radius:8px;background:#fff;font:inherit;font-size:16px;box-sizing:border-box}
+.tool-row .unit{font-size:13px;color:#55606f}
+.tool-btn{width:100%;min-height:52px;border:0;border-radius:10px;background:#234780;color:#fff;font:inherit;font-weight:700;font-size:17px;cursor:pointer}
+.tool-out{margin:18px 0 0;padding:18px;border:1px solid #b9c1cf;border-radius:10px;background:#fff}
+.tool-out[hidden]{display:none}
+.tool-out strong.verdict{display:block;font-size:20px;margin:0 0 8px;color:#0E1B33}
+.tool-out p{margin:0 0 8px}
+.tool-out .next a{display:inline-block;margin:6px 10px 0 0;font-weight:700}
+.tool-err{color:#a12622;font-size:14px;margin:8px 0 0}
+@media(min-width:720px){.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.tool-grid .wide{grid-column:1/3}}
+.tool-row .chk{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:15px}
+.tool-row .chk input{width:auto;min-height:0;margin-top:4px}
+.tool-out table{width:100%;border-collapse:collapse;margin:8px 0 10px;font-size:15px}
+.tool-out th,.tool-out td{border-bottom:1px solid #E1DED6;padding:8px 6px;text-align:left;vertical-align:top}
+.tool-out .st-x{color:#a12622;font-weight:700}.tool-out .st-c{color:#8a5a00;font-weight:700}.tool-out .st-o{color:#1d6b3a;font-weight:700}
+</style>
+<section class="tool-box" id="tool" aria-label="업력 계산기">
+  <h2>업력 계산기</h2>
+  <p class="tool-note">사업 개시일을 넣으면 기준일까지의 업력과, 중진공 자금이 갈리는 3년·7년 기준 가운데 어디에 있는지 바로 보여 드립니다. 입력한 값은 저장하지 않습니다.</p>
+  <form id="toolForm" novalidate>
+    <div class="tool-grid">
+      <div class="tool-row"><label for="tool-start">사업 개시일</label><input id="tool-start" type="date" required><span class="unit">사업자등록증의 개업연월일. 법인은 법인등기부의 설립등기일을 봅니다.</span></div>
+      <div class="tool-row"><label for="tool-ref">기준일</label><input id="tool-ref" type="date"><span class="unit">비워 두면 오늘. 융자신청서 제출 예정일로 바꿔 보세요.</span></div>
+      <div class="tool-row wide"><label for="tool-type">사업자 형태</label><select id="tool-type"><option value="gaein">개인사업자</option><option value="beobin">법인</option><option value="jeonhwan">개인사업자에서 법인으로 전환</option></select><span class="unit">법인전환이면 처음 창업한 개인사업자의 개업일을 넣습니다.</span></div>
+    </div>
+    <button type="submit" class="tool-btn" data-cta-location="tool">업력 계산하기</button>
+    <p class="tool-err" id="toolErr" role="alert" hidden></p>
+  </form>
+  <div class="tool-out" id="toolOut" aria-live="polite" hidden></div>
+</section>
+<script src="/assets/tool-eopryeok-gyesangi.js" defer></script>
