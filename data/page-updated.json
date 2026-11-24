@@ -269,7 +269,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-25",
-  "hash": "61726c5b663ff8bcc06b8bc9fed6642f11c45fe60be9090f4f19e740746f002d"
+  "hash": "8412db1165b48c02fac6bc1d2c519ea7859726802f3e0b9d229443382a30f832"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -531,6 +531,10 @@
   "date": "2026-11-23",
   "hash": "756bd5d3fd3b1696ca77f6e1094e8fe4612df82ca9cbb1ad273dfb56f1e6c94b"
  },
+ "jungsogieop-gijun.html": {
+  "date": "2026-11-25",
+  "hash": "46ed659a48b2601c542c39f6cd370bafa15746e6eaed136383a7173b1edf6c75"
+ },
  "jungsogieop.html": {
   "date": "2026-11-23",
   "hash": "37869d6a6af06de3c9609026eb79f88828e0b86eb8270c6b84df3f800f9f3c4d"
@@ -765,7 +769,7 @@
  },
  "sosangin-gijun.html": {
   "date": "2026-11-25",
-  "hash": "9a3f2abd865ba4c8c9b7254d420bdf3ffc6cb800bf122004e58f82df193774c8"
+  "hash": "31a989ea15efdc7995e66393c62a37c4f1d680c5d6fe624eadfdbe05d98faba9"
  },
  "sosangin.html": {
   "date": "2026-11-23",
