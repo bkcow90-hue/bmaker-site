@@ -126,7 +126,11 @@ def main():
             page = page.replace('/?service=marketing#apply', f'/?service={item["service"]}#apply')
             title = item['body'].splitlines()[0][2:]
             crumb = '<div class="wrap crumb"><a href="/">홈</a> / <a href="/business-guide">사업 가이드</a></div>'
-            article = '<article class="editorial-copy editorial-standalone">' + render(item['body']) + '</article>'
+            if item.get('profile'):
+                # 대표 소개(2026-11-25 디자인): H1 은 위젯(tools/widgets/daepyo-profile.html)이 사진 옆에 직접 낸다. 원고 첫 줄은 제목 값으로만 쓴다.
+                article = '<article class="editorial-copy editorial-standalone dp-page">' + render(item['body'].split('\n\n', 1)[1]) + '</article>'
+            else:
+                article = '<article class="editorial-copy editorial-standalone">' + render(item['body']) + '</article>'
             if item in GROWTH and item['service'] in ('policy', 'certification') and not item.get('official_contact'):
                 # 2026-11-10 CRO: 검색으로 들어온 가이드 독자가 다른 페이지로 넘어가지 않고 신청하게(인증 가이드는 문의 분야 certification)
                 article += '<style>' + FORM_CSS + '</style><div class="wrap">' + form_html('/' + item['slug'], title, title=TITLE_GENERAL, service=item['service']).replace('name="consultation_service" value="policy"', 'name="consultation_service" value="' + item['service'] + '"') + '</div>'
@@ -153,7 +157,7 @@ def main():
                                 'dateModified': str(build_date()),
                                 'mainEntity': {'@type': 'Person', '@id': 'https://bmaker.kr/#founder', 'name': '김상표',
                                                'jobTitle': '비즈니스 메이커 대표', 'url': url,
-                                               'image': 'https://bmaker.kr/assets/ceo-160.webp',
+                                               'image': 'https://bmaker.kr/assets/team/ceo-kim.webp',
                                                'worksFor': {'@id': 'https://bmaker.kr/#org'},
                                                'sameAs': ['https://www.linkedin.com/in/sang-pyo-kim-328b19154/']}})
             page = page.replace('</head>', ''.join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + '</script>' for x in schemas) + '</head>')
