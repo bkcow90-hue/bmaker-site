@@ -35,7 +35,7 @@ def test_post_never_claims_separate_review():
         page = B.build_post(p, [p], {}, '', '', '')
         assert '검토 김상표' not in page
         assert '"reviewedBy"' not in page and '"lastReviewed"' not in page
-        assert '김상표 | 비즈니스 메이커 대표 · 내용 확인 2026-10-28' in page
+        assert '<a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 2026-10-28' in page
         assert '"author": {"@type": "Person"' in page
 
 

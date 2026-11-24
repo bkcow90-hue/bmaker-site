@@ -590,7 +590,7 @@ def build_post(p, posts, terms, style, hdr, foot):
             "image": SITE + p['image'], "datePublished": p['date'], "dateModified": p['updated'],
             "articleSection": cat_label, "keywords": p['tags'],
             # 작성자는 전 글 대표 실명(대표 2026-11-25 "블로그 작성자는 실명으로"). 회사는 publisher 로만 둔다.
-            "author": {"@type": "Person", "@id": f"{SITE}/#founder", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/#about"},
+            "author": {"@type": "Person", "@id": f"{SITE}/#founder", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/daepyo"},
             "publisher": {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND,
                           "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/logo.png"}}},
            crumb_ld([('홈', SITE + '/'), ('블로그', SITE + '/blog'),
@@ -618,7 +618,7 @@ def build_post(p, posts, terms, style, hdr, foot):
 {faq_html}
 <p class="blog-cta"><a href="/#apply">무료 진단 예약하기</a></p>
 <p class="asof">※ 본 안내는 {ym(p["updated"])} 기준입니다. 공식 기관의 최신 안내를 확인하세요.</p>
-<p class="byline">김상표 | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}</p>
+<p class="byline"><a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}</p>
 <p class="disclaimer">{esc(p.get('disclaimer', '이 글은 일반 정보이며, 개별 사안은 해당 기관 또는 전문가에게 확인해야 합니다.'))}</p>
 </article></div></section>
 <section class="block"><div class="wrap"><h2 class="serif">함께 읽으면 좋은 글은 무엇인가요?</h2>
@@ -626,7 +626,7 @@ def build_post(p, posts, terms, style, hdr, foot):
 </main>{foot}<script src="/assets/conversion.js" defer></script></body></html>
 '''
         return page
-    byline = f'김상표 | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}'
+    byline = f'<a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}'
     disclaimer = (f'이 글은 창업 비교를 위한 일반 정보이며 특정 브랜드의 매출·수익 예측이 아닙니다. 계약·세무 등 개별 사안은 해당 전문가에게 확인하세요. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.'
                   if service == 'startup' else f'이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.')
     page += f'''<section class="block"><div class="wrap post">
