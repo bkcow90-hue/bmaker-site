@@ -35,7 +35,7 @@ def build():
          ('서류 꾸미기','매출·재직·용도를 사실과 다르게 만드는 일은 하지 않습니다. 적발 시 회수·제재를 사업주가 집니다.'),
          ('과도한 자금 권유','상환할 수 있는 금액이 기준입니다. 받을 수 있다고 다 받게 하지 않습니다.')]
     nos_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td></tr>' for a,b in nos)
-    checks=[('받은 사례를 공개하는가','건수·금액·조건·증빙을 볼 수 있어야 합니다. 저희는 익명으로 공개합니다 — <a href="/cases">받은 사례</a>'),
+    checks=[('받은 사례를 공개하는가','건수·금액·조건·증빙을 볼 수 있어야 합니다. 저희는 익명으로 공개합니다, <a href="/cases">받은 사례</a>'),
             ('"안 된다"고 말하는가','모든 상담에서 "됩니다"만 나오면 진단이 아닙니다. 조건이 안 되면 안 된다고 말하는 곳을 고르세요.'),
             ('사업자·대표 실명이 확인되는가','사업자등록번호·대표명·주소가 페이지 하단에 있는지 보세요.')]
     # 계약서 네 문장(2026-10-04 대표 지시) — 확인법 표(3가지, meta description 과 개수 일치)와 따로 둔다
@@ -47,9 +47,9 @@ def build():
     checks_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td></tr>' for a,b in checks)
     faq=[("정책자금 컨설팅이 꼭 필요한가요?","아닙니다. 조건이 명확하고 서류 준비가 익숙하면 직접 신청이 가장 좋습니다. 컨설팅이 값을 하는 경우는 어느 트랙이 맞는지 모를 때, 신용·이력에 사연이 있을 때, 여러 자금을 순서·동시로 설계해야 할 때입니다. 진단은 무료라 필요 여부부터 확인하는 게 맞습니다."),
          ("비용은 얼마인가요?","진단은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다."),
-         ("계약 전에 무엇을 확인하면 되나요?","업무 범위와 산출물, 금액, 지급 시점, 중단할 때의 정산 기준이 계약서에 적혀 있는지 확인하세요. 승인과 금액은 심사 기관이 결정합니다 — 업체를 고르는 기준은 <a href='/chaksugeum'>착수금 사기 구별법</a>에 정리했습니다."),
+         ("계약 전에 무엇을 확인하면 되나요?","업무 범위와 산출물, 금액, 지급 시점, 중단할 때의 정산 기준이 계약서에 적혀 있는지 확인하세요. 승인과 금액은 심사 기관이 결정합니다, 업체를 고르는 기준은 <a href='/chaksugeum'>착수금 사기 구별법</a>에 정리했습니다."),
          (f"실적은 어떻게 확인하나요?",f"받은 사례 {N}건(총 {TOT}, {int(y0)}.{int(m0)}~{int(y1)}.{int(m1)})을 조건·증빙과 함께 게시합니다. 이 중 {NEV}건은 기관 안내문 캡처를 증빙으로 붙였고, 상담 신청 916건의 익명 통계도 공개합니다."),
-         ("승인이 안 되면 어떻게 되나요?","비용이 발생하지 않습니다. 거절 사유를 같이 확인하고, 조건이 바뀌면 재신청할 시점을 잡습니다 — 실제로 조건을 만든 뒤 실행까지 간 기록이 있습니다(<a href='/geojeol'>거절 사유와 회복 경로</a>).")]
+         ("승인이 안 되면 어떻게 되나요?","비용이 발생하지 않습니다. 거절 사유를 같이 확인하고, 조건이 바뀌면 재신청할 시점을 잡습니다, 실제로 조건을 만든 뒤 실행까지 간 기록이 있습니다(<a href='/geojeol'>거절 사유와 회복 경로</a>).")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":re.sub(r'<[^>]+>','',a)}} for q,a in faq]}, ensure_ascii=False)
     svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"정책자금 컨설팅 (진단·설계·준비·심사 대응)","serviceType":"정책자금 컨설팅","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/consulting","offers":{"@type":"Offer","description":"진단은 무료입니다.","priceCurrency":"KRW"}}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 컨설팅","item":"https://bmaker.kr/consulting"}]}, ensure_ascii=False)
@@ -90,7 +90,7 @@ def build():
 </section>
 <main>
   <div class="wrap">
-    <p><b>짧은 답:</b> 정책자금 컨설팅이 실제로 하는 일은 네 가지입니다 — 조건 <b>진단</b>, 자금·기관 <b>설계</b>, 서류·계획서 <b>준비</b>, 심사 <b>대응</b>. 승인 여부와 조건은 소진공·재단·신보 같은 심사 기관이 결정하며, 컨설팅이 바꿀 수 있는 것은 "맞는 트랙에, 맞는 서류로, 맞는 시점에" 들어가느냐입니다. 업체를 고를 때는 승인을 장담하는지, 계약서에 비용 기준과 중도 해지 기준이 있는지, 공개된 실적을 확인할 수 있는지 세 가지를 먼저 보세요.</p>
+    <p><b>짧은 답:</b> 정책자금 컨설팅이 실제로 하는 일은 네 가지입니다, 조건 <b>진단</b>, 자금·기관 <b>설계</b>, 서류·계획서 <b>준비</b>, 심사 <b>대응</b>. 승인 여부와 조건은 소진공·재단·신보 같은 심사 기관이 결정하며, 컨설팅이 바꿀 수 있는 것은 "맞는 트랙에, 맞는 서류로, 맞는 시점에" 들어가느냐입니다. 업체를 고를 때는 승인을 장담하는지, 계약서에 비용 기준과 중도 해지 기준이 있는지, 공개된 실적을 확인할 수 있는지 세 가지를 먼저 보세요.</p>
     <p class="asof">기준일 {ASOF.year}년 {ASOF.month}월 {ASOF.day}일 · 실적 수치는 <a href="/cases">받은 사례</a>에서 자동 집계됩니다.</p>
 
     <div class="cards">
@@ -99,10 +99,10 @@ def build():
       <div class="card"><b>보통 {DMED}일</b><span>첫 상담 → 정산</span></div>
     </div>
 
-    <h2>컨설팅이 하는 일 — 4단계</h2>
+    <h2>컨설팅이 하는 일, 4단계</h2>
     <div class="tablewrap"><table><thead><tr><th>단계</th><th>내용</th></tr></thead><tbody>{steps_html}</tbody></table></div>
 
-    <h2>하지 않는 일 — 이 세 가지가 보이면 다른 곳입니다</h2>
+    <h2>하지 않는 일, 이 세 가지가 보이면 다른 곳입니다</h2>
     <div class="tablewrap"><table><thead><tr><th>하지 않는 것</th><th>이유</th></tr></thead><tbody>{nos_html}</tbody></table></div>
     <p>다른 곳에서 이런 제안을 받았다면 <a href="/chaksugeum">정책자금 브로커·착수금 위험 신호</a>로 먼저 확인해 보세요.</p>
 
@@ -121,9 +121,9 @@ def build():
 
     <h2>컨설팅 업체 고르는 확인법</h2>
     <div class="tablewrap"><table><thead><tr><th>확인 항목</th><th>기준</th></tr></thead><tbody>{checks_html}</tbody></table></div>
-    <p><b>계약서에서 확인할 네 문장</b> — 업체를 정했다면 서명 전에 아래 네 가지가 문장으로 적혀 있는지 보세요.</p>
+    <p><b>계약서에서 확인할 네 문장</b>: 업체를 정했다면 서명 전에 아래 네 가지가 문장으로 적혀 있는지 보세요.</p>
     <ol>{contract_html}</ol>
-    <div class="proof"><p>위험 신호 8가지와 확인법 5가지는 <a href="/chaksugeum">착수금·수수료 사기 구별법</a>에 따로 정리했습니다. 개인사업자라면 <a href="/gaein">개인사업자 정책자금 총정리</a>에서 어느 갈래가 맞는지부터 보세요 — 받은 사례 {N}건 중 {NIND}건이 개인사업자입니다.</p></div>
+    <div class="proof"><p>위험 신호 8가지와 확인법 5가지는 <a href="/chaksugeum">착수금·수수료 사기 구별법</a>에 따로 정리했습니다. 개인사업자라면 <a href="/gaein">개인사업자 정책자금 총정리</a>에서 어느 갈래가 맞는지부터 보세요, 받은 사례 {N}건 중 {NIND}건이 개인사업자입니다.</p></div>
 
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
 
@@ -140,7 +140,7 @@ def build():
       <a href="/sojingong">소상공인 정책자금</a>
     </div>
     <div class="cta-box">
-      <h3 class="serif">먼저 진단부터 — 비용 없이</h3>
+      <h3 class="serif">먼저 진단부터, 비용 없이</h3>
       <p>조건을 주시면 가능한 트랙과 지금 걸리는 조건을 말씀드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
       <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">상담 신청</a>
       <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a>
@@ -161,7 +161,7 @@ def build():
     else: sm=sm.replace('</urlset>', f'  <url><loc>{loc}</loc><lastmod>{TODAY}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>\n</urlset>')
     (ROOT/'sitemap.xml').write_text(sm, encoding='utf-8')
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
-    line=f"- [정책자금 컨설팅 안내](https://bmaker.kr/consulting): 하는 일 4단계(진단·설계·준비·대응), 하지 않는 일 3가지, 비용 안내 기준, 업체 확인법 — 받은 사례 {N}건·{TOT} 근거"
+    line=f"- [정책자금 컨설팅 안내](https://bmaker.kr/consulting): 하는 일 4단계(진단·설계·준비·대응), 하지 않는 일 3가지, 비용 안내 기준, 업체 확인법, 받은 사례 {N}건·{TOT} 근거"
     if '- [정책자금 컨설팅 안내]' in lt: lt=re.sub(r'- \[정책자금 컨설팅 안내\][^\n]*', line, lt)
     else: lt=lt.replace('- [개인사업자 정책자금 총정리]', line+'\n- [개인사업자 정책자금 총정리]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')

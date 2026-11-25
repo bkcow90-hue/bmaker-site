@@ -106,7 +106,7 @@ footer a{color:#C6D0E4;text-decoration:underline}
   ul,ol{padding-left:20px}li{margin-bottom:6px;line-height:1.7}
 }
 
-/* ===== v4 테마(서브): 장부와 공문서 — 마지막 우선 ===== */
+/* ===== v4 테마(서브): 장부와 공문서, 마지막 우선 ===== */
 :root{--display:'Noto Serif KR',serif;--paper:#F7F5F0;--line:#E1DED6}
 h1,h2,h3,.serif,.cta-box h3,.cta-inline p b,.proof b:first-child,.card b{font-family:var(--display)}
 h1{font-weight:700;letter-spacing:-.02em}h2{font-weight:700;letter-spacing:-.012em;font-size:1.42rem;padding-top:14px;border-top:2px solid var(--navy,#0E1B33);margin-top:48px}
@@ -138,13 +138,13 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* nav-shell v3 */
-/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다 — 헤더 띠만 넓힌다 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다, 헤더 띠만 넓힌다 */
 header .wrap{max-width:1180px}
 .nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
 .nav-links a{color:var(--ink-soft);text-decoration:none}
 .nav-links a:hover{color:var(--navy)}
 .nav-links .nav-book{display:none}
-/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다 — 여기서 되돌린다 */
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다, 여기서 되돌린다 */
 .nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
 .nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
 .nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
@@ -153,7 +153,7 @@ header .wrap{max-width:1180px}
 .nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
 .nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
 .nav-links .nav-drop-menu a:hover{background:var(--paper)}
-/* 좁아지면 메뉴를 감춘다 — 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+/* 좁아지면 메뉴를 감춘다, 서브페이지는 예전부터 모바일에 햄버거가 없다 */
 @media(max-width:1100px){.nav-links{display:none}}
 </style>
 <style>
@@ -167,7 +167,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
 </style>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
 <link rel="stylesheet" href="/assets/editorial.css?v=b81874dc51"><link rel="stylesheet" href="/assets/polish.css?v=5f0f055bc8">
-<link rel="stylesheet" href="/assets/renew.css?v=5df9436b60">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/gibo#webpage", "url": "https://bmaker.kr/gibo", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-11-25"}</script></head>
 <body>
 <header>
@@ -193,8 +193,8 @@ td a{color:var(--blue-deep);text-decoration:underline}
     <p><b>짧은 답:</b> 기술보증기금(기보)은 매출·담보 대신 <b>기술을 평가해 보증</b>하는 기관입니다. 기술·혁신형 기업이라면 재무가 얇아도 기술평가로 보증서를 받아 은행 대출을 실행할 수 있고, 금액 단위가 커서 억대 설계가 가능합니다. 다른 정책자금과 <b>동시에 설계</b>해 필요한 총액을 맞추는 경우가 많습니다. 저희가 받은 기보 사례를 아래에 사업 형태·업력·업종별로 정리했습니다.</p>
     <p class="asof">기준일 2026년 8월 기준 · 금리·조건은 각 실행 시점과 상품 공고를 따릅니다.</p>
     <!-- inst-evidence:start --><h2>저희가 받은 기보 사례 71건</h2><p>공개 원장 2023.09~2026.08 기준입니다. 기업 수가 아닌 사례 건수이고, 받은 금액은 1억 2,000만원부터 9억원까지였습니다. 과거 사례는 지금 신청할 때의 한도·금리·승인 가능성을 뜻하지 않습니다.</p><div class="ie-stats"><div><b>71건</b><span>받은 사례</span></div><div><b>154억 2,000만원</b><span>받은 금액 합계</span></div><div><b>2억 1,000만원</b><span>건당 보통</span></div><div><b>보통 44일</b><span>첫 상담 → 정산</span></div></div><div class="ie-who"><div class="ie-col"><p class="ie-h">사업 형태</p><ul class="ie-bars"><li><span class="ie-k">법인</span><span class="ie-bar"><i style="width:94%"></i></span><span class="ie-v">67건</span></li><li><span class="ie-k">개인</span><span class="ie-bar"><i style="width:6%"></i></span><span class="ie-v">4건</span></li></ul></div><div class="ie-col"><p class="ie-h">업력</p><ul class="ie-bars"><li><span class="ie-k">7년 이상</span><span class="ie-bar"><i style="width:62%"></i></span><span class="ie-v">44건</span></li><li><span class="ie-k">3~7년</span><span class="ie-bar"><i style="width:28%"></i></span><span class="ie-v">20건</span></li><li><span class="ie-k">3년 미만</span><span class="ie-bar"><i style="width:10%"></i></span><span class="ie-v">7건</span></li></ul></div><div class="ie-col"><p class="ie-h">많이 받은 업종</p><ul class="ie-bars"><li><span class="ie-k">AI 솔루션</span><span class="ie-bar"><i style="width:15%"></i></span><span class="ie-v">11건</span></li><li><span class="ie-k">2차전지 부품제조</span><span class="ie-bar"><i style="width:13%"></i></span><span class="ie-v">9건</span></li><li><span class="ie-k">소프트웨어 개발</span><span class="ie-bar"><i style="width:13%"></i></span><span class="ie-v">9건</span></li><li><span class="ie-k">친환경 패키징 제조</span><span class="ie-bar"><i style="width:10%"></i></span><span class="ie-v">7건</span></li><li><span class="ie-k">온라인 B2B 플랫폼</span><span class="ie-bar"><i style="width:7%"></i></span><span class="ie-v">5건</span></li></ul></div></div><p class="ie-h">최근 받은 사례 8건</p><div class="tablewrap"><table><thead><tr><th>시점</th><th>지역·업종</th><th>사업자</th><th>받은 금액·당시 금리</th><th>근거</th></tr></thead><tbody><tr><td>2026-08</td><td>서울 · 온라인 B2B 플랫폼</td><td>법인 · 업력 11.6년</td><td>1억 8,000만원 · 연 2.98%</td><td><a href="/cases#case-E356">사례 E356</a></td></tr><tr><td>2026-07</td><td>인천 · 2차전지 부품제조</td><td>법인 · 업력 5.1년</td><td>1억 6,500만원 · 연 2.85%</td><td><a href="/cases#case-E354">사례 E354</a></td></tr><tr><td>2026-07</td><td>경기 · 친환경 패키징 제조</td><td>법인 · 업력 4.8년</td><td>1억 4,000만원 · 연 3.21%</td><td><a href="/cases#case-E349">사례 E349</a></td></tr><tr><td>2026-07</td><td>울산 · 소프트웨어 개발</td><td>법인 · 업력 7.5년</td><td>2억 6,000만원 · 연 2.93%</td><td><a href="/cases#case-E347">사례 E347</a></td></tr><tr><td>2026-06</td><td>서울 · 친환경 패키징 제조</td><td>개인 · 업력 9.8년</td><td>1억 6,500만원 · 연 3.26%</td><td><a href="/cases#case-E342">사례 E342</a></td></tr><tr><td>2026-06</td><td>경기 · 온라인 B2B 플랫폼</td><td>법인 · 업력 5.5년</td><td>2억 3,000만원 · 연 3.44%</td><td><a href="/cases#case-E340">사례 E340</a></td></tr><tr><td>2026-06</td><td>경기 · 소프트웨어 개발</td><td>법인 · 업력 14.1년</td><td>1억 4,000만원 · 연 3.23%</td><td><a href="/cases#case-E335">사례 E335</a></td></tr><tr><td>2026-05</td><td>서울 · 2차전지 부품제조</td><td>법인 · 업력 13.5년</td><td>2억 7,500만원 · 연 3.48%</td><td><a href="/cases#case-E327">사례 E327</a></td></tr></tbody></table></div><!-- inst-evidence:end -->
-    <h2>기보의 핵심 — 기술평가와 동시 설계</h2>
-    <p>기보 심사의 중심은 <b>기술사업평가</b>입니다. 특허·개발 이력·기술 인력 같은 요소가 등급으로 환산되고, 그 등급이 보증 규모를 좌우합니다. 벤처기업확인·이노비즈 같은 <a href="/certification">기업인증</a>이 있으면 평가와 우대에 유리한 경우가 많아, 인증과 자금을 묶어 설계하는 것이 저희가 자주 쓰는 방식입니다. 그리고 기보는 <b>다른 정책자금과의 동시 설계</b>에 강합니다 — 기보 보증으로 큰 축을 세우고 소진공·중진공 직접대출을 더해 필요 총액을 맞추는 구조입니다. 보증서 대출의 상환은 만기까지 이자만 내는 방식이 흔한데, 구조 비교는 <a href="/sanghwan">상환 가이드</a>에 사례와 함께 정리돼 있습니다.</p>
+    <h2>기보의 핵심, 기술평가와 동시 설계</h2>
+    <p>기보 심사의 중심은 <b>기술사업평가</b>입니다. 특허·개발 이력·기술 인력 같은 요소가 등급으로 환산되고, 그 등급이 보증 규모를 좌우합니다. 벤처기업확인·이노비즈 같은 <a href="/certification">기업인증</a>이 있으면 평가와 우대에 유리한 경우가 많아, 인증과 자금을 묶어 설계하는 것이 저희가 자주 쓰는 방식입니다. 그리고 기보는 <b>다른 정책자금과의 동시 설계</b>에 강합니다, 기보 보증으로 큰 축을 세우고 소진공·중진공 직접대출을 더해 필요 총액을 맞추는 구조입니다. 보증서 대출의 상환은 만기까지 이자만 내는 방식이 흔한데, 구조 비교는 <a href="/sanghwan">상환 가이드</a>에 사례와 함께 정리돼 있습니다.</p>
 
     <div class="callout"><p>정책자금·보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 각 심사 기관과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 진단은 무료입니다.</p></div>
     <h2>자주 묻는 질문</h2>
@@ -234,6 +234,6 @@ td a{color:var(--blue-deep);text-decoration:underline}
     <p><a href="/">홈</a> · <a href="/cases">실행 사례</a> · <a href="/stats">상담 통계</a> · <a href="/region">지역별 창구</a> · <a href="/faq">자주 묻는 질문</a> · <a href="/privacy">개인정보처리방침</a></p>
   <p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · <a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · <a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p><p class="foot-trust"><a href="/cases">공개 원장 <span data-stat="total-n">403</span>건 · 증빙 <span data-stat="ev-n">12</span>건</a> · <a href="/#about">대표 김상표</a> · <a href="/geojeol">진행이 어려우면 먼저 말합니다</a></p><p class="lastmod" data-lastmod="2026-11-25" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-11-25</p></div>
 </footer>
-<script src="/assets/conversion.js?v=2cbce75756" defer></script>
+<script src="/assets/conversion.js?v=1d8f02ec2b" defer></script>
 </body>
 </html>

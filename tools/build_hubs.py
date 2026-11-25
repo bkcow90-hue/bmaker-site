@@ -6,7 +6,7 @@
 집계에 포함된 건이 없는 경로는 숫자를 '—' 로 둔다(취급 사실과 집계 없음을 둘 다 표시).
 
 화면 FAQ 와 FAQPage JSON-LD 는 같은 목록에서 생성해 항상 100% 일치한다(규격 3절).
-날짜는 tools/builddate 의 build_date()·data_date() 만 쓴다 — 자체 계산 금지.
+날짜는 tools/builddate 의 build_date()·data_date() 만 쓴다, 자체 계산 금지.
 폼은 자금·재단 상세와 같은 인라인 진단 폼(tools/inline_form.py)을 쓴다. 홈 폼 HTML 을 복사하면 스타일이
 홈 <style> 에만 있어 브라우저 기본 모양으로 깨진다(2026-09-28, PR #7 부터 배포돼 있었다).
 
@@ -21,7 +21,7 @@ from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 from reviewer import byline_html
 from service_consulting import SERVICES, STYLESHEET, hero_content, service_content
 
-REVIEWED = '2026-10-04'   # 대표 검토일 = PR #27 머지일(대표 2026-10-04: 월 아닌 YYYY-MM-DD) — 본문을 고치고 다시 검토받으면 함께 올린다
+REVIEWED = '2026-10-04'   # 대표 검토일 = PR #27 머지일(대표 2026-10-04: 월 아닌 YYYY-MM-DD), 본문을 고치고 다시 검토받으면 함께 올린다
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = 'data/cases.source.csv'

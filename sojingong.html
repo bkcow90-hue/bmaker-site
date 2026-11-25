@@ -116,7 +116,7 @@ footer a{color:#C6D0E4;text-decoration:underline}
   ul,ol{padding-left:20px}li{margin-bottom:6px;line-height:1.7}
 }
 
-/* ===== v4 테마(서브): 장부와 공문서 — 마지막 우선 ===== */
+/* ===== v4 테마(서브): 장부와 공문서, 마지막 우선 ===== */
 :root{--display:'Noto Serif KR',serif;--paper:#F7F5F0;--line:#E1DED6}
 h1,h2,h3,.serif,.cta-box h3,.cta-inline p b,.proof b:first-child,.card b{font-family:var(--display)}
 h1{font-weight:700;letter-spacing:-.02em}h2{font-weight:700;letter-spacing:-.012em;font-size:1.42rem;padding-top:14px;border-top:2px solid var(--navy,#0E1B33);margin-top:48px}
@@ -148,13 +148,13 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* nav-shell v3 */
-/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다 — 헤더 띠만 넓힌다 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다, 헤더 띠만 넓힌다 */
 header .wrap{max-width:1180px}
 .nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
 .nav-links a{color:var(--ink-soft);text-decoration:none}
 .nav-links a:hover{color:var(--navy)}
 .nav-links .nav-book{display:none}
-/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다 — 여기서 되돌린다 */
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다, 여기서 되돌린다 */
 .nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
 .nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
 .nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
@@ -163,12 +163,12 @@ header .wrap{max-width:1180px}
 .nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
 .nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
 .nav-links .nav-drop-menu a:hover{background:var(--paper)}
-/* 좁아지면 메뉴를 감춘다 — 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+/* 좁아지면 메뉴를 감춘다, 서브페이지는 예전부터 모바일에 햄버거가 없다 */
 @media(max-width:1100px){.nav-links{display:none}}
 </style>
 <link rel="stylesheet" href="/assets/editorial.css?v=b81874dc51"><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
 <link rel="stylesheet" href="/assets/polish.css?v=5f0f055bc8">
-<link rel="stylesheet" href="/assets/renew.css?v=5df9436b60">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/sojingong#webpage", "url": "https://bmaker.kr/sojingong", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-11-25"}</script><script type="application/ld+json" data-reviewed>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/sojingong#webpage", "url": "https://bmaker.kr/sojingong", "reviewedBy": {"@type": "Person", "@id": "https://bmaker.kr/#founder", "name": "김상표", "jobTitle": "대표", "worksFor": {"@id": "https://bmaker.kr/#org"}}, "lastReviewed": "2026-08"}</script></head>
 <body>
 <header>
@@ -193,7 +193,7 @@ header .wrap{max-width:1180px}
   <div class="wrap">
     <h2>소상공인 정책자금이란</h2>
     <p>흔히 "정부지원 대출"이라 부르는 자금으로, 소상공인시장진흥공단(소진공)이 소상공인에게 시중은행보다 낮은 금리와 긴 상환 기간으로 공급합니다. 일반경영안정자금, 특화자금, 재도전특별자금, 신용취약소상공인자금 등이 있으며, 사업자의 업종·매출·신용 상태에 따라 신청 가능한 자금이 달라집니다.</p>
-    <div class="callout"><p><b>실제 실행 사례</b> — 재도전특별자금 5,300만원(연 4.94%), 신용취약소상공인자금 2,000만원(연 4.84%), 혁신성장촉진자금 6,000만원(연 3.84%) 등. 신용 조건이 어려웠던 대표님들도 자금별 요건에 맞춰 실행됐습니다.</p></div>
+    <div class="callout"><p><b>실제 실행 사례</b>: 재도전특별자금 5,300만원(연 4.94%), 신용취약소상공인자금 2,000만원(연 4.84%), 혁신성장촉진자금 6,000만원(연 3.84%) 등. 신용 조건이 어려웠던 대표님들도 자금별 요건에 맞춰 실행됐습니다.</p></div>
     <h2>이런 분이 검토하시면 좋습니다</h2>
     <ul>
       <li>운전자금(재료비, 인건비, 임차료)이 필요한 소상공인</li>
@@ -202,10 +202,10 @@ header .wrap{max-width:1180px}
       <li>폐업 후 재창업해서 재도전 자금이 필요한 경우</li>
     </ul>
     <h2>진행 순서</h2>
-    <p>무료 진단(업종·매출·신용·체납 확인) → 자금 매칭 → 서류 준비 → 접수와 실행 관리 순으로 진행됩니다. 진단 단계에서 될지 안 될지부터 솔직하게 말씀드리고, 아직 어렵다면 되는 상태를 만드는 순서까지 함께 설계합니다.</p>
+    <p>무료 진단(업종·매출·신용·체납 확인), 자금 매칭, 서류 준비, 접수와 실행 관리 순으로 진행됩니다. 진단 단계에서 될지 안 될지부터 솔직하게 말씀드리고, 아직 어렵다면 되는 상태를 만드는 순서까지 함께 설계합니다.</p>
 <style>.mini{border-collapse:collapse;width:100%;font-size:.88rem;margin:14px 0}.mini th{background:var(--navy);color:#fff;padding:9px 11px;text-align:left;white-space:nowrap}.mini td{padding:9px 11px;border-top:1px solid var(--line);color:#3A4356}.mini tr:nth-child(even) td{background:#FAFBFD}.mini a{color:var(--blue-deep);text-decoration:underline}</style>
     <h2>기록된 소진공 실측 (2026년 8월 기준)</h2>
-    <p>말이 아니라 기록으로 보여드립니다 — <a href="/cases">받은 사례</a>에 수록된 소상공인 정책자금(소진공 직접대출) 사례들입니다. 금리는 각 실행 시점 기준입니다.</p>
+    <p>말이 아니라 기록으로 보여드립니다, <a href="/cases">받은 사례</a>에 수록된 소상공인 정책자금(소진공 직접대출) 사례들입니다. 금리는 각 실행 시점 기준입니다.</p>
     <table class="mini"><thead><tr><th>자금명</th><th>실측</th><th>근거</th></tr></thead><tbody>
     <tr><td><a href="/sinyongchwiyak">신용취약소상공인자금</a></td><td>3건 · 2,000만~3,000만원 · 연 4.14~5.25%</td><td><a href="/cases#case-E18">기록 E18</a> 외</td></tr>
     <tr><td><a href="/jaedojeon">재도전특별자금 (폐업 후 재창업)</a></td><td>3건 · 2,800만~5,300만원 · 연 4.94%</td><td><a href="/cases#case-E22">기록 E22</a> 외</td></tr>
@@ -214,7 +214,7 @@ header .wrap{max-width:1180px}
     <tr><td>기보 보증과 동시 설계</td><td>기보 2억 9,000만 + 소진공 3,000만</td><td><a href="/cases#case-E23">기록 E23</a></td></tr>
     </tbody></table>
     <!-- peer-cases:start --><section id="peer-cases" aria-labelledby="peer-cases-title"><h2 id="peer-cases-title">소상공인시장진흥공단 경로 최근 받은 사례</h2><p>공개 원장에서 소상공인시장진흥공단 경로로 실행된 최근 5건을 자동으로 보여줍니다(68건 · 20억 2,700만원 · 금리 연 2.8~5.45%, 각 실행 시점 기준). 자체 받은 사례가 아직 없는 자금 페이지는 이 표를 기준점으로 안내합니다. 자금별 대상·한도는 다르므로 과거 사례가 현재 조건을 뜻하지 않습니다.</p><table class="mini"><thead><tr><th>실행</th><th>자금</th><th>금액·금리</th><th>근거</th></tr></thead><tbody><tr><td>2026-09</td><td>재도전특별자금(IV)</td><td>3,000만원 · 연 5.45%</td><td><a href="/cases#case-E374">기록</a></td></tr><tr><td>2026-09</td><td>신용취약소상공인자금</td><td>3,000만원 · 연 5.45%</td><td><a href="/cases#case-E371">기록</a></td></tr><tr><td>2026-09</td><td>신용취약소상공인자금</td><td>1,500만원 · 연 5.45</td><td><a href="/cases#case-E368">기록</a></td></tr><tr><td>2026-08</td><td>재도전특별자금(IV)</td><td>5,300만원 · 연 4.94%</td><td><a href="/cases#case-E403">기록</a></td></tr><tr><td>2026-08</td><td>재도전특별자금(창업)</td><td>3,100만원 · 연 4.94%</td><td><a href="/cases#case-E401">기록</a></td></tr></tbody></table><p><b>직접대출</b>은 소상공인시장진흥공단이 직접 심사하고 실행하는 경로입니다. 해당 상품의 대상·제외 조건과 심사 절차를 확인해야 하며 승인·한도는 심사로 결정됩니다. <b>대리대출</b>은 은행이 심사·실행하는 자금입니다. 상품에 따라 보증서·신용·담보 방식이 다르며, 보증료와 이차보전 여부도 확인합니다.</p><p>상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요. 자금 페이지의 접수 표시는 확인 시점의 공식 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준이고, 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p></section><!-- peer-cases:end -->
-    <p>참고로 검색에서 쓰는 이름이 여러 개입니다 — <b>소상공인 정책자금 대출</b>과 <b>소진공 대출</b>은 소상공인 정책자금을 찾는 표현이고, <b>소상공인시장진흥공단 직접대출</b>은 그중 공단이 직접 실행하는 방식을 뜻합니다. 자금에 따라 공단이 추천하고 금융기관에서 실행하는 <b>대리대출</b>도 있으므로, 두 방식을 같은 의미로 보면 안 됩니다. 자금별 조건은 <a href="https://mss.go.kr/site/smba/ex/bbs/View.do?bcIdx=1070197&amp;cbIdx=310" target="_blank" rel="noopener">중소벤처기업부 공식 공고</a>와 <a href="https://ols.semas.or.kr/" target="_blank" rel="noopener">소상공인정책자금 공식 사이트</a>를 기준으로 확인하며, 위 표는 저희가 실제 실행한 기록입니다.</p>
+    <p>참고로 검색에서 쓰는 이름이 여러 개입니다, <b>소상공인 정책자금 대출</b>과 <b>소진공 대출</b>은 소상공인 정책자금을 찾는 표현이고, <b>소상공인시장진흥공단 직접대출</b>은 그중 공단이 직접 실행하는 방식을 뜻합니다. 자금에 따라 공단이 추천하고 금융기관에서 실행하는 <b>대리대출</b>도 있으므로, 두 방식을 같은 의미로 보면 안 됩니다. 자금별 조건은 <a href="https://mss.go.kr/site/smba/ex/bbs/View.do?bcIdx=1070197&amp;cbIdx=310" target="_blank" rel="noopener">중소벤처기업부 공식 공고</a>와 <a href="https://ols.semas.or.kr/" target="_blank" rel="noopener">소상공인정책자금 공식 사이트</a>를 기준으로 확인하며, 위 표는 저희가 실제 실행한 기록입니다.</p>
 
     <h2>자주 묻는 질문</h2>
     <details><summary>소상공인 정책자금 대출 조건은 무엇인가요?</summary><p class="body">소상공인 해당 여부, 업종, 업력, 대표자 신용점수, 연체·세금 체납 여부, 기존 정책자금 이용 이력, 자금 용도를 봅니다. 자금마다 공고에 적힌 대상·제외 요건이 따로 있습니다.</p></details>
@@ -275,6 +275,6 @@ header .wrap{max-width:1180px}
     <p><a href="/">홈</a> · <a href="/region">지역별 창구</a> · <a href="/faq">자주 묻는 질문</a> · <a href="/privacy">개인정보처리방침</a></p>
   <p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · <a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · <a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p><p class="foot-trust"><a href="/cases">공개 원장 <span data-stat="total-n">403</span>건 · 증빙 <span data-stat="ev-n">12</span>건</a> · <a href="/#about">대표 김상표</a> · <a href="/geojeol">진행이 어려우면 먼저 말합니다</a></p><p class="lastmod" data-lastmod="2026-11-25" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-11-25</p></div>
 </footer>
-<script src="/assets/conversion.js?v=2cbce75756" defer></script>
+<script src="/assets/conversion.js?v=1d8f02ec2b" defer></script>
 </body>
 </html>

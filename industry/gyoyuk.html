@@ -105,7 +105,7 @@ footer a{color:#C6D0E4;text-decoration:underline}
   ul,ol{padding-left:20px}li{margin-bottom:6px;line-height:1.7}
 }
 
-/* ===== v4 테마(서브): 장부와 공문서 — 마지막 우선 ===== */
+/* ===== v4 테마(서브): 장부와 공문서, 마지막 우선 ===== */
 :root{--display:'Noto Serif KR',serif;--paper:#F7F5F0;--line:#E1DED6}
 h1,h2,h3,.serif,.cta-box h3,.cta-inline p b,.proof b:first-child,.card b{font-family:var(--display)}
 h1{font-weight:700;letter-spacing:-.02em}h2{font-weight:700;letter-spacing:-.012em;font-size:1.42rem;padding-top:14px;border-top:2px solid var(--navy,#0E1B33);margin-top:48px}
@@ -137,13 +137,13 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* nav-shell v3 */
-/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다 — 헤더 띠만 넓힌다 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다, 헤더 띠만 넓힌다 */
 header .wrap{max-width:1180px}
 .nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
 .nav-links a{color:var(--ink-soft);text-decoration:none}
 .nav-links a:hover{color:var(--navy)}
 .nav-links .nav-book{display:none}
-/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다 — 여기서 되돌린다 */
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다, 여기서 되돌린다 */
 .nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
 .nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
 .nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
@@ -152,12 +152,12 @@ header .wrap{max-width:1180px}
 .nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
 .nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
 .nav-links .nav-drop-menu a:hover{background:var(--paper)}
-/* 좁아지면 메뉴를 감춘다 — 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+/* 좁아지면 메뉴를 감춘다, 서브페이지는 예전부터 모바일에 햄버거가 없다 */
 @media(max-width:1100px){.nav-links{display:none}}
 </style>
 <style>.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.88rem}th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:600}td{padding:10px 12px;border-top:1px solid var(--line);color:#3A4356;vertical-align:top}tr:nth-child(even) td{background:#FAFBFD}td a{color:var(--blue-deep);text-decoration:underline}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}.card b{display:block;font-size:1.4rem;color:var(--navy);margin-bottom:4px}.card span{font-size:.82rem;color:var(--ink-soft)}.hero .answer{font-size:1.15rem;font-weight:700;color:#fff;margin-top:14px}.cta-one{margin-top:28px}.cta-one .btn{background:#FEE500;color:#191600;font-weight:800}</style>
 <link rel="stylesheet" href="/assets/polish.css?v=5f0f055bc8">
-<link rel="stylesheet" href="/assets/renew.css?v=5df9436b60">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
 </head>
 <body>
 <header>
@@ -184,7 +184,7 @@ header .wrap{max-width:1180px}
       <div class="card"><b>16건</b><span>교육서비스 받은 사례 (전체 403건 중)</span></div>
       <div class="card"><b>4억 4,500만원</b><span>받은 금액 합계</span></div>
       <div class="card"><b>2,781만원</b><span>건당 평균</span></div>
-      <div class="card"><b>보통 29일</b><span>첫 상담 → 정산</span></div>
+      <div class="card"><b>보통 29일</b><span>첫 상담부터 정산까지</span></div>
     </div>
 
     <h2>교육서비스 받은 사례 16건</h2>
@@ -208,6 +208,6 @@ header .wrap{max-width:1180px}
     <p><a href="/">홈</a> · <a href="/cases">실행 사례</a> · <a href="/stats">상담 통계</a> · <a href="/region">지역별 창구</a> · <a href="/faq">자주 묻는 질문</a> · <a href="/privacy">개인정보처리방침</a></p>
   <p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · <a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · <a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p><p class="foot-trust"><a href="/cases">공개 원장 <span data-stat="total-n">403</span>건 · 증빙 <span data-stat="ev-n">12</span>건</a> · <a href="/#about">대표 김상표</a> · <a href="/geojeol">진행이 어려우면 먼저 말합니다</a></p><p class="lastmod" data-lastmod="2026-11-25" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-11-25</p></div>
 </footer>
-<script src="/assets/conversion.js?v=2cbce75756" defer></script>
+<script src="/assets/conversion.js?v=1d8f02ec2b" defer></script>
 </body>
 </html>

@@ -24,10 +24,10 @@ wp_url: https://blog.bmaker.kr/support-programs/
 
 ## 공식 포털
 
-- [기업마당 지원사업](https://www.bizinfo.go.kr/) — 지역·금융·기술·인력·수출·내수·창업·경영 분야의 공고를 찾는 공식 사이트입니다.
-- [K-Startup 창업지원](https://www.k-startup.go.kr/web/main/index.do) — 창업 사업공고, 교육·행사와 공간 정보를 찾는 공식 경로입니다.
-- [고용24 기업 지원](https://www.work24.go.kr/cm/main.do) — 채용·고용 관련 기업 지원제도를 확인합니다. 채용 전후 신청 요건은 제도별로 다릅니다.
-- [수출지원기반활용사업](https://www.exportvoucher.com/) — 수출바우처 모집·신청 안내를 확인하는 공식 경로입니다. 선정·자부담·서비스 범위는 해당 공고를 확인하세요.
+- [기업마당 지원사업](https://www.bizinfo.go.kr/), 지역·금융·기술·인력·수출·내수·창업·경영 분야의 공고를 찾는 공식 사이트입니다.
+- [K-Startup 창업지원](https://www.k-startup.go.kr/web/main/index.do), 창업 사업공고, 교육·행사와 공간 정보를 찾는 공식 경로입니다.
+- [고용24 기업 지원](https://www.work24.go.kr/cm/main.do), 채용·고용 관련 기업 지원제도를 확인합니다. 채용 전후 신청 요건은 제도별로 다릅니다.
+- [수출지원기반활용사업](https://www.exportvoucher.com/), 수출바우처 모집·신청 안내를 확인하는 공식 경로입니다. 선정·자부담·서비스 범위는 해당 공고를 확인하세요.
 
 ## 신청 전에 확인할 여섯 가지
 

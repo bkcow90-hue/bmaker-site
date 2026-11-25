@@ -1,8 +1,8 @@
 """전 사이트 신뢰 문구 — 푸터 근거 한 줄 · Organization JSON-LD(규격 3절·4절, 2026-11-02).
 
 - 푸터 근거 한 줄: build_lastmod 가 모든 페이지 푸터의 최종 업데이트 줄 앞에 넣는다(복사돼 온 것은 걷어내고 다시).
-  숫자는 data/cases.csv(build_cases 생성)에서 센다 — 홈 data-stat 과 같은 값.
-- "왜 여기서" 3줄(폼 위)은 넣지 않는다 — 넣으면 /ilsijeok-homeplus·/jangaein 본문 유사도가 0.580→0.618 로 0.6 을 넘어 푸터 한 줄로만 둔다(2026-11-02).
+  숫자는 data/cases.csv(build_cases 생성)에서 센다, 홈 data-stat 과 같은 값.
+- "왜 여기서" 3줄(폼 위)은 넣지 않는다, 넣으면 /ilsijeok-homeplus·/jangaein 본문 유사도가 0.580→0.618 로 0.6 을 넘어 푸터 한 줄로만 둔다(2026-11-02).
 - Organization: @type 이 있는 #org 노드에 description = brand.json definition, sameAs = brand.json sameAs(빈 배열이면 키 생략).
 """
 import csv

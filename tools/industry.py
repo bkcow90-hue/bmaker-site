@@ -146,7 +146,7 @@ def landing_html(ind, rows, all_n, period):
       <div class="card"><b>{n}건</b><span>{ind['name']} 받은 사례 (전체 {all_n}건 중)</span></div>
       <div class="card"><b>{won2(total)}</b><span>받은 금액 합계</span></div>
       <div class="card"><b>{avg}</b><span>건당 평균</span></div>
-      <div class="card"><b>{dmed}</b><span>첫 상담 → 정산</span></div>
+      <div class="card"><b>{dmed}</b><span>첫 상담부터 정산까지</span></div>
     </div>
 
     <h2>{ind['name']} 받은 사례 {n}건</h2>
@@ -325,7 +325,7 @@ def build(rows, period, root=None):
         else:
             sm = sm.replace('</urlset>', f'  <url><loc>{loc}</loc><lastmod>{TODAY}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n</urlset>')
         total = sum(r['amt'] for r in rows_i)
-        line = f"- [{ind['question']}]({loc}): 받은 사례 원장에서 업종 필터 — {ind['name']} {len(rows_i)}건, 총 {won2(total)}. 기관·자금·금액·금리 표"
+        line = f"- [{ind['question']}]({loc}): 받은 사례 원장에서 업종 필터, {ind['name']} {len(rows_i)}건, 총 {won2(total)}. 기관·자금·금액·금리 표"
         if f"- [{ind['question']}]" in lt:
             lt = re.sub(r'- \[' + re.escape(ind['question']) + r'\][^\n]*', lambda m: line, lt)
         else:

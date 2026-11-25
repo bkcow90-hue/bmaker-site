@@ -106,7 +106,7 @@ footer a{color:#C6D0E4;text-decoration:underline}
   ul,ol{padding-left:20px}li{margin-bottom:6px;line-height:1.7}
 }
 
-/* ===== v4 테마(서브): 장부와 공문서 — 마지막 우선 ===== */
+/* ===== v4 테마(서브): 장부와 공문서, 마지막 우선 ===== */
 :root{--display:'Noto Serif KR',serif;--paper:#F7F5F0;--line:#E1DED6}
 h1,h2,h3,.serif,.cta-box h3,.cta-inline p b,.proof b:first-child,.card b{font-family:var(--display)}
 h1{font-weight:700;letter-spacing:-.02em}h2{font-weight:700;letter-spacing:-.012em;font-size:1.42rem;padding-top:14px;border-top:2px solid var(--navy,#0E1B33);margin-top:48px}
@@ -138,13 +138,13 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* nav-shell v3 */
-/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다 — 헤더 띠만 넓힌다 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다, 헤더 띠만 넓힌다 */
 header .wrap{max-width:1180px}
 .nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
 .nav-links a{color:var(--ink-soft);text-decoration:none}
 .nav-links a:hover{color:var(--navy)}
 .nav-links .nav-book{display:none}
-/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다 — 여기서 되돌린다 */
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다, 여기서 되돌린다 */
 .nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
 .nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
 .nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
@@ -153,7 +153,7 @@ header .wrap{max-width:1180px}
 .nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
 .nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
 .nav-links .nav-drop-menu a:hover{background:var(--paper)}
-/* 좁아지면 메뉴를 감춘다 — 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+/* 좁아지면 메뉴를 감춘다, 서브페이지는 예전부터 모바일에 햄버거가 없다 */
 @media(max-width:1100px){.nav-links{display:none}}
 </style>
 <style>
@@ -171,7 +171,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
 </style>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
 <link rel="stylesheet" href="/assets/polish.css?v=5f0f055bc8">
-<link rel="stylesheet" href="/assets/renew.css?v=5df9436b60">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
 <script type="application/ld+json" data-reviewed>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/sanghwan#webpage", "url": "https://bmaker.kr/sanghwan", "reviewedBy": {"@type": "Person", "@id": "https://bmaker.kr/#founder", "name": "김상표", "jobTitle": "대표", "worksFor": {"@id": "https://bmaker.kr/#org"}}, "lastReviewed": "2026-09"}</script></head>
 <body>
 <header>
@@ -198,25 +198,25 @@ td a{color:var(--blue-deep);text-decoration:underline}
     <h2>용어부터 정확히</h2>
     <div class="tablewrap"><table>
       <thead><tr><th>용어</th><th>뜻</th></tr></thead>
-      <tbody><tr><td style="white-space:nowrap"><b>거치기간</b></td><td>원금 상환을 미루고 이자만 내는 기간. 실행 초기 1~2년이 일반적이며, 이 기간에도 월 이자는 냅니다.</td></tr><tr><td style="white-space:nowrap"><b>원금균등분할</b></td><td>남은 기간 동안 원금을 똑같이 나눠 내는 방식. 매달 ‘균등 원금 + 남은 원금의 이자’라서 납입액이 조금씩 줄어듭니다.</td></tr><tr><td style="white-space:nowrap"><b>이자만 납부(만기 구조)</b></td><td>보증서 대출에서 흔한 방식 — 만기까지 이자만 내고, 만기에 원금을 상환하거나 보증 연장 심사로 기간을 늘립니다.</td></tr><tr><td style="white-space:nowrap"><b>상환(납입)주기</b></td><td>납입 간격. 정책자금은 대부분 1개월입니다.</td></tr><tr><td style="white-space:nowrap"><b>변동금리</b></td><td>기준금리 변동에 따라 적용 금리가 함께 움직이는 방식. 소진공 직접대출은 공자기금 예탁금리 연동 변동금리가 일반적입니다.</td></tr><tr><td style="white-space:nowrap"><b>중도상환</b></td><td>만기 전에 원금 일부·전부를 미리 상환하는 것. 다수 정책자금은 중도상환수수료가 없습니다(상품 공고 확인).</td></tr></tbody>
+      <tbody><tr><td style="white-space:nowrap"><b>거치기간</b></td><td>원금 상환을 미루고 이자만 내는 기간. 실행 초기 1~2년이 일반적이며, 이 기간에도 월 이자는 냅니다.</td></tr><tr><td style="white-space:nowrap"><b>원금균등분할</b></td><td>남은 기간 동안 원금을 똑같이 나눠 내는 방식. 매달 ‘균등 원금 + 남은 원금의 이자’라서 납입액이 조금씩 줄어듭니다.</td></tr><tr><td style="white-space:nowrap"><b>이자만 납부(만기 구조)</b></td><td>보증서 대출에서 흔한 방식, 만기까지 이자만 내고, 만기에 원금을 상환하거나 보증 연장 심사로 기간을 늘립니다.</td></tr><tr><td style="white-space:nowrap"><b>상환(납입)주기</b></td><td>납입 간격. 정책자금은 대부분 1개월입니다.</td></tr><tr><td style="white-space:nowrap"><b>변동금리</b></td><td>기준금리 변동에 따라 적용 금리가 함께 움직이는 방식. 소진공 직접대출은 공자기금 예탁금리 연동 변동금리가 일반적입니다.</td></tr><tr><td style="white-space:nowrap"><b>중도상환</b></td><td>만기 전에 원금 일부·전부를 미리 상환하는 것. 다수 정책자금은 중도상환수수료가 없습니다(상품 공고 확인).</td></tr></tbody>
     </table></div>
 
     <h2>월 납입액, 감 잡기 (예시 계산)</h2>
-    <p><b>예시 — 3,000만원 · 연 4.94% · 거치 12개월 후 48개월 원금균등분할</b>(받은 사례 재도전특별자금 실측 금리 기준의 가상 예시입니다. 실제 금액·기간은 약정에 따릅니다):</p>
+    <p><b>예시, 3,000만원 · 연 4.94% · 거치 12개월 후 48개월 원금균등분할</b>(받은 사례 재도전특별자금 실측 금리 기준의 가상 예시입니다. 실제 금액·기간은 약정에 따릅니다):</p>
     <ul>
-      <li><b>거치기간(첫 12개월)</b> — 월 이자만: 3,000만 × 4.94% ÷ 12 ≈ <b>약 12만 3천원</b></li>
-      <li><b>분할 시작 첫 달</b> — 균등 원금 62만 5천원(3,000만÷48) + 이자 약 12만 3천원 ≈ <b>약 74만 8천원</b></li>
-      <li><b>이후</b> — 원금은 그대로, 이자는 남은 원금 기준이라 <b>매달 조금씩 줄어듭니다</b>. 마지막 달은 약 62만 8천원.</li>
+      <li><b>거치기간(첫 12개월)</b>: 월 이자만: 3,000만 × 4.94% ÷ 12 ≈ <b>약 12만 3천원</b></li>
+      <li><b>분할 시작 첫 달</b>: 균등 원금 62만 5천원(3,000만÷48) + 이자 약 12만 3천원 ≈ <b>약 74만 8천원</b></li>
+      <li><b>이후</b>: 원금은 그대로, 이자는 남은 원금 기준이라 <b>매달 조금씩 줄어듭니다</b>. 마지막 달은 약 62만 8천원.</li>
     </ul>
-    <p>변동금리라면 기준금리 변동에 따라 이자 부분이 함께 움직입니다. 실행 전에 이 계산을 본인 금액으로 해보는 것 — 그게 "받아도 되는 금액"을 정하는 가장 정직한 방법입니다.</p>
+    <p>변동금리라면 기준금리 변동에 따라 이자 부분이 함께 움직입니다. 실행 전에 이 계산을 본인 금액으로 해보는 것, 그게 "받아도 되는 금액"을 정하는 가장 정직한 방법입니다.</p>
 
     <div class="figrow">
-      <figure><img src="assets/cases/ev-E1-sojingong-jaedojeon-5300.webp" alt="소진공 대출약정내역 — 재도전특별자금 5,300만원, 상환방법 거치식원금균등분할, 납입주기 1개월 (가림 처리)" width="720" height="1560" loading="lazy"><figcaption>소진공 약정 원문: "상환(납입)방법: 거치식원금균등분할 · 주기 1개월" — <a href="/cases#ev-E1">받은 사례 증빙</a></figcaption></figure>
-      <figure><img src="assets/cases/ev-2026-09-jaedan-3000.webp" alt="경남신용보증재단 승인 문자 — 3,000만원, 상환방법 분할상환(거치기간 12개월) (가림 처리)" width="455" height="854" loading="lazy"><figcaption>재단 승인 문자 원문: "상환방법: 분할상환 (거치기간 12개월)" — <a href="/cases#ev-2026-09">받은 사례 증빙</a></figcaption></figure>
+      <figure><img src="assets/cases/ev-E1-sojingong-jaedojeon-5300.webp" alt="소진공 대출약정내역, 재도전특별자금 5,300만원, 상환방법 거치식원금균등분할, 납입주기 1개월 (가림 처리)" width="720" height="1560" loading="lazy"><figcaption>소진공 약정 원문: "상환(납입)방법: 거치식원금균등분할 · 주기 1개월", <a href="/cases#ev-E1">받은 사례 증빙</a></figcaption></figure>
+      <figure><img src="assets/cases/ev-2026-09-jaedan-3000.webp" alt="경남신용보증재단 승인 문자, 3,000만원, 상환방법 분할상환(거치기간 12개월) (가림 처리)" width="455" height="854" loading="lazy"><figcaption>재단 승인 문자 원문: "상환방법: 분할상환 (거치기간 12개월)", <a href="/cases#ev-2026-09">받은 사례 증빙</a></figcaption></figure>
     </div>
 
     <h2>연체하면 어떻게 되나</h2>
-    <p>연체가 시작되면 지연배상금이 붙고, 길어지면 기한이익상실 — 남은 원금 전액을 일시에 상환하라는 요구 — 로 이어지며 신용에도 기록이 남습니다. 또 하나, 소진공 약정문에 명시된 조건: <b>자금집행계획과 무관한 용도로 대출금을 사용한 사실이 확인되면 일시회수(지연배상금 부과)·대출 제한</b> 조치가 가능합니다. 운전자금을 받아 다른 곳에 쓰는 것도 상환 문제만큼 위험합니다. 상환이 어려워질 것 같으면 연체 전에 취급 기관에 먼저 연락해 만기 연장·조건 조정을 상담하는 것이 손해를 가장 줄입니다.</p>
+    <p>연체가 시작되면 지연배상금이 붙고, 길어지면 기한이익상실, 남은 원금 전액을 일시에 상환하라는 요구, 로 이어지며 신용에도 기록이 남습니다. 또 하나, 소진공 약정문에 명시된 조건: <b>자금집행계획과 무관한 용도로 대출금을 사용한 사실이 확인되면 일시회수(지연배상금 부과)·대출 제한</b> 조치가 가능합니다. 운전자금을 받아 다른 곳에 쓰는 것도 상환 문제만큼 위험합니다. 상환이 어려워질 것 같으면 연체 전에 취급 기관에 먼저 연락해 만기 연장·조건 조정을 상담하는 것이 손해를 가장 줄입니다.</p>
 
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. 진단은 무료입니다.</p></div>
 
@@ -248,6 +248,6 @@ td a{color:var(--blue-deep);text-decoration:underline}
     <p><a href="/">홈</a> · <a href="/cases">실행 사례</a> · <a href="/stats">상담 통계</a> · <a href="/region">지역별 창구</a> · <a href="/faq">자주 묻는 질문</a> · <a href="/privacy">개인정보처리방침</a></p>
   <p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · <a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · <a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p><p class="foot-trust"><a href="/cases">공개 원장 <span data-stat="total-n">403</span>건 · 증빙 <span data-stat="ev-n">12</span>건</a> · <a href="/#about">대표 김상표</a> · <a href="/geojeol">진행이 어려우면 먼저 말합니다</a></p><p class="lastmod" data-lastmod="2026-11-25" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-11-25</p></div>
 </footer>
-<script src="/assets/conversion.js?v=2cbce75756" defer></script>
+<script src="/assets/conversion.js?v=1d8f02ec2b" defer></script>
 </body>
 </html>

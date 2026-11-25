@@ -161,7 +161,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
     def test_principles_list_four_donts_and_three_doings(self):
         h2 = self._inside("principles", "h2")
-        self.assertEqual(" ".join(h2[0]["text"].split()), "안 하는 일과, 하고 있는 일.")
+        self.assertEqual(" ".join(h2[0]["text"].split()), "지키는 기준")
         h3 = [" ".join(h["text"].split()) for h in self._inside("principles", "h3")]
         self.assertEqual(len(h3), 7)
         self.assertEqual(h3[4:], ["원장을 공개합니다", "이름을 걸고 합니다", "어려우면 먼저 말합니다"])
@@ -198,11 +198,13 @@ class HomepageExperienceTests(unittest.TestCase):
         forms = [e for e in self.elements if e["tag"] == "form"]
         self.assertEqual(len(forms), 1)
         form = forms[0]
+        # 2026-11-25 리뉴얼: 폼은 칸만 둔다('진단에서 돌려드리는 것' 상자·안내 문단 제거). 가이드북은 이메일 칸 도움말에만.
         returns = [" ".join(e["text"].split()) for e in self.elements
                    if e["tag"] == "li" and e in self._form_children(form)]
-        self.assertEqual(returns, ["신청해 볼 기관·자금 후보", "지금 부족한 요건", "준비 순서와 서류", "진행이 어렵다면 그 이유"])
+        self.assertEqual(returns, [])
         text = " ".join(form["text"].split())
-        self.assertLess(text.index("진단에서 돌려드리는 것"), text.index("가이드북"))
+        self.assertNotIn("진단에서 돌려드리는 것", text)
+        self.assertIn("가이드북", text)
         self.assertNotRegex(text, r"착수금|성공보수|진행비|성과 보수")
 
     def _form_children(self, form):

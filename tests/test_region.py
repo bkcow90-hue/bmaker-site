@@ -268,7 +268,7 @@ def test_region_fund_items_labelled():
     bad = []
     for p in sorted((ROOT / 'region').glob('*.html')):
         s = p.read_text(encoding='utf-8')
-        fund_table = re.search(r'지원사업·지원금 — 2026년 공고</h2>.*?</table>', s, re.S).group(0)
+        fund_table = re.search(r'지원사업·지원금, 2026년 공고</h2>.*?</table>', s, re.S).group(0)
         items = re.findall(r'(?:<td>|<br>)(?:<span class="tag">\[([^\]]+)\]</span> )?<b>', fund_table)
         if not items or any(i not in labels for i in items):
             bad.append(f'{p.stem}: {items}')
@@ -289,7 +289,7 @@ def test_region_notice_intake_shown():
                 bad.append(f'대출 실행 은행이 접수처로 실림: {r["세부 사업"]}')
     for p in sorted((ROOT / 'region').glob('*.html')):
         s = p.read_text(encoding='utf-8')
-        fund_table = re.search(r'지원사업·지원금 — 2026년 공고</h2>.*?</table>', s, re.S).group(0)
+        fund_table = re.search(r'지원사업·지원금, 2026년 공고</h2>.*?</table>', s, re.S).group(0)
         n_rows = len(re.findall(r'<tr data-fact="city-fund"', fund_table))
         cells = [_h.unescape(c) for c in re.findall(r'<td class="intake">(.*?)</td>', fund_table)]
         if n_rows != len(cells) or any(not c.strip() for c in cells):

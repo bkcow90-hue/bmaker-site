@@ -31,7 +31,7 @@ wp_url: https://blog.bmaker.kr/2026-kodit-ibk-startup-buildup/
 
 ## 공식 원문과 준비 자료
 
-- [신용보증기금 공식 발표 — 2026년 9월 21일](https://www.kodit.or.kr/kodit/na/ntt/selectNttInfo.do?bbsId=47&mi=2639&nttSn=5214893)
+- [신용보증기금 공식 발표, 2026년 9월 21일](https://www.kodit.or.kr/kodit/na/ntt/selectNttInfo.do?bbsId=47&mi=2639&nttSn=5214893)
 - [신보 보증과 은행 대출의 차이](/sinbo)
 - [기관별 상담 질문](/blog/guarantee-bank-questions)
 - [13주 자금계획 준비](/blog/cash-flow-13-weeks)
