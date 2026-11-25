@@ -341,6 +341,9 @@ td a{color:var(--blue-deep);text-decoration:underline}
             block=(f'<!-- home-proof:start --><strong>실행사례 {N}건</strong><span>{T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
             # H1 is editorial copy, not a ledger counter: records are not unique people.
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
+            # 히어로 아래 건수 띠(2026-11-25 리뉴얼) — 건수와 기간만
+            count=(f'<!-- home-count:start --><p class="count-num"><span>누적 자금 실행</span><b>{N}</b><i>건</i></p><p class="count-note">{T["PERIOD_SHORT"]}. 각 고객사의 당시 조건에 따른 결과입니다.</p><!-- home-count:end -->')
+            ih=re.sub(r'<!-- home-count:start -->.*?<!-- home-count:end -->', count, ih, flags=re.S)
             featured=select_home_cases(D)
             # 히어로 원장 띠: 사진 대신 최근 실행 5건(2026-11-09, 홈 카피 개정) — 카드 3건과 별개로 최신순
             recent5=sorted(D, key=lambda r: r['실행 연월'], reverse=True)[:5]
