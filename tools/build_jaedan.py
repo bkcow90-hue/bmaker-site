@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """지역 신용보증재단 페이지 빌드 — data/jaedan.source.csv 공개(Y) + 공개 사례 3건 이상 한 줄 = 페이지 하나.
-공개 N 이거나 사례 3건 미만이면 퇴역(파일 삭제·sitemap/llms 제외·/jaedan#<slug> 301 예비 규칙) — 미만은 경고만 하고 멈추지 않는다.
+공개 N 이거나 사례 3건 미만이면 퇴역(파일 삭제·sitemap/llms 제외·/jaedan#<slug> 301 예비 규칙), 미만은 경고만 하고 멈추지 않는다.
 받은 사례에서 (기관에 '재단' 포함 & 지역 일치) 사례를 자동 연결하고, /jaedan 허브의 지역 그리드를 마커 사이에 주입한다.
 실행: python tools/build_jaedan.py
 """
@@ -105,7 +105,7 @@ def region_cities(jid):
 def render_hub_cases(rows):
     regions = len({r['지역(시도)'] for r in rows})
     total = sum(int(r['실행 금액(만원)']) for r in rows)
-    heading = f'<h2>재단 경로의 받은 사례 — {regions}개 지역</h2><p>공개 원장 기준 {len(rows)}건 · {won2(total)}. 기업 수가 아닌 사례 건수입니다.'
+    heading = f'<h2>재단 경로의 받은 사례, {regions}개 지역</h2><p>공개 원장 기준 {len(rows)}건 · {won2(total)}. 기업 수가 아닌 사례 건수입니다.'
     if rows:
         dates = sorted(r['실행 연월'] for r in rows)
         amounts = [int(r['실행 금액(만원)']) for r in rows]
@@ -155,19 +155,19 @@ def notice_facts(d):
     if d.get('limit_2026'): rows.append(('공고 기준 보증 한도', esc(d['limit_2026'])))
     if d.get('special_guarantees'): rows.append(('운영 중인 보증 상품', esc(d['special_guarantees'])))
     if d.get('hq_address'): rows.append(('본점', esc(d['hq_address'])+(f' · <a href="{tel(d["phone"])}">{esc(d["phone"])}</a>' if d.get('phone') else '')))
-    if d.get('branch_count'): rows.append(('지점', f"{esc(d['branch_count'])}곳 — 보증 상담은 사업장 소재지 관할 지점"))
+    if d.get('branch_count'): rows.append(('지점', f"{esc(d['branch_count'])}곳, 보증 상담은 사업장 소재지 관할 지점"))
     if not rows: return ''
     src=[]
     if d.get('notice_url') and d.get('notice_confirmed_at'): src.append(f'공고 확인일 {esc(d["notice_confirmed_at"])} · <a href="{esc(d["notice_url"])}" target="_blank" rel="noopener">재단 공고 원문</a>')
     if d.get('source_url') and d.get('confirmed_at'): src.append(f'본점·지점 확인일 {esc(d["confirmed_at"])} · <a href="{esc(d["source_url"])}" target="_blank" rel="noopener">재단 안내</a>')
     body=''.join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in rows)
     return (f'<h2>{esc(d["재단명"])} 공고에서 확인한 내용</h2>\n<div class="tablewrap"><table class="kv"><tbody>{body}</tbody></table></div>\n'
-            f'<p class="asof">{" · ".join(src)} · 한도·대상은 회차별 공고가 기준이며 소진 시 마감됩니다 — 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>')
+            f'<p class="asof">{" · ".join(src)} · 한도·대상은 회차별 공고가 기준이며 소진 시 마감됩니다, 접수 중 자금은 <a href="/schedule">일정 페이지</a></p>')
 
 # 지역 페이지에서 뺀 공통 FAQ — /jaedan 허브에 한 번만 둔다(화면·FAQPage JSON-LD 함께)
 HUB_FAQ = [
-    ('어떻게 진행되나요?', '재단 보증 심사 → 보증서 발급 → 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다.'),
-    ('무엇을 준비해야 하나요?', '사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다 — 가능성이 낮으면 낮다고 먼저 말씀드립니다.'),
+    ('어떻게 진행되나요?', '재단 보증 심사, 보증서 발급, 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다.'),
+    ('무엇을 준비해야 하나요?', '사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다, 가능성이 낮으면 낮다고 먼저 말씀드립니다.'),
 ]
 
 def upsert_hub_faq(hub):
@@ -196,7 +196,7 @@ def render_regions(rows):
         if d.get('source_url') and d.get('confirmed_at'):
             li.append(f'<li class="asof">확인일 {esc(d["confirmed_at"])} · <a href="{esc(d["source_url"])}" target="_blank" rel="noopener">재단 공식 안내</a></li>')
         if is_live(d):
-            li.append(f'<li><a href="/{d["재단ID"]}">{esc(d["지역(시도)"])} 재단 상세 안내와 받은 사례 {len(C)}건 →</a></li>')
+            li.append(f'<li><a href="/{d["재단ID"]}">{esc(d["지역(시도)"])} 재단 상세 안내와 받은 사례 {len(C)}건</a></li>')
         elif C:
             # 퇴역 지역은 링크 없이 건수만(상세 페이지는 사례 3건 이상일 때만 둔다)
             li.append(f'<li>공개 원장 사례 {len(C)}건</li>')
@@ -238,7 +238,7 @@ def build():
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"신용보증재단","item":"https://bmaker.kr/jaedan"},{"@type":"ListItem","position":3,"name":d['재단명'],"item":f"https://bmaker.kr/{d['재단ID']}"}]}, ensure_ascii=False)
         inline_form = form_html('/' + d['재단ID'], d['재단명'])
         faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a.replace("저신용·재창업 가이드", chr(60)+chr(97)+chr(32)+"href=\'/jeosinyong\'"+chr(62)+"저신용·재창업 가이드"+chr(60)+"/a"+chr(62))}</div></details>' for q,a in faq)
-        memo=(' — '+esc(d['한 줄 메모'])) if d['한 줄 메모'] else ''
+        memo=(', '+esc(d['한 줄 메모'])) if d['한 줄 메모'] else ''
         rc=region_cities(d['재단ID'])
         cities_html=('<h2>이 지역 도시별 창구</h2>\n<p>도시마다 담당 지점·소상공인지원센터·시 자체 자금 공고를 공식 출처와 함께 정리했습니다.</p>\n<ul>'
                      +''.join(f'<li><a href="/region/{cid}">{esc(name)} 소상공인 정책자금 창구</a></li>' for cid,name in rc)+'</ul>\n    ') if rc else ''   # 도시 없는 재단은 한 글자도 바뀌지 않게
@@ -284,11 +284,11 @@ def build():
     <p><b>짧은 답:</b> {esc(d['재단명'])}은 {esc(d['지역(시도)'])}에 사업장이 있는 소상공인·소기업의 보증 창구입니다. 재단 보증 심사와 은행 대출 심사가 따로 있고 이차보전은 사업별 예산에 따라 달라지는 등, 공통 절차는 <a href="/jaedan">신용보증재단 사업자대출 안내</a>에 정리했습니다. 이 페이지는 {esc(d['지역(시도)'])} 재단 공고와 받은 사례만 다룹니다.</p>
     {facts_html}
     <h2>{esc(d['재단명'])} 소상공인 대출, 보증서로 나오는 순서</h2>
-    <ol class="jd-flow"><li><b>보증 신청</b> — 사업장 관할 지점이나 재단 비대면 창구에 신청합니다.</li><li><b>보증 심사</b> — 매출·신용·기존 보증을 보고, 필요하면 사업장을 확인합니다.</li><li><b>보증서 발급</b> — 보증 금액과 기간이 정해집니다.</li><li><b>은행 대출 실행</b> — 협약 은행이 따로 심사한 뒤 대출이 나옵니다.</li></ol>
+    <ol class="jd-flow"><li><b>보증 신청</b>: 사업장 관할 지점이나 재단 비대면 창구에 신청합니다.</li><li><b>보증 심사</b>: 매출·신용·기존 보증을 보고, 필요하면 사업장을 확인합니다.</li><li><b>보증서 발급</b>: 보증 금액과 기간이 정해집니다.</li><li><b>은행 대출 실행</b>: 협약 은행이 따로 심사한 뒤 대출이 나옵니다.</li></ol>
     <p>재단 심사와 은행 심사는 따로라서 보증이 나와도 은행 단계에서 금리·기간이 달라질 수 있습니다. 공통 절차는 <a href="/jaedan">신용보증재단 사업자대출 안내</a>, 신보·기보와의 차이는 <a href="/bojeung">보증서 대출 안내</a>, 미리 볼 거절 사유는 <a href="/geojeol">신청 전 확인 사항</a>에 있습니다.</p>
     {meas}
 {cities_html.rstrip()}
-    <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
+    <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b>: 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="proof"><p><b>과거 사례는 현재 심사 결과와 다릅니다.</b> 기존 보증과 현재 사업 현황, 해당 상품의 요건을 확인해야 합니다. <a href="/geojeol">신청 전 확인할 사유와 준비 순서</a>를 참고하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
@@ -304,8 +304,8 @@ def build():
     <div class="cta-box">
       <h3 class="serif">{esc(d['지역(시도)'])} 사업장, 내 조건이면 되는지</h3>
       <p>업종·매출·신용·이력을 주시면 재단 트랙 가능성과 예상 구조를 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">무료 진단 신청</a>
-      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
@@ -360,7 +360,7 @@ def build():
     # llms.txt 재단 줄 upsert
     withm_regions=[d['지역(시도)'] for d in J if cases_for(d['지역(시도)'])]
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
-    line=f"- [지역 신용보증재단 페이지 {len(J)}종](https://bmaker.kr/jaedan): 시도별 재단 사업자대출 안내 — 실측 기록 보유 {len(withm_regions)}개 지역({'·'.join(withm_regions)}), 17개 재단 본점·연락처는 /jaedan 지역 섹션"
+    line=f"- [지역 신용보증재단 페이지 {len(J)}종](https://bmaker.kr/jaedan): 시도별 재단 사업자대출 안내, 실측 기록 보유 {len(withm_regions)}개 지역({'·'.join(withm_regions)}), 17개 재단 본점·연락처는 /jaedan 지역 섹션"
     if re.search(r'- \[지역 신용보증재단 페이지 \d+종\]', lt): lt=re.sub(r'- \[지역 신용보증재단 페이지 \d+종\][^\n]*', lambda _: line, lt)
     else: lt=lt.replace('- [기술보증기금 대출]', line+'\n- [기술보증기금 대출]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')

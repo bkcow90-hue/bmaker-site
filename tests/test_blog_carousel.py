@@ -38,7 +38,7 @@ def test_carousel_pages_match_images_og_faq_and_cta():
         assert post['author']['name'] == '김상표'
         faq = next(x for x in data if x['@type'] == 'FAQPage')
         assert len(faq['mainEntity']) == 3
-        assert page.count('>무료 진단 예약하기</a>') == 1
+        assert page.count('<p class="blog-cta"><a href="/#apply">상담 신청</a></p>') == 1
         # Instagram distribution was paused by the owner on 2026-10-25.
         if str(p['date']) < '2026-10-25':
             assert 'https://www.instagram.com/bmaker_kr/' in page

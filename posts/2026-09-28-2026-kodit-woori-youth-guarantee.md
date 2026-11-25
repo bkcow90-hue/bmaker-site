@@ -29,7 +29,7 @@ wp_url: https://blog.bmaker.kr/2026-kodit-woori-youth-guarantee/
 
 ## 공식 원문과 준비 자료
 
-- [신용보증기금 공식 발표 — 2026년 9월 23일](https://www.kodit.or.kr/kodit/na/ntt/selectNttInfo.do?bbsId=47&mi=2639&nttSn=5226765)
+- [신용보증기금 공식 발표, 2026년 9월 23일](https://www.kodit.or.kr/kodit/na/ntt/selectNttInfo.do?bbsId=47&mi=2639&nttSn=5226765)
 - [신보 보증 상담부터 은행 실행까지](/sinbo)
 - [기존 사업자대출과 보증 정리표](/blog/existing-business-loans-list)
 - [보증기관과 은행에 따로 묻는 질문](/blog/guarantee-bank-questions)

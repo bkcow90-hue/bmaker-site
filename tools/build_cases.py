@@ -80,7 +80,7 @@ def render_home_case_cards(rows):
             f'<p class="case-date">{date} 실행 · 당시 개별 심사 결과</p>'
             # 원장 '한 줄 메모'가 있을 때만 한 줄 — 없으면 카드가 한 글자도 바뀌지 않는다(규격 4-1, 2026-11-02)
             + (f'<p class="case-memo">검토 포인트: {e("한 줄 메모")}</p>' if str(r.get('한 줄 메모', '') or '').strip() else '')
-            + f'<a href="/cases#case-{key}">이 사례 자세히 보기 →</a></article>'
+            + f'<a href="/cases#case-{key}">이 사례 자세히 보기</a></article>'
         )
     return '\n'.join(cards)
 
@@ -250,7 +250,7 @@ def build():
         y,m=d['실행 연월'].split('-')
         ev=f' <a href="#ev-{d["사례ID"]}">증빙</a>' if d['증빙 파일'] else ""
         return (f'<p class="case" id="case-{d["사례ID"]}"><b>{int(y)}년 {int(m)}월 · {esc(d["지역(시도)"])} {esc(d["업종"]) or "업종 미기재"}</b>'
-                f' — {esc(", ".join(bits))}: {esc(core)}.{esc(tail)}{ev}</p>')
+                f', {esc(", ".join(bits))}: {esc(core)}.{esc(tail)}{ev}</p>')
     sentences="".join(sent(d) for d in D)
     figs=""
     from PIL import Image
@@ -259,7 +259,7 @@ def build():
         p=ROOT/'assets'/'cases'/d['증빙 파일']; w,h=Image.open(p).size
         alt=f"{d['지역(시도)']} {d['업종'] or ''} — {d['기관']} {won2(d['amt'])} 승인·약정 안내 캡처(가림 처리)".replace('  ',' ')
         figs+=(f'<figure id="ev-{d["사례ID"]}"><img src="assets/cases/{d["증빙 파일"]}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
-               f'<figcaption>{esc(alt)} — <a href="#case-{d["사례ID"]}">사례 {d["사례ID"]}</a></figcaption></figure>')
+               f'<figcaption>{esc(alt)}, <a href="#case-{d["사례ID"]}">사례 {d["사례ID"]}</a></figcaption></figure>')
     dataset_ld=json.dumps({"@context":"https://schema.org","@type":"Dataset","@id":"https://bmaker.kr/cases#dataset",
       "name":"비즈니스 메이커 정책자금 받은 사례",
       "description":f"{T['PERIOD_KR']} 실제 실행된 정책자금 사례 {N}건. 기관·자금명·실행 금액·금리·지역·업종·신용점수 구간·소요 기간을 익명화해 공개. 기관 안내문·약정 문자 증빙 {nev}건 포함.",
@@ -338,9 +338,12 @@ td a{color:var(--blue-deep);text-decoration:underline}
     if ip.exists():
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
-            block=(f'<!-- home-proof:start --><strong>받은 사례 {N}건 · 총 {T["TOTAL_KR"]}</strong><span>{T["PERIOD_SHORT"]} · 익명 일부 공개</span><!-- home-proof:end -->')
+            block=(f'<!-- home-proof:start --><strong>실행사례 {N}건</strong><span>{T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
             # H1 is editorial copy, not a ledger counter: records are not unique people.
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
+            # 히어로 아래 건수 띠(2026-11-25 리뉴얼) — 건수와 기간만
+            count=(f'<!-- home-count:start --><p class="count-num"><span>누적 자금 실행</span><b>{N}</b><i>건</i></p><p class="count-note">{T["PERIOD_SHORT"]}. 각 고객사의 당시 조건에 따른 결과입니다.</p><!-- home-count:end -->')
+            ih=re.sub(r'<!-- home-count:start -->.*?<!-- home-count:end -->', count, ih, flags=re.S)
             featured=select_home_cases(D)
             # 히어로 원장 띠: 사진 대신 최근 실행 5건(2026-11-09, 홈 카피 개정) — 카드 3건과 별개로 최신순
             recent5=sorted(D, key=lambda r: r['실행 연월'], reverse=True)[:5]

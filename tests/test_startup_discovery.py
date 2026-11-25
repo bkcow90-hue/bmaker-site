@@ -29,19 +29,14 @@ def test_startup_intent_reaches_form_and_hero_without_changing_policy_default():
     assert re.search(r'id="lf-service"[^>]+value="policy"', policy)
 
 
-def test_unreviewed_content_never_claims_founder_review():
-    p = post()
-    page = B.build_post(p, [p], {}, '', '', '')
-    assert '검토 김상표' not in page
-    assert '"reviewedBy"' not in page
-    assert '"lastReviewed"' not in page
-    assert '자료 확인 2026-10-28' in page
-
-
-def test_existing_reviewed_article_keeps_review_signal():
-    p = post(reviewed=True)
-    page = B.build_post(p, [p], {}, '', '', '')
-    assert '검토 김상표' in page and '"reviewedBy"' in page
+def test_post_never_claims_separate_review():
+    # 2026-11-25: 작성자를 대표 실명으로 통일하면서 별도 검토자 표기(검토 김상표·reviewedBy)는 블로그에서 없앴다.
+    for p in (post(), post(reviewed=True)):
+        page = B.build_post(p, [p], {}, '', '', '')
+        assert '검토 김상표' not in page
+        assert '"reviewedBy"' not in page and '"lastReviewed"' not in page
+        assert '<a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 2026-10-28' in page
+        assert '"author": {"@type": "Person"' in page
 
 
 def test_startup_page_render_is_repeatable_and_faq_matches():

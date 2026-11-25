@@ -71,7 +71,7 @@ disclaimer: "대상·금리·승인액은 공식 공고와 심사·약정에 따
 
 [소상공인시장진흥공단 · 4분기 접수 공고 · 2026-10-24 확인](https://ols.semas.or.kr/ols/man/SMAN052M/page.do)
 
-[비즈니스 메이커 인스타그램 팔로우](https://www.instagram.com/bmaker_kr/) — 사업 운영과 자금 준비에 필요한 판단 기준을 이어서 볼 수 있습니다.
+[비즈니스 메이커 인스타그램 팔로우](https://www.instagram.com/bmaker_kr/), 사업 운영과 자금 준비에 필요한 판단 기준을 이어서 볼 수 있습니다.
 
 ## 자주 묻는 내용은 무엇인가요?
 

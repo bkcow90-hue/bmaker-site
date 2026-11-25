@@ -32,6 +32,12 @@ def render(body, embedded=False):
         elif block.startswith('## '):
             level = 3 if embedded else 2
             result.append(f'<h{level}>{inline(block[3:])}</h{level}>')
+        elif block.startswith('{{tool:') and block.rstrip().endswith('}}'):
+            # 도구 위젯(2026-11-25) — tools/widgets/<이름>.html 을 그대로 넣는다(판정기·계산기)
+            name = block.strip()[7:-2]
+            if not re.fullmatch(r'[a-z0-9-]+', name):
+                raise SystemExit(f'도구 이름이 잘못됐습니다: {name}')
+            result.append((ROOT / 'tools' / 'widgets' / f'{name}.html').read_text(encoding='utf-8').strip())
         elif block.startswith('|'):
             # 마크다운 표(2026-11-09 WP4) — 첫 줄 머리, 둘째 줄 구분선, 나머지 본문
             rows = [[c.strip() for c in ln.strip().strip('|').split('|')] for ln in block.splitlines()]
@@ -54,7 +60,7 @@ def replace_block(page, key, value):
 
 def cards(items):
     return '<section class="editorial-links"><div class="wrap"><h2>함께 읽는 사업 준비 가이드</h2><div class="editorial-grid">' + ''.join(
-        f'<a href="/{x["slug"]}{"" if x["new"] else "#preparation-guide"}">{html.escape(x["body"].splitlines()[0][2:])}<span>자세히 읽기 →</span></a>'
+        f'<a href="/{x["slug"]}{"" if x["new"] else "#preparation-guide"}">{html.escape(x["body"].splitlines()[0][2:])}<span>자세히 읽기</span></a>'
         for x in items) + '</div></div></section>'
 
 
@@ -69,7 +75,7 @@ def topic_links(links, heading='지금 단계에서 함께 확인할 자료'):
     for slug, label in links:
         if not re.fullmatch(r'[a-z0-9-]+', slug) or not (ROOT / (slug + '.html')).exists():
             raise ValueError(f'Unknown related page: {slug}')
-        cells.append(f'<a href="/{slug}">{html.escape(label)}<span>자료 보기 →</span></a>')
+        cells.append(f'<a href="/{slug}">{html.escape(label)}<span>자료 보기</span></a>')
     return '<section class="editorial-links"><div class="wrap"><h2>' + html.escape(heading) + '</h2><div class="editorial-grid">' + ''.join(cells) + '</div></div></section>'
 
 
@@ -120,7 +126,11 @@ def main():
             page = page.replace('/?service=marketing#apply', f'/?service={item["service"]}#apply')
             title = item['body'].splitlines()[0][2:]
             crumb = '<div class="wrap crumb"><a href="/">홈</a> / <a href="/business-guide">사업 가이드</a></div>'
-            article = '<article class="editorial-copy editorial-standalone">' + render(item['body']) + '</article>'
+            if item.get('profile'):
+                # 대표 소개(2026-11-25 디자인): H1 은 위젯(tools/widgets/daepyo-profile.html)이 사진 옆에 직접 낸다. 원고 첫 줄은 제목 값으로만 쓴다.
+                article = '<article class="editorial-copy editorial-standalone dp-page">' + render(item['body'].split('\n\n', 1)[1]) + '</article>'
+            else:
+                article = '<article class="editorial-copy editorial-standalone">' + render(item['body']) + '</article>'
             if item in GROWTH and item['service'] in ('policy', 'certification') and not item.get('official_contact'):
                 # 2026-11-10 CRO: 검색으로 들어온 가이드 독자가 다른 페이지로 넘어가지 않고 신청하게(인증 가이드는 문의 분야 certification)
                 article += '<style>' + FORM_CSS + '</style><div class="wrap">' + form_html('/' + item['slug'], title, title=TITLE_GENERAL, service=item['service']).replace('name="consultation_service" value="policy"', 'name="consultation_service" value="' + item['service'] + '"') + '</div>'
@@ -140,6 +150,16 @@ def main():
                                 'dateModified': str(build_date()),
                                 'author': {'@type': 'Organization', 'name': '비즈니스 메이커', '@id': 'https://bmaker.kr/#org'},
                                 'publisher': {'@type': 'Organization', 'name': '비즈니스 메이커', '@id': 'https://bmaker.kr/#org'}})
+            if item.get('profile'):
+                # 대표 소개 페이지(2026-11-25): 글이 아니라 사람 소개이므로 Article 대신 ProfilePage. 사람 정보의 원본은 홈 #founder 노드다.
+                schemas = [x for x in schemas if x.get('@type') != 'Article']
+                schemas.append({'@context': 'https://schema.org', '@type': 'ProfilePage', 'url': url, 'inLanguage': 'ko',
+                                'dateModified': str(build_date()),
+                                'mainEntity': {'@type': 'Person', '@id': 'https://bmaker.kr/#founder', 'name': '김상표',
+                                               'jobTitle': '비즈니스 메이커 대표', 'url': url,
+                                               'image': 'https://bmaker.kr/assets/team/ceo-kim.webp',
+                                               'worksFor': {'@id': 'https://bmaker.kr/#org'},
+                                               'sameAs': ['https://www.linkedin.com/in/sang-pyo-kim-328b19154/']}})
             page = page.replace('</head>', ''.join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + '</script>' for x in schemas) + '</head>')
         else:
             page = path.read_text(encoding='utf-8')

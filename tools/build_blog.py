@@ -15,7 +15,7 @@ posts/*.md 형식
   ---
   title: "제목"               (필수, " | 비즈니스 메이커" 는 빌더가 붙인다)
   date: 2026-09-21            (필수, 발행일)
-  updated: 2026-09-21         (선택, 내용 확인일 — 없으면 date)
+  updated: 2026-09-21         (선택, 내용 확인일, 없으면 date)
   category: guide|fund|case|news
   summary: "요약 한두 문장"    (필수, meta description·목록·feed)
   tags: [태그, 태그]
@@ -32,7 +32,7 @@ from email.utils import format_datetime
 from datetime import datetime
 from pathlib import Path
 
-from builddate import KST   # feed 의 RFC 822 표기용 시간대 — 날짜 계산은 하지 않는다(글 날짜는 frontmatter)
+from builddate import KST   # feed 의 RFC 822 표기용 시간대, 날짜 계산은 하지 않는다(글 날짜는 frontmatter)
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 from reviewer import PERSON
 
@@ -58,7 +58,7 @@ BANNED = re.compile(r'갚|지원센터|100%|보장|무조건|실행 기록|중�
 OFFICIAL_NAMES = (
     '근로자퇴직급여 보장법',   # 법령 정식 명칭: 자사 결과 보장 표현이 아님
     '근로자퇴직급여보장법',
-    '소상공인원스톱지원센터',   # 순천시 — 기업마당 PBLN_000000000126724 공고 접수처
+    '소상공인원스톱지원센터',   # 순천시, 기업마당 PBLN_000000000126724 공고 접수처
 )
 
 
@@ -406,7 +406,7 @@ def crumb_ld(items):
 
 
 def hero(crumb_html, label, h1, lead, meta='', service='policy'):
-    cta = '창업 비교 상담 신청' if service == 'startup' else '무료 진단 신청'
+    cta = '창업 비교 상담 신청' if service == 'startup' else '상담 신청'
     return f'''<section class="hero"><div class="wrap">
   <p class="crumb">{crumb_html}</p>
   <p class="hub-label">{esc(label)}</p>
@@ -462,7 +462,7 @@ def page_titles():
 
 def fund_names():
     """자금 정식명 — 자금 페이지 빌더가 읽는 행(build_funds.load)의 '자금명'. 괄호 속 세부 트랙은 뗀다."""
-    import build_funds   # 자금 목록을 따로 들고 있지 않는다 — 자금 페이지가 생기면 같이 막힌다
+    import build_funds   # 자금 목록을 따로 들고 있지 않는다, 자금 페이지가 생기면 같이 막힌다
     names = {re.sub(r'\(.*?\)', '', d['자금명']).strip() for d in build_funds.load()}
     return sorted(n for n in names if n)
 
@@ -479,7 +479,7 @@ def fund_name_in(title, funds):
 TOPIC_KEYWORDS = ('정책자금', '자금', '대출', '보증', '창업', '인증', '연구소', '지원금', '지원사업', '기술지원',
                   '이차보전', '소상공인', '중소기업', '상환', '사업계획', '중진공', '소진공', '신보', '기보',
                   '신용보증재단', '시설자금', '시설투자')
-TOPIC_EXEMPT = {'about-editorial'}   # 운영자·편집 기준 안내 — 주제 글이 아니다
+TOPIC_EXEMPT = {'about-editorial'}   # 운영자·편집 기준 안내, 주제 글이 아니다
 
 
 def topic_ok(p):
@@ -518,6 +518,50 @@ def check(posts):
 
 
 # ── 빌드 ─────────────────────────────────────────────────────
+
+
+_RELATED = {}
+
+
+def related_posts(p, posts, n=4):
+    """관련 글 n편 — 태그가 많이 겹치는 글 먼저, 같으면 발행일이 가까운 글.
+
+    2026-11-25 이전에는 같은 분류의 최신 4편만 골라, 새 글 몇 편에 링크가 몰리고
+    오래된 글은 목록·분류 페이지 2곳에서만 연결됐다. 태그·발행일 기준으로 고르면
+    글마다 이웃이 달라져 링크가 고르게 퍼진다. 어느 글도 0편에서 연결되는 일이 없게,
+    아무도 고르지 않은 글은 발행일이 가장 가까운 글의 마지막 자리에 넣는다.
+    """
+    key_all = tuple(x['slug'] for x in posts)
+    if _RELATED.get('key') != key_all:
+        from datetime import date as _d
+        def day(x):
+            y, m, d = (int(v) for v in str(x['date'])[:10].split('-'))
+            return _d(y, m, d).toordinal()
+        pick = {}
+        for q in posts:
+            mine, here = set(q.get('tags') or []), day(q)
+            def key(x, q=q, mine=mine, here=here):
+                return (-len(mine & set(x.get('tags') or [])), 0 if x['category'] == q['category'] else 1,
+                        abs(day(x) - here), x['slug'])
+            pick[q['slug']] = sorted((x for x in posts if x is not q), key=key)[:n]
+        for _ in range(len(posts)):
+            count = {}
+            for lst in pick.values():
+                for x in lst:
+                    count[x['slug']] = count.get(x['slug'], 0) + 1
+            orphans = [x for x in posts if not count.get(x['slug'])]
+            if not orphans:
+                break
+            o = orphans[0]
+            hosts = sorted((q for q in posts if q is not o and count.get(pick[q['slug']][-1]['slug'], 0) > 1),
+                           key=lambda q: (abs(day(q) - day(o)), q['slug']))
+            if not hosts:
+                break
+            pick[hosts[0]['slug']][-1] = o
+        _RELATED.clear(); _RELATED.update(key=key_all, pick=pick)
+    return _RELATED['pick'][p['slug']]
+
+
 def build_post(p, posts, terms, style, hdr, foot):
     url = f"{SITE}/blog/{p['slug']}"
     service = 'startup' if p['category'] == 'startup' else 'policy'
@@ -532,25 +576,25 @@ def build_post(p, posts, terms, style, hdr, foot):
     already = set(re.findall(r'href="(/[a-z0-9-]+)"', article + faq_html))
     linked = autolink(article + '\n<!--faq-->\n' + faq_html, terms, already)
     article, faq_html = linked.split('\n<!--faq-->\n', 1)
-    related = [x for x in posts if x is not p and x['category'] == p['category']][:4]
+    related = related_posts(p, posts)
     related_html = ''.join(f'<a href="/blog/{x["slug"]}">{esc(x["title"])}</a>' for x in related)
     related_html += f'<a href="/blog/category/{p["category"]}">{esc(cat_label)} 전체</a><a href="/blog">블로그 전체</a>'
+    # 도구로 가는 길(2026-11-25) — 정책자금 글 끝에서 자가진단·판정기로 넘긴다. 관련 글과 같은
+    # <p class="related"> 라서 build_lastmod 해시 밖이고, 기존 글의 갱신일이 따라 올라가지 않는다.
+    tools_html = ('' if service == 'startup' else
+                  '<p class="related"><a href="/jagajindan">정책자금 자가진단으로 우리 사업장 확인하기</a>'
+                  '<a href="/sosangin-gijun">소상공인 기준 판정기</a></p>')
 
     lds = [{"@context": "https://schema.org", "@type": "BlogPosting", "headline": p['title'],
             "description": p['summary'], "inLanguage": "ko", "mainEntityOfPage": url, "url": url,
             "image": SITE + p['image'], "datePublished": p['date'], "dateModified": p['updated'],
             "articleSection": cat_label, "keywords": p['tags'],
-            "author": ({"@type": "Person", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/#about"}
-                       if p.get('carousel') else {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND, "url": SITE + "/"}),
+            # 작성자는 전 글 대표 실명(대표 2026-11-25 "블로그 작성자는 실명으로"). 회사는 publisher 로만 둔다.
+            "author": {"@type": "Person", "@id": f"{SITE}/#founder", "name": "김상표", "jobTitle": "비즈니스 메이커 대표", "url": SITE + "/daepyo"},
             "publisher": {"@type": "Organization", "@id": f"{SITE}/#org", "name": BRAND,
                           "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/logo.png"}}},
            crumb_ld([('홈', SITE + '/'), ('블로그', SITE + '/blog'),
-                     (cat_label, f"{SITE}/blog/category/{p['category']}"), (p['title'], url)]),
-           # 검토자(대표 2026-10-04 저자 신호 D): reviewedBy 는 WebPage 속성이라 같은 주소의 WebPage 노드로 둔다
-           {"@context": "https://schema.org", "@type": "WebPage", "@id": url + "#webpage", "url": url,
-            "reviewedBy": PERSON, "lastReviewed": p["updated"][:7]}]
-    if p.get('reviewed') is False:
-        lds = [n for n in lds if 'reviewedBy' not in n]
+                     (cat_label, f"{SITE}/blog/category/{p['category']}"), (p['title'], url)])]
     if faq:
         lds.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": faq_text(a)}}
@@ -572,18 +616,17 @@ def build_post(p, posts, terms, style, hdr, foot):
         page += f'''<section class="block"><div class="wrap post"><article>
 {article}
 {faq_html}
-<p class="blog-cta"><a href="/#apply">무료 진단 예약하기</a></p>
+<p class="blog-cta"><a href="/#apply">상담 신청</a></p>
 <p class="asof">※ 본 안내는 {ym(p["updated"])} 기준입니다. 공식 기관의 최신 안내를 확인하세요.</p>
-<p class="byline">김상표 | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}</p>
+<p class="byline"><a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}</p>
 <p class="disclaimer">{esc(p.get('disclaimer', '이 글은 일반 정보이며, 개별 사안은 해당 기관 또는 전문가에게 확인해야 합니다.'))}</p>
 </article></div></section>
 <section class="block"><div class="wrap"><h2 class="serif">함께 읽으면 좋은 글은 무엇인가요?</h2>
-<p class="related">{related_html}</p></div></section>
+<p class="related">{related_html}</p>{tools_html}</div></section>
 </main>{foot}<script src="/assets/conversion.js" defer></script></body></html>
 '''
         return page
-    byline = (f'작성 {BRAND} · 자료 확인 {p["updated"]}' if p.get('reviewed') is False
-              else f'작성 {BRAND} · 검토 김상표(대표) · 최종 확인 {p["updated"][:7]}')
+    byline = f'<a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}'
     disclaimer = (f'이 글은 창업 비교를 위한 일반 정보이며 특정 브랜드의 매출·수익 예측이 아닙니다. 계약·세무 등 개별 사안은 해당 전문가에게 확인하세요. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.'
                   if service == 'startup' else f'이 글은 일반 정보이며 특정 기업의 신청 자격이나 승인 여부를 판단하지 않습니다. 승인·금리·한도는 각 기관의 심사로 정해집니다. {BRAND}는 정부·공공기관이 아닌 경영컨설팅 회사이며, 금융기관도 아닙니다.')
     page += f'''<section class="block"><div class="wrap post">
@@ -597,7 +640,7 @@ def build_post(p, posts, terms, style, hdr, foot):
 </div></section>
 <section class="block"><div class="wrap">
   <h2 class="serif">함께 보면 좋은 글</h2>
-  <p class="related">{related_html}</p>
+  <p class="related">{related_html}</p>{tools_html}
 </div></section>
 '''
     page += tail(f"/blog/{p['slug']}", p['title'], foot, service=service)
@@ -642,7 +685,7 @@ def build_index(posts, cats, style, hdr, foot, category=None):
         if startup_posts:
             page += ('<section class="block" id="business-start"><div class="wrap"><h2 class="serif">프랜차이즈 비교·창업비용·중장년 창업</h2>'
                      '<p>어떤 브랜드를 고를지, 얼마를 준비할지, 직접 운영할 수 있을지를 질문별로 살펴보세요.</p>'
-                     '<p><a href="/startup">내 지역·예산에 맞는 창업 비교 서비스 →</a></p>'
+                     '<p><a href="/startup">내 지역·예산에 맞는 창업 비교 서비스</a></p>'
                      '<nav aria-label="창업 질문별 안내"><ul class="checklist">'
                      '<li><a href="/blog/franchise-comparison-sales-profit">브랜드 비교: 평균 매출과 비용을 어떻게 읽나요?</a></li>'
                      '<li><a href="/blog/startup-total-budget-checklist">창업비용: 본사 견적 외에 무엇을 준비하나요?</a></li>'
@@ -718,9 +761,9 @@ def update_guide_hub(posts):
     s = path.read_text(encoding='utf-8')
     s = re.sub(re.escape(start) + r'.*?' + re.escape(end), '', s, flags=re.S)
     latest = sorted(posts, key=lambda p: (p['date'], p['slug']), reverse=True)[:6]
-    cells = ''.join(f'<a href="/blog/{p["slug"]}">{esc(p["title"])}<span>읽기 →</span></a>' for p in latest)
+    cells = ''.join(f'<a href="/blog/{p["slug"]}">{esc(p["title"])}<span>읽기</span></a>' for p in latest)
     block = (f'{start}<section class="editorial-links"><div class="wrap"><h2>블로그 최신 글</h2>'
-             f'<div class="editorial-grid">{cells}<a href="/blog">블로그 전체 보기<span>목록 →</span></a></div></div></section>{end}')
+             f'<div class="editorial-grid">{cells}<a href="/blog">블로그 전체 보기<span>목록</span></a></div></div></section>{end}')
     if '</main>' not in s:
         die('business-guide.html 에 </main> 이 없습니다.')
     path.write_text(s.replace('</main>', block + '</main>', 1), encoding='utf-8')

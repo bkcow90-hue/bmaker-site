@@ -7,7 +7,7 @@
   - 사실 확인일이 빌드일 기준 90일을 넘으면 멈춘다.
   - 두 도시의 사실 조합이 같으면 멈춘다.
 사례는 원장이 시도 단위라(규격 1절 익명화) "{시도} 사례"로만 요약한다.
-재단 페이지의 "이 지역 도시" 링크는 build_jaedan 이 같은 CSV 를 읽어 만든다(체인: jaedan → region).
+재단 페이지의 "이 지역 도시" 링크는 build_jaedan 이 같은 CSV 를 읽어 만든다(체인: jaedan, region).
 실행: python tools/build_region.py
 """
 import csv, datetime, json, re, sys
@@ -249,13 +249,13 @@ def page_html(c, style, hdr, foot):
     sentence = esc(sentence_txt)
     brows = []
     for d in br:
-        area = esc(d['관할']) if d['관할'] else '재단 사이트 미공개 — 아래 공고 근거 참고'
+        area = esc(d['관할']) if d['관할'] else '재단 사이트 미공개, 아래 공고 근거 참고'
         links = [link(d['출처 URL'], f'{esc(short)} 공고' if is_gov(d['출처 URL']) else '재단 지점 안내')]
         if d['근거 URL'] and d['근거 URL'] != d['출처 URL']:
             links.append(link(d['근거 URL'], f'{esc(short)} 공고' if is_gov(d['근거 URL']) else '재단 사이트'))
         name = d['표시 이름'] or d['이름'].split(' ', 1)[1]
         brows.append(f'<tr{attrs(d)}><td>{esc(name)}</td><td>{area}</td><td>{esc(d["주소"])}</td>'
-                     f'<td>{esc(d["전화"]) or "출처 간 번호 불일치 — 재단 사이트에서 확인"}</td><td>{" · ".join(links)} · {esc(d["확인일"])}</td></tr>')
+                     f'<td>{esc(d["전화"]) or "출처 간 번호 불일치, 재단 사이트에서 확인"}</td><td>{" · ".join(links)} · {esc(d["확인일"])}</td></tr>')
     ev_html = ''
     seen_q = set()
     for d in br:
@@ -263,9 +263,9 @@ def page_html(c, style, hdr, foot):
             continue
         seen_q.add(d['근거 문장'])
         ev_url = d['출처 URL'] if is_gov(d['출처 URL']) else d['근거 URL']
-        ev_html += f'<p class="basis">{esc(short)} 공고 원문: “{esc(d["근거 문장"])}” — {link(ev_url, "공고 보기")}</p>'
+        ev_html += f'<p class="basis">{esc(short)} 공고 원문: “{esc(d["근거 문장"])}”, {link(ev_url, "공고 보기")}</p>'
     ev = next((d for d in br if d['근거 문장']), None)
-    sec_branch = (f'<h2>{esc(jname)} — {esc(city)} 담당 지점</h2>\n<p>{sentence}</p>\n'
+    sec_branch = (f'<h2>{esc(jname)}, {esc(city)} 담당 지점</h2>\n<p>{sentence}</p>\n'
                   '<div class="tablewrap"><table><thead><tr><th>지점</th><th>관할(공식)</th><th>주소</th><th>전화</th><th>출처·확인일</th></tr></thead><tbody>'
                   + ''.join(brows) + '</tbody></table></div>\n' + ev_html
                   + f'<p>보증 절차·상품: <a href="{jhref}">{esc(jname)} 안내</a></p>')
@@ -275,12 +275,12 @@ def page_html(c, style, hdr, foot):
     for items in nts:
         head = items[0]
         cells = '<br>'.join(
-            f'<span class="tag">[{fund_target(d["이름"])}]</span> <b>{esc(d["이름"])}</b> — 한도 {esc(d["한도"]) or "공고 미기재"} · 금리·이자지원 {esc(d["금리"]) or "공고 미기재"}'
+            f'<span class="tag">[{fund_target(d["이름"])}]</span> <b>{esc(d["이름"])}</b>: 한도 {esc(d["한도"]) or "공고 미기재"} · 금리·이자지원 {esc(d["금리"]) or "공고 미기재"}'
             for d in items)
         nrows.append(f'<tr{attrs(head)}><td>{cells}</td><td>{esc(head["접수기간"]) or "공고 참고"}</td>'
                      f'<td class="intake">{intake_html(head["출처 URL"])}</td>'
                      f'<td>{link(head["출처 URL"], "공고 원문")} · {esc(head["확인일"])}</td></tr>')
-    sec_fund = (f'<h2>{esc(short)} 소상공인 지원사업·지원금 — 2026년 공고</h2>\n'
+    sec_fund = (f'<h2>{esc(short)} 소상공인 지원사업·지원금, 2026년 공고</h2>\n'
                 f'<p>대부분 융자·보증·이자지원 방식이며, 무상 지원금은 공고별로 다릅니다. 자금마다 [소상공인 전용]·[중소기업 육성자금] 등 대상을 표시했습니다. '
                 f'{esc(city)}{subj(city)} 직접 낸 공고 {len(nts)}건이며, 한도·금리는 사업 기준이고 예산이 소진되면 일찍 끝날 수 있습니다. '
                 f'접수처는 공고마다 다릅니다(재단 지점·은행·{esc(city.split()[-1])}청 등).</p>\n'
@@ -293,7 +293,7 @@ def page_html(c, style, hdr, foot):
 
     # ④ 소상공인지원센터 (공식)
     crows = ''.join(
-        f'<li{attrs(d)}><b>{esc(d["이름"])}</b> — 담당지역 {esc(d["관할"])} · {esc(d["주소"])} · {esc(d["전화"])} '
+        f'<li{attrs(d)}><b>{esc(d["이름"])}</b>: 담당지역 {esc(d["관할"])} · {esc(d["주소"])} · {esc(d["전화"])} '
         f'({link(d["출처 URL"], "소진공 센터 안내")}, 확인일 {esc(d["확인일"])})</li>' for d in ce)
     sec_center = (f'<h2>{esc(short)} 소상공인지원센터(소상공인센터) 위치·연락처</h2>\n'
                   f'<p>소상공인시장진흥공단(소진공)이 운영하는 공식 소상공인지원센터입니다. <b>공식 기관이며 비즈니스 메이커와 무관합니다.</b> '
@@ -305,18 +305,18 @@ def page_html(c, style, hdr, foot):
     if rows:
         total = sum(int(r['실행 금액(만원)']) for r in rows)
         jd = sum(1 for r in rows if '신용보증재단' in r['기관'])
-        sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>{esc(sido)} 받은 사례 {len(rows)}건·{won2(total)}(재단 경로 {jd}건). '
+        sec_cases = (f'<h2>{esc(sido)} 사례, 시도 단위</h2>\n<p>{esc(sido)} 받은 사례 {len(rows)}건·{won2(total)}(재단 경로 {jd}건). '
                      f'원장은 시도 단위라 {esc(short)}만 나누지 않고, 과거 사례는 현재 조건이 아닙니다. <a href="{jhref}">{esc(sido)} 사례 보기</a></p>')
     else:
-        sec_cases = (f'<h2>{esc(sido)} 사례 — 시도 단위</h2>\n<p>현재 공개 원장에 {esc(sido)} 사례는 없습니다. '
+        sec_cases = (f'<h2>{esc(sido)} 사례, 시도 단위</h2>\n<p>현재 공개 원장에 {esc(sido)} 사례는 없습니다. '
                      f'<a href="/cases">다른 지역 받은 사례</a>를 참고하세요. 해당 지역 실적이 아닙니다.</p>')
 
     # ⑧ 도 전체 사업 — 참고(개수 제외)
     if prov:
         plist = ''.join(f'<li{attrs(d)}>{esc(d["이름"])} — {link(d["출처 URL"], "공고 원문")} · {esc(d["확인일"])}</li>' for d in prov)
-        sec_prov = f'<h2>참고 — {esc(sido)} 전체 사업</h2>\n<p>{esc(sido)} 전역에 적용되는 사업입니다. {esc(city)}만의 제도는 아닙니다.</p><ul class="facts">{plist}</ul>'
+        sec_prov = f'<h2>참고, {esc(sido)} 전체 사업</h2>\n<p>{esc(sido)} 전역에 적용되는 사업입니다. {esc(city)}만의 제도는 아닙니다.</p><ul class="facts">{plist}</ul>'
     else:
-        sec_prov = (f'<h2>참고 — {esc(sido)} 전체 사업</h2>\n<p><a href="/schedule">정책자금 접수 일정</a></p>')
+        sec_prov = (f'<h2>참고, {esc(sido)} 전체 사업</h2>\n<p><a href="/schedule">정책자금 접수 일정</a></p>')
 
     # ⑥ FAQ — 이 도시 사실로만 답한다
     ev_q = ev['근거 문장'] if ev else ''
@@ -444,7 +444,7 @@ def hub_html(cities, style, hdr, foot):
             ce = [d['이름'].split(' ', 1)[1] for d in c['facts'] if d['종류'] == 'semas-center']
             n = len(notices(c['facts']))
             items.append((c['도시명'], f"{HUB_URL}/{c['도시ID']}"))
-            lis.append(f'<li><a href="/region/{c["도시ID"]}"><b>{esc(c["도시명"])}</b></a> — '
+            lis.append(f'<li><a href="/region/{c["도시ID"]}"><b>{esc(c["도시명"])}</b></a>, '
                        f'{esc(jname)}{" " + esc(c["지점 축약"]) if c["지점 축약"] else ""} · '
                        f'소상공인지원센터 {esc("·".join(ce))} · {esc(c["짧은이름"])} 공고 {n}건</li>')
         jid = groups[sido][0]['재단ID']
@@ -489,7 +489,7 @@ def hub_html(cities, style, hdr, foot):
 <section class="hero">
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 지역별 창구</p>
-    <h1 class="serif">지역별 소상공인 정책자금 창구 — {len(cities)}개 도시</h1>
+    <h1 class="serif">지역별 소상공인 정책자금 창구, {len(cities)}개 도시</h1>
     <p>도시마다 신용보증재단 담당 지점, 소상공인지원센터, 시 자체 자금 공고를 공식 출처와 함께 정리했습니다.</p>
   </div>
 </section>
@@ -558,7 +558,7 @@ def build():
     (ROOT / 'sitemap.xml').write_text(sm, encoding='utf-8')
     lt = (ROOT / 'llms.txt').read_text(encoding='utf-8')
     line = (f"- [도시별 소상공인 정책자금 창구 {len(cities)}곳]({HUB_URL}): "
-            f"도시마다 신용보증재단 담당 지점·소진공 센터·시 자체 자금 공고를 공식 출처와 함께 정리 — "
+            f"도시마다 신용보증재단 담당 지점·소진공 센터·시 자체 자금 공고를 공식 출처와 함께 정리, "
             + '·'.join(c['도시명'] for c in cities.values()))
     if '- [도시별 소상공인 정책자금 창구' in lt:
         lt = re.sub(r'- \[도시별 소상공인 정책자금 창구[^\n]*', lambda m: line, lt)

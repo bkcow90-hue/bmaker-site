@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>정책자금 계산기·판정기 모음, 대상·업력·보증료 바로 확인 | 비즈니스 메이커</title><meta name="description" content="정책자금 신청 전에 쓰는 계산기와 판정기 모음입니다. 소상공인·중소기업 기준 판정, 제외 업종 확인, 업력·청년창업 나이 계산, 보증료·거치기간 상환 계산을 한곳에서 합니다."><link rel="canonical" href="https://bmaker.kr/dogu"><meta property="og:type" content="article"><meta property="og:title" content="정책자금 계산기·판정기 모음, 대상·업력·보증료 바로 확인 | 비즈니스 메이커"><meta property="og:description" content="정책자금 신청 전에 쓰는 계산기와 판정기 모음입니다. 소상공인·중소기업 기준 판정, 제외 업종 확인, 업력·청년창업 나이 계산, 보증료·거치기간 상환 계산을 한곳에서 합니다."><meta property="og:url" content="https://bmaker.kr/dogu"><meta property="og:image" content="https://bmaker.kr/assets/og.png?v=9c29ab2eed"><link rel="icon" href="/assets/icon-192.png"><link rel="stylesheet" href="/assets/business.css?v=8c59b5f70f"><script src="/assets/conversion.js?v=1d8f02ec2b" defer></script><style>
+/* ===== 모바일 숨통 (마지막 우선) ===== */
+@media(max-width:680px){
+  body{font-size:16px;line-height:1.8}
+  .wrap{padding-left:22px;padding-right:22px}
+  .hero{padding:50px 0 42px}.hero h1{line-height:1.32}.hero p{line-height:1.7;margin-top:18px;font-size:1rem}
+  main{padding:44px 0 72px}
+  main p{margin:0 0 16px;line-height:1.8}
+  h2{margin:40px 0 16px;line-height:1.4}
+  h3{margin:24px 0 10px;line-height:1.4}
+  .asof{margin:-6px 0 16px;line-height:1.6}
+  .tablewrap{margin:18px 0 22px}.wrap table.mini td,.wrap table.mini th,.wrap .tablewrap td,.wrap .tablewrap th{padding:11px 10px;line-height:1.5}
+  .cards{gap:12px;margin:20px 0}.card{padding:16px 16px}.card b{margin-bottom:6px}.card span{line-height:1.5}
+  .proof{padding:18px 18px;margin:22px 0;line-height:1.75}
+  .callout{padding:16px 18px;line-height:1.7}
+  details{margin-bottom:10px}summary{padding:16px 18px;line-height:1.5}details .body{padding:0 18px 16px;line-height:1.75}
+  .cta-inline{padding:20px 20px;gap:14px;margin:26px 0}.cta-inline p{line-height:1.6}.cta-inline .btn{width:100%;justify-content:center}
+  .cta-box{padding:32px 22px}.cta-box p{line-height:1.7}
+  .related{margin-top:44px;padding-top:26px}.related p.t{margin-bottom:12px}.related a{display:inline-block;margin:0 8px 10px 0;padding:9px 13px;border:1px solid var(--line,#E6EAF2);border-radius:999px;line-height:1.4}
+  .nav-actions{gap:10px}.nav-tel{padding:8px 10px}.nav-cta{padding:9px 14px}
+  ul,ol{padding-left:20px}li{margin-bottom:6px;line-height:1.7}
+}
+
+/* ===== v4 테마(비즈 페이지): 장부와 공문서 ===== */
+:root{--display:'Noto Serif KR',serif}
+h1,h2,h3{font-family:var(--display);font-weight:700}
+.hero{background-image:none}
+.btn,.kakao,.secondary,.sticky a{border-radius:4px}
+main .card,main .block,body .card,body .block{border-radius:0;border-left:0;border-right:0;box-shadow:none;background:#fff}
+main .chips span,main .chips a{border-radius:0;border:0;border-bottom:1px solid #E1DED6}
+.eyebrow{font-family:var(--display);letter-spacing:.01em}
+@font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
+h1,main h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+/* nav-shell v3 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다, 헤더 띠만 넓힌다 */
+header .wrap{max-width:1180px}
+.nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
+.nav-links a{color:var(--ink-soft);text-decoration:none}
+.nav-links a:hover{color:var(--navy)}
+.nav-links .nav-book{display:none}
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다, 여기서 되돌린다 */
+.nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
+.nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
+.nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
+.nav-links details.nav-drop>summary::after{content:"▾";font-size:.8em}
+.nav-links details.nav-drop>summary:hover{color:var(--navy)}
+.nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
+.nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
+.nav-links .nav-drop-menu a:hover{background:var(--paper)}
+/* 좁아지면 메뉴를 감춘다, 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+@media(max-width:1100px){.nav-links{display:none}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap"></noscript>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
+<link rel="stylesheet" href="/assets/polish.css?v=5f0f055bc8">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"}, {"@type": "ListItem", "position": 2, "name": "사업 가이드", "item": "https://bmaker.kr/business-guide"}, {"@type": "ListItem", "position": 3, "name": "정책자금 계산기·판정기 모음", "item": "https://bmaker.kr/dogu"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "계산기를 쓰려면 회원가입이 필요한가요?", "acceptedAnswer": {"@type": "Answer", "text": "필요 없습니다. 입력한 값은 저장하지 않으며, 상담을 신청할 때만 결과 요약이 함께 전달됩니다."}}, {"@type": "Question", "name": "결과가 대상이라고 나오면 신청하면 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "도구는 기준의 한 부분만 봅니다. 신용, 세금 체납, 기존 이용 내역 등 다른 요건을 함께 확인해야 합니다."}}, {"@type": "Question", "name": "기준이 바뀌면 도구도 바뀌나요?", "acceptedAnswer": {"@type": "Answer", "text": "법령 개정과 연초 융자계획 공고에 맞춰 고칩니다. 각 도구 아래에 기준의 출처와 확인일을 적어 두었습니다."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "정책자금 계산기·판정기 모음", "inLanguage": "ko", "mainEntityOfPage": "https://bmaker.kr/dogu", "dateModified": "2026-11-25", "author": {"@type": "Organization", "name": "비즈니스 메이커", "@id": "https://bmaker.kr/#org", "description": "비즈니스 메이커는 소상공인·개인사업자와 중소기업 법인의 정책자금을 중심으로, 기업인증·연구소 설립·지원금까지 함께 보는 경영컨설팅 회사입니다.", "sameAs": ["https://www.youtube.com/@bmaker_kr", "https://blog.naver.com/bmaker_kr", "https://contents.premium.naver.com/bmaker/bmaker1", "https://map.naver.com/p/entry/place/1503999218", "https://maps.google.com/?cid=3118660610708479845", "https://www.daangn.com/kr/local-profile/%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4-%EB%A9%94%EC%9D%B4%EC%BB%A4-7go8rumqcxp5/", "https://www.instagram.com/bmaker_kr/", "https://www.threads.com/@bmaker_kr", "https://pf.kakao.com/_GKuxfn"]}, "publisher": {"@type": "Organization", "name": "비즈니스 메이커", "@id": "https://bmaker.kr/#org", "description": "비즈니스 메이커는 소상공인·개인사업자와 중소기업 법인의 정책자금을 중심으로, 기업인증·연구소 설립·지원금까지 함께 보는 경영컨설팅 회사입니다.", "sameAs": ["https://www.youtube.com/@bmaker_kr", "https://blog.naver.com/bmaker_kr", "https://contents.premium.naver.com/bmaker/bmaker1", "https://map.naver.com/p/entry/place/1503999218", "https://maps.google.com/?cid=3118660610708479845", "https://www.daangn.com/kr/local-profile/%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4-%EB%A9%94%EC%9D%B4%EC%BB%A4-7go8rumqcxp5/", "https://www.instagram.com/bmaker_kr/", "https://www.threads.com/@bmaker_kr", "https://pf.kakao.com/_GKuxfn"]}}</script><link rel="stylesheet" href="/assets/editorial.css?v=b81874dc51"></head><body data-service="policy"><header><div class="wrap nav"><a class="brand" href="/"><img src="/assets/symbol.png" alt="" width="226" height="190">비즈니스 메이커</a><nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a href="/#about">회사소개</a><details class="nav-drop"><summary>정책자금</summary><div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sosangin">소상공인 정책자금 컨설팅</a><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungsogieop">중소기업 정책자금 컨설팅</a><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/industry">업종별 정책자금</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details><a href="/cases">실행사례</a><a href="/certification">기업인증</a><a class="nav-check" href="/jagajindan">정책자금 자가진단</a><a class="nav-book" href="/#apply" data-cta-location="nav_menu">상담 신청</a></nav></div></header><main><div class="wrap crumb"><a href="/">홈</a> / <a href="/business-guide">사업 가이드</a></div><article class="editorial-copy editorial-standalone"><h1>정책자금 계산기·판정기 모음</h1>
+<p>정책자금을 알아볼 때 가장 먼저 막히는 질문은 &quot;나는 대상인가&quot;와 &quot;얼마를 내게 되나&quot;입니다. 이 질문에 숫자로 답하는 계산기와 판정기를 모았습니다. 모두 무료이고 입력한 값은 저장하지 않습니다.</p>
+<h2>대상인지 확인하는 도구</h2>
+<div class="tablewrap"><table><thead><tr><th>도구</th><th>확인하는 것</th></tr></thead><tbody><tr><td><a href="https://bmaker.kr/jagajindan">1분 자가진단</a></td><td>지금 상황에서 먼저 볼 기관과 자금</td></tr><tr><td><a href="https://bmaker.kr/sosangin-gijun">소상공인 기준 판정기</a></td><td>업종·매출·상시근로자 수로 소상공인인지</td></tr><tr><td><a href="https://bmaker.kr/jungsogieop-gijun">중소기업 기준 판정기</a></td><td>매출액·자산총액으로 중소기업인지, 소기업인지 중기업인지</td></tr><tr><td><a href="https://bmaker.kr/jeoe-eopjong">정책자금 제외 업종 확인</a></td><td>우리 업종이 소진공·중진공 융자제외 업종인지</td></tr><tr><td><a href="https://bmaker.kr/eopryeok-gyesangi">업력 계산기</a></td><td>사업 개시일 기준 업력과 3년·7년 구간</td></tr><tr><td><a href="https://bmaker.kr/cheongnyeon-nai">청년창업 나이 계산기</a></td><td>만 39세·만 34세 청년 기준에 드는지</td></tr><tr><td><a href="https://bmaker.kr/research-institute">기업부설연구소 설립요건 체크</a></td><td>연구전담요원 수로 연구소·전담부서 가운데 어느 쪽인지</td></tr></tbody></table></div>
+<h2>비용을 계산하는 도구</h2>
+<div class="tablewrap"><table><thead><tr><th>도구</th><th>계산하는 것</th></tr></thead><tbody><tr><td><a href="https://bmaker.kr/bojeungryo-gyesangi">보증료 계산기</a></td><td>보증서 대출에서 이자와 따로 내는 보증료</td></tr><tr><td><a href="https://bmaker.kr/geochi-gyesangi">거치기간 상환 계산기</a></td><td>거치 중 월 이자와 거치 후 월 상환액</td></tr></tbody></table></div>
+<h2>어떤 순서로 쓰면 되나요?</h2>
+<p>규모부터 봅니다. 소상공인이면 소진공, 중소기업이면 중진공과 보증기관이 출발점입니다. 그다음 업종이 제외 목록에 있는지, 업력과 대표자 나이가 어느 구간인지 확인하면 볼 자금이 좁혀집니다. 마지막으로 보증료와 월 상환액을 계산해 감당할 수 있는 금액인지 봅니다.</p>
+<h2>결과는 참고 안내입니다</h2>
+<p>도구의 결과는 법령과 공고의 기준을 옮긴 참고 안내입니다. 대상 여부와 한도, 금리는 기관의 심사로 정해지고 기준은 해마다 공고로 바뀝니다. 결과를 보고 다음 단계가 궁금하면 아래에서 상담을 신청하세요. 도구에 넣은 결과가 함께 전달되어 같은 내용을 다시 설명하지 않아도 됩니다.</p>
+<p><strong>계산기를 쓰려면 회원가입이 필요한가요?</strong> 필요 없습니다. 입력한 값은 저장하지 않으며, 상담을 신청할 때만 결과 요약이 함께 전달됩니다.</p>
+<p><strong>결과가 대상이라고 나오면 신청하면 되나요?</strong> 도구는 기준의 한 부분만 봅니다. 신용, 세금 체납, 기존 이용 내역 등 다른 요건을 함께 확인해야 합니다.</p>
+<p><strong>기준이 바뀌면 도구도 바뀌나요?</strong> 법령 개정과 연초 융자계획 공고에 맞춰 고칩니다. 각 도구 아래에 기준의 출처와 확인일을 적어 두었습니다.</p>
+<p><a href="https://bmaker.kr/jungjingong">중진공 정책자금</a> · <a href="https://bmaker.kr/bojeung">보증서 대출 안내</a> · <a href="https://bmaker.kr/industry">업종별 정책자금</a></p>
+<p>이 안내는 신청 준비를 돕는 민간 컨설팅 자료이며 비즈니스 메이커는 정책자금 운영기관이 아닙니다. 공식 경로로 직접 신청할 수 있고 승인·한도·금리는 해당 기관과 금융회사 심사로 결정됩니다. 진단은 무료입니다.</p></article><style>.inline-diag{border-top:2px solid var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:var(--paper,#F7F5F0);padding:26px 24px;margin:28px 0}.inline-diag h2{margin:0 0 6px;padding:0;border:0;font-size:1.18rem;line-height:1.45;color:var(--navy,#0E1B33)}.inline-diag .sub{margin:0 0 18px;font-size:.92rem;color:#4a5669;line-height:1.6}.inline-diag .returns{margin:0 0 18px;padding:12px 16px;background:#fff;border:1px solid var(--line,#E1DED6)}.inline-diag .returns p{margin:0 0 4px;font-size:.92rem;font-weight:800;color:var(--navy,#0E1B33)}.inline-diag .returns ol{margin:0;padding-left:20px;font-size:.92rem;line-height:1.7;color:#3A4356}.inline-diag .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.inline-diag label,.inline-diag .field-label{display:block;font-size:.9rem;font-weight:700;color:#263951;margin:0 0 7px}.inline-diag input[type=text],.inline-diag input[type=tel]{width:100%;padding:13px 14px;border-radius:4px;border:1px solid #aeb9ca;background:#fff;color:#1A2233;font-size:1rem;font-family:inherit;min-height:46px}.inline-diag input::placeholder{color:#8792a5}.inline-diag input:focus{outline:2px solid var(--blue,#2B5BE3);border-color:var(--blue,#2B5BE3)}.inline-diag .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.inline-diag .opts button{padding:12px 4px;border-radius:4px;border:1px solid #bdc7d8;background:#fff;color:#263951;font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px}.inline-diag .opts button[aria-pressed=true]{background:#2454bc;border-color:#2454bc;color:#fff}.inline-diag .group{margin-top:16px}.inline-diag .consent{display:flex;align-items:flex-start;gap:9px;margin-top:16px;font-size:.86rem;line-height:1.6;color:#4a5669;font-weight:400}.inline-diag .consent input{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:#2454bc}.inline-diag .consent a{color:#1e44b8;text-decoration:underline}.inline-diag button[type=submit]{width:100%;margin-top:18px;background:#234780;color:#fff;border:1px solid #234780;border-radius:4px;padding:16px;font-size:1.04rem;font-weight:700;cursor:pointer;font-family:inherit}.inline-diag button[type=submit]:disabled{opacity:.65;cursor:wait}.inline-diag .note{margin-top:12px;font-size:.84rem;color:#526077;line-height:1.55}.inline-diag .apply-msg{margin-top:14px;font-size:.9rem;text-align:center;display:none}.inline-diag .apply-msg.ok{display:block;color:#126435}.inline-diag .apply-msg.err{display:block;color:#b32b28}.inline-diag .apply-fallback{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.inline-diag .apply-fallback a{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;border-radius:4px;padding:12px 8px;text-decoration:none}.inline-diag .apply-fallback .fb-kakao{background:var(--kakao,#FEE500);color:#191600}.inline-diag .apply-fallback .fb-tel{border:1px solid #aeb9ca;color:#263951}@media(max-width:680px){.inline-diag{padding:22px 18px;margin:24px 0}.inline-diag .row{grid-template-columns:1fr;gap:0}.inline-diag .row>div+div{margin-top:16px}.inline-diag .opts{grid-template-columns:1fr}}</style><div class="wrap"><section id="apply" class="inline-diag" aria-label="상담 신청">
+  <form id="leadForm" aria-labelledby="inline-diag-title">
+    <h2 id="inline-diag-title" class="serif">우리 회사도 되는지 무료로 확인</h2>
+    <div class="returns"><p>진단에서 돌려드리는 것</p><ol><li>신청해 볼 기관·자금 후보</li><li>지금 부족한 요건</li><li>준비 순서와 서류</li><li>진행이 어렵다면 그 이유</li></ol></div>
+    <input type="text" name="website" id="lf-website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+    <input type="hidden" id="lf-service" name="consultation_service" value="policy">
+    <input type="hidden" id="lf-page" value="/dogu (정책자금 계산기·판정기 모음)">
+    <p class="field-label" id="lf-biztype-label">사업자 형태</p>
+    <div class="opts" role="group" aria-labelledby="lf-biztype-label" id="lf-biztype"><button type="button" class="biz-opt" aria-pressed="false">개인사업자</button><button type="button" class="biz-opt" aria-pressed="false">법인사업자</button><button type="button" class="biz-opt" aria-pressed="false">창업 예정</button></div>
+    <div class="row group">
+      <div><label for="lf-name">성함 (필수)</label><input id="lf-name" name="name" type="text" placeholder="홍길동" required autocomplete="name"></div>
+      <div><label for="lf-phone">연락처 (필수)</label><input id="lf-phone" name="phone" type="tel" placeholder="010-0000-0000" required autocomplete="tel" inputmode="tel" maxlength="20"></div>
+    </div>
+    <div class="group">
+      <p class="field-label" id="lf-time-label">통화 희망 시간</p>
+      <div class="opts" role="group" aria-labelledby="lf-time-label" id="lf-time"><button type="button" class="time-opt" aria-pressed="false">오전 (9~12시)</button><button type="button" class="time-opt" aria-pressed="false">오후 (12~6시)</button><button type="button" class="time-opt" aria-pressed="false">아무 때나</button></div>
+    </div>
+    <label class="consent"><input type="checkbox" id="lf-consent" required> <span>개인정보 수집·이용에 동의합니다. 상담 목적으로만 사용됩니다. <a href="/privacy" target="_blank" rel="noopener">개인정보처리방침 보기</a></span></label>
+    <button type="submit">상담 신청</button>
+    <p class="apply-msg" id="applyMsg" role="status" aria-live="polite" tabindex="-1"></p>
+    <p class="note">서류 첨부는 필요하지 않습니다. 평일 09:00–18:00에 연락드립니다. 승인 여부와 조건은 각 심사 기관이 결정합니다.</p>
+    <noscript>온라인 신청에는 자바스크립트가 필요합니다. 전화 1666-2425 또는 카톡 상담을 이용해 주세요.</noscript>
+  </form>
+</section>
+</div></main><footer><div class="wrap"><p><b>비즈니스 메이커</b> · 대표 김상표 · 사업자등록번호 369-20-01814</p><p>정책자금 · 창업컨설팅 · 기업인증</p><p>서울특별시 강서구 공항대로 213, 8층 819호 · 평일 09:00–18:00</p><p><a href="tel:1666-2425">1666-2425</a> · <a href="/region">지역별 창구</a> · <a href="/faq">자주 묻는 질문</a> · <a href="/privacy">개인정보처리방침</a></p><p>비즈니스 메이커는 정부·공공기관이 아닌 경영컨설팅 회사입니다. 정책자금 승인·매출·검색 순위를 보장하지 않습니다.</p><p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · <a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · <a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p><p class="foot-trust"><a href="/cases">공개 원장 <span data-stat="total-n">403</span>건 · 증빙 <span data-stat="ev-n">12</span>건</a> · <a href="/#about">대표 김상표</a> · <a href="/geojeol">진행이 어려우면 먼저 말합니다</a></p><p class="lastmod" data-lastmod="2026-11-25" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-11-25</p></div></footer><div class="sticky" aria-label="빠른 상담"><a class="btn" href="/?service=policy#apply" data-cta-location="mobile_sticky">상담 신청</a><a class="btn kakao" href="https://pf.kakao.com/_GKuxfn/chat" data-cta-location="mobile_sticky" target="_blank" rel="noopener">카톡 상담</a></div></body></html>

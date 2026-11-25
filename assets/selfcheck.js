@@ -2,7 +2,7 @@
  *
  * 질문 7개는 HTML 에 라디오 버튼으로 전부 들어 있다(스크립트가 없으면 한 화면에 다 보인다).
  * 이 파일은 그것을 한 번에 한 질문씩 보여주고, 답으로 결과 문장을 고르고, 답 요약을 신청 폼의
- * 숨은 칸(lf-memo·lf-biz)에 넣는다 — 전송은 conversion.js 가 그대로 한다.
+ * 숨은 칸(lf-memo·lf-biz)에 넣는다, 전송은 conversion.js 가 그대로 한다.
  *
  * 결과는 승인 판정이 아니다. 걸리는 항목이 있는지와 "정리하면 다시 볼 수 있는지"까지만 말하고,
  * 판정 기준·한도·금리는 쓰지 않는다(규격 1절·2절). 규격 1절 금지 표현을 쓰지 않는다.
@@ -19,7 +19,7 @@
   var back = document.getElementById('scBack');
   var started = false;
   var answers = {};
-  var order = [];   // 지나온 질문 번호 — '이전'이 건너뛴 질문을 다시 건너뛰게
+  var order = [];   // 지나온 질문 번호, '이전'이 건너뛴 질문을 다시 건너뛰게
   var current = 0;
   var pending = null;     // 다음 질문으로 넘어가는 예약은 한 번에 하나만
   var autoBiz = null;     // 진단이 대신 눌러 둔 사업자 형태 버튼
@@ -246,7 +246,7 @@
     box.appendChild(el('p', 'sc-r-ask-foot', '전화에서 이것만 들으면 신청해 볼 기관과 자금 후보, 준비 순서를 말씀드릴 수 있어요. 진단은 무료입니다.'));
     result.appendChild(box);
 
-    var go = el('a', 'sc-r-cta', '이 결과로 무료 진단 신청');
+    var go = el('a', 'sc-r-cta', '이 결과로 상담 신청');
     go.href = '#apply'; go.setAttribute('data-cta-location', 'selfcheck_result');
     result.appendChild(go);
     var again = el('button', 'sc-r-again', '처음부터 다시 하기');

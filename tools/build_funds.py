@@ -32,7 +32,7 @@ def rate_text(d):
     """금리 표시. 시트에 '가산금리' 가 있으면 기준금리와 더해 계산 근거까지 보여준다.
 
     공식은 '기준금리(분기별 변동) + 가산금리' 라 고정 숫자만 적어 두면 분기마다 틀어진다.
-    가산금리 열이 없으면 기존 '금리 방식' 값을 그대로 쓴다 — 시트가 바뀌기 전에도 동작한다.
+    가산금리 열이 없으면 기존 '금리 방식' 값을 그대로 쓴다, 시트가 바뀌기 전에도 동작한다.
     """
     add = (d.get('가산금리') or '').strip()
     if add and BASE_RATE is not None:
@@ -157,7 +157,7 @@ def schedule_status(d):
     if not observed and not d.get('회차 확인') and iso and (d.get('접수 상태') or '').strip() not in ('마감', '종료', '상시'):
         return ('soon', f"접수 예정 · {s} 시작", 2,
                 iso, '공고상 시작일 경과 · 현재 접수 여부 확인 필요', 'check')
-    cls, txt, rank = status_of(d)       # 날짜와 무관한 분기들 — 관측·데이터가 그대로 결정한다
+    cls, txt, rank = status_of(d)       # 날짜와 무관한 분기들, 관측·데이터가 그대로 결정한다
     return (cls, txt, rank, '', '', '')
 
 
@@ -223,7 +223,7 @@ FAQ = {
    '청년고용연계자금은 대표 연령만 보는 자금이 아닙니다. 청년 대표로 신청하려면 공고상 업력 3년 미만이어야 하지만, '
    '청년 근로자를 고용해 유지 중이면 업력과 관계없이 검토 대상입니다. 창업 단계 자금과는 심사 항목이 다릅니다.'),
   ('대표가 청년이 아니어도 되나요?',
-   '공고상 대상이 세 갈래입니다 — 업력 3년 미만의 청년 소상공인(만 39세 이하), 상시근로자 과반수가 청년인 소상공인, '
+   '공고상 대상이 세 갈래입니다, 업력 3년 미만의 청년 소상공인(만 39세 이하), 상시근로자 과반수가 청년인 소상공인, '
    '최근 1년 이내 청년 근로자를 1인 이상 고용해 유지 중인 소상공인입니다. 대표가 청년이 아니어도 뒤의 두 경우면 검토할 수 있습니다.'),
   ('직접대출인가요, 대리대출인가요?',
    '대리대출(보증 연계)입니다. 공단이 직접 빌려주는 구조가 아니라, 보증기관 보증서를 받아 은행이 실행합니다. '
@@ -491,7 +491,7 @@ def asof_html(d, asof_ym, peer_link):
         return (f'<p class="asof">본 안내는 {asof_ym} 기준입니다. {dates}. 세부 요건은 위 공식 공고가 기준이며, 공통 지원자격·접수 표시 기준·같은 기관 최근 사례는 '
                 f'<a href="{peer_link[0]}#peer-cases">{peer_link[1]}</a>에 모았습니다.</p>')
     return (f'<p class="asof">상시근로자 기준과 제외업종 등 <a href="/funding#common">공통 지원자격</a>은 자금 안내에서 확인하세요.</p>\n'
-            f'    <p class="asof">본 안내는 {asof_ym} 기준입니다. {dates}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다 — 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>')
+            f'    <p class="asof">본 안내는 {asof_ym} 기준입니다. {dates}. 접수 표시는 확인 시점의 안내이며 잔여 예산을 뜻하지 않습니다. 대상·한도·금리 등 세부 요건은 각 회차 공고가 기준입니다, 위 공식 공고 링크에서 확인하세요. 접수 일정 전체는 <a href="/schedule">일정 페이지</a>에 있습니다.</p>')
 
 def build():
     F=load()
@@ -524,7 +524,7 @@ def build():
         rows_html="".join(
           f'<tr><td>{r["실행 연월"]}</td><td>{esc(r["지역(시도)"])} {esc(r["업종"]) or ""}</td><td>{won2(r["실행 금액(만원)"])}</td><td>{esc(r["금리"]) or "—"}</td><td>{esc(r["상환 조건"]) or "—"}</td><td>{(str(int(float(r["소요일"]))) + "일") if r["소요일"] else "—"}</td><td><a href="/cases#case-{r["사례ID"]}">받은 사례</a></td></tr>' for r in Cshow)
         if C:
-            meas_html=(f'<h2>기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다 — 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">받은 사례</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>')
+            meas_html=(f'<h2>기록된 실측</h2>\n<p>저희가 실제 실행한 {esc(d["자금명"])} 기록입니다, 금리는 각 실행 시점 기준이며, 전체 맥락은 <a href="/cases">받은 사례</a>에서 확인할 수 있습니다.</p>\n<div class="tablewrap"><table><thead><tr><th>실행</th><th>지역·업종</th><th>금액</th><th>금리</th><th>상환</th><th>소요</th><th>근거</th></tr></thead><tbody>'+rows_html+'</tbody></table></div>')
         else:
             P=peer_cases(d['기관'])
             steps='신청 시스템 접수 → 공단 심사 → 약정·실행' if '직접' in d['카테고리'] else '상품별 신청요건 확인 → 필요 시 보증심사 → 은행 심사·대출 실행'
@@ -544,7 +544,7 @@ def build():
                 meas_html=(f'<h2>{esc(d["자금명"])}은 어떤 자금인가</h2>\n<p>{memo_line}{kind_desc} 진행 순서는 {steps} — 대상·한도 등 세부 요건은 위 공식 공고가 기준입니다.</p>\n'
                            +f'<h2>{esc(d["기관"])} 받은 사례</h2>\n<p>같은 기관 경로로 저희가 실행한 기록 중 최근 3건입니다({len(P)}건 · {won2(sum(pa))}'
                            +(f' · 금리 {pr}' if pr else '')
-                           +f'). 자금별 조건은 달라도 심사 감각과 진행 구조의 기준점이 됩니다 — 전체는 <a href="/cases">받은 사례</a>에.</p>\n'
+                           +f'). 자금별 조건은 달라도 심사 감각과 진행 구조의 기준점이 됩니다, 전체는 <a href="/cases">받은 사례</a>에.</p>\n'
                            +'<div class="tablewrap"><table><thead><tr><th>실행</th><th>자금</th><th>금액</th><th>금리</th><th>근거</th></tr></thead><tbody>'+prow+'</tbody></table></div>')
             else:
                 kind_desc='소상공인시장진흥공단이 직접 심사·실행하는 자금입니다.' if '직접' in d['카테고리'] else '은행이 심사·실행하며 보증서 필요 여부는 상품별로 확인합니다.'
@@ -555,7 +555,7 @@ def build():
         rtxt = rate_text(d)
         if rtxt: facts.append(('금리 방식', esc(rtxt)))
         facts.append(('접수', f'<span{badge_attrs}>{esc(badge_txt)}</span>' if badge_attrs else esc(badge_txt)))
-        facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))} 확인 →</a>'))
+        facts.append(('공고', f'<a href="{esc(d["공고 링크"])}" target="_blank" rel="noopener">{esc(d.get("공고 표기", "기관 안내"))} 확인</a>'))
         facts_html="".join(f'<tr><td style="white-space:nowrap"><b>{k}</b></td><td>{v}</td></tr>' for k,v in facts)
         svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":f"{d['자금명']} 진단·실행 지원","serviceType":"정책자금 진단 및 실행 지원","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":f"https://bmaker.kr/{d['자금ID']}"}, ensure_ascii=False)
         crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"접수 일정","item":"https://bmaker.kr/schedule"},{"@type":"ListItem","position":3,"name":d['자금명'],"item":f"https://bmaker.kr/{d['자금ID']}"}]}, ensure_ascii=False)
@@ -594,7 +594,7 @@ def build():
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › <a href="/schedule">접수 일정</a> › {esc(d['자금명'])}</p>
     <h1 class="serif">{esc(d['자금명'])}</h1>
-    <p>{esc(d['기관'])} · {esc(d['카테고리'])}{(' — '+esc(d['한 줄 메모'])) if d['한 줄 메모'] else ''}</p>
+    <p>{esc(d['기관'])} · {esc(d['카테고리'])}{(', '+esc(d['한 줄 메모'])) if d['한 줄 메모'] else ''}</p>
   </div>
 </section>
 <main>
@@ -606,7 +606,7 @@ def build():
     {meas_html}
     {EXTRA_SECTIONS.get(d["자금ID"],"")}{docs_html(d)}
     {faq_html}
-    <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
+    <div class="cta-inline"><p><b>이 자금, 내 조건에 되는지</b>: 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="callout"><p>정책자금은 대출이며 상환 의무가 있습니다. 승인 여부와 조건은 각 심사 기관이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <p class="byline">{BYLINE.format(esc(d["최종 확인일"]))}</p>
     <div class="related">
@@ -621,8 +621,8 @@ def build():
     <div class="cta-box">
       <h3 class="serif">이 자금, 내 조건이면 되는지</h3>
       <p>업종·매출·신용·이력을 주시면 이 자금이 맞는 트랙인지, 아니면 다른 경로가 나은지 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">무료 진단 신청</a>
-      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
@@ -702,8 +702,8 @@ def build():
         f'<p class="sch-memo">{m}</p><p class="sch-ours">{ledger_line(fn)}</p>'
         f'<p class="sch-meta"><span>자료 확인 2026-11-13</span><a href="{u}" target="_blank" rel="noopener">{ul}</a></p></article>'
         for h,n,fn,c,t,m,u,ul in OTHER)
-    YEAR=[(1,['중진공 새해 접수 시작','지자체 육성자금 공고','소진공 1분기 회차']),(2,[]),(3,['법인세 신고 — 법인 재무제표 확정']),
-          (4,['소진공 2분기 회차']),(5,['종합소득세 신고 — 개인사업자 소득 확정']),(6,[]),(7,['소진공 3분기 회차','지자체 하반기 공고']),
+    YEAR=[(1,['중진공 새해 접수 시작','지자체 육성자금 공고','소진공 1분기 회차']),(2,[]),(3,['법인세 신고, 법인 재무제표 확정']),
+          (4,['소진공 2분기 회차']),(5,['종합소득세 신고, 개인사업자 소득 확정']),(6,[]),(7,['소진공 3분기 회차','지자체 하반기 공고']),
           (8,[]),(9,[]),(10,['소진공 4분기 회차']),(11,['기존 대출·결산 숫자 정리']),(12,['다음 해 운용계획 공고'])]
     year_html='<ol class="sch-year" aria-label="정책자금 1년 흐름">'+''.join(
         f'<li data-m="{m}"{" class=now" if m==TODAY.month else ""}><b>{m}월</b>'+''.join(f'<span>{esc(e)}</span>' for e in ev)+'</li>' for m,ev in YEAR)+'</ol>'
@@ -761,8 +761,8 @@ def build():
     <div class="cta-box">
       <h3 class="serif">어느 자금이 내 차례인지</h3>
       <p>사업 조건과 자금 용도를 바탕으로 검토할 경로와 확인할 공고를 정리해 드립니다. 상담은 무료입니다.</p>
-      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">무료 진단 신청</a>
-      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="/#apply" data-cta-location="article_end">상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>
@@ -776,7 +776,7 @@ def build():
     # llms.txt 일정 줄 갱신 (있으면 교체, 없으면 삽입)
     lt=(ROOT/'llms.txt').read_text(encoding='utf-8')
     open_names=[d['자금명'] for d in F if status_of(d)[0]=='open']
-    line=f"- [정책자금 접수 일정](https://bmaker.kr/schedule): 상태별 자동 갱신 일정표 — 자금별 팩트 페이지(실측·공고 링크) {len(F)}종 연결" + (f". 현재 접수 중: {', '.join(open_names)}" if open_names else "")
+    line=f"- [정책자금 접수 일정](https://bmaker.kr/schedule): 상태별 자동 갱신 일정표, 자금별 팩트 페이지(실측·공고 링크) {len(F)}종 연결" + (f". 현재 접수 중: {', '.join(open_names)}" if open_names else "")
     if '- [정책자금 접수 일정]' in lt: lt=re.sub(r'- \[정책자금 접수 일정\][^\n]*', line, lt)
     else: lt=lt.replace('- [신용보증재단 사업자대출]', line+'\n- [신용보증재단 사업자대출]')
     (ROOT/'llms.txt').write_text(lt, encoding='utf-8')

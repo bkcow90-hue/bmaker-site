@@ -302,12 +302,18 @@ def test_review_sheet_fills_and_result_is_an_itemised_report(browser_page, site)
 
 
 def test_top_menu_first_item_on_every_page():
-    """자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸(2026-11-19 대표 "메뉴에서도 쉽게 보이게")."""
-    first = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+    """메뉴 순서: 회사소개 → 자금 안내 → (나머지 그대로) → 1분 자가진단이 맨 오른쪽, 전화번호 옆(2026-11-25 대표 지시). 자가진단은 드롭다운 안에 넣지 않는다(2026-11-19)."""
+    import re
+    head = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a href="/#about">회사소개</a><details'
+    check = '<a class="nav-check" href="/jagajindan">정책자금 자가진단</a>'
     for name in ("index.html", "sosangin.html", "cases.html", "blog.html", "jagajindan.html", "region/index.html" if (ROOT / "region/index.html").exists() else "region.html"):
         text = (ROOT / name).read_text(encoding="utf-8")
-        assert text.count(first) == 1, name
+        assert text.count(head) == 1, name
         assert text.count('class="nav-check"') == 1, name
+        inner = re.search(r'id="navLinks" aria-label="주요 메뉴">(.*?)</nav>', text, re.S).group(1)
+        assert check not in re.search(r"<details\b.*?</details>", inner, re.S).group(0), name
+        tail = inner[inner.index(check) + len(check):]
+        assert tail == "" or re.fullmatch(r'<a class="nav-book"[^>]*>.*?</a>', tail, re.S), f"{name}: 자가진단 뒤에 다른 메뉴가 있다"
     for css in ("assets/polish.css", "assets/home-video.css"):
         text = (ROOT / css).read_text(encoding="utf-8")
         assert "a.nav-check{color:#234780" in text, css

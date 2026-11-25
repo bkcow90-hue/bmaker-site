@@ -82,7 +82,7 @@ class HomepageExperienceTests(unittest.TestCase):
         ]
         self.assertEqual(len(proof_links), 1)
         self.assertEqual(proof_links[0]["attrs"]["href"], "/cases")
-        self.assertRegex(proof_links[0]["text"], r"받은 사례 [\d,]+건")
+        self.assertRegex(proof_links[0]["text"], r"실행사례 [\d,]+건")   # 2026-11-25: 건수만 공개(총액 뺌)
         self.assertRegex(proof_links[0]["text"], r"20\d{2}\.\d{2}~20\d{2}\.\d{2}")
 
     def test_reservation_actions_are_visually_distinct_from_kakao_actions(self):
@@ -90,7 +90,7 @@ class HomepageExperienceTests(unittest.TestCase):
             element
             for element in self.elements
             if element["tag"] in {"a", "button"}
-            # "무료 진단 신청" 통일(2026-09-28) 뒤로 홈 제출 버튼은 "진단 신청" 이다 — 빠뜨리면 검사에서 조용히 빠진다
+            # "상담 신청" 통일(2026-09-28) 뒤로 홈 제출 버튼은 "진단 신청" 이다 — 빠뜨리면 검사에서 조용히 빠진다
             and any(w in " ".join(element["text"].split()) for w in ("상담 신청", "진단 신청"))
         ]
 
@@ -126,12 +126,14 @@ class HomepageExperienceTests(unittest.TestCase):
         return out
 
     def test_hero_heading_is_next_choice_copy_with_single_cta(self):
-        self.assertEqual(" ".join(self.hero_heading_lines), "정책자금은 어디서 받느냐보다 어떤 순서로 받느냐입니다.")
+        self.assertEqual(" ".join(self.hero_heading_lines), "소상공인·중소기업 정책자금 컨설팅 어디부터 신청할지 제가 직접 봐 드립니다.")
         hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())
         ctas = [e for e in self._inside_hero("a")]
-        self.assertEqual([" ".join(a["text"].split()) for a in ctas], ["무료 진단 신청"])
+        # 2026-11-25 리뉴얼: 상담 신청 + 정책자금 자가진단 + 영상 탭 4개(각 페이지로 이동)
+        self.assertEqual([" ".join(a["text"].split()) for a in ctas][:2], ["상담 신청", "정책자금 자가진단"])
+        self.assertEqual(len(ctas), 6)
         self.assertNotRegex(hero["text"], r"착수금|성공보수|진행비|받은 사례 [\d,]+건")
-        self.assertIn("진단은 무료고, 요건이 안 맞으면 어느 조건이 안 맞는지부터 말씀드려요.", hero["text"])
+        self.assertIn("첫 상담은 무료입니다.", hero["text"])
         self.assertIn("home-recent:start", (ROOT / "index.html").read_text(encoding="utf-8"))
 
     def _inside_hero(self, tag):
@@ -147,7 +149,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
     def test_entry_cards_route_by_stage_without_numbers(self):
         h2 = self._inside("entry", "h2")
-        self.assertEqual([" ".join(h["text"].split()) for h in h2], ["지금 어느 단계인지부터 고르세요."])
+        self.assertEqual([" ".join(h["text"].split()) for h in h2], ["어떤 자금이 필요하신가요?"])
         cards = [e for e in self._inside("entry", "article") if "entry-card" in e["attrs"].get("class", "")]
         self.assertEqual(len(cards), 4)
         hrefs = [a["attrs"]["href"] for a in self._inside("entry", "a")]
@@ -159,7 +161,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
     def test_principles_list_four_donts_and_three_doings(self):
         h2 = self._inside("principles", "h2")
-        self.assertEqual(" ".join(h2[0]["text"].split()), "안 하는 일과, 하고 있는 일.")
+        self.assertEqual(" ".join(h2[0]["text"].split()), "지키는 기준")
         h3 = [" ".join(h["text"].split()) for h in self._inside("principles", "h3")]
         self.assertEqual(len(h3), 7)
         self.assertEqual(h3[4:], ["원장을 공개합니다", "이름을 걸고 합니다", "어려우면 먼저 말합니다"])
@@ -196,11 +198,13 @@ class HomepageExperienceTests(unittest.TestCase):
         forms = [e for e in self.elements if e["tag"] == "form"]
         self.assertEqual(len(forms), 1)
         form = forms[0]
+        # 2026-11-25 리뉴얼: 폼은 칸만 둔다('진단에서 돌려드리는 것' 상자·안내 문단 제거). 가이드북은 이메일 칸 도움말에만.
         returns = [" ".join(e["text"].split()) for e in self.elements
                    if e["tag"] == "li" and e in self._form_children(form)]
-        self.assertEqual(returns, ["신청해 볼 기관·자금 후보", "지금 부족한 요건", "준비 순서와 서류", "진행이 어렵다면 그 이유"])
+        self.assertEqual(returns, [])
         text = " ".join(form["text"].split())
-        self.assertLess(text.index("진단에서 돌려드리는 것"), text.index("가이드북"))
+        self.assertNotIn("진단에서 돌려드리는 것", text)
+        self.assertIn("가이드북", text)
         self.assertNotRegex(text, r"착수금|성공보수|진행비|성과 보수")
 
     def _form_children(self, form):
