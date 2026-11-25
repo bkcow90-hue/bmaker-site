@@ -90,7 +90,7 @@ class HomepageExperienceTests(unittest.TestCase):
             element
             for element in self.elements
             if element["tag"] in {"a", "button"}
-            # "무료 진단 신청" 통일(2026-09-28) 뒤로 홈 제출 버튼은 "진단 신청" 이다 — 빠뜨리면 검사에서 조용히 빠진다
+            # "상담 신청" 통일(2026-09-28) 뒤로 홈 제출 버튼은 "진단 신청" 이다 — 빠뜨리면 검사에서 조용히 빠진다
             and any(w in " ".join(element["text"].split()) for w in ("상담 신청", "진단 신청"))
         ]
 
@@ -126,12 +126,14 @@ class HomepageExperienceTests(unittest.TestCase):
         return out
 
     def test_hero_heading_is_next_choice_copy_with_single_cta(self):
-        self.assertEqual(" ".join(self.hero_heading_lines), "정책자금은 어디서 받느냐보다 어떤 순서로 받느냐입니다.")
+        self.assertEqual(" ".join(self.hero_heading_lines), "소상공인·중소기업 정책자금 컨설팅 어디부터 신청할지 제가 직접 봐 드립니다.")
         hero = next(e for e in self.elements if e["tag"] == "section" and "hero" in e["attrs"].get("class", "").split())
         ctas = [e for e in self._inside_hero("a")]
-        self.assertEqual([" ".join(a["text"].split()) for a in ctas], ["무료 진단 신청"])
+        # 2026-11-25 리뉴얼: 상담 신청 + 정책자금 자가진단 + 영상 탭 4개(각 페이지로 이동)
+        self.assertEqual([" ".join(a["text"].split()) for a in ctas][:2], ["상담 신청", "정책자금 자가진단"])
+        self.assertEqual(len(ctas), 6)
         self.assertNotRegex(hero["text"], r"착수금|성공보수|진행비|받은 사례 [\d,]+건")
-        self.assertIn("진단은 무료고, 요건이 안 맞으면 어느 조건이 안 맞는지부터 말씀드려요.", hero["text"])
+        self.assertIn("첫 상담은 무료입니다.", hero["text"])
         self.assertIn("home-recent:start", (ROOT / "index.html").read_text(encoding="utf-8"))
 
     def _inside_hero(self, tag):

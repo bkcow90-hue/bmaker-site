@@ -61,8 +61,8 @@ def test_sticky_tracks_hero_form_focus_and_history(browser_page, site, without_o
         page.add_init_script("delete window.IntersectionObserver")
     page.goto(site, wait_until="networkidle")
     sticky = page.locator(".sticky-cta")
-    hero = page.locator(".hero-cta-row").first.locator("a")
-    expect(hero).to_have_count(1)
+    hero = page.locator("#heroCta")
+    expect(page.locator(".hero-cta-row").first.locator("a")).to_have_count(2)   # 상담 신청 + 정책자금 자가진단(2026-11-25)
     expect(hero).to_be_in_viewport()
     expect(sticky).to_be_hidden()
     # 신청 버튼은 하나(크게) + 카톡·전화 작은 아이콘 둘 — 규격 4절 2026-10-04 개정
@@ -199,7 +199,7 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     page.set_viewport_size({'width': width, 'height': 900})
     page.goto(site, wait_until='networkidle')
     hero = page.locator('.hero')
-    expect(hero.locator('a')).to_have_count(1)
+    expect(hero.locator('a')).to_have_count(6)   # 버튼 2 + 영상 탭 4(2026-11-25 리뉴얼)
     expect(hero.locator('aside')).to_have_count(0)
     # 2026-11-13: 원장 최근 5건 띠는 히어로에서 빠지고 #cases(폼 뒤)로 — 히어로에는 숫자 근거가 없다
     expect(hero.locator('.ledger-card')).to_have_count(0)

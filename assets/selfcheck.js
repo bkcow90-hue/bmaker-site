@@ -246,7 +246,7 @@
     box.appendChild(el('p', 'sc-r-ask-foot', '전화에서 이것만 들으면 신청해 볼 기관과 자금 후보, 준비 순서를 말씀드릴 수 있어요. 진단은 무료입니다.'));
     result.appendChild(box);
 
-    var go = el('a', 'sc-r-cta', '이 결과로 무료 진단 신청');
+    var go = el('a', 'sc-r-cta', '이 결과로 상담 신청');
     go.href = '#apply'; go.setAttribute('data-cta-location', 'selfcheck_result');
     result.appendChild(go);
     var again = el('button', 'sc-r-again', '처음부터 다시 하기');

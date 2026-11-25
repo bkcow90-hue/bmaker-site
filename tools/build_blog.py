@@ -406,7 +406,7 @@ def crumb_ld(items):
 
 
 def hero(crumb_html, label, h1, lead, meta='', service='policy'):
-    cta = '창업 비교 상담 신청' if service == 'startup' else '무료 진단 신청'
+    cta = '창업 비교 상담 신청' if service == 'startup' else '상담 신청'
     return f'''<section class="hero"><div class="wrap">
   <p class="crumb">{crumb_html}</p>
   <p class="hub-label">{esc(label)}</p>
@@ -616,7 +616,7 @@ def build_post(p, posts, terms, style, hdr, foot):
         page += f'''<section class="block"><div class="wrap post"><article>
 {article}
 {faq_html}
-<p class="blog-cta"><a href="/#apply">무료 진단 예약하기</a></p>
+<p class="blog-cta"><a href="/#apply">상담 신청</a></p>
 <p class="asof">※ 본 안내는 {ym(p["updated"])} 기준입니다. 공식 기관의 최신 안내를 확인하세요.</p>
 <p class="byline"><a href="/daepyo">김상표</a> | 비즈니스 메이커 대표 · 내용 확인 {p["updated"]}</p>
 <p class="disclaimer">{esc(p.get('disclaimer', '이 글은 일반 정보이며, 개별 사안은 해당 기관 또는 전문가에게 확인해야 합니다.'))}</p>
@@ -685,7 +685,7 @@ def build_index(posts, cats, style, hdr, foot, category=None):
         if startup_posts:
             page += ('<section class="block" id="business-start"><div class="wrap"><h2 class="serif">프랜차이즈 비교·창업비용·중장년 창업</h2>'
                      '<p>어떤 브랜드를 고를지, 얼마를 준비할지, 직접 운영할 수 있을지를 질문별로 살펴보세요.</p>'
-                     '<p><a href="/startup">내 지역·예산에 맞는 창업 비교 서비스 →</a></p>'
+                     '<p><a href="/startup">내 지역·예산에 맞는 창업 비교 서비스</a></p>'
                      '<nav aria-label="창업 질문별 안내"><ul class="checklist">'
                      '<li><a href="/blog/franchise-comparison-sales-profit">브랜드 비교: 평균 매출과 비용을 어떻게 읽나요?</a></li>'
                      '<li><a href="/blog/startup-total-budget-checklist">창업비용: 본사 견적 외에 무엇을 준비하나요?</a></li>'
@@ -761,9 +761,9 @@ def update_guide_hub(posts):
     s = path.read_text(encoding='utf-8')
     s = re.sub(re.escape(start) + r'.*?' + re.escape(end), '', s, flags=re.S)
     latest = sorted(posts, key=lambda p: (p['date'], p['slug']), reverse=True)[:6]
-    cells = ''.join(f'<a href="/blog/{p["slug"]}">{esc(p["title"])}<span>읽기 →</span></a>' for p in latest)
+    cells = ''.join(f'<a href="/blog/{p["slug"]}">{esc(p["title"])}<span>읽기</span></a>' for p in latest)
     block = (f'{start}<section class="editorial-links"><div class="wrap"><h2>블로그 최신 글</h2>'
-             f'<div class="editorial-grid">{cells}<a href="/blog">블로그 전체 보기<span>목록 →</span></a></div></div></section>{end}')
+             f'<div class="editorial-grid">{cells}<a href="/blog">블로그 전체 보기<span>목록</span></a></div></div></section>{end}')
     if '</main>' not in s:
         die('business-guide.html 에 </main> 이 없습니다.')
     path.write_text(s.replace('</main>', block + '</main>', 1), encoding='utf-8')

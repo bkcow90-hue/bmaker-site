@@ -201,12 +201,26 @@ def stamp_polish(s, key):
     return s.replace('</head>', POLISH + '\n</head>', 1)
 
 
+RENEW = '<link rel="stylesheet" href="/assets/renew.css">'
+
+
+def stamp_renew(s):
+    """전 페이지 공통 리뉴얼 층(2026-11-25, 규격 5절 v5) — 홈 포함 모든 페이지 <head> 맨 끝에 한 번. 다른 스타일보다 뒤에 와야 한다."""
+    if '/assets/renew.css' in s or '</head>' not in s:
+        return s
+    return s.replace('</head>', RENEW + '\n</head>', 1)
+
+
 NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/industry">업종별 정책자금</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
 _NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
 
 
 NAV_FIRST = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴">'
-NAV_CHECK = '<a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+NAV_CHECK = '<a class="nav-check" href="/jagajindan">정책자금 자가진단</a>'
+NAV_CHECK_OLD = '<a class="nav-check" href="/jagajindan">정책자금 자가진단</a>'
+# 메뉴 이름(2026-11-25 대표·GPT 협의): 자금 안내 → 정책자금, 받은 사례 → 실행사례
+NAV_RENAME = (('<summary>자금 안내</summary>', '<summary>정책자금</summary>'),
+              ('<a href="/cases">받은 사례</a>', '<a href="/cases">실행사례</a>'))
 NAV_ABOUT = '<a href="/#about">회사소개</a>'
 
 
@@ -214,12 +228,14 @@ def stamp_nav(s):
     """자금 안내 드롭다운을 한 벌로 맞춘다(2026-11-14 대표 "자금안내 순서가 안 맞는다") — 빌더마다 복사본이 달라 여기서 통일."""
     s = _NAV_RE.sub(lambda m: NAV_MENU, s, count=1)
     # 메뉴 순서(2026-11-25 대표 "자가진단은 맨 오른쪽 전화번호 옆으로, 회사소개 → 자금 안내 → 나머지 그대로"):
-    # 회사소개 · 자금 안내(드롭다운) · 소상공인 · 중소기업 · 받은 사례 · 기업인증 … · 1분 자가진단 [· 무료 진단 신청(홈 펼침 메뉴)]
+    # 회사소개 · 자금 안내(드롭다운) · 소상공인 · 중소기업 · 받은 사례 · 기업인증 … · 1분 자가진단 [· 상담 신청(홈 펼침 메뉴)]
     # 자가진단은 드롭다운 안에 넣지 않고 메뉴 끝(전화번호 바로 앞)에 테두리 칸으로 둔다.
     m = re.search(re.escape(NAV_FIRST) + r'(.*?)</nav>', s, re.S)
     if not m:
         return s
-    inner = m.group(1)
+    inner = m.group(1).replace(NAV_CHECK_OLD, NAV_CHECK)   # 이름 바꾸기는 헤더 메뉴 안에서만 — 본문은 갱신일 해시 범위다
+    for a, b in NAV_RENAME:
+        inner = inner.replace(a, b)
     drop = re.search(r'<details\b.*?</details>', inner, re.S)
     book = re.search(r'<a class="nav-book"[^>]*>.*?</a>', inner, re.S)
     had_about = NAV_ABOUT in inner
@@ -227,13 +243,29 @@ def stamp_nav(s):
     for part in (drop, book):
         if part:
             rest = rest.replace(part.group(0), '', 1)
-    ordered = ((NAV_ABOUT if had_about else '') + (drop.group(0) if drop else '') + rest + NAV_CHECK
-               + (book.group(0) if book else ''))
-    return s[:m.start(1)] + ordered + s[m.end(1):]
+    return _stamp_header_actions(s, m, ((NAV_ABOUT if had_about else '') + (drop.group(0) if drop else '') + rest + NAV_CHECK
+               + (book.group(0) if book else '')))
+
+
+HEADER_KAKAO = re.compile(r'<a class="nav-cta" href="https://pf\.kakao\.com/[^"]*"[^>]*>카톡 상담</a>')
+HEADER_BOOK = '<a class="nav-cta nav-cta-book" href="/#apply" data-cta-location="header">상담 신청</a>'
+
+
+def _stamp_header_actions(s, m, ordered):
+    """헤더 오른쪽(2026-11-25 리뉴얼): 전화번호 앞 이모지는 빼고(아이콘은 renew.css), 노란 '카톡 상담' 은 '상담 신청' 으로.
+    카카오톡은 화면 오른쪽 아래 상담 묶음에 그대로 있다."""
+    s = s[:m.start(1)] + ordered + s[m.end(1):]
+    h = re.search(r'<header\b.*?</header>', s, re.S)
+    if not h:
+        return s
+    head = h.group(0).replace('>1666-2425<', '>1666-2425<')
+    head = HEADER_KAKAO.sub(HEADER_BOOK, head, count=1)
+    return s[:h.start()] + head + s[h.end():]
+
 
 
 # 푸터 둘째 줄 — 구글이 한 번도 안 읽은 쪽(업종 랜딩 10장·기업인증 3장, 서치콘솔 2026-11-22)으로 가는 길을 전 페이지에 둔다.
-FOOT_MORE = ('<p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">1분 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · '
+FOOT_MORE = ('<p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · '
              '<a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · '
              '<a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p>')
 _FOOT_MORE_RE = re.compile(r'<p class="foot-more">.*?</p>', re.S)
@@ -323,7 +355,7 @@ def main():
         else:
             date = TODAY
         out[key] = {'date': date, 'hash': h}
-        s = stamp_assets(stamp_polish(stamp_foot_more(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(noindex.stamp(s0, key), date), date)))), key))
+        s = stamp_assets(stamp_renew(stamp_polish(stamp_foot_more(stamp_nav(stamp_reviewed(stamp_jsonld(stamp_footer(noindex.stamp(s0, key), date), date)))), key)))
         s = trust_copy.stamp_org(trust_copy.stamp_footer_trust(s, n_cases, n_ev))
         if content_hash(s, key) != h:
             die(f'{key}: 스탬프 삽입이 본문을 바꿨습니다(해시 불일치). 스크립트를 고쳐야 합니다.')

@@ -171,7 +171,7 @@ def test_every_page_one_form_and_a_visible_bar(browser, site):
         # 다른 페이지의 바 검사는 그대로 유지하고 해당 글의 대체 CTA를 검사한다.
         if page.locator('body[data-blog-carousel="true"]').count():
             assert page.locator('.blog-cta a[href="/#apply"]').count() == 1, path
-            assert page.locator('.blog-cta a').inner_text() == '무료 진단 예약하기', path
+            assert page.locator('.blog-cta a').inner_text() == '상담 신청', path
             assert page.locator('#leadForm').count() == 0, path
             assert m is None, path
             continue

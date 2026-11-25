@@ -60,7 +60,7 @@ def replace_block(page, key, value):
 
 def cards(items):
     return '<section class="editorial-links"><div class="wrap"><h2>함께 읽는 사업 준비 가이드</h2><div class="editorial-grid">' + ''.join(
-        f'<a href="/{x["slug"]}{"" if x["new"] else "#preparation-guide"}">{html.escape(x["body"].splitlines()[0][2:])}<span>자세히 읽기 →</span></a>'
+        f'<a href="/{x["slug"]}{"" if x["new"] else "#preparation-guide"}">{html.escape(x["body"].splitlines()[0][2:])}<span>자세히 읽기</span></a>'
         for x in items) + '</div></div></section>'
 
 
@@ -75,7 +75,7 @@ def topic_links(links, heading='지금 단계에서 함께 확인할 자료'):
     for slug, label in links:
         if not re.fullmatch(r'[a-z0-9-]+', slug) or not (ROOT / (slug + '.html')).exists():
             raise ValueError(f'Unknown related page: {slug}')
-        cells.append(f'<a href="/{slug}">{html.escape(label)}<span>자료 보기 →</span></a>')
+        cells.append(f'<a href="/{slug}">{html.escape(label)}<span>자료 보기</span></a>')
     return '<section class="editorial-links"><div class="wrap"><h2>' + html.escape(heading) + '</h2><div class="editorial-grid">' + ''.join(cells) + '</div></div></section>'
 
 
