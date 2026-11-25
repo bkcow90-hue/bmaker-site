@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- LCP(히어로 배경) 이미지를 head 맨 앞에서 미리 받는다 — 2026-11-14 claude-seo 진단 H3 -->
+<!-- LCP(히어로 배경) 이미지를 head 맨 앞에서 미리 받는다, 2026-11-14 claude-seo 진단 H3 -->
 <link rel="preload" as="image" href="/assets/video/hero-poster-m.webp" media="(max-width: 600px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/video/hero-poster.webp" media="(min-width: 601px)" fetchpriority="high">
 <meta name="google-site-verification" content="pYFQ0bCzJK6oCwZgeb2HImwBh26bOLuSZGSItBM0k-I" />
@@ -592,7 +592,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
 
 /* 폼 카드가 밝은 섹션으로 이동하면서 히어로의 흰 글자 상속이 끊긴 것 보정 */.apply-section .apply-form{color:#EAF0FA}.apply-section .apply-form h2{color:#fff}.apply-section .apply-form p,.apply-section .form-help,.apply-section .apply-note,.apply-section .apply-form summary,.apply-section .apply-form .consent,.apply-section .apply-form small{color:#C6D0E4}.apply-section .apply-form label{color:#C6D0E4}.apply-section .form-help a,.apply-section .apply-form a{color:#9CC4FF}
 
-/* 히어로 v3.1 — 사진 위 받은 사례 카드 */
+/* 히어로 v3.1, 사진 위 받은 사례 카드 */
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
 .hero-visual{position:relative;justify-self:end;width:min(100%,420px)}
 .hero-visual img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 30px 60px rgba(0,0,0,.35)}.hero-ledger .ledger-card{border-radius:14px}.trust-sign{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:700;color:#17345c}.hero-ledger .lc-note{margin:10px 0 0;font-size:.74rem;color:#66717F;line-height:1.5}
@@ -721,7 +721,7 @@ header{background:rgba(255,255,255,.97);backdrop-filter:blur(14px)}
 .why-cta p{margin:0;font-weight:700;color:var(--navy);flex:1 1 240px}
 .why-cta .why-apply{background:var(--navy);color:#fff}
 @media(max-width:860px){.why{padding:64px 0}.why-grid{grid-template-columns:1fr;gap:14px}.why-card{padding:22px 20px}.why-table{min-width:0;font-size:.9rem}.why-table th,.why-table td{padding:12px 12px}.why-table tbody th{width:26%}.why-cta .btn{width:100%;justify-content:center}}
-/* 모바일 헤드라인 크기 — 최종 우선 */
+/* 모바일 헤드라인 크기, 최종 우선 */
 @media(max-width:680px){.hero .hero-grid h1.serif{font-size:clamp(2.15rem,9.8vw,2.55rem);line-height:1.24;letter-spacing:-.03em}}
 @media(max-width:360px){.hero .hero-grid h1.serif{font-size:2rem}}
 
@@ -828,7 +828,7 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
 .nav-drop .nav-drop-menu a:hover{background:var(--paper)}
 /* 메뉴 안 CTA 는 데스크톱에서 숨기고 모바일 펼침 메뉴에서만 쓴다. 색은 브랜드 블루(규격 4절) */
 .nav-book{display:none}
-/* 히어로 CTA 가 보이는 동안 헤더 버튼을 숨겨 첫 화면 CTA 를 하나로 둔다 — conversion.js 가 hidden 속성으로 토글 */
+/* 히어로 CTA 가 보이는 동안 헤더 버튼을 숨겨 첫 화면 CTA 를 하나로 둔다, conversion.js 가 hidden 속성으로 토글 */
 .nav-cta-book[hidden]{display:none!important}
 @media(max-width:840px){
   .nav-drop{display:block}
@@ -842,7 +842,7 @@ header .nav-cta{background:var(--blue-deep);color:#fff}
 <link rel="stylesheet" href="/assets/hero-v1.css?v=f10131fbef">
 <link rel="stylesheet" href="/assets/home-video.css?v=6ba0080fad">
 <link rel="stylesheet" href="/assets/education.css?v=8741688b26" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/assets/education.css?v=8741688b26"></noscript><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
-<link rel="stylesheet" href="/assets/renew.css?v=c2f0740161">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/#webpage", "url": "https://bmaker.kr/", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-11-25"}</script></head>
 <body data-service="general">
 
@@ -1182,7 +1182,7 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
 
 </script>
 
-<script src="/assets/conversion.js?v=2cbce75756" defer></script>
+<script src="/assets/conversion.js?v=1d8f02ec2b" defer></script>
 <script src="/assets/home-video.js?v=33e68381d1" defer></script>
 <script>(function(){var els=document.querySelectorAll('.hero .count');if(!els.length)return;var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;els.forEach(function(el){var end=parseInt(el.getAttribute('data-count'),10)||0,suf=el.getAttribute('data-suffix')||'';if(rm||!end)return;var t0=null,dur=1100;el.textContent='0'+suf;function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(end*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);});})();</script>
 </body>

@@ -2,12 +2,12 @@
 """자금·재단 상세 페이지 본문 중간에 넣는 인라인 진단 폼.
 
 자금 15장(build_funds)과 재단 13장(build_jaedan, 지역 12 + 허브), 허브 2장(build_hubs), 4분기 안내(2026-4q-sosangin.html,
-정적 — 이 함수 출력을 그대로 붙여 넣었다)가 같은 마크업을 쓰도록 한 곳에서 만든다.
-홈(index.html) 폼은 스타일이 홈 <style> 에만 있으므로 다른 페이지로 복사하지 않는다 — 2026-09-28 허브 2장이
+정적, 이 함수 출력을 그대로 붙여 넣었다)가 같은 마크업을 쓰도록 한 곳에서 만든다.
+홈(index.html) 폼은 스타일이 홈 <style> 에만 있으므로 다른 페이지로 복사하지 않는다, 2026-09-28 허브 2장이
 홈 폼 HTML 만 복사해 브라우저 기본 모양(19px 입력칸·회색 버튼)으로 PR #7 부터 배포돼 있었다.
 문구가 두 빌더에서 갈리면 페이지별 전환율 비교가 무의미해진다.
 
-전송은 기존 assets/conversion.js 와 /api/lead(같은 도메인, workers/site — 2026-11-16 codedaum 에서 옮김)를 그대로 쓴다.
+전송은 기존 assets/conversion.js 와 /api/lead(같은 도메인, workers/site, 2026-11-16 codedaum 에서 옮김)를 그대로 쓴다.
 conversion.js 가 읽는 ID 규약:
   lf-name · lf-phone · lf-consent · lf-website(허니팟) · lf-service(hidden) · applyMsg
   #lf-time .time-opt      통화 희망 시간대
@@ -15,7 +15,7 @@ conversion.js 가 읽는 ID 규약:
   lf-page                 유입 페이지 (hidden)
 
 사업자 형태와 유입 페이지는 /api/lead 가 화이트리스트로 거르는 최상위 키로는 전달되지
-않는다 — 2026-09-28 메일 템플릿 렌더로 확인했다. conversion.js 가 answers_text 와
+않는다, 2026-09-28 메일 템플릿 렌더로 확인했다. conversion.js 가 answers_text 와
 diagnosis 에 실어 보내므로 알림 메일 본문의 [진단 답변]·[진단 답변 상세]에 찍힌다.
 """
 import html

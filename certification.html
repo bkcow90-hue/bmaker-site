@@ -116,7 +116,7 @@ footer a{color:#C6D0E4;text-decoration:underline}
   ul,ol{padding-left:20px}li{margin-bottom:6px;line-height:1.7}
 }
 
-/* ===== v4 테마(서브): 장부와 공문서 — 마지막 우선 ===== */
+/* ===== v4 테마(서브): 장부와 공문서, 마지막 우선 ===== */
 :root{--display:'Noto Serif KR',serif;--paper:#F7F5F0;--line:#E1DED6}
 h1,h2,h3,.serif,.cta-box h3,.cta-inline p b,.proof b:first-child,.card b{font-family:var(--display)}
 h1{font-weight:700;letter-spacing:-.02em}h2{font-weight:700;letter-spacing:-.012em;font-size:1.42rem;padding-top:14px;border-top:2px solid var(--navy,#0E1B33);margin-top:48px}
@@ -148,13 +148,13 @@ main summary{padding:16px 0}main details .body{padding:0 0 16px}
 @font-face{font-family:'Noto Serif KR H1';src:url(/assets/fonts/noto-serif-kr-h1.v2.woff2) format('woff2');font-weight:700;font-style:normal;font-display:optional}
 h1,.hero h1{font-family:'Noto Serif KR H1','Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* nav-shell v3 */
-/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다 — 헤더 띠만 넓힌다 */
+/* 서브페이지 본문 .wrap 은 860px 인데 내비 7개는 그 안에 안 들어간다, 헤더 띠만 넓힌다 */
 header .wrap{max-width:1180px}
 .nav-links{display:flex;flex:1;justify-content:center;gap:14px;font-size:.84rem;color:var(--ink-soft);font-weight:500;white-space:nowrap;align-items:center;min-width:0}
 .nav-links a{color:var(--ink-soft);text-decoration:none}
 .nav-links a:hover{color:var(--navy)}
 .nav-links .nav-book{display:none}
-/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다 — 여기서 되돌린다 */
+/* 페이지의 FAQ용 details/summary 규칙이 내비 드롭다운까지 잡아먹는다, 여기서 되돌린다 */
 .nav-links details.nav-drop{position:relative;display:inline-block;background:transparent;border:0;border-radius:0;margin:0;padding:0}
 .nav-links details.nav-drop>summary{list-style:none;cursor:pointer;white-space:nowrap;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;border:0;background:transparent;font-weight:500;font-size:inherit;line-height:inherit}
 .nav-links details.nav-drop>summary::-webkit-details-marker{display:none}
@@ -163,14 +163,14 @@ header .wrap{max-width:1180px}
 .nav-links .nav-drop-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:120;min-width:236px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(14,27,51,.12);display:grid;gap:2px}
 .nav-links .nav-drop-menu a{display:block;padding:8px 10px;border-radius:7px;white-space:nowrap;font-size:.86rem}
 .nav-links .nav-drop-menu a:hover{background:var(--paper)}
-/* 좁아지면 메뉴를 감춘다 — 서브페이지는 예전부터 모바일에 햄버거가 없다 */
+/* 좁아지면 메뉴를 감춘다, 서브페이지는 예전부터 모바일에 햄버거가 없다 */
 @media(max-width:1100px){.nav-links{display:none}}
 </style>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-kr-h1.v2.woff2" crossorigin>
 <style>.inline-diag{border-top:2px solid var(--navy,#0E1B33);border-bottom:1px solid var(--line,#E1DED6);background:var(--paper,#F7F5F0);padding:26px 24px;margin:28px 0}.inline-diag h2{margin:0 0 6px;padding:0;border:0;font-size:1.18rem;line-height:1.45;color:var(--navy,#0E1B33)}.inline-diag .sub{margin:0 0 18px;font-size:.92rem;color:#4a5669;line-height:1.6}.inline-diag .returns{margin:0 0 18px;padding:12px 16px;background:#fff;border:1px solid var(--line,#E1DED6)}.inline-diag .returns p{margin:0 0 4px;font-size:.92rem;font-weight:800;color:var(--navy,#0E1B33)}.inline-diag .returns ol{margin:0;padding-left:20px;font-size:.92rem;line-height:1.7;color:#3A4356}.inline-diag .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.inline-diag label,.inline-diag .field-label{display:block;font-size:.9rem;font-weight:700;color:#263951;margin:0 0 7px}.inline-diag input[type=text],.inline-diag input[type=tel]{width:100%;padding:13px 14px;border-radius:4px;border:1px solid #aeb9ca;background:#fff;color:#1A2233;font-size:1rem;font-family:inherit;min-height:46px}.inline-diag input::placeholder{color:#8792a5}.inline-diag input:focus{outline:2px solid var(--blue,#2B5BE3);border-color:var(--blue,#2B5BE3)}.inline-diag .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.inline-diag .opts button{padding:12px 4px;border-radius:4px;border:1px solid #bdc7d8;background:#fff;color:#263951;font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px}.inline-diag .opts button[aria-pressed=true]{background:#2454bc;border-color:#2454bc;color:#fff}.inline-diag .group{margin-top:16px}.inline-diag .consent{display:flex;align-items:flex-start;gap:9px;margin-top:16px;font-size:.86rem;line-height:1.6;color:#4a5669;font-weight:400}.inline-diag .consent input{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:#2454bc}.inline-diag .consent a{color:#1e44b8;text-decoration:underline}.inline-diag button[type=submit]{width:100%;margin-top:18px;background:#234780;color:#fff;border:1px solid #234780;border-radius:4px;padding:16px;font-size:1.04rem;font-weight:700;cursor:pointer;font-family:inherit}.inline-diag button[type=submit]:disabled{opacity:.65;cursor:wait}.inline-diag .note{margin-top:12px;font-size:.84rem;color:#526077;line-height:1.55}.inline-diag .apply-msg{margin-top:14px;font-size:.9rem;text-align:center;display:none}.inline-diag .apply-msg.ok{display:block;color:#126435}.inline-diag .apply-msg.err{display:block;color:#b32b28}.inline-diag .apply-fallback{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.inline-diag .apply-fallback a{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;border-radius:4px;padding:12px 8px;text-decoration:none}.inline-diag .apply-fallback .fb-kakao{background:var(--kakao,#FEE500);color:#191600}.inline-diag .apply-fallback .fb-tel{border:1px solid #aeb9ca;color:#263951}@media(max-width:680px){.inline-diag{padding:22px 18px;margin:24px 0}.inline-diag .row{grid-template-columns:1fr;gap:0}.inline-diag .row>div+div{margin-top:16px}.inline-diag .opts{grid-template-columns:1fr}}</style>
 <link rel="stylesheet" href="/assets/service-consulting.css?v=3b7d9e659a">
 <link rel="stylesheet" href="/assets/polish.css?v=5f0f055bc8">
-<link rel="stylesheet" href="/assets/renew.css?v=c2f0740161">
+<link rel="stylesheet" href="/assets/renew.css?v=e9867a3e46">
 <script type="application/ld+json" data-webpage>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/certification#webpage", "url": "https://bmaker.kr/certification", "inLanguage": "ko", "isPartOf": {"@id": "https://bmaker.kr/#website"}, "dateModified": "2026-11-25"}</script><script type="application/ld+json" data-reviewed>{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://bmaker.kr/certification#webpage", "url": "https://bmaker.kr/certification", "reviewedBy": {"@type": "Person", "@id": "https://bmaker.kr/#founder", "name": "김상표", "jobTitle": "대표", "worksFor": {"@id": "https://bmaker.kr/#org"}}, "lastReviewed": "2026-10-04"}</script></head>
 <body data-service="certification">
 <header>
@@ -239,15 +239,15 @@ header .wrap{max-width:1180px}
     <p>벤처기업확인, 이노비즈, 메인비즈, 소부장 확인기업, 뿌리기업 같은 기업인증과 기업부설연구소, ISO 인증은 그 자체가 목적이 아닙니다. 정책자금 한도와 금리 우대, 세액공제, 입찰 가점, 협력사 등록 요건으로 이어지는 도구입니다. 그래서 저희는 자금 계획과 묶어서 어떤 인증이 실익이 있는지부터 진단합니다.</p>
     <h2>진행하는 업무</h2>
     <ul>
-      <li><b><a href="/venture-certification">벤처기업확인</a></b> — 혁신성장유형 등 유형 검토, 요건 준비, 확인 신청</li>
-      <li><b><a href="/innobiz-mainbiz">이노비즈·메인비즈</a></b> — 자가진단 점수 관리, 현장평가 대응</li>
-      <li><b>소부장 확인기업·뿌리기업</b> — 업종 요건 확인, 확인서 발급 절차</li>
-      <li><b><a href="/research-institute">기업부설연구소·연구개발전담부서</a></b> — 인력·공간 요건 검토, 설립 신고, 사후관리, 세액공제 활용 안내</li>
-      <li><b>ISO 인증</b> — 9001(품질), 14001(환경) 등 취득 준비와 심사 대응. 대표 개인의 확인된 자격은 <a href="/#about">회사소개</a>에서 확인하실 수 있습니다.</li>
+      <li><b><a href="/venture-certification">벤처기업확인</a></b>: 혁신성장유형 등 유형 검토, 요건 준비, 확인 신청</li>
+      <li><b><a href="/innobiz-mainbiz">이노비즈·메인비즈</a></b>: 자가진단 점수 관리, 현장평가 대응</li>
+      <li><b>소부장 확인기업·뿌리기업</b>: 업종 요건 확인, 확인서 발급 절차</li>
+      <li><b><a href="/research-institute">기업부설연구소·연구개발전담부서</a></b>: 인력·공간 요건 검토, 설립 신고, 사후관리, 세액공제 활용 안내</li>
+      <li><b>ISO 인증</b>: 9001(품질), 14001(환경) 등 취득 준비와 심사 대응. 대표 개인의 확인된 자격은 <a href="/#about">회사소개</a>에서 확인하실 수 있습니다.</li>
     </ul>
-    <div class="callout"><p><b>이렇게 묶입니다</b> — 예를 들어 기술기업이라면 기업부설연구소 설립 → 벤처기업확인 → 기술보증기금 보증부 대출 순으로 쌓으면, 인증이 자금 심사에서 실질적인 우대로 이어지는 구조를 만들 수 있습니다.</p></div>
+    <div class="callout"><p><b>이렇게 묶입니다</b>: 예를 들어 기술기업이라면 기업부설연구소 설립, 벤처기업확인, 기술보증기금 보증부 대출 순으로 쌓으면, 인증이 자금 심사에서 실질적인 우대로 이어지는 구조를 만들 수 있습니다.</p></div>
     <h2>진행 순서</h2>
-    <p>무료 진단(현재 조건으로 취득 가능한 인증과 실익 확인) → 요건 준비 → 신청·심사 대응 → 취득 후 자금·세제 활용 설계 순으로 진행합니다.</p>
+    <p>무료 진단(현재 조건으로 취득 가능한 인증과 실익 확인), 요건 준비, 신청·심사 대응, 취득 후 자금·세제 활용 설계 순으로 진행합니다.</p>
     <h2>자주 묻는 질문</h2>
     <details><summary>벤처기업 인증을 받으면 뭐가 좋은가요?</summary><p class="body">세액 감면, 정책자금 한도·금리 우대, 기술보증 우대, 병역특례 등 혜택이 있습니다. 특히 자금 조달 관점에서 인증 보유 여부가 심사에 유리하게 작용하는 경우가 많습니다.</p></details>
     <details><summary>이노비즈와 메인비즈는 무엇이 다른가요?</summary><p class="body">이노비즈는 기술혁신형, 메인비즈는 경영혁신형 중소기업 인증입니다. 기술 중심 기업은 이노비즈, 경영·서비스 혁신 중심 기업은 메인비즈가 맞습니다.</p></details>
@@ -278,6 +278,6 @@ header .wrap{max-width:1180px}
     <p><a href="/">홈</a> · <a href="/region">지역별 창구</a> · <a href="/faq">자주 묻는 질문</a> · <a href="/privacy">개인정보처리방침</a></p>
   <p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · <a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · <a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p><p class="foot-trust"><a href="/cases">공개 원장 <span data-stat="total-n">403</span>건 · 증빙 <span data-stat="ev-n">12</span>건</a> · <a href="/#about">대표 김상표</a> · <a href="/geojeol">진행이 어려우면 먼저 말합니다</a></p><p class="lastmod" data-lastmod="2026-11-25" style="margin-top:14px;font-size:.78rem;opacity:.62">최종 업데이트: 2026-11-25</p></div>
 </footer>
-<script src="/assets/conversion.js?v=2cbce75756" defer></script>
+<script src="/assets/conversion.js?v=1d8f02ec2b" defer></script>
 </body>
 </html>

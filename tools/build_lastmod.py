@@ -2,7 +2,7 @@
 """푸터 '최종 업데이트' 한 줄·JSON-LD dateModified·sitemap lastmod 를 같은 값으로 스탬프한다.
 
 날짜 규칙
-  - 사례 페이지(cases.html): 원장 빌드일 — cases.html Dataset 의 dateModified 를 그대로 쓴다.
+  - 사례 페이지(cases.html): 원장 빌드일, cases.html Dataset 의 dateModified 를 그대로 쓴다.
   - 그 외(홈·상세·블로그): 그 페이지 내용이 마지막으로 바뀐 날.
     스탬프(푸터 한 줄·WebPage 블록·dateModified 값)는 해시에서 빼고 비교하므로
     스탬프를 넣는 커밋이 다음 날짜를 또 올리는 자기참조가 생기지 않는다.
@@ -17,7 +17,7 @@ sitemap.xml 의 lastmod 도 같은 값으로 맞춘다. 다른 빌더들은 last
   배포 당일 실제로 이 조합에서 사업자 형태 버튼이 무반응이었고 제출도 조용히 실패했다.
   ?v= 는 content_hash 에서 빼므로 JS 만 바뀐 배포가 페이지 갱신일을 올리지 않는다.
 
-실행: python tools/build_lastmod.py   — 다른 build_*.py 를 모두 돌린 뒤 마지막에 실행한다.
+실행: python tools/build_lastmod.py  , 다른 build_*.py 를 모두 돌린 뒤 마지막에 실행한다.
       (자금·재단·교육 빌더가 다른 페이지의 <footer>·<head> 를 복사해 가므로 순서가 중요하다)
 실패 시: 아무 파일도 쓰지 않고 한국어로 원인을 출력한다.
 """
@@ -34,7 +34,7 @@ REG = ROOT / 'data' / 'page-updated.json'
 SITEMAP = ROOT / 'sitemap.xml'
 PREFIX = 'https://bmaker.kr/'
 TODAY = build_date().isoformat()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
-SKIP = {'404.html'}       # noindex 오류 페이지 — 어떤 경로에서도 서빙되므로 날짜 의미가 없다
+SKIP = {'404.html'}       # noindex 오류 페이지, 어떤 경로에서도 서빙되므로 날짜 의미가 없다
 LEDGER = {'cases.html'}   # 원장 빌드일을 쓰는 페이지
 LABEL = '최종 업데이트'
 LD_TYPES = {'WebPage', 'Article', 'BlogPosting', 'NewsArticle'}
@@ -354,9 +354,9 @@ def main():
         if p.name in LEDGER:
             date = led
         elif prev and prev.get('hash') in (h, content_hash(s0, key, related=True)):
-            date = prev['date']   # 두 번째 값: 관련 글 제외 이전에 기록된 해시 — 날짜를 유지한 채 새 해시로 옮긴다
+            date = prev['date']   # 두 번째 값: 관련 글 제외 이전에 기록된 해시, 날짜를 유지한 채 새 해시로 옮긴다
         elif prev is None:
-            date = git_date(key) or TODAY   # 최초 도입 — 스탬프가 없던 시점의 커밋일이 실제 갱신일
+            date = git_date(key) or TODAY   # 최초 도입, 스탬프가 없던 시점의 커밋일이 실제 갱신일
             seeded.append(key)
         else:
             date = TODAY
@@ -378,7 +378,7 @@ def main():
     sm_changed, unknown = stamp_sitemap({k: v['date'] for k, v in out.items()})
     print(f"[갱신일 스탬프 OK] {len(out)}개 페이지 (수정 {len(touched)}개, 신규 seed {len(seeded)}개, "
           f"sitemap {'갱신' if sm_changed else '그대로'}, 원장 빌드일 {led}, 오늘 {TODAY})"
-          + (f" — sitemap 에 대응 페이지가 없는 항목 {len(unknown)}개: {unknown[:3]}" if unknown else ""))
+          + (f", sitemap 에 대응 페이지가 없는 항목 {len(unknown)}개: {unknown[:3]}" if unknown else ""))
 
 
 if __name__ == '__main__':

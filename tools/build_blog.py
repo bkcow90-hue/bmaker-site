@@ -15,7 +15,7 @@ posts/*.md 형식
   ---
   title: "제목"               (필수, " | 비즈니스 메이커" 는 빌더가 붙인다)
   date: 2026-09-21            (필수, 발행일)
-  updated: 2026-09-21         (선택, 내용 확인일 — 없으면 date)
+  updated: 2026-09-21         (선택, 내용 확인일, 없으면 date)
   category: guide|fund|case|news
   summary: "요약 한두 문장"    (필수, meta description·목록·feed)
   tags: [태그, 태그]
@@ -32,7 +32,7 @@ from email.utils import format_datetime
 from datetime import datetime
 from pathlib import Path
 
-from builddate import KST   # feed 의 RFC 822 표기용 시간대 — 날짜 계산은 하지 않는다(글 날짜는 frontmatter)
+from builddate import KST   # feed 의 RFC 822 표기용 시간대, 날짜 계산은 하지 않는다(글 날짜는 frontmatter)
 from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 from reviewer import PERSON
 
@@ -58,7 +58,7 @@ BANNED = re.compile(r'갚|지원센터|100%|보장|무조건|실행 기록|중�
 OFFICIAL_NAMES = (
     '근로자퇴직급여 보장법',   # 법령 정식 명칭: 자사 결과 보장 표현이 아님
     '근로자퇴직급여보장법',
-    '소상공인원스톱지원센터',   # 순천시 — 기업마당 PBLN_000000000126724 공고 접수처
+    '소상공인원스톱지원센터',   # 순천시, 기업마당 PBLN_000000000126724 공고 접수처
 )
 
 
@@ -462,7 +462,7 @@ def page_titles():
 
 def fund_names():
     """자금 정식명 — 자금 페이지 빌더가 읽는 행(build_funds.load)의 '자금명'. 괄호 속 세부 트랙은 뗀다."""
-    import build_funds   # 자금 목록을 따로 들고 있지 않는다 — 자금 페이지가 생기면 같이 막힌다
+    import build_funds   # 자금 목록을 따로 들고 있지 않는다, 자금 페이지가 생기면 같이 막힌다
     names = {re.sub(r'\(.*?\)', '', d['자금명']).strip() for d in build_funds.load()}
     return sorted(n for n in names if n)
 
@@ -479,7 +479,7 @@ def fund_name_in(title, funds):
 TOPIC_KEYWORDS = ('정책자금', '자금', '대출', '보증', '창업', '인증', '연구소', '지원금', '지원사업', '기술지원',
                   '이차보전', '소상공인', '중소기업', '상환', '사업계획', '중진공', '소진공', '신보', '기보',
                   '신용보증재단', '시설자금', '시설투자')
-TOPIC_EXEMPT = {'about-editorial'}   # 운영자·편집 기준 안내 — 주제 글이 아니다
+TOPIC_EXEMPT = {'about-editorial'}   # 운영자·편집 기준 안내, 주제 글이 아니다
 
 
 def topic_ok(p):

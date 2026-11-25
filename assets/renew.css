@@ -186,3 +186,7 @@ html body .person-note,html body .person-sched{font-size:15px!important}
 /* 사례 구역 */
 #top .cases .ledger-card{border:1px solid #DCE1E8!important;transform:none!important}
 #top .apply-section .apply-form h2{margin-bottom:18px}
+html body section.hero:not(.hero-cinematic)::after{display:none!important;content:none!important;background-image:none!important}
+#top .diagnosis .wn::before{content:none!important;display:none!important}
+html body :is(.sc-consult,.jd-consult)::before{display:none!important;content:none!important;background-image:none!important}
+@media(max-width:959px){html body section.hero:not(.hero-cinematic){padding-bottom:48px!important}}

@@ -18,7 +18,7 @@ wp_url: https://blog.bmaker.kr/2026-october-regional-business-funding/
 | 서울 중구 4분기 중소기업육성기금 | 10월 1~13일 | 중구 소재 소기업·소상공인, 신청일 기준 사업자등록 6개월 경과 | 중구청 도심산업과 방문 안내. 담보 방식별 절차 확인 |
 | 순천 4분기 소상공인 금융지원 | 10월 1~2일 | 순천 사업장, 신청일 기준 1년 이상 영업 등 세부 요건 | 순천시 소상공인원스톱지원센터 방문 또는 공식 공고 이메일 |
 | 양산 4분기 소상공인 육성자금 | 10월 6일부터 4분기 자금 소진까지 | 양산 사업장, 등록 후 영업 중인 소상공인 | 담보·신용대출: 시 방문/우편. 재단 보증대출: 보증드림 앱 |
-| 충주 2차 소상공인 이자비용 지원 | 예산 소진 시까지 — 현재 잔여예산 확인 필요 | 충주 사업장, 사업자등록 소상공인 | 충북신용보증재단 온라인·보증드림 앱. 대면은 상담 예약 후 방문 |
+| 충주 2차 소상공인 이자비용 지원 | 예산 소진 시까지, 현재 잔여예산 확인 필요 | 충주 사업장, 사업자등록 소상공인 | 충북신용보증재단 온라인·보증드림 앱. 대면은 상담 예약 후 방문 |
 
 공고에 표시된 기간 안이라는 사실만으로 현재 접수 가능이나 승인을 확정할 수 없습니다. 접수 시간·제외업종·기존 지원 이력·필요서류는 해당 공고 첨부와 접수기관에서 대조하세요. 금리와 한도는 유형별 전체 조건을 함께 확인해야 하므로 이 요약에서는 단일 대표 수치로 제시하지 않습니다.
 
@@ -58,10 +58,10 @@ wp_url: https://blog.bmaker.kr/2026-october-regional-business-funding/
 
 ## 공식 원문과 확인 범위
 
-- [중구 공고 — 기업마당, 9월 22일 게시](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126699)
-- [순천 공고 — 기업마당, 9월 22일 게시](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126724)
-- [양산시 원문 — 9월 28일 공고](https://www.yangsan.go.kr/portal/saeol/gosi/view.do?notAncmtMgtNo=79421&mid=0102010000) · [신청 경로 요약](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126815)
-- [충주 공고 — 기업마당, 9월 21일 게시](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126662)
+- [중구 공고, 기업마당, 9월 22일 게시](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126699)
+- [순천 공고, 기업마당, 9월 22일 게시](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126724)
+- [양산시 원문, 9월 28일 공고](https://www.yangsan.go.kr/portal/saeol/gosi/view.do?notAncmtMgtNo=79421&mid=0102010000) · [신청 경로 요약](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126815)
+- [충주 공고, 기업마당, 9월 21일 게시](https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000126662)
 
 10월 1일 공식 공개 본문을 대조했습니다. 세부 첨부의 모든 자격·제외조건이나 실시간 예산을 검증한 안내가 아닙니다. 원문이 정정되면 최신 공고가 우선합니다.
 

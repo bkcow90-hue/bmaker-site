@@ -250,7 +250,7 @@ def build():
         y,m=d['실행 연월'].split('-')
         ev=f' <a href="#ev-{d["사례ID"]}">증빙</a>' if d['증빙 파일'] else ""
         return (f'<p class="case" id="case-{d["사례ID"]}"><b>{int(y)}년 {int(m)}월 · {esc(d["지역(시도)"])} {esc(d["업종"]) or "업종 미기재"}</b>'
-                f' — {esc(", ".join(bits))}: {esc(core)}.{esc(tail)}{ev}</p>')
+                f', {esc(", ".join(bits))}: {esc(core)}.{esc(tail)}{ev}</p>')
     sentences="".join(sent(d) for d in D)
     figs=""
     from PIL import Image
@@ -259,7 +259,7 @@ def build():
         p=ROOT/'assets'/'cases'/d['증빙 파일']; w,h=Image.open(p).size
         alt=f"{d['지역(시도)']} {d['업종'] or ''} — {d['기관']} {won2(d['amt'])} 승인·약정 안내 캡처(가림 처리)".replace('  ',' ')
         figs+=(f'<figure id="ev-{d["사례ID"]}"><img src="assets/cases/{d["증빙 파일"]}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
-               f'<figcaption>{esc(alt)} — <a href="#case-{d["사례ID"]}">사례 {d["사례ID"]}</a></figcaption></figure>')
+               f'<figcaption>{esc(alt)}, <a href="#case-{d["사례ID"]}">사례 {d["사례ID"]}</a></figcaption></figure>')
     dataset_ld=json.dumps({"@context":"https://schema.org","@type":"Dataset","@id":"https://bmaker.kr/cases#dataset",
       "name":"비즈니스 메이커 정책자금 받은 사례",
       "description":f"{T['PERIOD_KR']} 실제 실행된 정책자금 사례 {N}건. 기관·자금명·실행 금액·금리·지역·업종·신용점수 구간·소요 기간을 익명화해 공개. 기관 안내문·약정 문자 증빙 {nev}건 포함.",
