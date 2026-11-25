@@ -582,7 +582,7 @@ def build_post(p, posts, terms, style, hdr, foot):
     # 도구로 가는 길(2026-11-25) — 정책자금 글 끝에서 자가진단·판정기로 넘긴다. 관련 글과 같은
     # <p class="related"> 라서 build_lastmod 해시 밖이고, 기존 글의 갱신일이 따라 올라가지 않는다.
     tools_html = ('' if service == 'startup' else
-                  '<p class="related"><a href="/jagajindan">1분 자가진단으로 우리 사업장 확인하기</a>'
+                  '<p class="related"><a href="/jagajindan">정책자금 자가진단으로 우리 사업장 확인하기</a>'
                   '<a href="/sosangin-gijun">소상공인 기준 판정기</a></p>')
 
     lds = [{"@context": "https://schema.org", "@type": "BlogPosting", "headline": p['title'],

@@ -136,3 +136,53 @@ html body .sticky-cta.apply-bar .sc-icon svg{width:22px;height:22px}
 html body .sticky-cta.apply-bar .sc-tel::after{content:"전화 상담"}
 html body .sticky-cta.apply-bar .sc-kakao::after{content:"카카오톡"}
 }
+/* ── 3차: 전 페이지 남은 것 ── */
+/* 모서리: 카드·표·상자 전부 4px (동그란 아이콘·사진은 제외) */
+html body main :is(div,article,section,aside,details,table,figure,p,li,form,ul,ol,blockquote,a,summary,input,select,textarea,button):not(.sc-icon):not([class*=dot]):not([class*=avatar]):not([class*=badge-round]){border-radius:4px!important}
+html body main :is(img,video){border-radius:4px}
+html body main #top .hero-person img,#top .hero-person img{border-radius:0}
+@media(max-width:900px){#top .hero-person img{border-radius:50%!important}}
+/* 그림자: 본문 카드에서 뺀다 */
+html body main :is(div,article,section,aside,a,figure,table,form,li){box-shadow:none!important}
+/* 세부 페이지 상단 일러스트 제거 */
+html body main:not(#top) .hero::after{display:none!important;content:none!important}
+/* 본문 카카오 버튼: 노란색 대신 테두리 버튼 (오른쪽 레일·하단 바의 카카오 아이콘만 노란색) */
+html body main :is(.btn-kakao,.btn-line){background:#fff!important;color:#10213D!important;border:1px solid #10213D!important}
+html body main :is(.btn-kakao,.btn-line):hover{background:#F5F7FA!important}
+/* 작은 글씨 올리기 */
+html body main :is(td,th){font-size:15px!important;line-height:1.6}
+html body :is(.asof,.byline,.post-meta,.hub-label,.disclaimer,.note,.tag,.intake,.dp-note,.sc-count,.sc-why,.ie-k,.ie-v,.num,.lc-ym,.lc-inst,.field-label,.time-opt,.biz-opt,.form-help,.audience-note,.sub,.m){font-size:15px!important}
+html body main :is(figcaption,label,small){font-size:15px!important}
+html body main a{font-size:max(1em,15px)}
+html body .nav-drop-menu a{font-size:15px!important}
+html body .nav-drop-h{font-size:14px!important}
+html body footer :is(p,a,li,span){font-size:15px!important}
+html body footer .lastmod{font-size:14px!important}
+html body .person-role{font-size:15px!important;letter-spacing:0!important}
+html body .person-name small{font-size:16px!important}
+html body .person-cols li{font-size:16px!important;line-height:1.7}
+html body .person-cols h4{font-size:15px!important}
+html body .person-note,html body .person-sched{font-size:15px!important}
+/* 홈 헤더: 상담 신청 버튼 항상 보이게(PC) */
+@media(min-width:861px){html body header a.nav-cta-book[hidden]{display:inline-block!important}}
+/* 협력 전문가: 2열 요약 카드 */
+@media(min-width:1000px){
+#top .experts>.wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+#top .experts>.wrap>*{grid-column:1/-1}
+#top .experts>.wrap>article.person.partner{grid-column:auto;margin:0!important;display:grid;grid-template-columns:132px minmax(0,1fr);gap:22px;align-items:start;padding:26px!important}
+#top .experts article.partner .person-photo{margin:0;width:132px}
+#top .experts article.partner .person-photo img{width:132px;height:176px;object-fit:cover}
+#top .experts article.partner .person-cols{display:block!important;margin-top:14px}
+#top .experts article.partner .person-cols>div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid #DCE1E8}
+#top .experts article.partner .person-cols h4{margin:0;border:0;padding:0}
+#top .experts article.partner .person-cols ul{margin:0}
+}
+#top .experts .exp-banner{background:#F5F7FA!important;color:#1B2434!important;border:1px solid #DCE1E8}
+#top .experts .exp-banner :is(h3,p){color:#1B2434!important}
+#top .experts .exp-banner h3{font-size:22px}
+/* 첫 통화 구역: 영상·번호 장식 정리 */
+#top .diagnosis .diag-media{display:none!important}
+#top .diagnosis .wn{font-size:15px!important;font-weight:700;color:#234780!important;letter-spacing:0}
+/* 사례 구역 */
+#top .cases .ledger-card{border:1px solid #DCE1E8!important;transform:none!important}
+#top .apply-section .apply-form h2{margin-bottom:18px}
