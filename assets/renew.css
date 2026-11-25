@@ -77,3 +77,62 @@ html body header .nav-actions{gap:8px}
 #top h1 .hero-kicker{display:inline-block;margin-bottom:22px;padding-bottom:10px;border-bottom:2px solid #FFD43B;font-family:'Pretendard Variable',Pretendard,sans-serif!important;font-size:17px;font-weight:500!important;letter-spacing:-.01em;line-height:1.4;color:#fff}
 #top h1 .hero-kicker+br{display:block}
 html body .btn-tel::before{content:"";display:inline-block;width:17px;height:17px;margin-right:7px;vertical-align:-3px;background:currentColor;-webkit-mask:var(--bm-tel) center/contain no-repeat;mask:var(--bm-tel) center/contain no-repeat}
+#top .form-callback{margin:12px 0 0;font-size:15px;font-weight:600;color:#1B2434;text-align:center}
+#top section h2.serif{margin-bottom:18px}
+/* ── 홈 2차: 미리보기 구성 ── */
+#top .count-strip{background:#fff;border-bottom:1px solid #DCE1E8;padding:34px 0}
+#top .count-strip .wrap{display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+#top .count-num{display:flex;align-items:baseline;gap:10px;margin:0;color:#10213D}
+#top .count-num span{font-size:16px;font-weight:600;color:#333B46;margin-right:6px}
+#top .count-num b{font-size:52px;font-weight:800;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+#top .count-num i{font-style:normal;font-size:20px;font-weight:700}
+#top .count-note{margin:0;flex:1;min-width:240px;font-size:15px;line-height:1.6;color:#555E6B}
+#top .count-strip a{font-size:16px;font-weight:650;color:#234780;text-decoration:underline;text-underline-offset:4px}
+/* 절차 — 밝은 바탕, 윗줄 */
+#top .process{background:#F5F7FA!important;color:#1B2434!important}
+#top .process h2{color:#10213D!important}
+#top .process .steps{gap:28px}
+#top .process .step{background:transparent!important;border:0!important;border-top:2px solid #10213D!important;border-radius:0!important;padding:20px 0 0!important}
+#top .process .step .num{font-size:14px!important;font-weight:700;color:#234780!important;letter-spacing:0;margin-bottom:12px}
+#top .process .step h3{font-size:20px;color:#10213D!important;margin-bottom:10px}
+#top .process .step p:not(.num){font-size:16px;line-height:1.7;color:#333B46!important}
+/* 상황별 입구 — 줄 목록 */
+@media(min-width:861px){
+#top .entry-grid{display:block!important;border-top:2px solid #10213D}
+#top .entry-card{display:grid!important;grid-template-columns:minmax(0,1fr) auto;column-gap:40px;align-items:center;padding:26px 0!important;background:transparent!important;border:0!important;border-bottom:1px solid #DCE1E8!important;border-radius:0!important;box-shadow:none!important}
+#top .entry-card h3{grid-column:1;font-size:21px;margin:0 0 6px}
+#top .entry-card p{grid-column:1;margin:0;font-size:16px;line-height:1.65;color:#333B46;max-width:720px}
+#top .entry-card a{grid-column:2;grid-row:1/span 2;justify-self:end;font-size:16px;font-weight:650;color:#234780;white-space:nowrap}
+#top .entry-card a.entry-sub{grid-row:3;grid-column:1;justify-self:start;margin-top:8px;font-size:15px;font-weight:500}
+}
+/* 상담문의 — 왼쪽 안내·전화, 오른쪽 폼 */
+#top .apply-section{background:#10213D!important;padding:80px 0!important}
+#top .apply-section .hero-apply{max-width:none!important;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:64px;align-items:start}
+#top .apply-side h2{color:#fff!important;font-size:34px;margin:0 0 18px}
+#top .apply-side p{color:#D5DAE5;font-size:17px;line-height:1.75;margin:0;max-width:440px}
+#top .apply-side-tel{display:inline-flex;align-items:center;gap:10px;margin:30px 0 6px;color:#fff;font-size:34px;font-weight:800;letter-spacing:-.02em;text-decoration:none}
+#top .apply-side-tel::before{content:"";width:28px;height:28px;background:currentColor;-webkit-mask:var(--bm-tel) center/contain no-repeat;mask:var(--bm-tel) center/contain no-repeat}
+#top .apply-side .apply-side-hours{font-size:15px;color:#AEB7C6}
+#top .apply-section .apply-form{max-width:none!important;background:#fff!important;border:0!important;border-radius:6px!important;box-shadow:none!important;color:#1B2434!important}
+#top .apply-section .apply-form h2{color:#10213D!important;font-size:22px}
+#top .apply-section .apply-form :is(p,label,li,summary,span,.form-help,.field-label){color:#333B46!important}
+#top .apply-section .apply-form a{color:#234780!important}
+#top .apply-section .apply-form .form-returns{background:#F5F7FA!important;border:1px solid #DCE1E8!important}
+#top .apply-section .apply-form :is(input:not([type=checkbox]),select,textarea){background:#fff!important;color:#1B2434!important;border:1px solid #C5CCD6!important}
+#top .apply-section .apply-form .time-opt{background:#fff!important;color:#1B2434!important;border:1px solid #C5CCD6!important}
+#top .apply-section .apply-form .time-opt[aria-pressed=true]{background:#10213D!important;color:#fff!important}
+#top .apply-section .apply-form button[type=submit]{background:#234780!important;color:#fff!important;width:100%;height:54px}
+@media(max-width:900px){#top .apply-section .hero-apply{grid-template-columns:minmax(0,1fr);gap:32px}#top .apply-side-tel{font-size:28px;margin-top:20px}#top .apply-section{padding:56px 0!important}#top .count-num b{font-size:40px}#top .count-strip .wrap{gap:14px}}
+/* PC 오른쪽 상담 레일 */
+@media(min-width:1024px){
+html body .sticky-cta.apply-bar{left:auto!important;right:0!important;top:50%!important;bottom:auto!important;transform:translateY(-50%);width:84px!important;max-width:none!important;display:flex!important;flex-direction:column!important;gap:0!important;padding:0!important;margin:0!important;background:transparent!important;border:1px solid #DCE1E8!important;border-right:0!important;border-radius:4px 0 0 4px!important;box-shadow:none!important;overflow:hidden}
+html body .sticky-cta.apply-bar[hidden]{display:none!important}
+html body .sticky-cta.apply-bar .sc-apply,html body .sticky-cta.apply-bar .sc-icon{width:84px!important;height:84px!important;min-height:0!important;flex:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:7px;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;font-size:14px!important;font-weight:650!important;line-height:1.2;text-align:center}
+html body .sticky-cta.apply-bar .sc-apply{background:#234780!important;color:#fff!important}
+html body .sticky-cta.apply-bar .sc-tel{background:#fff!important;color:#10213D!important;border-top:1px solid #DCE1E8!important}
+html body .sticky-cta.apply-bar .sc-kakao{background:#FEE500!important;color:#191600!important}
+html body .sticky-cta.apply-bar .sc-tel{order:2}html body .sticky-cta.apply-bar .sc-kakao{order:3}
+html body .sticky-cta.apply-bar .sc-icon svg{width:22px;height:22px}
+html body .sticky-cta.apply-bar .sc-tel::after{content:"전화 상담"}
+html body .sticky-cta.apply-bar .sc-kakao::after{content:"카카오톡"}
+}

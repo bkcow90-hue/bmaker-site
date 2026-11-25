@@ -82,7 +82,7 @@ class HomepageExperienceTests(unittest.TestCase):
         ]
         self.assertEqual(len(proof_links), 1)
         self.assertEqual(proof_links[0]["attrs"]["href"], "/cases")
-        self.assertRegex(proof_links[0]["text"], r"받은 사례 [\d,]+건")
+        self.assertRegex(proof_links[0]["text"], r"실행사례 [\d,]+건")   # 2026-11-25: 건수만 공개(총액 뺌)
         self.assertRegex(proof_links[0]["text"], r"20\d{2}\.\d{2}~20\d{2}\.\d{2}")
 
     def test_reservation_actions_are_visually_distinct_from_kakao_actions(self):
@@ -149,7 +149,7 @@ class HomepageExperienceTests(unittest.TestCase):
 
     def test_entry_cards_route_by_stage_without_numbers(self):
         h2 = self._inside("entry", "h2")
-        self.assertEqual([" ".join(h["text"].split()) for h in h2], ["지금 어느 단계인지부터 고르세요."])
+        self.assertEqual([" ".join(h["text"].split()) for h in h2], ["어떤 자금이 필요하신가요?"])
         cards = [e for e in self._inside("entry", "article") if "entry-card" in e["attrs"].get("class", "")]
         self.assertEqual(len(cards), 4)
         hrefs = [a["attrs"]["href"] for a in self._inside("entry", "a")]

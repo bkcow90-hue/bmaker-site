@@ -211,7 +211,7 @@ def stamp_renew(s):
     return s.replace('</head>', RENEW + '\n</head>', 1)
 
 
-NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/industry">업종별 정책자금</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
+NAV_MENU = '<div class="nav-drop-menu"><div class="nav-drop-col"><p class="nav-drop-h">소상공인·개인사업자</p><a href="/sosangin">소상공인 정책자금 컨설팅</a><a href="/sojingong">소진공 정책자금</a><a href="/jaedan">지역신용보증재단</a><a href="/gaein">개인사업자</a></div><div class="nav-drop-col"><p class="nav-drop-h">중소기업·법인</p><a href="/jungsogieop">중소기업 정책자금 컨설팅</a><a href="/jungjingong">중진공 정책자금</a><a href="/sinbo">신용보증기금</a><a href="/gibo">기술보증기금</a><a href="/beobin">법인사업자</a><a href="/bojeung">보증서 대출</a></div><div class="nav-drop-col"><p class="nav-drop-h">일정·지원금</p><a href="/schedule">접수 일정</a><a href="/industry">업종별 정책자금</a><a href="/2027-jeongchaekjageum">2027년 1월 접수 준비</a><a href="/jiwongeum">지원금</a></div></div></details>'
 _NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
 
 
@@ -236,6 +236,9 @@ def stamp_nav(s):
     inner = m.group(1).replace(NAV_CHECK_OLD, NAV_CHECK)   # 이름 바꾸기는 헤더 메뉴 안에서만 — 본문은 갱신일 해시 범위다
     for a, b in NAV_RENAME:
         inner = inner.replace(a, b)
+    _drops = re.findall(r'<details\b.*?</details>', inner, re.S)
+    for extra in _drops[1:]:
+        inner = inner.replace(extra, '', 1)
     drop = re.search(r'<details\b.*?</details>', inner, re.S)
     book = re.search(r'<a class="nav-book"[^>]*>.*?</a>', inner, re.S)
     had_about = NAV_ABOUT in inner
@@ -243,6 +246,9 @@ def stamp_nav(s):
     for part in (drop, book):
         if part:
             rest = rest.replace(part.group(0), '', 1)
+    # 2026-11-25 메뉴 5칸(미리보기): 긴 컨설팅 두 칸은 정책자금 드롭다운 맨 위로 옮긴다
+    for top in ('<a href="/sosangin">소상공인 정책자금 컨설팅</a>', '<a href="/jungsogieop">중소기업 정책자금 컨설팅</a>'):
+        rest = rest.replace(top, '')
     return _stamp_header_actions(s, m, ((NAV_ABOUT if had_about else '') + (drop.group(0) if drop else '') + rest + NAV_CHECK
                + (book.group(0) if book else '')))
 
