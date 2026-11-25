@@ -17,7 +17,7 @@
  },
  "blog.html": {
   "date": "2026-11-26",
-  "hash": "21cc3c49e4d15deee68f8f027add86ad87d1482a6d3ac43576b475280a1ce625"
+  "hash": "f708bff471fc0352034669d4f518f133203053be986df2b977fbe8064fe7afa0"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-25",
@@ -72,8 +72,8 @@
   "hash": "bb389583085d45d6402c22061e094723fbd4079dd648ca582942df45925f31f6"
  },
  "blog/category/startup.html": {
-  "date": "2026-11-25",
-  "hash": "9ede4bfb1d786e30d8fbfdfbae41241524d68c030f066b5012a8c85b3920f85f"
+  "date": "2026-11-26",
+  "hash": "3fb1d33af0560c3781378fadba2adfbb8b9c2aac585952acd2a308523022330f"
  },
  "blog/cheongju-prototype-voucher-payment-method.html": {
   "date": "2026-11-25",
@@ -195,6 +195,10 @@
   "date": "2026-11-25",
   "hash": "189ef6b08a580333f78d2e7cfb6d23af2ffec24703a9deb4d04090b5ff08b29b"
  },
+ "blog/modoo-vs-pre-startup-package.html": {
+  "date": "2026-11-26",
+  "hash": "dcf0a9314650ffee8285140981d568830dde70173566e276f08e168f042179af"
+ },
  "blog/new-business-operating-loan-eligibility.html": {
   "date": "2026-11-25",
   "hash": "3d37af377504b933b1b6d3f4b850d2573ec7e4eeeff726f24c40696aea552420"
@@ -277,7 +281,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-26",
-  "hash": "c5945ca7c87e0c68cf81dd97063f9441b322eb7d4d1a828c09aa680f27ddb62e"
+  "hash": "91a775d1bca24dfc46890e3f6eb451f61a8da03ef3414df38d59dc921fa46d17"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -401,7 +405,7 @@
  },
  "index.html": {
   "date": "2026-11-26",
-  "hash": "09d39affd961748e5eb95559059108ed3da1536b30267281cdefff259a5bae03"
+  "hash": "4bd33e48d0ef1c32de28b76d39fc554a50a955bc92c1129de4697fcb0f17018b"
  },
  "industry.html": {
   "date": "2026-11-25",
