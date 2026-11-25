@@ -77,3 +77,5 @@ html body header .nav-actions{gap:8px}
 #top h1 .hero-kicker{display:inline-block;margin-bottom:22px;padding-bottom:10px;border-bottom:2px solid #FFD43B;font-family:'Pretendard Variable',Pretendard,sans-serif!important;font-size:17px;font-weight:500!important;letter-spacing:-.01em;line-height:1.4;color:#fff}
 #top h1 .hero-kicker+br{display:block}
 html body .btn-tel::before{content:"";display:inline-block;width:17px;height:17px;margin-right:7px;vertical-align:-3px;background:currentColor;-webkit-mask:var(--bm-tel) center/contain no-repeat;mask:var(--bm-tel) center/contain no-repeat}
+#top .form-callback{margin:12px 0 0;font-size:15px;font-weight:600;color:#1B2434;text-align:center}
+#top section h2.serif{margin-bottom:18px}

@@ -338,7 +338,7 @@ td a{color:var(--blue-deep);text-decoration:underline}
     if ip.exists():
         ih=ip.read_text(encoding='utf-8')
         if '<!-- home-proof:start -->' in ih:
-            block=(f'<!-- home-proof:start --><strong>받은 사례 {N}건 · 총 {T["TOTAL_KR"]}</strong><span>{T["PERIOD_SHORT"]} · 익명 일부 공개</span><!-- home-proof:end -->')
+            block=(f'<!-- home-proof:start --><strong>실행사례 {N}건</strong><span>{T["PERIOD_SHORT"]}</span><!-- home-proof:end -->')
             # H1 is editorial copy, not a ledger counter: records are not unique people.
             ih=re.sub(r'<!-- home-proof:start -->.*?<!-- home-proof:end -->', block, ih, flags=re.S)
             featured=select_home_cases(D)

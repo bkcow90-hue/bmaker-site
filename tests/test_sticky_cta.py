@@ -204,7 +204,7 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     # 2026-11-13: 원장 최근 5건 띠는 히어로에서 빠지고 #cases(폼 뒤)로 — 히어로에는 숫자 근거가 없다
     expect(hero.locator('.ledger-card')).to_have_count(0)
     expect(hero).not_to_contain_text('성과 보수')
-    expect(page.locator('#cases .case-proof')).to_contain_text('받은 사례')
+    expect(page.locator('#cases .case-proof')).to_contain_text('실행사례')
     # 비용 구조 설명은 FAQ 비용 답·llms 에만 — 진단 섹션은 '진단은 무료입니다.'까지(대표 결정 2026-09-28)
     expect(page.locator('#diagnosis')).to_contain_text('진단은 무료입니다')
     expect(page.locator('#diagnosis')).not_to_contain_text('성과 보수')
