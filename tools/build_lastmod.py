@@ -213,13 +213,23 @@ NAV_ABOUT = '<a href="/#about">회사소개</a>'
 def stamp_nav(s):
     """자금 안내 드롭다운을 한 벌로 맞춘다(2026-11-14 대표 "자금안내 순서가 안 맞는다") — 빌더마다 복사본이 달라 여기서 통일."""
     s = _NAV_RE.sub(lambda m: NAV_MENU, s, count=1)
-    # 자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸에 따로 둔다(2026-11-19 대표 "메뉴에서도 쉽게 보이게")
-    if NAV_CHECK not in s:
-        s = s.replace(NAV_FIRST, NAV_FIRST + NAV_CHECK, 1)
-    # 회사소개는 메뉴 맨 앞(2026-11-25 대표 "맨 위 메뉴에서도 회사소개가 가장 앞으로") — 자가진단보다 앞에 둔다
-    if NAV_ABOUT in s and NAV_FIRST + NAV_ABOUT not in s:
-        s = s.replace(NAV_ABOUT, '', 1).replace(NAV_FIRST, NAV_FIRST + NAV_ABOUT, 1)
-    return s
+    # 메뉴 순서(2026-11-25 대표 "자가진단은 맨 오른쪽 전화번호 옆으로, 회사소개 → 자금 안내 → 나머지 그대로"):
+    # 회사소개 · 자금 안내(드롭다운) · 소상공인 · 중소기업 · 받은 사례 · 기업인증 … · 1분 자가진단 [· 무료 진단 신청(홈 펼침 메뉴)]
+    # 자가진단은 드롭다운 안에 넣지 않고 메뉴 끝(전화번호 바로 앞)에 테두리 칸으로 둔다.
+    m = re.search(re.escape(NAV_FIRST) + r'(.*?)</nav>', s, re.S)
+    if not m:
+        return s
+    inner = m.group(1)
+    drop = re.search(r'<details\b.*?</details>', inner, re.S)
+    book = re.search(r'<a class="nav-book"[^>]*>.*?</a>', inner, re.S)
+    had_about = NAV_ABOUT in inner
+    rest = inner.replace(NAV_CHECK, '').replace(NAV_ABOUT, '')
+    for part in (drop, book):
+        if part:
+            rest = rest.replace(part.group(0), '', 1)
+    ordered = ((NAV_ABOUT if had_about else '') + (drop.group(0) if drop else '') + rest + NAV_CHECK
+               + (book.group(0) if book else ''))
+    return s[:m.start(1)] + ordered + s[m.end(1):]
 
 
 # 푸터 둘째 줄 — 구글이 한 번도 안 읽은 쪽(업종 랜딩 10장·기업인증 3장, 서치콘솔 2026-11-22)으로 가는 길을 전 페이지에 둔다.
