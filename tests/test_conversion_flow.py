@@ -36,11 +36,11 @@ def test_budget_exhaustion_cannot_be_inferred_from_calendar():
 
 
 # ── CTA 문구·색 통일 (규격 4절, 2026-09-28 대표 지시) ──────────────────────
-# 신청 CTA 는 전 사이트 "무료 진단 신청"·브랜드 블루 하나로 맞춘다. 카카오 옐로는 실제
+# 신청 CTA 는 전 사이트 "상담 신청"·브랜드 블루 하나로 맞춘다. 카카오 옐로는 실제
 # 카카오 이동 버튼에만 남긴다. 54곳·49곳으로 흩어져 있던 문구가 다시 갈라지는 것을 막는다.
 # '무료 상담 신청하기' — 홈 폼 제출 버튼(허브 2장이 복사, 4분기 페이지가 정적 복사)에 남아 있었다.
 # 9/28 통일 때 이 목록이 옛 헤더·고정바 문구 둘만 담아 제출 버튼 문구를 검사하지 못했다.
-RETIRED_CTA = ['내 조건 무료 상담 신청', '무료 진단 예약하기', '무료 상담 신청하기']
+RETIRED_CTA = ['내 조건 무료 상담 신청', '무료 진단 예약하기', '무료 진단 신청', '무료 상담 신청하기']   # 2026-11-25: 신청 CTA 는 '상담 신청' 하나
 
 
 def test_no_retired_cta_wording_anywhere():
@@ -53,7 +53,7 @@ def test_no_retired_cta_wording_anywhere():
         # 2026-10-05 carousel 본문 CTA는 최신 규격의 명시적 예외다.
         # 정확한 링크만 제외하며 그 밖의 위치에는 이전 금칙 검사를 유지한다.
         if 'data-blog-carousel="true"' in body or path == ROOT / 'tools/build_blog.py':
-            body = body.replace('<p class="blog-cta"><a href="/#apply">무료 진단 예약하기</a></p>', '')
+            body = body.replace('<p class="blog-cta"><a href="/#apply">상담 신청</a></p>', '')
         for bad in RETIRED_CTA:
             if bad in body:
                 hits.append(f'{path.name}: {bad}')
@@ -62,8 +62,8 @@ def test_no_retired_cta_wording_anywhere():
 
 def test_header_and_sticky_cta_say_free_diagnosis():
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
-    assert '<a class="nav-cta nav-cta-book" href="#apply" data-cta-location="header">무료 진단 신청</a>' in home
-    assert '<a class="sc-apply" href="#apply" data-cta-location="mobile_sticky">무료 진단 신청</a>' in home
+    assert '<a class="nav-cta nav-cta-book" href="#apply" data-cta-location="header">상담 신청</a>' in home
+    assert '<a class="sc-apply" href="#apply" data-cta-location="mobile_sticky">상담 신청</a>' in home
 
 
 def test_form_success_message_matches_standard():
@@ -100,7 +100,7 @@ def test_forms_carry_no_fee_notice_but_home_faq_does():
         page = path.read_text(encoding='utf-8')
         form = _form(page)
         assert not fee.search(form), f'{path.name}: 신청 폼에 비용 고지가 남아 있다'
-        label = '창업 비교 상담 신청' if 'data-service="startup"' in page else '무료 진단 신청'
+        label = '창업 비교 상담 신청' if 'data-service="startup"' in page else '상담 신청'
         assert _re.search(r'<button type="submit"[^>]*>' + label + r'</button>', form), path.name
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
     form = _form(home)

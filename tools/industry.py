@@ -158,7 +158,7 @@ def landing_html(ind, rows, all_n, period):
     <div class="cta-box">
       <h3 class="serif">우리 {ind.get('place', '회사')}도 되는지</h3>
       <p>무료로 먼저 봐드립니다.</p>
-      <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry">무료 진단 신청 →</a></div>
+      <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry">상담 신청</a></div>
     </div>
     <p class="related">다른 업종: {other_links} · <a href="/industry">업종별 정책자금 전체</a> · <a href="/cases">받은 사례 전체</a></p>
   </div>
@@ -240,7 +240,7 @@ def hub_html(groups, all_n, period):
 
     <h2>정책자금 지원제외 업종</h2>
     <p>정책자금은 대부분의 업종이 신청할 수 있지만, 기관마다 융자에서 빼는 업종을 공고에 따로 적어 둡니다. 유흥주점, 사행성 업종, 부동산 임대업처럼 제외 업종 목록에 든 업종은 신청 단계에서 걸립니다.</p>
-    <p>목록은 해마다 소진공·중진공의 융자계획 공고에 실리고 기관마다 조금씩 다릅니다. 같은 사업자라도 사업자등록증의 업태·종목과 실제 영업 내용에 따라 달리 보는 경우가 있어, 애매하면 공고의 제외 업종 표와 업종 코드를 대조해 봐야 합니다. <a href="/jagajindan">1분 자가진단</a>에서 업종을 포함한 일곱 가지를 먼저 살펴볼 수 있습니다.</p>
+    <p>목록은 해마다 소진공·중진공의 융자계획 공고에 실리고 기관마다 조금씩 다릅니다. 같은 사업자라도 사업자등록증의 업태·종목과 실제 영업 내용에 따라 달리 보는 경우가 있어, 애매하면 공고의 제외 업종 표와 업종 코드를 대조해 봐야 합니다. <a href="/jagajindan">정책자금 자가진단</a>에서 업종을 포함한 일곱 가지를 먼저 살펴볼 수 있습니다.</p>
 
     <h2>표에 없는 업종이라면</h2>
     <p>받은 사례가 10건 넘게 모인 업종만 따로 열었습니다. 표에 없는 업종도 <a href="/cases">받은 사례 전체</a>에서 업종 이름으로 찾아볼 수 있고, 사업자 형태로 보려면 <a href="/gaein">개인사업자</a>·<a href="/beobin">법인사업자</a> 안내가 빠릅니다.</p>
@@ -250,7 +250,7 @@ def hub_html(groups, all_n, period):
     <div class="cta-box">
       <h3 class="serif">우리 업종도 되는지</h3>
       <p>무료로 먼저 봐드립니다.</p>
-      <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry_hub">무료 진단 신청 →</a></div>
+      <div class="cta-one"><a class="btn" href="/#apply" data-cta-location="industry_hub">상담 신청</a></div>
     </div>
     <p class="related"><a href="/sosangin">소상공인 정책자금 컨설팅</a> · <a href="/jungsogieop">중소기업 정책자금 컨설팅</a> · <a href="/region">지역별 창구</a> · <a href="/schedule">접수 일정</a></p>
   </div>

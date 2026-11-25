@@ -86,7 +86,7 @@ def test_no_other_page_gained_a_form():
 def test_form_fields_and_wording():
     s = (ROOT / "cheongnyeon.html").read_text(encoding="utf-8")
     assert "이 자금, 우리 회사도 되는지 무료로 확인" in s
-    assert "무료 진단 신청" in s
+    assert "상담 신청" in s
     for label in ("개인사업자", "법인사업자", "창업 예정"):
         assert f'class="biz-opt" aria-pressed="false">{label}<' in s, label
     for fid in ("lf-name", "lf-phone", "lf-consent", "lf-website", "lf-page", "lf-service"):
@@ -348,7 +348,7 @@ def test_missing_required_field_shows_contact_fallback_and_reports_form_error(br
     assert len(r["errors"]) == 1, r["errors"]
     assert r["errors"][0]["page_path"] == "/cheongnyeon.html"
     assert "lf-phone" in r["errors"][0]["error_message"]
-    assert r["button"] == [False, "무료 진단 신청"], "버튼이 '전송 중' 에 묶였다"
+    assert r["button"] == [False, "상담 신청"], "버튼이 '전송 중' 에 묶였다"
 
 
 def test_unexpected_runtime_error_is_caught_too(browser, site):

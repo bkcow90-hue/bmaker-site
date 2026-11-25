@@ -80,7 +80,7 @@ def render_home_case_cards(rows):
             f'<p class="case-date">{date} 실행 · 당시 개별 심사 결과</p>'
             # 원장 '한 줄 메모'가 있을 때만 한 줄 — 없으면 카드가 한 글자도 바뀌지 않는다(규격 4-1, 2026-11-02)
             + (f'<p class="case-memo">검토 포인트: {e("한 줄 메모")}</p>' if str(r.get('한 줄 메모', '') or '').strip() else '')
-            + f'<a href="/cases#case-{key}">이 사례 자세히 보기 →</a></article>'
+            + f'<a href="/cases#case-{key}">이 사례 자세히 보기</a></article>'
         )
     return '\n'.join(cards)
 

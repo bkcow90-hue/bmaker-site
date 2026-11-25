@@ -27,7 +27,7 @@ def render_programs(programs, table=False):
             parts.append(f'<tr><td>{title}<br>{audience}</td><td>{course["minutes"]}분</td><td>{takeaway}</td></tr>')
         else:
             steps = ''.join(f'<li>{minutes}분 — {html.escape(text)}</li>' for minutes, text in course['steps'])
-            parts.append(f'<article class="card" id="course-{html.escape(course["id"], quote=True)}"><span class="edu-tag">{course["minutes"]}분 · 기본 구성</span><h3>{title}</h3><p><b>대상</b> {audience}</p><ol>{steps}</ol><p><b>가져갈 것</b><br>{takeaway}</p><a href="/?service=education#apply" data-cta-location="education_{html.escape(course["id"], quote=True)}">이 과정 문의하기 →</a></article>')
+            parts.append(f'<article class="card" id="course-{html.escape(course["id"], quote=True)}"><span class="edu-tag">{course["minutes"]}분 · 기본 구성</span><h3>{title}</h3><p><b>대상</b> {audience}</p><ol>{steps}</ol><p><b>가져갈 것</b><br>{takeaway}</p><a href="/?service=education#apply" data-cta-location="education_{html.escape(course["id"], quote=True)}">이 과정 문의하기</a></article>')
     return ''.join(parts)
 
 

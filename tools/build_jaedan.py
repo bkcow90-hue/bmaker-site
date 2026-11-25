@@ -196,7 +196,7 @@ def render_regions(rows):
         if d.get('source_url') and d.get('confirmed_at'):
             li.append(f'<li class="asof">확인일 {esc(d["confirmed_at"])} · <a href="{esc(d["source_url"])}" target="_blank" rel="noopener">재단 공식 안내</a></li>')
         if is_live(d):
-            li.append(f'<li><a href="/{d["재단ID"]}">{esc(d["지역(시도)"])} 재단 상세 안내와 받은 사례 {len(C)}건 →</a></li>')
+            li.append(f'<li><a href="/{d["재단ID"]}">{esc(d["지역(시도)"])} 재단 상세 안내와 받은 사례 {len(C)}건</a></li>')
         elif C:
             # 퇴역 지역은 링크 없이 건수만(상세 페이지는 사례 3건 이상일 때만 둔다)
             li.append(f'<li>공개 원장 사례 {len(C)}건</li>')
@@ -288,7 +288,7 @@ def build():
     <p>재단 심사와 은행 심사는 따로라서 보증이 나와도 은행 단계에서 금리·기간이 달라질 수 있습니다. 공통 절차는 <a href="/jaedan">신용보증재단 사업자대출 안내</a>, 신보·기보와의 차이는 <a href="/bojeung">보증서 대출 안내</a>, 미리 볼 거절 사유는 <a href="/geojeol">신청 전 확인 사항</a>에 있습니다.</p>
     {meas}
 {cities_html.rstrip()}
-    <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
+    <div class="cta-inline"><p><b>이 지역 재단 대출, 내 조건에 되는지</b> — 업종·매출·신용·이력만 주시면 방향을 잡아드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p><a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a><a class="tel" href="tel:1666-2425">전화 1666-2425</a></div>
     <div class="proof"><p><b>과거 사례는 현재 심사 결과와 다릅니다.</b> 기존 보증과 현재 사업 현황, 해당 상품의 요건을 확인해야 합니다. <a href="/geojeol">신청 전 확인할 사유와 준비 순서</a>를 참고하세요.</p></div>
     <div class="callout"><p>보증부 대출은 대출이며 상환 의무가 있습니다. 보증·대출 승인 여부와 조건은 재단과 은행이 결정하고, 비즈니스 메이커는 특정 결과를 보장하지 않습니다. {FEE}</p></div>
     <h2>자주 묻는 질문</h2>
@@ -304,8 +304,8 @@ def build():
     <div class="cta-box">
       <h3 class="serif">{esc(d['지역(시도)'])} 사업장, 내 조건이면 되는지</h3>
       <p>업종·매출·신용·이력을 주시면 재단 트랙 가능성과 예상 구조를 무료로 진단해 드립니다. 가능성이 낮으면 낮다고 먼저 말씀드립니다.</p>
-      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">무료 진단 신청</a>
-      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 무료 진단</a>
+      <a class="btn btn-apply" href="#apply" data-cta-location="article_end">상담 신청</a>
+      <a class="btn btn-kakao" href="https://pf.kakao.com/_GKuxfn/chat" target="_blank" rel="noopener">카카오톡 상담</a>
       <a class="btn btn-tel" href="tel:1666-2425">전화 1666-2425</a>
     </div>
   </div>

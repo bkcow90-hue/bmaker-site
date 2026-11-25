@@ -305,7 +305,7 @@ def test_top_menu_first_item_on_every_page():
     """메뉴 순서: 회사소개 → 자금 안내 → (나머지 그대로) → 1분 자가진단이 맨 오른쪽, 전화번호 옆(2026-11-25 대표 지시). 자가진단은 드롭다운 안에 넣지 않는다(2026-11-19)."""
     import re
     head = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a href="/#about">회사소개</a><details'
-    check = '<a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+    check = '<a class="nav-check" href="/jagajindan">정책자금 자가진단</a>'
     for name in ("index.html", "sosangin.html", "cases.html", "blog.html", "jagajindan.html", "region/index.html" if (ROOT / "region/index.html").exists() else "region.html"):
         text = (ROOT / name).read_text(encoding="utf-8")
         assert text.count(head) == 1, name

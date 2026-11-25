@@ -68,7 +68,7 @@ def hero_content(h1_html, lead_html, cfg, service='policy'):
     <div class="sc-lead">{lead_html}</div>
   </div><aside class="sc-consult" aria-label="상담에서 확인할 내용">
     <h2>상담에서 함께 확인합니다</h2><ul>{checks}</ul>
-    <a class="btn sc-apply" id="heroCta" href="#apply" data-cta-location="hero" data-consultation-service="{service}">무료 진단 신청</a>
+    <a class="btn sc-apply" id="heroCta" href="#apply" data-cta-location="hero" data-consultation-service="{service}">상담 신청</a>
     <p class="sc-small">비즈니스 메이커 상담 신청 · 처음에는 서류 첨부 없이</p>
   </aside></div>
   <nav class="sc-jumps" aria-label="페이지 안내"><a href="#sc-service">맡길 수 있는 업무</a><a href="#sc-guide">상세 안내와 근거</a><a href="/#about">담당자 소개</a></nav>'''

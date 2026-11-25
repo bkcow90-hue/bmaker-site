@@ -22,7 +22,7 @@ import html
 
 TITLE = '이 자금, 우리 회사도 되는지 무료로 확인'
 TITLE_GENERAL = '우리 회사도 되는지 무료로 확인'   # 자금 하나가 아닌 페이지(허브·4분기)
-BUTTON = '무료 진단 신청'   # 전 사이트 통일 (규격 4절, 2026-09-28)
+BUTTON = '상담 신청'   # 전 사이트 통일 (규격 4절, 2026-09-28)
 # 제목 아래 '진단에서 돌려드리는 것' 4항목 — 홈 폼과 같은 문장(규격 4-1 6항, 2026-11-02)
 RETURNS = ('신청해 볼 기관·자금 후보', '지금 부족한 요건', '준비 순서와 서류', '진행이 어렵다면 그 이유')
 SUB = '연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.'
@@ -81,7 +81,7 @@ def form_html(page_path, page_label, title=TITLE, service='policy', returns=True
         '<button type="button" class="biz-opt" aria-pressed="false">%s</button>' % e(label)
         for label, _ in BIZ_TYPES)
     markup = (
- '<section id="apply" class="inline-diag" aria-label="무료 진단 예약">\n'
+ '<section id="apply" class="inline-diag" aria-label="상담 신청">\n'
  '  <form id="leadForm" aria-labelledby="inline-diag-title">\n'
  '    <h2 id="inline-diag-title" class="serif">%s</h2>\n' % e(title) +
  # 비용·성과 보수 고지는 폼에 두지 않는다 — 각 페이지 본문·FAQ가 맡는다(규격 4절, 2026-09-28)
@@ -124,7 +124,7 @@ def form_html(page_path, page_label, title=TITLE, service='policy', returns=True
     markup = markup.replace('@@INTRO@@', intro, 1)
     if service == 'startup':
         markup = markup.replace('name="consultation_service" value="policy"', 'name="consultation_service" value="startup"')
-        markup = markup.replace('무료 진단 예약', '창업 상담 예약').replace('무료 진단 신청', '창업 비교 상담 신청')
+        markup = markup.replace('무료 진단 예약', '창업 상담 예약').replace('상담 신청', '창업 비교 상담 신청')
         markup = markup.replace('연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.', '연락처를 남겨주시면 희망 지역·예산과 창업 준비 상황을 확인합니다.')
         markup = markup.replace('승인 여부와 조건은 각 심사 기관이 결정합니다.', '구체적인 제공 업무는 상담 후 정합니다.')
     return markup
