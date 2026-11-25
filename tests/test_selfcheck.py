@@ -302,8 +302,8 @@ def test_review_sheet_fills_and_result_is_an_itemised_report(browser_page, site)
 
 
 def test_top_menu_first_item_on_every_page():
-    """자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸(2026-11-19 대표 "메뉴에서도 쉽게 보이게")."""
-    first = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+    """메뉴 맨 앞은 회사소개, 바로 다음이 자가진단(2026-11-25 대표 "회사소개가 가장 앞으로"). 자가진단은 드롭다운 안에 넣지 않는다(2026-11-19)."""
+    first = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴"><a href="/#about">회사소개</a><a class="nav-check" href="/jagajindan">1분 자가진단</a>'
     for name in ("index.html", "sosangin.html", "cases.html", "blog.html", "jagajindan.html", "region/index.html" if (ROOT / "region/index.html").exists() else "region.html"):
         text = (ROOT / name).read_text(encoding="utf-8")
         assert text.count(first) == 1, name

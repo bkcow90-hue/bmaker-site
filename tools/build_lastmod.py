@@ -207,6 +207,7 @@ _NAV_RE = re.compile(r'<div class="nav-drop-menu">.*?</div></details>', re.S)
 
 NAV_FIRST = '<nav class="nav-links" id="navLinks" aria-label="주요 메뉴">'
 NAV_CHECK = '<a class="nav-check" href="/jagajindan">1분 자가진단</a>'
+NAV_ABOUT = '<a href="/#about">회사소개</a>'
 
 
 def stamp_nav(s):
@@ -215,6 +216,9 @@ def stamp_nav(s):
     # 자가진단은 드롭다운 안이 아니라 상단 메뉴 첫 칸에 따로 둔다(2026-11-19 대표 "메뉴에서도 쉽게 보이게")
     if NAV_CHECK not in s:
         s = s.replace(NAV_FIRST, NAV_FIRST + NAV_CHECK, 1)
+    # 회사소개는 메뉴 맨 앞(2026-11-25 대표 "맨 위 메뉴에서도 회사소개가 가장 앞으로") — 자가진단보다 앞에 둔다
+    if NAV_ABOUT in s and NAV_FIRST + NAV_ABOUT not in s:
+        s = s.replace(NAV_ABOUT, '', 1).replace(NAV_FIRST, NAV_FIRST + NAV_ABOUT, 1)
     return s
 
 
