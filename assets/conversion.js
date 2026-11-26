@@ -579,12 +579,13 @@
     sec.querySelectorAll('.card, .stat, .svc, .exp, details').forEach(add);
   });
 
-  // 표: 본문 20행 이하만 행 단위 순차, 그 이상은 표 컨테이너 단위
+  // 표: 본문 20행 이하만 행 단위 순차
   document.querySelectorAll('table').forEach(function (tb) {
     if (excluded(tb)) return;
     var rows = tb.querySelectorAll('tbody tr');
     if (rows.length && rows.length <= 20) rows.forEach(add);
-    else add(tb);
+    // 20행 넘는 표는 등장 효과를 걸지 않는다 — 화면보다 훨씬 긴 표는 '10% 보임' 기준을 영영 못 채워
+    // 투명한 채로 남는다(2026-11-26 /cases 403행 표가 빈 상자로 보임).
   });
 
   if (!targets.length) return;
@@ -600,7 +601,7 @@
   var vh = window.innerHeight || document.documentElement.clientHeight;
   var groups = new Map();
   var below = [];
-  targets.forEach(function (el) { if (el.getBoundingClientRect().top >= vh) below.push(el); }); // 읽기 일괄
+  targets.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top >= vh && r.height <= vh * 0.9) below.push(el); }); // 읽기 일괄 · 화면보다 큰 요소는 숨기지 않는다
   below.forEach(function (el) {
     // 이미 화면 안이면 숨기지 않는다 — defer 실행이라 깜빡임이 생기기 때문 (위에서 걸러짐)
     var parent = el.parentElement;
