@@ -190,24 +190,40 @@ html body section.hero:not(.hero-cinematic)::after{display:none!important;conten
 #top .diagnosis .wn::before{content:none!important;display:none!important}
 html body :is(.sc-consult,.jd-consult)::before{display:none!important;content:none!important;background-image:none!important}
 @media(max-width:959px){html body section.hero:not(.hero-cinematic){padding-bottom:48px!important}}
-/* 협력 전문가 카드(PC) — 가로형 한 장씩 두 줄 (2026-11-26 대표) */
+/* 사람 카드(대표·이사·협력 전문가) — 사진과 글 높이를 맞춘다 (2026-11-26 대표: 글이 사진보다 튀어나오면 안 됨) */
 @media(min-width:1000px){
 #top .experts>.wrap{display:block!important}
-#top .experts>.wrap>article.person.partner{display:grid!important;grid-template-columns:150px minmax(0,1fr)!important;column-gap:36px!important;align-items:start;padding:32px 36px!important;margin:0 0 20px!important}
-#top .experts article.partner .person-body{display:grid!important;grid-template-columns:minmax(0,270px) minmax(0,1fr);column-gap:36px;align-items:start;max-width:none!important;width:100%}
-#top .experts article.partner .person-photo{width:150px!important;margin:0!important;border:0!important}
-#top .experts article.partner .person-photo img{width:150px!important;height:190px!important;object-fit:cover;object-position:50% 12%}
-#top .experts article.partner :is(.person-role,.person-name,.person-org,.person-quote){grid-column:1}
-#top .experts article.partner .person-role{margin:4px 0 8px!important}
-#top .experts article.partner .person-name{margin:0 0 6px!important;font-size:28px}
-#top .experts article.partner .person-org{margin:0!important}
-#top .experts article.partner .person-quote{max-width:none!important;margin:20px 0 0!important;padding:0 0 0 16px!important;word-break:keep-all;font-size:17px!important;line-height:1.7!important;border-left:2px solid #234780}
-#top .experts article.partner .person-cols{grid-column:2;grid-row:1/span 4;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;max-width:none!important;width:100%;margin:4px 0 0!important}
-#top .experts article.partner .person-cols>div{display:block!important;padding:0!important;border:0!important}
-#top .experts article.partner .person-cols h4{margin:0 0 12px!important;padding:0 0 10px!important;border:0!important;border-bottom:2px solid #10213D!important}
-#top .experts article.partner .person-cols ul{display:block;margin:0!important;padding:0!important;list-style:none}
-#top .experts article.partner .person-cols li{margin:0 0 8px!important;padding:0!important;font-size:16px!important;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
-#top .experts article.partner .person-cols li::before,#top .experts article.partner .person-cols li::after{content:none!important}
+#top :is(.team-list,.experts) article.person{display:grid!important;grid-template-columns:170px minmax(0,1fr)!important;column-gap:36px!important;align-items:stretch!important;padding:32px 36px!important;margin:0 0 20px!important}
+#top :is(.team-list,.experts) article.person .person-photo{position:relative;width:170px!important;min-height:210px;height:auto!important;margin:0!important;padding:0!important;border:0!important;align-self:stretch!important;overflow:hidden}
+#top :is(.team-list,.experts) article.person .person-photo img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover;object-position:50% 10%}
+#top :is(.team-list,.experts) article.person .person-body{display:grid!important;grid-template-columns:236px minmax(0,1fr)!important;grid-template-rows:repeat(6,min-content) 1fr;column-gap:32px;align-items:start;max-width:none!important;width:100%;padding:0!important;margin:0!important}
+#top :is(.team-list,.experts) article.person .person-body>*{grid-column:1;min-width:0;max-width:none!important}
+#top :is(.team-list,.experts) article.person .person-role{margin:2px 0 8px!important}
+#top :is(.team-list,.experts) article.person .person-name{margin:0 0 6px!important;font-size:28px}
+#top :is(.team-list,.experts) article.person .person-org{margin:0!important}
+#top :is(.team-list,.experts) article.person .person-quote{margin:18px 0 0!important;padding:0 0 0 16px!important;word-break:keep-all;font-size:17px!important;line-height:1.7!important;border-left:2px solid #234780}
+#top :is(.team-list,.experts) article.person .person-body>p:not([class]){margin:14px 0 0!important}
+#top :is(.team-list,.experts) article.person .person-cols{grid-column:2!important;grid-row:1/8;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;justify-self:stretch!important;width:100%;margin:2px 0 0!important;padding:0!important}
+#top :is(.team-list,.experts) article.person .person-cols>div{display:block!important;padding:0!important;border:0!important;min-width:0}
+#top :is(.team-list,.experts) article.person .person-cols :is(h4,.ceo-credentials>p){margin:0 0 12px!important;padding:0 0 10px!important;border:0!important;border-bottom:2px solid #10213D!important;font-size:15px!important;font-weight:700;color:#10213D}
+#top :is(.team-list,.experts) article.person .person-cols .ceo-credentials>p span{display:none}
+#top :is(.team-list,.experts) article.person .person-cols ul{display:block;margin:0!important;padding:0!important;list-style:none}
+#top :is(.team-list,.experts) article.person .person-cols li{margin:0 0 8px!important;padding:0!important;font-size:16px!important;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+#top :is(.team-list,.experts) article.person .person-cols li::before,#top :is(.team-list,.experts) article.person .person-cols li::after{content:none!important}
+#top :is(.team-list,.experts) article.person .person-next{grid-column:1/-1!important;grid-row:8;margin:22px 0 0!important;padding:14px 0 0!important;border-top:1px solid #DCE1E8;font-size:15px!important;line-height:1.6!important}
 }
-@media(min-width:1000px){#top .experts article.partner .person-cols{justify-self:stretch!important;padding:0!important;min-width:0}#top .experts article.partner .person-body>*{min-width:0}#top .experts article.partner .person-body{grid-template-columns:270px minmax(0,1fr)!important}}
-@media(min-width:1000px){#top .experts article.partner .person-body{padding:0!important;margin:0!important}}
+@media(max-width:999px){
+#top :is(.team-list,.experts) article.person{display:block!important;padding:22px 20px!important;overflow:hidden}
+#top :is(.team-list,.experts) article.person .person-photo{float:left;width:92px!important;height:116px!important;margin:0 16px 0 0!important;padding:0!important;border:0!important;overflow:hidden}
+#top :is(.team-list,.experts) article.person .person-photo img{width:100%!important;height:100%!important;object-fit:cover;object-position:50% 10%;display:block}
+#top :is(.team-list,.experts) article.person .person-body{display:block!important;padding:0!important;margin:0!important;min-height:116px}
+#top :is(.team-list,.experts) article.person .person-role{margin:0!important;padding-top:14px}
+#top :is(.team-list,.experts) article.person .person-name{margin:4px 0 2px!important;font-size:24px}
+#top :is(.team-list,.experts) article.person .person-org{margin:0!important}
+#top :is(.team-list,.experts) article.person .person-quote{clear:left;margin:0!important;padding:18px 0 0!important;border:0!important;font-size:17px!important;line-height:1.7!important;word-break:keep-all}
+#top :is(.team-list,.experts) article.person .person-body>p:not([class]){clear:left;margin:10px 0 0!important}
+#top :is(.team-list,.experts) article.person .person-next{clear:left;margin:12px 0 0!important;padding-top:12px;border-top:1px solid #DCE1E8;font-size:15px!important}
+#top :is(.team-list,.experts) article.person .person-cols{clear:left}
+#top :is(.team-list,.experts) article.person+article.person{margin-top:14px!important}
+}
+#top .experts article.person.partner+article.person.partner{margin-top:20px!important}
