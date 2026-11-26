@@ -17,7 +17,7 @@
  },
  "blog.html": {
   "date": "2026-11-27",
-  "hash": "f708bff471fc0352034669d4f518f133203053be986df2b977fbe8064fe7afa0"
+  "hash": "269e1dc7cd53e3a90dbf4d4f3ab1d46804da4c2939d2bac504870cfb224480cc"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-25",
@@ -65,7 +65,7 @@
  },
  "blog/category/guide.html": {
   "date": "2026-11-27",
-  "hash": "8442d780106765ae7869c60f8a1cf1d2fde3d2758a64b3f2039908a93a8abfcb"
+  "hash": "1dcf8077363b070b46c343f74bcccdf6bb413d63b9097e076ef62f698c0a87ed"
  },
  "blog/category/news.html": {
   "date": "2026-11-25",
@@ -243,6 +243,10 @@
   "date": "2026-11-25",
   "hash": "602c51e7d98457b2eddea26a7b6aa8535215fcd13b1508140223e76350747196"
  },
+ "blog/sosangin-revenue-criteria-by-industry.html": {
+  "date": "2026-11-27",
+  "hash": "17efec1809647bab8691cbada373917df82a601ac6b9d288fe359b1c9682e7d6"
+ },
  "blog/startup-location-analysis.html": {
   "date": "2026-11-25",
   "hash": "afcbb1387167dc09c46e47f43da183de5f83c725d8876a0fba1cd2405c689578"
@@ -281,7 +285,7 @@
  },
  "business-guide.html": {
   "date": "2026-11-27",
-  "hash": "91a775d1bca24dfc46890e3f6eb451f61a8da03ef3414df38d59dc921fa46d17"
+  "hash": "1d59f6e6de2e205f165f30bb92a418098c6f1f3118ceb2e5c1608f14338b0991"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -405,7 +409,7 @@
  },
  "index.html": {
   "date": "2026-11-27",
-  "hash": "77889f2d7252db039843c7264ff3cda06c8400982f9855725f1f045a6d506200"
+  "hash": "33062a0bb46f3c22e5f7a2c43563a487741e14c83fe0bd98516d1b684bd6285d"
  },
  "industry.html": {
   "date": "2026-11-25",

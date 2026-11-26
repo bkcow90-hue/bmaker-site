@@ -34,7 +34,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 
 | # | 제목(안) | 분류 | 연결할 페이지 | 상태 |
 |---|---|---|---|---|
-| T1 | 소상공인 기준 매출액, 우리 가게는 업종별로 어디까지 해당하나요? | guide | /sosangin-gijun · /sosangin | 대기 |
+| T1 | 소상공인 기준 매출액, 우리 가게는 업종별로 어디까지 해당하나요? | guide | /sosangin-gijun · /sosangin | 발행 2026-11-27 |
 | T2 | 상시근로자 수 계산 방법, 소상공인 판정에서는 누구를 세나요? | guide | /sosangin-gijun · /jagajindan | 대기 |
 | T3 | 소상공인 기준, 법인도 소상공인이 될 수 있나요? | guide | /sosangin-gijun · /beobin | 대기 |
 | T4 | 중소기업 기준 직원 수와 매출액, 우리 회사는 소기업인가요 중기업인가요? | guide | /jungsogieop-gijun · /jungsogieop | 대기 |
