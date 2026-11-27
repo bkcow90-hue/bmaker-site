@@ -85,7 +85,7 @@ def test_no_other_page_gained_a_form():
 
 def test_form_fields_and_wording():
     s = (ROOT / "cheongnyeon.html").read_text(encoding="utf-8")
-    assert "이 자금, 우리 회사도 되는지 무료로 확인" in s
+    assert "이 자금, 무료 초기 상담 신청" in s
     assert "상담 신청" in s
     for label in ("개인사업자", "법인사업자", "창업 예정"):
         assert f'class="biz-opt" aria-pressed="false">{label}<' in s, label

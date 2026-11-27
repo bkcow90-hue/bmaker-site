@@ -100,11 +100,11 @@ def test_stamp_org_drops_same_as_when_brand_list_is_empty():
 def test_inline_form_lists_four_returns_under_title():
     html = inline_form.form_html('/x', 'X')
     items = re.findall(r'<li>(.*?)</li>', html)
-    assert items == ['신청해 볼 기관·자금 후보', '지금 부족한 요건', '준비 순서와 서류', '진행이 어렵다면 그 이유']
-    assert html.index('inline-diag-title') < html.index('진단에서 돌려드리는 것') < html.index('lf-website')
+    assert items == ['신청해 볼 만한 자금이 있는지', '지금 부족한 요건', '진행이 어렵다면 그 이유']   # 2026-11-27: 무료인 것은 초기 상담 — 기관 추천·서류 준비 순서는 뺀다
+    assert html.index('inline-diag-title') < html.index('초기 상담에서 안내하는 것') < html.index('lf-website')
     assert '<p class="sub">' not in html and not re.search(r'착수금|성공보수|진행비', html)
-    assert '진단에서 돌려드리는 것' not in inline_form.form_html('/startup', 'S', service='startup')
-    assert '진단에서 돌려드리는 것' not in inline_form.form_html('/jaedan', 'J', returns=False)
+    assert '초기 상담에서 안내하는 것' not in inline_form.form_html('/startup', 'S', service='startup')
+    assert '초기 상담에서 안내하는 것' not in inline_form.form_html('/jaedan', 'J', returns=False)
 
 
 def test_builder_sentences_read_as_people_wrote_them():
