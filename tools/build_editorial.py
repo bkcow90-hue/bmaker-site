@@ -130,7 +130,7 @@ def main():
                 # 대표 소개(2026-11-25 디자인): H1 은 위젯(tools/widgets/daepyo-profile.html)이 사진 옆에 직접 낸다. 원고 첫 줄은 제목 값으로만 쓴다.
                 article = '<article class="editorial-copy editorial-standalone dp-page">' + render(item['body'].split('\n\n', 1)[1]) + '</article>'
             else:
-                article = '<article class="editorial-copy editorial-standalone">' + render(item['body']) + '</article>'
+                article = '<article class="editorial-copy editorial-standalone' + (' price-page' if item.get('offers') else '') + '">' + render(item['body']) + '</article>'
             if item in GROWTH and item['service'] in ('policy', 'certification') and not item.get('official_contact'):
                 # 2026-11-10 CRO: 검색으로 들어온 가이드 독자가 다른 페이지로 넘어가지 않고 신청하게(인증 가이드는 문의 분야 certification)
                 article += '<style>' + FORM_CSS + '</style><div class="wrap">' + form_html('/' + item['slug'], title, title=TITLE_GENERAL, service=item['service']).replace('name="consultation_service" value="policy"', 'name="consultation_service" value="' + item['service'] + '"') + '</div>'
@@ -150,6 +150,16 @@ def main():
                                 'dateModified': str(build_date()),
                                 'author': {'@type': 'Organization', 'name': '비즈니스 메이커', '@id': 'https://bmaker.kr/#org'},
                                 'publisher': {'@type': 'Organization', 'name': '비즈니스 메이커', '@id': 'https://bmaker.kr/#org'}})
+            if item.get('offers'):
+                # 비용 안내(2026-11-27): 상품별 최저가를 Service + Offer 로 낸다. 금액은 부가세 포함 최저가('~').
+                schemas.append({'@context': 'https://schema.org', '@type': 'ItemList', 'name': title,
+                                'itemListElement': [{'@type': 'ListItem', 'position': n, 'item': {
+                                    '@type': 'Service', 'name': o['name'], 'description': o['description'],
+                                    'provider': {'@id': 'https://bmaker.kr/#org'}, 'areaServed': 'KR',
+                                    'offers': {'@type': 'Offer', 'priceCurrency': 'KRW',
+                                               'priceSpecification': {'@type': 'PriceSpecification', 'minPrice': o['price'],
+                                                                      'priceCurrency': 'KRW', 'valueAddedTaxIncluded': True}}}}
+                                    for n, o in enumerate(item['offers'], 1)]})
             if item.get('profile'):
                 # 대표 소개 페이지(2026-11-25): 글이 아니라 사람 소개이므로 Article 대신 ProfilePage. 사람 정보의 원본은 홈 #founder 노드다.
                 schemas = [x for x in schemas if x.get('@type') != 'Article']

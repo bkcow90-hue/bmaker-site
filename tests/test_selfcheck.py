@@ -206,7 +206,7 @@ def test_answers_travel_with_the_lead(browser_page, site):
             ("tax", "hard"), ("overdue", "none"), ("purpose", "run"))
     expect(page.locator("#lf-memo")).to_have_value(re.compile(r"^\[자가진단\] 결과: 정리 먼저 / 형태 법인사업자, 업력 3년 이상 7년 미만, 업종 제조"))
     expect(page.locator('#lf-biztype .biz-opt[aria-pressed="true"]')).to_have_text("법인사업자")
-    expect(page.locator("#inline-diag-title")).to_have_text("이 결과로 무료 진단 받기")
+    expect(page.locator("#inline-diag-title")).to_have_text("이 결과로 무료 상담 받기")
 
     page.evaluate("document.getElementById('leadForm').scrollIntoView()")
     page.fill("#lf-name", "테스트")

@@ -263,7 +263,7 @@ def test_mid_button_only_on_long_formless_pages(browser, site):
     page.goto(file_url(site, '/jungjingong'), wait_until='load')
     assert page.locator('.mid-apply').count() == 1
     assert page.evaluate("!document.querySelector('.mid-apply').closest('details, table, #apply')")
-    assert '진단은 무료입니다.' in page.locator('.mid-apply').inner_text()
+    assert '초기 상담은 무료입니다.' in page.locator('.mid-apply').inner_text()
     for short_or_inline in ('/faq', '/jaedan-seoul', '/'):
         page.goto(file_url(site, short_or_inline), wait_until='load')
         assert page.locator('.mid-apply').count() == 0, short_or_inline

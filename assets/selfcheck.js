@@ -243,7 +243,7 @@
       ul.appendChild(li);
     });
     box.appendChild(ul);
-    box.appendChild(el('p', 'sc-r-ask-foot', '전화에서 이것만 들으면 신청해 볼 기관과 자금 후보, 준비 순서를 말씀드릴 수 있어요. 진단은 무료입니다.'));
+    box.appendChild(el('p', 'sc-r-ask-foot', '전화에서 이것만 들으면 신청해 볼 기관과 자금 후보, 준비 순서를 말씀드릴 수 있어요. 초기 상담은 무료입니다.'));
     result.appendChild(box);
 
     var go = el('a', 'sc-r-cta', '이 결과로 상담 신청');
@@ -289,7 +289,7 @@
       if (b.textContent.trim() === want && b.getAttribute('aria-pressed') !== 'true') { b.click(); autoBiz = b; }
     });
     var title = document.getElementById('inline-diag-title');
-    if (title) { if (!formTitle) formTitle = title.textContent; title.textContent = '이 결과로 무료 진단 받기'; }
+    if (title) { if (!formTitle) formTitle = title.textContent; title.textContent = '이 결과로 무료 상담 받기'; }
   }
 
   function cancelPending() {

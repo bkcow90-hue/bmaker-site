@@ -13,7 +13,7 @@ from reviewer import byline_html
 from service_consulting import STYLESHEET, hero_content, service_content, region_config
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
-FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
+FEE = '초기 상담은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
 def die(m): print(f"[재단 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
     e,man=divmod(int(m),10000)
@@ -167,7 +167,7 @@ def notice_facts(d):
 # 지역 페이지에서 뺀 공통 FAQ — /jaedan 허브에 한 번만 둔다(화면·FAQPage JSON-LD 함께)
 HUB_FAQ = [
     ('어떻게 진행되나요?', '재단 보증 심사, 보증서 발급, 은행 대출 실행의 3단계입니다. 상환은 거치 후 분할 또는 만기까지 이자만 내는 구조가 일반적이며, 상품과 공고에 따라 다릅니다.'),
-    ('무엇을 준비해야 하나요?', '사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 진단으로 확인해 드립니다, 가능성이 낮으면 낮다고 먼저 말씀드립니다.'),
+    ('무엇을 준비해야 하나요?', '사업자등록·매출 증빙·임대차계약 등 기본 서류에 더해 신청 상품의 공고 요건을 확인해야 합니다. 조건이 되는지부터 무료 상담으로 확인해 드립니다, 가능성이 낮으면 낮다고 먼저 말씀드립니다.'),
 ]
 
 def upsert_hub_faq(hub):

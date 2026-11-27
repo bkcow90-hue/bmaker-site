@@ -419,7 +419,7 @@
     }
     if (best) best.insertAdjacentHTML('beforebegin', '<div class="mid-apply">'
       + '<a class="mid-apply-btn" href="#apply" data-cta-location="mid_content">상담 신청</a>'
-      + '<p>진단은 무료입니다.</p></div>');
+      + '<p>초기 상담은 무료입니다.</p></div>');
   }
   function failure(uncertain, crashed) {
     if (!message) return;

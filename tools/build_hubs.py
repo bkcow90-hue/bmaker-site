@@ -77,7 +77,7 @@ HUBS = {
              '자금 용도와 필요한 금액에 따라 갈립니다. 직접대출과 보증부 대출은 심사 주체가 달라 같은 조건에서도 결과가 '
              '다르게 나옵니다. 진단에서 순서를 정합니다.'),
             ('비용은 어떻게 되나요?',
-             '진단은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다.'),
+             '초기 상담은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다.'),
             ('직접 신청해도 되나요?',
              '됩니다. 기관 공식 경로로 직접 신청할 수 있습니다. 조건이 명확하고 서류 준비가 익숙하면 그게 가장 빠릅니다.'),
             ('얼마를 받을 수 있나요?',
@@ -127,7 +127,7 @@ HUBS = {
              '가능한 경우가 있습니다. 같은 시점에 쓸 수 있는 조합과 순서가 정해져 있어, 순서를 잘못 잡으면 뒤가 막힙니다. '
              '받은 사례 가운데 기관을 묶어 설계한 건이 있습니다.'),
             ('비용은 어떻게 되나요?',
-             '진단은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다.'),
+             '초기 상담은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다.'),
             ('얼마를 받을 수 있나요?',
              '금액은 각 기관의 심사로 정해집니다. 받은 사례 기준으로는 {RANGE} 구간이고, 특정 금액이나 승인을 '
              '약속하지 않습니다.'),
@@ -196,7 +196,7 @@ def build():
         rng = money_range(amts)
         url = f'https://bmaker.kr/{slug}'
         desc = (f"{cfg['desc_head']} 받은 사례 {n}건({won2(total)}), 익명으로 일부 공개합니다. "
-                f"진단은 무료입니다.")
+                f"초기 상담은 무료입니다.")
 
         trs = ''
         for key, label, track in cfg['rows']:
@@ -221,7 +221,7 @@ def build():
                              "provider": {"@type": "Organization", "@id": "https://bmaker.kr/#org",
                                           "name": "비즈니스 메이커", "url": "https://bmaker.kr/"},
                              "offers": {"@type": "Offer", "priceCurrency": "KRW",
-                                        "description": "진단은 무료입니다."}}, ensure_ascii=False)
+                                        "description": "초기 상담은 무료입니다."}}, ensure_ascii=False)
         crumb_ld = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://bmaker.kr/"},
             {"@type": "ListItem", "position": 2, "name": cfg['name'], "item": url}]}, ensure_ascii=False)
@@ -287,7 +287,7 @@ def build():
 </div></section>
 
 <section class="block"><div class="wrap">
-  <p class="fee-note">진단은 무료입니다.</p>
+  <p class="fee-note">초기 상담은 무료입니다.</p>
   <p class="who">전담 상담팀이 상담하고 대표 김상표가 주요 검토와 진행 관리에 참여합니다.
   세무·노무·특허·법률 전문가와 상시 협업하며, 전문가 검토가 필요한 업무의 담당과 범위·비용은 사전에 안내합니다.</p>
 </div></section>

@@ -40,7 +40,7 @@ def test_company_home_offers_all_service_choices_and_scope():
     source = (ROOT / 'index.html').read_text(encoding='utf-8')
     for key in ['general', 'policy', 'marketing', 'startup', 'certification']:
         assert f'<option value="{key}">' in source
-    assert '광고·마케팅, 창업컨설팅, 기업인증은 업무 범위에 따른 견적' in source
+    assert '창업컨설팅과 교육·출강은 별도 견적' in source
     assert '광고·마케팅' in (ROOT / 'privacy.html').read_text(encoding='utf-8')
 
 def test_ga_initialization_with_service_routing():

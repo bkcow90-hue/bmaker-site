@@ -205,8 +205,8 @@ def test_clean_hero_keeps_evidence_and_fee_below_first_section(browser_page, sit
     expect(hero.locator('.ledger-card')).to_have_count(0)
     expect(hero).not_to_contain_text('성과 보수')
     expect(page.locator('#cases .case-proof')).to_contain_text('실행사례')
-    # 비용 구조 설명은 FAQ 비용 답·llms 에만 — 진단 섹션은 '진단은 무료입니다.'까지(대표 결정 2026-09-28)
-    expect(page.locator('#diagnosis')).to_contain_text('진단은 무료입니다')
+    # 비용 구조 설명은 FAQ 비용 답·llms 에만 — 진단 섹션은 '초기 상담은 무료입니다.'까지(대표 결정 2026-09-28)
+    expect(page.locator('#diagnosis')).to_contain_text('초기 상담은 무료입니다')
     expect(page.locator('#diagnosis')).not_to_contain_text('성과 보수')
     assert page.locator('#cases .case-proof').get_attribute('href') == '/cases'
     expect(hero.locator('h1')).to_contain_text('정책자금')
