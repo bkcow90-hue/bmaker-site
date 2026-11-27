@@ -69,7 +69,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L16 | 기업부설연구소 연구노트, 무엇을 어떻게 남겨야 사후관리에서 문제가 없나요? | guide | /research-institute | 대기 |
 | G1 | 중소기업 지원금, 선정되고도 환수되는 경우는 언제인가요? | guide | /jiwongeum | 발행 2026-11-15 (PR #115) |
 | G2 | 수출바우처, 수출 실적이 없는 회사도 신청할 수 있나요? | guide | /jiwongeum | 발행 2026-11-21 |
-| G3 | 지원사업 자부담 현금이 부족할 때 대표가 먼저 정리할 것 | guide | /jiwongeum · /jungjingong | 대기 |
+| G3 | 지원사업 자부담 현금이 부족할 때 대표가 먼저 정리할 것 | guide | /jiwongeum · /jungjingong | 발행 2026-11-28 (제목 "자부담금, 지원사업 현금 부담이 부족할 때 대표가 먼저 정리할 것") |
 | G4 | 스마트공장 지원사업, 신청 전에 공장에서 정리할 자료는? | guide | /jiwongeum · /industry/jejo | 대기 |
 | G5 | 창업 3년 차, 창업패키지와 정책자금 중 무엇을 먼저 볼까요? | guide | /jiwongeum · /startup | 대기 |
 | G6 | 지원사업 사업계획서와 대출용 사업계획서는 무엇이 다른가요? | guide | /jiwongeum · /gyehoekseo | 대기 |

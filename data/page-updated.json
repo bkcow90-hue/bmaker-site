@@ -20,8 +20,8 @@
   "hash": "6e0c84cbe935ded586683e07b06f7e5f7308a717ab0588e59709ed3705fdcf31"
  },
  "blog.html": {
-  "date": "2026-11-27",
-  "hash": "dcfab6530bc010bd48324a357aa233f29fc31834cae08fb2aa0add0edefcddb0"
+  "date": "2026-11-28",
+  "hash": "f277727888387597bbfe7ebb02762619e10549104850842046f1e124b08c5e94"
  },
  "blog/2026-kibo-factoring-september-october.html": {
   "date": "2026-11-27",
@@ -68,8 +68,8 @@
   "hash": "06eec9b299e5fcc4cf98babe7f7bd9cd3124605699a82dc1972c52e57b2709fa"
  },
  "blog/category/guide.html": {
-  "date": "2026-11-27",
-  "hash": "a9604a7050c9f5334a99b176d5fdbb363ea197d37ecc3205080d90c354423d65"
+  "date": "2026-11-28",
+  "hash": "02078ef1404512826b0787e038733c9fa99534737be4f6efb054698ba58b87fd"
  },
  "blog/category/news.html": {
   "date": "2026-11-27",
@@ -263,6 +263,10 @@
   "date": "2026-11-27",
   "hash": "6cebd854ca6e63d4ecac1b15c678751bc594ac22b537e62c7572c6759f0fe639"
  },
+ "blog/support-program-self-pay-cash-shortage.html": {
+  "date": "2026-11-28",
+  "hash": "71af2466a892bd3782fb7d9804945b5d1928d3f2f4d5aad2228864226101b224"
+ },
  "blog/support-programs.html": {
   "date": "2026-11-27",
   "hash": "b8c1a892a7755fcae1b55468641d84f6e1e2a22824e858e50743cbc9c4f2b474"
@@ -288,8 +292,8 @@
   "hash": "0ec60f5a7ec225d54100904e46f427ac63a072903819d7c1b067d66c554d9b9f"
  },
  "business-guide.html": {
-  "date": "2026-11-27",
-  "hash": "e1194f21d317a86d7193e222b601045e1207ba0cdff1fae6f110947b39a1732c"
+  "date": "2026-11-28",
+  "hash": "32b356c9292e4ddb9bcec07055de3835abdffe276934a9f3036a17ad08b49e47"
  },
  "cases.html": {
   "date": "2026-11-01",
@@ -412,8 +416,8 @@
   "hash": "0148dff60b2e88d4c8df071506c0e78906fc7add1220b29da669d0f82c3a0631"
  },
  "index.html": {
-  "date": "2026-11-27",
-  "hash": "de3fedcc2ad845d48557af87883b26c90a4b861acbd67d798ea0cd8820fbe9d3"
+  "date": "2026-11-28",
+  "hash": "371c47d6a9ed2a70690451c11c18a739c39274707bcc7c38adbc365b660656cc"
  },
  "industry.html": {
   "date": "2026-11-27",
