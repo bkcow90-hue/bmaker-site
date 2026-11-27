@@ -34,7 +34,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 
 | # | 제목(안) | 분류 | 연결할 페이지 | 상태 |
 |---|---|---|---|---|
-| T1 | 소상공인 기준 매출액, 우리 가게는 업종별로 어디까지 해당하나요? | guide | /sosangin-gijun · /sosangin | 대기 |
+| T1 | 소상공인 기준 매출액, 우리 가게는 업종별로 어디까지 해당하나요? | guide | /sosangin-gijun · /sosangin | 발행 2026-11-27 |
 | T2 | 상시근로자 수 계산 방법, 소상공인 판정에서는 누구를 세나요? | guide | /sosangin-gijun · /jagajindan | 대기 |
 | T3 | 소상공인 기준, 법인도 소상공인이 될 수 있나요? | guide | /sosangin-gijun · /beobin | 대기 |
 | T4 | 중소기업 기준 직원 수와 매출액, 우리 회사는 소기업인가요 중기업인가요? | guide | /jungsogieop-gijun · /jungsogieop | 대기 |
@@ -48,7 +48,7 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | 59 | 모두의 창업 도전신청서, 혼자 쓸 때와 창업 컨설팅을 받을 때 달라지는 것 | startup | /modoo-startup-consulting · /startup | 발행 2026-11-20 |
 | 54 | 모두의 창업에 도전한 뒤, 사업자등록을 하면 어떤 창업자금을 알아볼 수 있나요? | startup | /startup · /cheongnyeon | 발행 2026-11-22 |
 | 55 | 모두의 창업 1라운드에서 떨어졌다면, 다음에 준비할 수 있는 창업 지원은? | startup | /startup · /jiwongeum | 발행 2026-11-24 |
-| 56 | 모두의 창업과 예비창업패키지, 무엇이 다르고 같이 신청할 수 있나요? | startup | /startup · /jiwongeum | 대기 |
+| 56 | 모두의 창업과 예비창업패키지, 무엇이 다르고 같이 신청할 수 있나요? | startup | /startup · /jiwongeum | 발행 2026-11-26 |
 | 57 | 모두의 창업 로컬 트랙, 가게 창업을 준비하는 분이 확인할 것 | startup | /startup · /region | 대기 |
 | 1 | 정책자금 거절 통보를 받았다면, 언제 다시 신청할 수 있나요? | guide | /geojeol · /cases | 발행 2026-11-10 |
 | L1 | 신용보증기금과 기술보증기금, 우리 법인은 어디가 먼저일까요? | guide | /beobin · /sinbo · /gibo | 발행 2026-11-11 |
@@ -57,9 +57,9 @@ slug 는 `YYYY-MM-policy-fund-schedule`, category news. 이 글은 L·G 교대 �
 | L4 | 부채비율이 높은 법인, 자금 상담 전에 재무제표에서 볼 것 | guide | /corporate-loan-documents | 발행 2026-11-17 (PR #121) |
 | L5 | 가지급금이 있는 법인, 보증 상담에서 어떻게 설명하나요? | guide | /corporate-loan-documents | 발행 2026-11-19 |
 | L6 | 공장 매입·증설 자금, 시설자금 상담 전에 정리할 것 | guide | /working-capital-facility · /industry/jejo | 발행 2026-11-23 |
-| L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 대기 |
-| L8 | 벤처기업확인을 받으면 자금 심사에서 무엇이 달라지나요? | guide | /venture-certification | 대기 |
-| L9 | 기업부설연구소가 있는 법인, 기술보증 상담에서 어떻게 쓰이나요? | guide | /research-institute · /gibo | 대기 |
+| L7 | 수출 실적이 막 생긴 법인, 자금 상담에서 달라지는 점 | guide | /jungjingong | 보류 (/sinsijang·/suchul-bojeung 이 수출 실적 구간별 자금·보증을 이미 답함, 2026-11-25) |
+| L8 | 벤처기업확인을 받으면 자금 심사에서 무엇이 달라지나요? | guide | /venture-certification | 보류 (/venture-certification "확인 후 정책자금에서 달라지는 점"·FAQ 와 같은 질문, 2026-11-25) |
+| L9 | 기업부설연구소가 있는 법인, 기술보증 상담에서 어떻게 쓰이나요? | guide | /research-institute · /gibo | 발행 2026-11-25 |
 | L10 | 기존 보증이 있는 법인, 추가 보증 상담 전에 확인할 것 | guide | /sinbo | 대기 |
 | L11 | 결산 전과 후, 법인 자금 신청은 언제가 나을까요? | guide | /jungsogieop | 대기 |
 | L12 | 재무 담당자가 없는 법인, 자금 신청 자료는 누가 모으나요? | guide | /corporate-loan-documents | 대기 |
