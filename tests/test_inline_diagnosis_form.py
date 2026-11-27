@@ -78,14 +78,14 @@ def test_no_other_page_gained_a_form():
                                   "cheongnyeon-changeop", "changeop-giban", "sinseongjang", "kosme-gingeup", "jaedoyak", "sinsijang",
                                   "nongsinbo", "maechul-chaegwon-boheom", "gwangwang-gigeum", "suchul-bojeung",
                                   "sosangin-gijun", "jungsogieop-gijun",
-                "cheongnyeon-nai", "eopryeok-gyesangi", "jeoe-eopjong", "bojeungryo-gyesangi", "geochi-gyesangi", "dogu", "daepyo"}  # 2026-11-10 인증·연구소 가이드
+                "cheongnyeon-nai", "eopryeok-gyesangi", "jeoe-eopjong", "bojeungryo-gyesangi", "geochi-gyesangi", "dogu", "daepyo", "biyong"}  # 2026-11-10 인증·연구소 가이드
     found = {p.stem for p in ROOT.glob("*.html") if 'id="leadForm"' in p.read_text(encoding="utf-8")}
     assert found == expected, f"예상 밖: {found ^ expected}"
 
 
 def test_form_fields_and_wording():
     s = (ROOT / "cheongnyeon.html").read_text(encoding="utf-8")
-    assert "이 자금, 우리 회사도 되는지 무료로 확인" in s
+    assert "이 자금, 무료 초기 상담 신청" in s
     assert "상담 신청" in s
     for label in ("개인사업자", "법인사업자", "창업 예정"):
         assert f'class="biz-opt" aria-pressed="false">{label}<' in s, label

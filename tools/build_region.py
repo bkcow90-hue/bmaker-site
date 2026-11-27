@@ -20,7 +20,7 @@ import build_jaedan
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'data' / 'region.source.csv'
 TODAY = build_date()
-FEE = '진단은 무료입니다.'
+FEE = '초기 상담은 무료입니다.'
 BYLINE = '작성 비즈니스 메이커 · 검토 김상표(대표) · 최종 확인 {}'
 MIN_FACTS, MAX_AGE_DAYS = 3, 90
 MAX_DESC = 150   # description 글자 수 상한(대표 2026-10-01)

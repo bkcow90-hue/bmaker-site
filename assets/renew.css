@@ -227,3 +227,21 @@ html body :is(.sc-consult,.jd-consult)::before{display:none!important;content:no
 #top :is(.team-list,.experts) article.person+article.person{margin-top:14px!important}
 }
 #top .experts article.person.partner+article.person.partner{margin-top:20px!important}
+/* 비용 안내(/biyong) 가격표 */
+html body .price-page table{width:100%;table-layout:auto}
+html body .price-page :is(td,th){padding:14px 12px!important;vertical-align:top;text-align:left;word-break:keep-all}
+html body .price-page th{white-space:nowrap}
+html body .price-page td:first-child{font-weight:700;color:#10213D;width:26%}
+html body .price-page :is(td,th):last-child{white-space:nowrap;text-align:right;font-weight:700;color:#10213D;font-variant-numeric:tabular-nums}
+html body .price-page td:last-child{font-size:17px!important}
+@media(max-width:640px){
+html body .price-page table,html body .price-page tbody,html body .price-page tr,html body .price-page td{display:block;width:auto!important}
+html body .price-page thead{display:none}
+html body .price-page tr{padding:16px 14px;border-bottom:1px solid #DCE1E8}
+html body .price-page tr:last-child{border-bottom:0}
+html body .price-page td{padding:0!important;border:0!important;text-align:left!important}
+html body .price-page td:first-child{font-size:17px!important;margin-bottom:6px}
+html body .price-page td:nth-child(2){font-size:15px!important;color:#333B46;margin-bottom:10px}
+html body .price-page td:last-child{font-size:19px!important}
+}
+html body .price-page h1+p{font-size:21px!important;font-weight:700;line-height:1.6;color:#10213D;padding:16px 20px;border-left:4px solid #234780;background:#F5F7FA;margin:18px 0 20px}

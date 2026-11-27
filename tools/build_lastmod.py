@@ -271,7 +271,7 @@ def _stamp_header_actions(s, m, ordered):
 
 
 # 푸터 둘째 줄 — 구글이 한 번도 안 읽은 쪽(업종 랜딩 10장·기업인증 3장, 서치콘솔 2026-11-22)으로 가는 길을 전 페이지에 둔다.
-FOOT_MORE = ('<p class="foot-more"><a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · '
+FOOT_MORE = ('<p class="foot-more"><a href="/biyong">컨설팅 비용</a> · <a href="/industry">업종별 정책자금</a> · <a href="/jagajindan">정책자금 자가진단</a> · <a href="/sosangin-gijun">소상공인 기준 판정기</a> · <a href="/jungsogieop-gijun">중소기업 기준 판정기</a> · <a href="/jeoe-eopjong">제외 업종 확인</a> · <a href="/dogu">계산기 모음</a> · '
              '<a href="/venture-certification">벤처인증</a> · <a href="/innobiz-mainbiz">이노비즈·메인비즈</a> · '
              '<a href="/research-institute">기업부설연구소</a> · <a href="/blog">블로그</a></p>')
 _FOOT_MORE_RE = re.compile(r'<p class="foot-more">.*?</p>', re.S)

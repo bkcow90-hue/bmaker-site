@@ -8,7 +8,7 @@ from inline_form import form_html, CSS as FORM_CSS, TITLE_GENERAL
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = build_date()  # BUILD_DATE 있으면 그 날짜, 없으면 Asia/Seoul 오늘 (tools/builddate.py)
 ASOF = data_date('data/cases.source.csv')  # 페이지에 적는 기준일 = 소스가 바뀐 날
-FEE = '진단은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
+FEE = '초기 상담은 무료입니다.'   # 안내 박스용. 비용 구조 설명은 FAQ 비용 답·llms 에만(대표 결정 2026-09-28)
 def die(m): print(f"[컨설팅 페이지 빌드 실패] {m}"); sys.exit(1)
 def won2(m):
     e,man=divmod(int(m),10000)
@@ -45,13 +45,13 @@ def build():
               ('중도 해지','사업자가 중간에 그만둘 때 비용을 어떻게 정산하는지 확인합니다.')]
     contract_html="".join(f'<li><b>{a}</b> — {b}</li>' for a,b in contract)
     checks_html="".join(f'<tr><td style="white-space:nowrap"><b>{a}</b></td><td>{b}</td></tr>' for a,b in checks)
-    faq=[("정책자금 컨설팅이 꼭 필요한가요?","아닙니다. 조건이 명확하고 서류 준비가 익숙하면 직접 신청이 가장 좋습니다. 컨설팅이 값을 하는 경우는 어느 트랙이 맞는지 모를 때, 신용·이력에 사연이 있을 때, 여러 자금을 순서·동시로 설계해야 할 때입니다. 진단은 무료라 필요 여부부터 확인하는 게 맞습니다."),
-         ("비용은 얼마인가요?","진단은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다."),
+    faq=[("정책자금 컨설팅이 꼭 필요한가요?","아닙니다. 조건이 명확하고 서류 준비가 익숙하면 직접 신청이 가장 좋습니다. 컨설팅이 값을 하는 경우는 어느 트랙이 맞는지 모를 때, 신용·이력에 사연이 있을 때, 여러 자금을 순서·동시로 설계해야 할 때입니다. 초기 상담은 무료라 필요 여부부터 확인하는 게 맞습니다."),
+         ("비용은 얼마인가요?","초기 상담은 무료입니다. 자문 비용은 업무 범위에 따라 정해지며, 계약 전에 금액과 조건을 서면으로 안내합니다."),
          ("계약 전에 무엇을 확인하면 되나요?","업무 범위와 산출물, 금액, 지급 시점, 중단할 때의 정산 기준이 계약서에 적혀 있는지 확인하세요. 승인과 금액은 심사 기관이 결정합니다, 업체를 고르는 기준은 <a href='/chaksugeum'>착수금 사기 구별법</a>에 정리했습니다."),
          (f"실적은 어떻게 확인하나요?",f"받은 사례 {N}건(총 {TOT}, {int(y0)}.{int(m0)}~{int(y1)}.{int(m1)})을 조건·증빙과 함께 게시합니다. 이 중 {NEV}건은 기관 안내문 캡처를 증빙으로 붙였고, 상담 신청 916건의 익명 통계도 공개합니다."),
          ("승인이 안 되면 어떻게 되나요?","비용이 발생하지 않습니다. 거절 사유를 같이 확인하고, 조건이 바뀌면 재신청할 시점을 잡습니다, 실제로 조건을 만든 뒤 실행까지 간 기록이 있습니다(<a href='/geojeol'>거절 사유와 회복 경로</a>).")]
     faq_ld=json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":re.sub(r'<[^>]+>','',a)}} for q,a in faq]}, ensure_ascii=False)
-    svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"정책자금 컨설팅 (진단·설계·준비·심사 대응)","serviceType":"정책자금 컨설팅","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/consulting","offers":{"@type":"Offer","description":"진단은 무료입니다.","priceCurrency":"KRW"}}, ensure_ascii=False)
+    svc=json.dumps({"@context":"https://schema.org","@type":"Service","name":"정책자금 컨설팅 (진단·설계·준비·심사 대응)","serviceType":"정책자금 컨설팅","provider":{"@type":"Organization","@id":"https://bmaker.kr/#org","name":"비즈니스 메이커","url":"https://bmaker.kr/"},"areaServed":"KR","url":"https://bmaker.kr/consulting","offers":{"@type":"Offer","description":"초기 상담은 무료입니다.","priceCurrency":"KRW"}}, ensure_ascii=False)
     crumb=json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://bmaker.kr/"},{"@type":"ListItem","position":2,"name":"정책자금 컨설팅","item":"https://bmaker.kr/consulting"}]}, ensure_ascii=False)
     faq_html="".join(f'<details><summary>{q}</summary><div class="body">{a}</div></details>' for q,a in faq)
     FORM=form_html('/consulting', '정책자금 컨설팅 안내', title=TITLE_GENERAL)
@@ -64,7 +64,7 @@ def build():
 <meta name="description" content="정책자금 컨설팅 업체는 무엇을 하고 어떻게 진행하나요? 진단·설계·준비·심사 대응 4단계, 하지 않는 일 3가지, 업체 확인법 3가지 — 받은 사례 {N}건({TOT})과 함께.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="정책자금 컨설팅, 무엇을 하고 어떻게 진행하나 | 비즈니스 메이커">
-<meta property="og:description" content="무료 진단 · 받은 사례 {N}건">
+<meta property="og:description" content="무료 상담 · 받은 사례 {N}건">
 <meta property="og:url" content="https://bmaker.kr/consulting">
 <meta property="og:image" content="https://bmaker.kr/assets/og.png">
 <meta property="og:locale" content="ko_KR">
@@ -85,7 +85,7 @@ def build():
   <div class="wrap">
     <p class="crumb"><a href="/">홈</a> › 정책자금 컨설팅</p>
     <h1 class="serif">정책자금 컨설팅,<br class="pc"> 무엇을 하고 어떻게 진행하나</h1>
-    <p>승인은 기관이 하고, 컨설팅은 그 전 단계를 맡습니다. 진단은 무료입니다. 받은 사례는 {N}건({TOT})입니다.</p>
+    <p>승인은 기관이 하고, 컨설팅은 그 전 단계를 맡습니다. 초기 상담은 무료입니다. 받은 사례는 {N}건({TOT})입니다.</p>
   </div>
 </section>
 <main>

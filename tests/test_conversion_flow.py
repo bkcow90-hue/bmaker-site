@@ -76,7 +76,7 @@ def test_form_success_message_matches_standard():
 
 
 # ── 비용 고지 위치 (규격 1절·4절, 2026-09-28 대표 결정 1B) ──────────────────
-# 비용 구조 설명은 FAQ 비용 답·llms 에만. 폼·진단 섹션은 '진단은 무료입니다.'까지. 홈 FAQ 의 비용 답은
+# 비용 구조 설명은 FAQ 비용 답·llms 에만. 폼·진단 섹션은 '초기 상담은 무료입니다.'까지. 홈 FAQ 의 비용 답은
 # 사이트에 남는 유일한 화면 고지이므로 사라지지 않게 고정한다. 전 사이트 검사는 test_fee_copy.py.
 import re as _re
 
@@ -108,7 +108,7 @@ def test_forms_carry_no_fee_notice_but_home_faq_does():
     assert '초기 상담 신청에는 서류 첨부가 필요하지 않습니다' in form_section
     assert 'data-cta-location="form_alternative"' in form_section, '홈 폼 아래 카톡 링크가 사라졌다'
     diagnosis = _section(home, 'id="diagnosis"')
-    assert '진단은 무료입니다.' in diagnosis and not fee.search(diagnosis), '진단 섹션은 "진단은 무료입니다."까지'
+    assert '초기 상담은 무료입니다.' in diagnosis and not fee.search(diagnosis), '진단 섹션은 "초기 상담은 무료입니다."까지'
     faq = _section(home, 'id="faq"')
     assert '계약 전에 금액과 조건을 서면으로 안내합니다' in faq and '성공보수' not in faq, 'FAQ 비용 답은 범위·서면 안내 문장만(2026-11-12)'
 
