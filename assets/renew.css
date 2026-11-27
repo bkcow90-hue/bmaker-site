@@ -244,3 +244,4 @@ html body .price-page td:first-child{font-size:17px!important;margin-bottom:6px}
 html body .price-page td:nth-child(2){font-size:15px!important;color:#333B46;margin-bottom:10px}
 html body .price-page td:last-child{font-size:19px!important}
 }
+html body .price-page h1+p{font-size:21px!important;font-weight:700;line-height:1.6;color:#10213D;padding:16px 20px;border-left:4px solid #234780;background:#F5F7FA;margin:18px 0 20px}

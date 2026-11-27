@@ -26,7 +26,8 @@ BUTTON = '상담 신청'   # 전 사이트 통일 (규격 4절, 2026-09-28)
 # 제목 아래 '진단에서 돌려드리는 것' 4항목 — 홈 폼과 같은 문장(규격 4-1 6항, 2026-11-02)
 # 2026-11-27 비용 공개 뒤: 무료인 것은 '초기 상담'이다. 기관 추천·서류 준비 순서는 유료 컨설팅의 일이라 무료 항목에서 뺀다.
 RETURNS = ('신청해 볼 만한 자금이 있는지', '지금 부족한 요건', '진행이 어렵다면 그 이유')
-FEE_NOTE = '기업 경영진단과 정책자금 컨설팅은 각각 55만 원부터(부가세 포함)이며, 계약 전에 업무 범위와 비용을 서면으로 안내합니다.'
+# 2026-11-27 대표: 초기 상담은 돈을 받지 않는다 — 폼 아래에는 금액을 쓰지 않고 '무료'를 앞세운다.
+FEE_NOTE = '초기 상담은 무료입니다. 상담만 받으셔도 비용이 들지 않고, 컨설팅 비용은 진행을 결정하고 계약하신 뒤에만 생깁니다.'
 SUB = '연락처를 남겨주시면 사업 조건으로 이 경로가 맞는지 확인해 알려드립니다.'
 BIZ_TYPES = [('개인사업자', '개인사업자'), ('법인사업자', '법인사업자'), ('창업 예정', '예정')]
 
@@ -38,7 +39,7 @@ CSS = (
  '.inline-diag .returns{margin:0 0 18px;padding:12px 16px;background:#fff;border:1px solid var(--line,#E1DED6)}'
  '.inline-diag .returns p{margin:0 0 4px;font-size:.92rem;font-weight:800;color:var(--navy,#0E1B33)}'
  '.inline-diag .returns ol{margin:0;padding-left:20px;font-size:.92rem;line-height:1.7;color:#3A4356}'
- '.inline-diag .fee-note{margin:-6px 0 18px;font-size:15px;line-height:1.6;color:#3A4356}'
+ '.inline-diag .fee-note{margin:-4px 0 18px;padding:12px 16px;border-left:3px solid #234780;background:#fff;font-size:16px;font-weight:600;line-height:1.6;color:#10213D}'
  '.inline-diag .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}'
  '.inline-diag label,.inline-diag .field-label{display:block;font-size:.9rem;font-weight:700;'
  'color:#263951;margin:0 0 7px}'
